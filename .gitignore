@@ -1,1 +1,3 @@
 *.pyc
+posts/templates/*.swp
+.DS_Store
