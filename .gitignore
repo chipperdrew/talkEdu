@@ -1,3 +1,4 @@
 *.pyc
 posts/templates/*.swp
 .DS_Store
+.html.swp
