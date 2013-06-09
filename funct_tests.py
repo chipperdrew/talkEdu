@@ -20,16 +20,15 @@ class NewVisitorTests(unittest.TestCase):
         self.assertIn('Welcome', header_text)
 
         # Jim clicks on "Problems" link and is redirect to the problems page
-        prob_button = self.browser.find_element_by_id('id_problems_link')
-        self.selenium.click(prob_button)
-        self.selenium.wait_for_page_to_load("3000")
+        self.browser.find_element_by_link_text("Problems").click()
+        self.browser.implicitly_wait(3)
         problems_url = self.browser.current_url
-        self.assertEqual(problems_url, '/problems/')
+        self.assertEqual(problems_url, 'http://localhost:8000/problems.html')
 
         
 #    def test_problems_page_posts_and_saves_content(self):
         # The title of the problems page contains "Problems - "
-        self.assertIn("Problems - ", self.browser.title)
+        self.assertIn("Problems - ", self.browser.title) ###########
 
         # A textarea is displayed, prompting "Type your thoughts here!"
         inputText = self.browser.find_element_by_id('id_new_post')
