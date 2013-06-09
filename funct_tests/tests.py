@@ -1,7 +1,8 @@
-import unittest
+#import unittest
+from django.test import LiveServerTestCase
 from selenium import webdriver
 
-class NewVisitorTests(unittest.TestCase):
+class NewVisitorTests(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -11,7 +12,7 @@ class NewVisitorTests(unittest.TestCase):
 
     def test_home_page_has_proper_content_and_links(self):
         # Jim visits the home page of our site
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # In the title are the words "Welcome To" and the word "Welcome" is
         # displayed on the page
@@ -23,7 +24,7 @@ class NewVisitorTests(unittest.TestCase):
         self.browser.find_element_by_link_text("Problems").click()
         self.browser.implicitly_wait(3)
         problems_url = self.browser.current_url
-        self.assertEqual(problems_url, 'http://localhost:8000/problems.html')
+        self.assertRegexpMatches(problems_url, '/problems/')
 
         
 #    def test_problems_page_posts_and_saves_content(self):
@@ -58,5 +59,5 @@ class NewVisitorTests(unittest.TestCase):
 
 
 
-if __name__ == '__main__':
-    unittest.main()
+#if __name__ == '__main__':
+#    unittest.main()
