@@ -20,21 +20,42 @@ class NewVisitorTests(unittest.TestCase):
         self.assertIn('Welcome', header_text)
 
         # Jim clicks on "Problems" link and is redirect to the problems page
+        prob_button = self.browser.find_element_by_id('id_problems_link')
+        self.selenium.click(prob_button)
+        self.selenium.wait_for_page_to_load("3000")
+        problems_url = self.browser.current_url
+        self.assertEqual(problems_url, '/problems/')
 
+        
 #    def test_problems_page_posts_and_saves_content(self):
         # The title of the problems page contains "Problems - "
         self.assertIn("Problems - ", self.browser.title)
 
         # A textarea is displayed, prompting "Type your thoughts here!"
-
+        inputText = self.browser.find_element_by_id('id_new_post')
+        self.assertEqual(
+            inputText.get_attribute('placeholder'), 'Type your thoughts here!'
+        )
+        
         # Jim types in "School is bad, mkay?"
+        inputText.send_keys('School is bad, mkay?')
 
         # Jim presses enter and his post is displayed
+        inputText.send_keys(Keys.ENTER)
+        page_text =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('School is bad, mkay?', page_text)
 
         # Jim types "I good at school". Jim clicks the "Post" button
+        inputText = self.browser.find_element_by_id('id_new_post')
+        inputText.send_keys('I good at school')
+        post_button = self.browser.find_element_by_id('id_post_button')
+        self.selenium.click(post_button)
 
         # Both posts are displayed, and the textarea remains on the page
         # willing to handle more input
+        page_text =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('School is bad, mkay?', page_text)
+        self.assertIn('I good at school', page_text)
 
 
 
