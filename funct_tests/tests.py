@@ -31,7 +31,7 @@ class NewVisitorTests(LiveServerTestCase):
         
 #    def test_problems_page_posts_and_saves_content(self):
         # The title of the problems page contains "Problems - "
-        self.assertIn("Problems - ", self.browser.title) ###########
+        self.assertIn("Problems - ", self.browser.title)
 
         # A textarea is displayed, prompting "Type your thoughts here!"
         inputText = self.browser.find_element_by_id('id_new_post')
@@ -50,8 +50,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim types "I good at school". Jim clicks the "Post" button
         inputText = self.browser.find_element_by_id('id_new_post')
         inputText.send_keys('I good at school')
-        post_button = self.browser.find_element_by_id('id_post_button')
-        self.selenium.click(post_button)
+        self.browser.find_element_by_id('id_post_button').click()
 
         # Both posts are displayed, and the textarea remains on the page
         # willing to handle more input

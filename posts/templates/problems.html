@@ -7,11 +7,12 @@
 		<form method="POST">
 			<input id="id_new_post" name="post_content" placeholder="Type your thoughts here!" />
 			{% csrf_token %}
+			<button id="id_post_button" type="submit">Post</button>	
 		</form>
 
 		<div>
 		{% for post in posts %}
-			{{ post.text }}
+			<p> {{ post.text }} </p>
 		{% endfor %}
 		</div>
 	</body>
