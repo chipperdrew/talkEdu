@@ -52,6 +52,7 @@ class ProblemPageTest(TestCase):
 
         self.assertIn('Post 1', response.content)
         self.assertIn('Post 2', response.content)
+        self.assertTemplateUsed(response, 'problems.html')
         
 
 class PostModelTest(TestCase):
