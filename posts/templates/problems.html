@@ -5,9 +5,11 @@
 
 	<body>
 		<form method="POST">
-			<input id="id_new_post" placeholder="Type your thoughts here!" />
+			<input id="id_new_post" name="post_content" placeholder="Type your thoughts here!" />
 			{% csrf_token %}
 		</form>
+
+		<p> {{ post_content_display }} </p>
 	</body>
 
 </html>

@@ -36,3 +36,10 @@ class ProblemPageTest(TestCase):
         response = problems_page(request)
 
         self.assertIn('A new post!', response.content)
+        # If we artificially pass in post_content_display value, is same
+        # HTML displayed as if POST used instead?
+        expected_html = render_to_string(
+            'problems.html',
+            {'post_content_display': 'A new post!'}
+        )
+        self.assertEqual(response.content, expected_html)
