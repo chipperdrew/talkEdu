@@ -2,7 +2,7 @@ from django.test import Client, TestCase
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from posts.views import home_page
+from posts.views import home_page, problems_page
 
 
 class HomePageTest(TestCase):
@@ -27,3 +27,12 @@ class ProblemPageTest(TestCase):
         response = client.get('/problems/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'problems.html')
+
+    def test_prob_page_can_save_POST_request(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['post_content'] = 'A new post!'
+
+        response = problems_page(request)
+
+        self.assertIn('A new post!', response.content)
