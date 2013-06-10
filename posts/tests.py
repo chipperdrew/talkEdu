@@ -37,26 +37,25 @@ class ProblemPageTest(TestCase):
         response = problems_page(request)
 
         self.assertIn('A new post!', response.content)
-        # If we artificially pass in post_content_display value, is same
-        # HTML displayed as if POST used instead?
+        # Artificially passing in post_content_display value
         expected_html = render_to_string(
             'problems.html',
             {'post_content_display': 'A new post!'}
         )
         self.assertEqual(response.content, expected_html)
 
+        # Checking database
+        self.assertEqual(Post.objects.all().count(), 1)
+        post1 = Post.objects.all()[0]
+        self.assertEqual(post1.text, 'A new post!')
+
 
 
 class PostModelTest(TestCase):
 
     def test_save_and_retrieve_posts(self):
-        post1 = Post()
-        post1.text = 'Post numero uno!'
-        post1.save()
-
-        post2 = Post()
-        post2.text = 'I love lamp?'
-        post2.save()
+        post1 = Post.objects.create(text = 'Post numero uno!')
+        post2 = Post.objects.create(text = 'I love lamp?')
 
         saved_posts = Post.objects.all()
         self.assertEqual(saved_posts.count(), 2)
