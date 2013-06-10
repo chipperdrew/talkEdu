@@ -19,7 +19,11 @@ class HomePageTest(TestCase):
         #self.assertEqual(response.content, expect_html)
         self.assertTemplateUsed(response, 'home.html')
 
-
+    def test_not_logged_in_upon_arriving_to_home_page(self):
+        request = HttpRequest()
+        response = home_page(request)
+        self.assertIn('Username:', response.content)
+        self.assertIn('Password:', response.content)
 
 class ProblemPageTest(TestCase):
     

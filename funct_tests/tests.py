@@ -68,12 +68,13 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Password:', login_box)
 
         # Jim enters his username and password into the appropriate boxes
-        inputs = self.browser.find_elements_by_tag_name('input')
-        inputs[0].send_keys('Jim')
-        inputs[1].send_keys('Password')
+        user = self.browser.find_element_by_id('id_user_login')
+        password = self.browser.find_element_by_id('id_pass_login')
+        user.send_keys('Jim')
+        password.send_keys('Password')
 
         # Jim clicks the 'Login' button and is returned to the current page
-        self.browser.find_element_by_link_text("Login").click()
+        self.browser.find_element_by_name("login").click()
         self.browser.implicitly_wait(3)
         home_url = self.browser.current_url
         self.assertRegexpMatches(home_url, '/$')

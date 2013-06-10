@@ -5,6 +5,17 @@
 
 	<body>
 		<h1>Welcome</h1>
+		<div id="id_login_box" style="border:2px solid black">
+			<form method="POST">
+				<label for="id_user_login">Username:</label> 
+				<input type="text" name="username" id="id_user_login" />
+				<label for="id_pass_login">Password:</label> 
+				<input type="password" name="password" id="id_pass_login"/>
+				{% csrf_token %}
+				<button type="submit" name="login">Login</button>
+			</form>
+		</div>
+
 		<a id="id_problems_link" href="problems/">Problems</a>
 	</body>
 </html>
