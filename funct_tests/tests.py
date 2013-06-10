@@ -26,7 +26,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_link_text("Problems").click()
         self.browser.implicitly_wait(3)
         problems_url = self.browser.current_url
-        self.assertRegexpMatches(problems_url, '/problems/')
+        self.assertRegexpMatches(problems_url, '/problems/$')
 
         
 #    def test_problems_page_posts_and_saves_content(self):
@@ -58,7 +58,22 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('School is bad, mkay?', page_text)
         self.assertIn('I good at school', page_text)
 
+    def test_user_creation_and_authorization(self):
+        # Jim visits the homepage of the site (assume Jim is a user on the site)
+        self.browser.get(self.live_server_url)
 
+        # Jim sees a place to enter in his username and password
+        login_box= self.browser.find_element_by_id('id_login_box').text
+        self.assertIn('Username:', login_box)
+        self.assertIn('Password:', login_box)
 
-#if __name__ == '__main__':
-#    unittest.main()
+        # Jim enters his username and password into the appropriate boxes
+        inputs = self.browser.find_elements_by_tag_name('input')
+        inputs[0].send_keys('Jim')
+        inputs[1].send_keys('Password')
+
+        # Jim clicks the 'Login' button and is returned to the current page
+        self.browser.find_element_by_link_text("Login").click()
+        self.browser.implicitly_wait(3)
+        home_url = self.browser.current_url
+        self.assertRegexpMatches(home_url, '/$')
