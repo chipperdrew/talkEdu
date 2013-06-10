@@ -36,20 +36,23 @@ class ProblemPageTest(TestCase):
 
         response = problems_page(request)
 
-        self.assertIn('A new post!', response.content)
-        # Artificially passing in post_content_display value
-        expected_html = render_to_string(
-            'problems.html',
-            {'post_content_display': 'A new post!'}
-        )
-        self.assertEqual(response.content, expected_html)
-
         # Checking database
         self.assertEqual(Post.objects.all().count(), 1)
         post1 = Post.objects.all()[0]
         self.assertEqual(post1.text, 'A new post!')
 
+        self.assertEqual(response.status_code, 200)
 
+    def test_prob_page_displays_posts(self):
+        Post.objects.create(text='Post 1')
+        Post.objects.create(text='Post 2')
+
+        request = HttpRequest()
+        response = problems_page(request)
+
+        self.assertIn('Post 1', response.content)
+        self.assertIn('Post 2', response.content)
+        
 
 class PostModelTest(TestCase):
 

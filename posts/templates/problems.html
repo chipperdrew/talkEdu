@@ -9,7 +9,11 @@
 			{% csrf_token %}
 		</form>
 
-		<p> {{ post_content_display }} </p>
+		<div>
+		{% for post in posts %}
+			<p> {{ post.text }} </p>
+		{% endfor %}
+		</div>
 	</body>
 
 </html>

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from posts.models import Post
 
 # Create your views here.
@@ -6,7 +6,8 @@ def home_page(request):
     return render(request, 'home.html')
 
 def problems_page(request):
-    post = Post.objects.create(text = request.POST.get('post_content', ''))
-    return render(request, 'problems.html', {
-        'post_content_display': request.POST.get('post_content', ''),
-        })
+    if request.method == 'POST':
+       Post.objects.create(text = request.POST['post_content'])
+    # posts is created so we can iterate over it to display all posts in template
+    posts = Post.objects.all()
+    return render(request, 'problems.html', {'posts': posts})
