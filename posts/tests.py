@@ -3,6 +3,7 @@ from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from posts.views import home_page, problems_page
+from posts.models import Post
 
 
 class HomePageTest(TestCase):
@@ -43,3 +44,24 @@ class ProblemPageTest(TestCase):
             {'post_content_display': 'A new post!'}
         )
         self.assertEqual(response.content, expected_html)
+
+
+
+class PostModelTest(TestCase):
+
+    def test_save_and_retrieve_posts(self):
+        post1 = Post()
+        post1.text = 'Post numero uno!'
+        post1.save()
+
+        post2 = Post()
+        post2.text = 'I love lamp?'
+        post2.save()
+
+        saved_posts = Post.objects.all()
+        self.assertEqual(saved_posts.count(), 2)
+
+        saved_post1 = saved_posts[0]
+        saved_post2 = saved_posts[1]
+        self.assertEqual(saved_post1.text, 'Post numero uno!')
+        self.assertEqual(saved_post2.text, 'I love lamp?')
