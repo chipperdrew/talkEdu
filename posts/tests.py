@@ -1,9 +1,12 @@
+# Core Django imports
 from django.test import Client, TestCase
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from posts.views import home_page, problems_page
-from posts.models import Post
+
+# App imports
+from .views import home_page, problems_page
+from .models import Post
 
 
 class HomePageTest(TestCase):
@@ -24,6 +27,7 @@ class HomePageTest(TestCase):
         response = home_page(request)
         self.assertIn('Username:', response.content)
         self.assertIn('Password:', response.content)
+
 
 class ProblemPageTest(TestCase):
     

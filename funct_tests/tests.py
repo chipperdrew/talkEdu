@@ -1,6 +1,13 @@
+# Stdlib imports
+
+# Core Django imports
 from django.test import LiveServerTestCase
+
+# 3rd party imports
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+
+# App imports
 
 
 class NewVisitorTests(LiveServerTestCase):
@@ -8,22 +15,25 @@ class NewVisitorTests(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
+        
     def tearDown(self):
         self.browser.quit()
 
-    def check_for_redirect_after_link_click(self, link_text, expected_url_regex):
+    def check_for_redirect_after_link_click(self, link_text,
+                                            expected_url_regex):
         self.browser.find_element_by_link_text(link_text).click()
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, expected_url_regex)
 
-    def check_for_redirect_after_button_click(self, button_name, expected_url_regex):
+    def check_for_redirect_after_button_click(self, button_name,
+                                              expected_url_regex):
         self.browser.find_element_by_name(button_name).click()
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, expected_url_regex)
-        
 
+        
     def test_home_page_has_proper_content_and_links(self):
         # Jim visits the home page of our site
         self.browser.get(self.live_server_url)
@@ -99,7 +109,8 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Create Account', login_box)
 
         # Jim clicks the link and is redirected to a create account page
-        self.check_for_redirect_after_link_click('Create Account', '/create_account/$')
+        self.check_for_redirect_after_link_click('Create Account',
+                                                 '/create_account/$')
 
         # Jim sees 4 input boxes
         inputs = self.browser.find_elements_by_tag_name('input')
