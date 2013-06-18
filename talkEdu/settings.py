@@ -1,23 +1,26 @@
-"""
-Django settings for talkEdu project.
+# TODO IN PRODUCTION ----- Change SECRET_KEY, Database user and pass
 
-For more information on this file, see
-https://docs.djangoproject.com/en/dev/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/dev/ref/settings/
-"""
+import os
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+
+def get_env_var(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s environment variable" % var_name
+        raise ImproperlyConfigured(error_msg)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jg73z7#yg8^a_vle#n=oog302lh6bp)puw#9jk^w5i&h4e3yc9'
+#SECRET_KEY = 'jg73z7#yg8^a_vle#n=oog302lh6bp)puw#9jk^w5i&h4e3yc9'
+SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -61,8 +64,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mydb',
-        'USER': 'chipperdrew',
-        'PASSWORD': 'qu1.qu1.',
+        #'USER': 'chipperdrew',
+        'USER': get_env_var("TALKEDU_DB_USER"),
+        #'PASSWORD': 'qu1.qu1.',
+        'PASSWORD': get_env_var("TALKEDU_DB_PASS"),
         'HOST': '',
         'PORT': '',
     }
