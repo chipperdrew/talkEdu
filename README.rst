@@ -56,3 +56,19 @@ talkEdu
 
 		wsgi.py
 
+Thanks to the following
+----------------------------
+* General:
+	* Codecademy - http://www.codecademy.com/
+	* Homebrew, Git, RVM, RoR Tutorial - 
+		http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/
+	* Twitter Bootstrap - http://twitter.github.io/bootstrap/index.html
+	* Infographic on PHP vs Python vs Ruby - https://www.udemy.com/blog/modern-language-wars/
+* Django
+	* Django installation Tutorial - http://osxwebdev.wordpress.com/2012/09/24/install-django-on-os-x-10-8-mountain-lion/
+	* TDD Tutorial - http://chimera.labs.oreilly.com/books/1234000000754/index.html
+	* The Django Book - http://www.djangobook.com/en/2.0/index.html
+	* Django Documentation - https://docs.djangoproject.com/en/dev/
+	* *Two Scoops of Django* - https://django.2scoops.org/
+* Ruby on Rails
+	* Rails for Zombies - http://railsforzombies.org/
