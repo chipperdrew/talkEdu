@@ -99,6 +99,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim clicks the 'Login' button and is returned to the current page
         self.check_for_redirect_after_button_click("login", '/$')
 
+"""
     def test_user_creation_form(self):
         ######TODO - Try incorrect passwords, improper email format
         ######TODO - username already taken, and check for verification email
@@ -124,4 +125,4 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim presses the "Create" button and is returned to home page
         self.check_for_redirect_after_button_click("create", '/$')
-        
+"""        
