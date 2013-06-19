@@ -1,11 +1,16 @@
 # TODO IN PRODUCTION ----- Change SECRET_KEY, Database user and pass
 
 import os
+from os.path import abspath, basename, dirname, join, normpath
+from sys import path
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+SITE_ROOT = dirname(DJANGO_ROOT)
+SITE_NAME = basename(DJANGO_ROOT)
 
+path.append(DJANGO_ROOT)
 
 def get_env_var(var_name):
     try:
@@ -52,7 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'talkEdu.urls'
+ROOT_URLCONF = '%s.urls' % SITE_NAME
 
 WSGI_APPLICATION = 'talkEdu.wsgi.application'
 
@@ -78,7 +83,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Denver'
 
 USE_I18N = True
 
@@ -95,8 +100,7 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = '/desktop/website/django_codes/talkEdu/posts/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-    '/posts/static/',
+    normpath(join(SITE_ROOT, 'static')),
 )
 
 STATICFILES_FINDERS = (
