@@ -6,7 +6,7 @@ TODO:
 #) Create main template from which other templates inherit
 #) Display username and have delete option for posts (only for posts made by user)
 #) Email users to confirm account
-#) Change database?
+#) DONE - Change database?
 
 
 Basic Information
@@ -36,15 +36,13 @@ talkEdu
 
 		models.py
 
-		static/
-
-		templates/
-
 		tests.py
 
 		views.py
 
 	README.rst
+	
+	static/
 
 	talkEdu/
 
@@ -56,19 +54,33 @@ talkEdu
 
 		wsgi.py
 
+	templates/
+
+
+
 Thanks to the following
 ----------------------------
-* General:
+* General Learning:
 	* Codecademy - http://www.codecademy.com/
-	* Homebrew, Git, RVM, RoR Tutorial - 
-		http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/
-	* Twitter Bootstrap - http://twitter.github.io/bootstrap/index.html
+	* Homebrew, Git, RVM, RoR Tutorial - http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/
 	* Infographic on PHP vs Python vs Ruby - https://www.udemy.com/blog/modern-language-wars/
+
+* General Services:
+	* Python/IDLE - http://www.python.org/
+	* Django - https://www.djangoproject.com/
+	* Git - http://git-scm.com/
+	* Github - https://github.com/
+	* Twitter Bootstrap - http://twitter.github.io/bootstrap/index.html
+	* Selenium - http://docs.seleniumhq.org/
+	* Homebrew - http://mxcl.github.io/homebrew/
+	* MacVim - http://macvim.org/
+
 * Django
 	* Django installation Tutorial - http://osxwebdev.wordpress.com/2012/09/24/install-django-on-os-x-10-8-mountain-lion/
 	* TDD Tutorial - http://chimera.labs.oreilly.com/books/1234000000754/index.html
 	* The Django Book - http://www.djangobook.com/en/2.0/index.html
 	* Django Documentation - https://docs.djangoproject.com/en/dev/
 	* *Two Scoops of Django* - https://django.2scoops.org/
+
 * Ruby on Rails
 	* Rails for Zombies - http://railsforzombies.org/
