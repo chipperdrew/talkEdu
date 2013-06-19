@@ -6,11 +6,10 @@ from sys import path
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-DJANGO_ROOT = dirname(dirname(abspath(__file__)))
-SITE_ROOT = dirname(DJANGO_ROOT)
-SITE_NAME = basename(DJANGO_ROOT)
+SITE_ROOT = dirname(dirname(abspath(__file__))) # django_codes/talkEdu
+                                     # Shell: from talkEdu import settings as S
+SITE_NAME = basename(SITE_ROOT)
 
-path.append(DJANGO_ROOT)
 
 def get_env_var(var_name):
     try:
@@ -64,7 +63,6 @@ WSGI_APPLICATION = 'talkEdu.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -78,9 +76,9 @@ DATABASES = {
     }
 }
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'America/Denver'
@@ -92,13 +90,10 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# STATIC FILES (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
-
 STATIC_URL = '/static/'
-
 # STATIC_ROOT = '/desktop/website/django_codes/talkEdu/posts/static/'
-
 STATICFILES_DIRS = (
     normpath(join(SITE_ROOT, 'static')),
 )
@@ -106,4 +101,30 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
 'django.contrib.staticfiles.finders.FileSystemFinder',
 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-) 
+)
+
+
+# TEMPLATES
+# See: https://docs.djangoproject.com
+#               /en/dev/ref/settings/#template-context-processors
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
+)
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
+TEMPLATE_DIRS = (
+    normpath(join(SITE_ROOT, 'templates')),
+)
