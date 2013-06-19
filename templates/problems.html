@@ -1,25 +1,19 @@
-<html>
-{% load static %}
-	<head>
-		<link rel="stylesheet" href="{% static '/static/posts/css/bootstrap.min.css' %}"> 
-		<title>Problems - *SITENAME*</title>
-	</head>
+{% extends "base.html" %}
+{% load staticfiles %}
 
-	<body>
-		<form method="POST">
-			<input id="id_new_post" name="post_content" placeholder="Type your thoughts here!" />
-			{% csrf_token %}
-			<button id="id_post_button" type="submit">Post</button>	
-		</form>
+{% block title %}Problems - *SITENAME*{% endblock title %}
 
-		<div>
-		{% for post in posts %}
-			<p> {{ post.text }} </p>
-		{% endfor %}
-		</div>
+{% block content %}
+	{{ block.super }}
+	<form method="POST">
+		<input id="id_new_post" name="post_content" placeholder="Type your thoughts here!" />
+		{% csrf_token %}
+		<button id="id_post_button" type="submit">Post</button>	
+	</form>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="{% static 'js/vendor/jquery-1.9.1.min.js' %}"><\/script>')</script>
-	<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script> 
-	</body>
-</html>
+	<div>
+	{% for post in posts %}
+		<p> {{ post.text }} </p>
+	{% endfor %}
+	</div>
+{% endblock content %}

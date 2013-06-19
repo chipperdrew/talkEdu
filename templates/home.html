@@ -1,28 +1,18 @@
-<html>
-{% load static %}
-	<head>
-		<!-- Twitter bootstrap -->
-		<link rel="stylesheet" href="{% static '/static/posts/css/bootstrap.min.css' %}"> 
-		<title>Welcome To *SITENAME*</title>
-	</head>
+{% extends "base.html" %}
+{% load staticfiles %}
 
-	<body>
-		<h1>Welcome</h1>
-		<div id="id_login_box" style="border:2px solid black">
-			<form method="POST">
-				<label for="id_user_login">Username:</label> 
-				<input type="text" name="username" id="id_user_login" />
-				<label for="id_pass_login">Password:</label> 
-				<input type="password" name="password" id="id_pass_login"/>
-				{% csrf_token %}
-				<button type="submit" name="login">Login</button>
-			</form>
-		</div>
-
-		<a id="id_problems_link" href="problems/">Problems</a>
-
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="{% static 'js/vendor/jquery-1.9.1.min.js' %}"><\/script>')</script>
-	<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script> 
-	</body>
-</html>
+{% block content %}
+	{{ block.super }}
+	<h1>Welcome</h1>
+	<div id="id_login_box" style="border:2px solid black">
+		<form method="POST">
+			<label for="id_user_login">Username:</label> 
+			<input type="text" name="username" id="id_user_login" />
+			<label for="id_pass_login">Password:</label> 
+			<input type="password" name="password" id="id_pass_login"/>
+			{% csrf_token %}
+			<button type="submit" name="login">Login</button>
+		</form>
+	</div>
+	<a id="id_problems_link" href="{% url 'problems' %}">Problems</a>
+{% endblock content %}
