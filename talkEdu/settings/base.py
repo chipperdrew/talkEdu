@@ -1,4 +1,5 @@
 # TODO IN PRODUCTION ----- Change SECRET_KEY, Database user and pass
+# AC: 6/20 This has been set as the default settings in environ var!
 
 import os
 from os.path import abspath, basename, dirname, join, normpath
@@ -6,8 +7,9 @@ from sys import path
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-SITE_ROOT = dirname(dirname(abspath(__file__))) # django_codes/talkEdu
-                                     # Shell: from talkEdu import settings as S
+SITE_ROOT = dirname(dirname(dirname(abspath(__file__))))
+                                # SHOULD BE: django_codes/talkEdu
+                                # In shell: from talkEdu import settings as S
 SITE_NAME = basename(SITE_ROOT)
 
 
@@ -45,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'posts',
     'funct_tests',
+    'new_user_app',
 )
 
 MIDDLEWARE_CLASSES = (
