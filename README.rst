@@ -3,7 +3,7 @@ TODO:
 
 #) User creation with new user form
 #) Verifying user login
-#) Create main template from which other templates inherit
+#) DONE - Create main template from which other templates inherit
 #) Display username and have delete option for posts (only for posts made by user)
 #) Email users to confirm account
 #) DONE - Change database?
@@ -27,6 +27,14 @@ talkEdu
 		tests.py
 
 	manage.py
+
+	new_user_app/
+
+		__init__.py
+
+		tests.py
+
+		views.py
 
 	posts/
 

@@ -32,8 +32,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, expected_url_regex)
-
-        
+    
     def test_home_page_has_proper_content_and_links(self):
         # Jim visits the home page of our site
         self.browser.get(self.live_server_url)
@@ -90,16 +89,30 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim see enters his username and password into the appropriate boxes
         inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertTrue(inputs.count, 2)
+        self.assertEqual(len(inputs), 3)
         user = self.browser.find_element_by_id('id_user_login')
         password = self.browser.find_element_by_id('id_pass_login')
         user.send_keys('Jim')
         password.send_keys('Password')
 
         # Jim clicks the 'Login' button and is returned to the current page
-        self.check_for_redirect_after_button_click("login", '/$')
+        self.check_for_redirect_after_button_click("login",
+                                                   self.live_server_url + '/$')
 
-"""
+        # Jim now decides to try to login on the Problems page
+        self.browser.get(self.live_server_url+'/problems/')
+        login_box = self.browser.find_element_by_id('id_login_box').text
+        self.assertIn('Username:', login_box)
+        self.assertIn('Password:', login_box)
+
+        # Jim enters in his info, clicks 'Login', and is return to home page
+        user = self.browser.find_element_by_id('id_user_login')
+        password = self.browser.find_element_by_id('id_pass_login')
+        user.send_keys('Jim')
+        password.send_keys('Password')
+        self.check_for_redirect_after_button_click("login",
+                                                   self.live_server_url + '/$')
+    
     def test_user_creation_form(self):
         ######TODO - Try incorrect passwords, improper email format
         ######TODO - username already taken, and check for verification email
@@ -113,16 +126,17 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_link_click('Create Account',
                                                  '/create_account/$')
 
-        # Jim sees 4 input boxes
+        # Jim sees 4 input boxes and a button (5 inputs here + 3 inputs on top)
         inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertTrue(inputs.count, 4)
-
+        self.assertEqual(len(inputs), 8)
+        
         # Jim enters in his information
-        inputs[0].send_keys('Jim')
-        inputs[1].send_keys('Password')
-        inputs[2].send_keys('Password')
-        inputs[3].send_keys('chipperdrew@gmail.com')
+        inputs[4].send_keys('Jim')
+        inputs[5].send_keys('Password')
+        inputs[6].send_keys('Password')
+        inputs[7].send_keys('chipperdrew@gmail.com')
 
         # Jim presses the "Create" button and is returned to home page
-        self.check_for_redirect_after_button_click("create", '/$')
-"""        
+        self.check_for_redirect_after_button_click("create",
+                                                   self.live_server_url + '/$')
+        #self.check_for_redirect_after_button_click("create", '/create_account/$') 
