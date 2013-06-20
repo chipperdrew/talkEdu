@@ -29,9 +29,9 @@ def get_env_var(var_name):
 SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -62,22 +62,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = '%s.urls' % SITE_NAME
 
 WSGI_APPLICATION = 'talkEdu.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydb',
-        #'USER': 'chipperdrew',
-        'USER': get_env_var("TALKEDU_DB_USER"),
-        #'PASSWORD': 'qu1.qu1.',
-        'PASSWORD': get_env_var("TALKEDU_DB_PASS"),
-        'HOST': '',
-        'PORT': '',
-    }
-}
 
 
 # Internationalization

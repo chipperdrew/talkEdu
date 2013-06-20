@@ -18,13 +18,13 @@ Basic Information
 
 Content Layout
 -------------------
-talkEdu
+talkEdu/
 
 	funct_tests/
 
 		__init__.py
 
-		tests.py
+		tests_funct.py
 
 	manage.py
 
@@ -32,23 +32,25 @@ talkEdu
 
 		__init__.py
 
-		tests.py
+		tests_new_user.py
 
 		views.py
 
 	posts/
 
-		__init.py
+		__init__.py
 
 		admin.py
 
 		models.py
 
-		tests.py
+		tests_posts.py
 
 		views.py
 
 	README.rst
+
+	requirements/
 	
 	static/
 
@@ -56,7 +58,15 @@ talkEdu
 
 		__init__.py
 
-		settings.py
+		settings/
+
+			__init__.py
+			
+			base.py
+
+			local.py
+
+			test.py
 
 		urls.py
 
@@ -89,6 +99,7 @@ Thanks to the following
 	* The Django Book - http://www.djangobook.com/en/2.0/index.html
 	* Django Documentation - https://docs.djangoproject.com/en/dev/
 	* *Two Scoops of Django* - https://django.2scoops.org/
+	* Coverage package - http://coverage.readthedocs.org/en/latest/
 
 * Ruby on Rails
 	* Rails for Zombies - http://railsforzombies.org/
