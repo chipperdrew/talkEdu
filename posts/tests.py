@@ -62,7 +62,7 @@ class ProblemPageTest(TestCase):
         self.assertIn('Post 2', response.content)
         self.assertTemplateUsed(response, 'problems.html')
         
-
+    
 class PostModelTest(TestCase):
 
     def test_save_and_retrieve_posts(self):
