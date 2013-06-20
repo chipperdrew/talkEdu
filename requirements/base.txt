@@ -1,0 +1,6 @@
+gg=Django-dev
+distribute==0.6.40
+git-remote-helpers==0.1.0
+psycopg2==2.5
+selenium==2.33.0
+wsgiref==0.1.2
