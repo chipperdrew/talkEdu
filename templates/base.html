@@ -12,7 +12,7 @@
 <body>
 	{% block login %}
 		<div id="id_login_box" style="border:2px solid black">
-			<form method="POST">
+			<form method="POST" action="/login/"> <!-- Will call URL => view -->
 				{% csrf_token %}
 				<label for="id_user_login">Username:</label> 
 				<input type="text" name="username" id="id_user_login" />

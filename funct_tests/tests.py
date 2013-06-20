@@ -98,6 +98,20 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim clicks the 'Login' button and is returned to the current page
         self.check_for_redirect_after_button_click("login",
                                                    self.live_server_url + '/$')
+
+        # Jim now decides to try to login on the Problems page
+        self.browser.get(self.live_server_url+'/problems/')
+        login_box = self.browser.find_element_by_id('id_login_box').text
+        self.assertIn('Username:', login_box)
+        self.assertIn('Password:', login_box)
+
+        # Jim enters in his info, clicks 'Login', and is return to home page
+        user = self.browser.find_element_by_id('id_user_login')
+        password = self.browser.find_element_by_id('id_pass_login')
+        user.send_keys('Jim')
+        password.send_keys('Password')
+        self.check_for_redirect_after_button_click("login",
+                                                   self.live_server_url + '/$')
     
     def test_user_creation_form(self):
         ######TODO - Try incorrect passwords, improper email format
