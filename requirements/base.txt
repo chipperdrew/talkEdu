@@ -1,6 +1,7 @@
 gg=Django-dev
 coverage==3.6
 distribute==0.6.40
+django-registration==1.0
 git-remote-helpers==0.1.0
 psycopg2==2.5
 selenium==2.33.0
