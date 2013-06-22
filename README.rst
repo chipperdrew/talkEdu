@@ -1,12 +1,13 @@
 TODO:
 =============
 
-#) User creation with new user form
-#) Verifying user login
-#) DONE - Create main template from which other templates inherit
-#) Display username and have delete option for posts (only for posts made by user)
+#) Fix some minor bugs (JS 404 error, django admin not loading)
+#) Read chapter on views
+#) Use django-registration to create new users and verify login
 #) Email users to confirm account
+#) Display username and have delete option for posts (only for posts made by user)
 #) DONE - Change database?
+#) DONE - Create main template from which other templates inherit
 
 
 Basic Information
@@ -41,6 +42,8 @@ talkEdu/
 		__init__.py
 
 		admin.py
+
+		migrations/
 
 		models.py
 
@@ -99,7 +102,12 @@ Thanks to the following
 	* The Django Book - http://www.djangobook.com/en/2.0/index.html
 	* Django Documentation - https://docs.djangoproject.com/en/dev/
 	* *Two Scoops of Django* - https://django.2scoops.org/
-	* Coverage package - http://coverage.readthedocs.org/en/latest/
+
+* Django Packages:
+	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/#
+	* Django-registration (for creating/verifying user accounts) - http://django-registration.readthedocs.org/en/v1.0/index.html
+	* Psycopg2 (needed to use PostgreSQL) - http://initd.org/psycopg/
+	* South (for database migrations) - http://south.readthedocs.org/en/latest/index.html
 
 * Ruby on Rails
 	* Rails for Zombies - http://railsforzombies.org/
