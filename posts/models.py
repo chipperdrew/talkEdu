@@ -10,7 +10,7 @@ class TimeStampedModel(models.Model):
 
 
 class Post(TimeStampedModel):
-#class Post(models.Model):
+    title = models.CharField(default="", max_length=75)
     text = models.TextField()
 
     # Better string representation in admin and elsewhere
