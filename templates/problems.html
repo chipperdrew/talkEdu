@@ -13,7 +13,7 @@
 
 	<div>
 	{% for post in posts %}
-		<p> {{ post.text }} </p>
+		<p> {{ post.text }} was posted at {{ post.timeCreated }} and last modified at {{ post.timeModified }} </p>
 	{% endfor %}
 	</div>
 {% endblock content %}
