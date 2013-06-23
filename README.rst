@@ -1,10 +1,10 @@
 TODO:
 =============
-
-#) Fix some minor bugs (JS 404 error, django admin not loading)
+ 
 #) Read chapter on views
 #) Use django-registration to create new users and verify login
 #) Email users to confirm account
+#) Allow users to enter in a name(title) in their posts
 #) Display username and have delete option for posts (only for posts made by user)
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
@@ -13,7 +13,7 @@ TODO:
 Basic Information
 --------------------
 
-* Site name: ????
+* Site name: YouTalkEdu
 * Created by: Andrew Cook
 
 
@@ -95,6 +95,7 @@ Thanks to the following
 	* Selenium - http://docs.seleniumhq.org/
 	* Homebrew - http://mxcl.github.io/homebrew/
 	* MacVim - http://macvim.org/
+	* PostgreSQL - http://www.postgresql.org/
 
 * Django
 	* Django installation Tutorial - http://osxwebdev.wordpress.com/2012/09/24/install-django-on-os-x-10-8-mountain-lion/
