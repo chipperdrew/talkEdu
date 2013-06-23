@@ -39,7 +39,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # In the title are the words "Welcome To" and the word "Welcome" is
         # displayed on the page
-        self.assertIn("Welcome To", self.browser.title)
+        self.assertIn("Welcome to ", self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Welcome', header_text)
 
@@ -124,19 +124,18 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim clicks the link and is redirected to a create account page
         self.check_for_redirect_after_link_click('Create Account',
-                                                 '/create_account/$')
+                                                 '/accounts/register/$')
 
-        # Jim sees 4 input boxes and a button (5 inputs here + 3 inputs on top)
+        # Jim sees 4 input boxes and a button
         inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertEqual(len(inputs), 8)
+        self.assertEqual(len(inputs), 9)
         
         # Jim enters in his information
         inputs[4].send_keys('Jim')
-        inputs[5].send_keys('Password')
+        inputs[5].send_keys('chipperdrew@gmail.com')
         inputs[6].send_keys('Password')
-        inputs[7].send_keys('chipperdrew@gmail.com')
+        inputs[7].send_keys('Password')
 
         # Jim presses the "Create" button and is returned to home page
         self.check_for_redirect_after_button_click("create",
                                                    self.live_server_url + '/$')
-        #self.check_for_redirect_after_button_click("create", '/create_account/$') 

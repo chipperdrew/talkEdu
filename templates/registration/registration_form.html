@@ -4,18 +4,11 @@
 {% block title %}Register - YouTalkEdu{% endblock title %}
 
 {% block content %}
-{{ block.super }}
-<form method="POST">
-{% csrf_token %}
-<label for="id_new_username">Username:</label>
-<input type="text" id="id_new_username" />
-<label for="id_new_password">Password:</label>
-<input type="password" id="id_new_password"/>
-<label for="id_new_password_ver">Verify Password:</label>
-<input type="password" id="id_new_password_ver" />
-<label for="id_new_email">Email:</label>
-<input type="text" id="id_new_email"/> <!-- Change to email type? -->
-
-<button type="submit" name="create">Create</button>	
-</form>
+	{{ block.super }}
+	<form action="/accounts/register/" method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" name="create" value="Create" />
+	</form>
 {% endblock content %}
+

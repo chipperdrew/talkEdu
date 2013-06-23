@@ -1,3 +1,4 @@
+# USE FOR PRESENTATION LOGIC, NOT BUSINESS LOGIC (put that in models)
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import Post

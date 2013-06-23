@@ -77,6 +77,7 @@
 <p id='n14' class='pln'><a href='#n14'>14</a></p>
 <p id='n15' class='pln'><a href='#n15'>15</a></p>
 <p id='n16' class='pln'><a href='#n16'>16</a></p>
+<p id='n17' class='pln'><a href='#n17'>17</a></p>
                 
             </td>
             <td class='text' valign='top'>
@@ -88,14 +89,15 @@
 <p id='t6' class='stm run hide_run'><span class='nam'>urlpatterns</span> <span class='op'>=</span> <span class='nam'>patterns</span><span class='op'>(</span><span class='str'>&#39;&#39;</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
 <p id='t7' class='pln'>&nbsp; &nbsp; <span class='nam'>url</span><span class='op'>(</span><span class='str'>r&#39;^$&#39;</span><span class='op'>,</span> <span class='str'>&#39;posts.views.home_page&#39;</span><span class='op'>,</span> <span class='nam'>name</span><span class='op'>=</span><span class='str'>&#39;home&#39;</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
 <p id='t8' class='pln'>&nbsp; &nbsp; <span class='nam'>url</span><span class='op'>(</span><span class='str'>r&#39;^problems/$&#39;</span><span class='op'>,</span> <span class='str'>&#39;posts.views.problems_page&#39;</span><span class='op'>,</span> <span class='nam'>name</span><span class='op'>=</span><span class='str'>&#39;problems&#39;</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
-<p id='t9' class='pln'><span class='com'>#&nbsp; &nbsp; url(r&#39;^create_account/$&#39;,&#39;new_user_app.views.new_user_creation_page&#39;,</span><span class='strut'>&nbsp;</span></p>
-<p id='t10' class='pln'><span class='com'>#&nbsp; &nbsp; &nbsp; &nbsp; name=&#39;createAccount&#39;), #Name is reference in base.html</span><span class='strut'>&nbsp;</span></p>
-<p id='t11' class='pln'>&nbsp; &nbsp; <span class='nam'>url</span><span class='op'>(</span><span class='str'>r&#39;^login/$&#39;</span><span class='op'>,</span> <span class='str'>&#39;posts.views.login&#39;</span><span class='op'>,</span> <span class='nam'>name</span><span class='op'>=</span><span class='str'>&#39;login&#39;</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
-<p id='t12' class='pln'><span class='strut'>&nbsp;</span></p>
-<p id='t13' class='pln'>&nbsp; &nbsp; <span class='nam'>url</span><span class='op'>(</span><span class='str'>r&#39;^accounts/&#39;</span><span class='op'>,</span> <span class='nam'>include</span><span class='op'>(</span><span class='str'>&#39;registration.backends.default.urls&#39;</span><span class='op'>)</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
-<p id='t14' class='pln'><span class='strut'>&nbsp;</span></p>
-<p id='t15' class='pln'>&nbsp; &nbsp; <span class='nam'>url</span><span class='op'>(</span><span class='str'>r&#39;^admin/&#39;</span><span class='op'>,</span> <span class='nam'>include</span><span class='op'>(</span><span class='nam'>admin</span><span class='op'>.</span><span class='nam'>site</span><span class='op'>.</span><span class='nam'>urls</span><span class='op'>)</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
-<p id='t16' class='pln'><span class='op'>)</span><span class='strut'>&nbsp;</span></p>
+<p id='t9' class='pln'>&nbsp; &nbsp; <span class='nam'>url</span><span class='op'>(</span><span class='str'>r&#39;^login/$&#39;</span><span class='op'>,</span> <span class='str'>&#39;posts.views.login&#39;</span><span class='op'>,</span> <span class='nam'>name</span><span class='op'>=</span><span class='str'>&#39;login&#39;</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
+<p id='t10' class='pln'><span class='strut'>&nbsp;</span></p>
+<p id='t11' class='pln'>&nbsp; &nbsp; <span class='nam'>url</span><span class='op'>(</span><span class='str'>r&#39;^accounts/&#39;</span><span class='op'>,</span> <span class='nam'>include</span><span class='op'>(</span><span class='str'>&#39;registration.backends.default.urls&#39;</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
+<p id='t12' class='pln'>&nbsp; &nbsp; &nbsp; &nbsp; <span class='nam'>name</span><span class='op'>=</span><span class='str'>&#39;accounts&#39;</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
+<p id='t13' class='pln'><span class='com'>#&nbsp; &nbsp; url(r&#39;^create_account/$&#39;,&#39;new_user_app.views.new_user_creation_page&#39;,</span><span class='strut'>&nbsp;</span></p>
+<p id='t14' class='pln'><span class='com'>#&nbsp; &nbsp; &nbsp; &nbsp; name=&#39;createAccount&#39;), #Name is reference in base.html</span><span class='strut'>&nbsp;</span></p>
+<p id='t15' class='pln'><span class='strut'>&nbsp;</span></p>
+<p id='t16' class='pln'>&nbsp; &nbsp; <span class='nam'>url</span><span class='op'>(</span><span class='str'>r&#39;^admin/&#39;</span><span class='op'>,</span> <span class='nam'>include</span><span class='op'>(</span><span class='nam'>admin</span><span class='op'>.</span><span class='nam'>site</span><span class='op'>.</span><span class='nam'>urls</span><span class='op'>)</span><span class='op'>)</span><span class='op'>,</span><span class='strut'>&nbsp;</span></p>
+<p id='t17' class='pln'><span class='op'>)</span><span class='strut'>&nbsp;</span></p>
                 
             </td>
         </tr>
