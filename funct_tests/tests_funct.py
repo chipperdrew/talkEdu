@@ -137,5 +137,6 @@ class NewVisitorTests(LiveServerTestCase):
         inputs[7].send_keys('Password')
 
         # Jim presses the "Create" button and is returned to home page
-        self.check_for_redirect_after_button_click("create",
-                                                   self.live_server_url + '/$')
+        self.check_for_redirect_after_button_click(
+            "create",
+            self.live_server_url +'/accounts/register/complete/')

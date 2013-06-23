@@ -26,7 +26,6 @@ def get_env_var(var_name):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 TEMPLATE_DEBUG = False
@@ -34,8 +33,11 @@ TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
+# Application definition
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -84,7 +86,6 @@ USE_TZ = True
 # STATIC FILES (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 STATIC_URL = '/static/'
-# STATIC_ROOT = '/desktop/website/django_codes/talkEdu/posts/static/'
 STATICFILES_DIRS = (
     normpath(join(SITE_ROOT, 'static')),
 )
@@ -109,13 +110,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
 
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
 TEMPLATE_DIRS = (
     normpath(join(SITE_ROOT, 'templates')),
 )
