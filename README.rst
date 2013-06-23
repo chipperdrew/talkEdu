@@ -1,7 +1,7 @@
 TODO:
 =============
  
-#) Read chapter on views
+#) Change to class based views??
 #) Use django-registration to create new users and verify login
 #) Email users to confirm account
 #) Allow users to enter in a name(title) in their posts
@@ -27,15 +27,9 @@ talkEdu/
 
 		tests_funct.py
 
+	htmlcov/
+
 	manage.py
-
-	new_user_app/
-
-		__init__.py
-
-		tests_new_user.py
-
-		views.py
 
 	posts/
 

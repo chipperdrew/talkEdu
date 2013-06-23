@@ -1,5 +1,4 @@
 # TODO IN PRODUCTION ----- Change SECRET_KEY, Database user and pass
-# AC: 6/20 This has been set as the default settings in environ var!
 
 import os
 from os.path import abspath, basename, dirname, join, normpath
@@ -25,7 +24,6 @@ def get_env_var(var_name):
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'jg73z7#yg8^a_vle#n=oog302lh6bp)puw#9jk^w5i&h4e3yc9'
 SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -50,7 +48,6 @@ INSTALLED_APPS = (
     'south',
     'posts',
     'funct_tests',
-    'new_user_app',
 )
 
 SITE_ID = 1
