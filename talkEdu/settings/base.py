@@ -53,6 +53,8 @@ INSTALLED_APPS = (
     'new_user_app',
 )
 
+SITE_ID = 1
+
 ACCOUNT_ACTIVATION_DAYS = 7
 
 MIDDLEWARE_CLASSES = (
