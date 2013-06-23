@@ -76,3 +76,15 @@ class PostModelTest(TestCase):
         saved_post2 = saved_posts[1]
         self.assertEqual(saved_post1.text, 'Post numero uno!')
         self.assertEqual(saved_post2.text, 'I love lamp?')
+
+
+class RegistrationTest(TestCase):
+    
+    def test_register_page_opens_when_URL_accessed(self):
+        client = Client()
+        response = client.get('/accounts/register/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'registration/registration_form.html')
+
+
