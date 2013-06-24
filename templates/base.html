@@ -12,7 +12,7 @@
 <body>
 	{% block login %}
 		<div id="id_login_box" style="border:2px solid black">
-			{% if user.is_not_authenticated %} 
+			{% if user.is_anonymous %} 
 				<!-- If success, stays on current page. Else, redirects to /accounts/login -->
 				{% if form.errors %}
 					<p>Either the username does not exist, or the incorrect password was entered. 
