@@ -12,18 +12,29 @@
 <body>
 	{% block login %}
 		<div id="id_login_box" style="border:2px solid black">
-			<form method="POST" action="/login/"> <!-- Will call URL => view -->
-				{% csrf_token %}
-				<label for="id_user_login">Username:</label> 
-				<input type="text" name="username" id="id_user_login" />
-				<label for="id_pass_login">Password:</label> 
-				<input type="password" name="password" id="id_pass_login"/>
-				<button type="submit" name="login">Login</button>
-				<a id="id_create_account_link" href="/accounts/register">Create Account</a>
-{#				<a id="id_create_account_link" href="{% url 'createAccount' %}">Create Account</a>  #}
-			</form>
+			{% if user.is_not_authenticated %} 
+				<!-- If success, stays on current page. Else, redirects to /accounts/login -->
+				{% if form.errors %}
+					<p>Either the username does not exist, or the incorrect password was entered. 
+					Please try again.</p>
+				{% endif %}
+				<form method="POST" action="{% url 'auth_login' %}"> <!-- Calls auth.views.login -->
+					{% csrf_token %}
+					<label for="id_user_login">Username:</label> 
+					<input type="text" name="username" id="id_user_login" />
+					<label for="id_pass_login">Password:</label> 
+					<input type="password" name="password" id="id_pass_login"/>
+					<button type="submit" name="login">Login</button>
+					<input type="hidden" name="next" value="{{ request.get_full_path }}" />
+					<a href="/accounts/register">Create Account</a>
+				</form>
+			{% else %} 
+				<p>Welcome {{ user.username }}</p>
+				<form action="{% url 'auth_logout' %}">
+					<button type="submit">Log out</button>
+				</form>
+			{% endif %} 
 		</div>
-
 	{% endblock login %}
 
 	{% block navbar %}
