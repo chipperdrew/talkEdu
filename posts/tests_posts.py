@@ -97,21 +97,14 @@ class UserRegistrationTest(TestCase):
         self.assertTemplateUsed(response,
                                 'registration/registration_form.html')
 
-"""
-class UserLoginLogoutTest(TestCase):
 
-    def test_login_if_pass_is_incorrect(self):
-        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'password')
+class UserLoginTest(TestCase):
+
+    def test_login_if_user_does_not_exist(self):
         client = Client()
         response = client.post('/accounts/login/',
                                {'usernane': 'Jim', 'password': 'pass'})
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(new_user.is_authenticated)
-#        self.assertTrue(new_user.is_anonymous())
-#        self.assertEqual(response.context['request'].get_full_path(), '/hi')
-#        self.assertFalse(response.context['request'].user.is_authenticated())
-#        self.assertTrue(response.context['request'].user.is_anonymous())
+        self.assertEqual(response.status_code, 200) #No redirect => Failed
         
     def test_login_if_user_exists(self):
         new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
@@ -119,11 +112,15 @@ class UserLoginLogoutTest(TestCase):
         client = Client()
         response = client.post('/accounts/login/',
                                {'username': 'Jim', 'password': 'pass'})
-        self.assertEqual(response.status_code, 302)
-#        self.assertEqual(self.client.session['_auth_user_id'], user.pk)
-        self.assertTrue(new_user.is_authenticated())
-#        self.assertFalse(new_user.is_anonymous())
-"""
+        self.assertEqual(response.status_code, 302) #Redirect => Passed
 
+    def test_login_if_incorrect_pass(self):
+        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass')
+        client = Client()
+        response = client.post('/accounts/login/',
+                               {'username': 'Jim', 'password': 'jim'})
+        self.assertEqual(response.status_code, 200) #No redirect => Failed
+        
         
         
