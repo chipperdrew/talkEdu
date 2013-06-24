@@ -1,13 +1,14 @@
 TODO:
 =============
  
-#) Change to class based views??
-#) Use django-registration to create new users and verify login
-#) Email users to confirm account
+#) Establish and display 'Post' to 'User' relationship (Many to one)
 #) Allow users to enter in a name(title) in their posts
 #) Display username and have delete option for posts (only for posts made by user)
+#) Change to class based views??
+#) Set up email with SMTP server
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
+#) DONE - Use django-registration to create new users and verify login
 
 
 Basic Information
