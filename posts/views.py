@@ -16,6 +16,3 @@ def problems_page(request):
                             timeModified = timezone.now())
     posts = Post.objects.all()
     return render(request, 'problems.html', {'posts': posts})
-
-def login(request):
-    return redirect('/')

@@ -43,6 +43,10 @@ class NewVisitorTests(LiveServerTestCase):
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Welcome', header_text)
 
+        # Jim is not logged in so the header contains login info
+        login_box = self.browser.find_element_by_id('id_login_box').text
+        self.assertIn("Login", login_box)
+
         # Jim clicks on "Problems" link and is redirect to the problems page
         self.check_for_redirect_after_link_click("Problems", '/problems/$')
        
@@ -76,47 +80,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('School is bad, mkay?', page_text)
         self.assertIn('I good at school', page_text)
 
-    def test_user_login_existance_and_authorization(self):
-        ######TODO - Update this test for authorization check
-        ######TODO - test login_box appears on EVERY page
-
-        # On the homepage, Jim sees a place to enter in his
-        # username and password
-        self.browser.get(self.live_server_url)
-        login_box = self.browser.find_element_by_id('id_login_box').text
-        self.assertIn('Username:', login_box)
-        self.assertIn('Password:', login_box)
-
-        # Jim see enters his username and password into the appropriate boxes
-        inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertEqual(len(inputs), 3)
-        user = self.browser.find_element_by_id('id_user_login')
-        password = self.browser.find_element_by_id('id_pass_login')
-        user.send_keys('Jim')
-        password.send_keys('Password')
-
-        # Jim clicks the 'Login' button and is returned to the current page
-        self.check_for_redirect_after_button_click("login",
-                                                   self.live_server_url + '/$')
-
-        # Jim now decides to try to login on the Problems page
-        self.browser.get(self.live_server_url+'/problems/')
-        login_box = self.browser.find_element_by_id('id_login_box').text
-        self.assertIn('Username:', login_box)
-        self.assertIn('Password:', login_box)
-
-        # Jim enters in his info, clicks 'Login', and is return to home page
-        user = self.browser.find_element_by_id('id_user_login')
-        password = self.browser.find_element_by_id('id_pass_login')
-        user.send_keys('Jim')
-        password.send_keys('Password')
-        self.check_for_redirect_after_button_click("login",
-                                                   self.live_server_url + '/$')
-    
     def test_user_creation_form(self):
-        ######TODO - Try incorrect passwords, improper email format
-        ######TODO - username already taken, and check for verification email
-        
         # On the homepage, Jim sees a place to create an account
         self.browser.get(self.live_server_url)
         login_box = self.browser.find_element_by_id('id_login_box').text
@@ -128,15 +92,79 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim sees 4 input boxes and a button
         inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertEqual(len(inputs), 9)
+        self.assertEqual(len(inputs), 10) # 4 header + 4 input + button + hidden
         
-        # Jim enters in his information
-        inputs[4].send_keys('Jim')
-        inputs[5].send_keys('chipperdrew@gmail.com')
-        inputs[6].send_keys('Password')
+        # ATTEMPT 1: Jim (incorrectly) enters in his information
+        # KEY: inputs 0-3 in header, 4 hidden in form, 5-8 inputs, 9 button
+        inputs[5].send_keys('Jim')
+        inputs[6].send_keys('chipperdrew@gmail.com')
         inputs[7].send_keys('Password')
+        inputs[8].send_keys('Pazzword')
+
+        # Jim presses the "Create" button and is shown an error
+        self.check_for_redirect_after_button_click(
+            "create",
+            self.live_server_url +'/accounts/register/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('The two password fields didn\'t match', body)
+
+        # ATTEMPT 2: Jim (correctly) re-enters in his passwords
+        # KEY: inputs 0-3 in header, 4 hidden in form, 5-8 inputs, 9 button
+        inputs = self.browser.find_elements_by_tag_name('input')
+        inputs[7].send_keys('Password')
+        inputs[8].send_keys('Password')
 
         # Jim presses the "Create" button and is returned to home page
         self.check_for_redirect_after_button_click(
             "create",
             self.live_server_url +'/accounts/register/complete/')
+
+        # ATTEMPT 3: Jim (incorrectly) tries to create another 'Jim' account
+        self.browser.get(self.live_server_url + '/accounts/register/')
+        inputs = self.browser.find_elements_by_tag_name('input')
+        inputs[5].send_keys('Jim')
+        inputs[6].send_keys('chipperdrew@gmail.com')
+        inputs[7].send_keys('P')
+        inputs[8].send_keys('P')
+        self.check_for_redirect_after_button_click(
+            "create",
+            self.live_server_url +'/accounts/register/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('A user with that username already exists', body)
+
+    def test_user_login_existance(self):
+        # On the homepage, Jim sees a place to enter in his
+        # username and password
+        self.browser.get(self.live_server_url)
+        login_box = self.browser.find_element_by_id('id_login_box').text
+        self.assertIn('Username:', login_box)
+        self.assertIn('Password:', login_box)
+
+        # Jim see enters his username and password into the appropriate boxes
+        inputs = self.browser.find_elements_by_tag_name('input')
+        self.assertEqual(len(inputs), 4) #hidden, user, pass, and login inputs
+        user_input = self.browser.find_element_by_id('id_user_login')
+        pass_input = self.browser.find_element_by_id('id_pass_login')
+        user_input.send_keys('Jim')
+        pass_input.send_keys('Password')
+
+        # Jim clicks the 'Login' button and is redirected to login page
+        # b/c Jim's accounts DNE
+        self.check_for_redirect_after_button_click("login",
+                                                   self.live_server_url +
+                                                   '/accounts/login/$')
+
+        # Jim now decides to try to login on the Problems page
+        self.browser.get(self.live_server_url+'/problems/')
+        login_box = self.browser.find_element_by_id('id_login_box').text
+        self.assertIn('Username:', login_box)
+        self.assertIn('Password:', login_box)
+
+        # Jim enters in his info, clicks 'Login', and is redirected to login
+        user = self.browser.find_element_by_id('id_user_login')
+        password = self.browser.find_element_by_id('id_pass_login')
+        user.send_keys('Jim')
+        password.send_keys('Password')
+        self.check_for_redirect_after_button_click("login",
+                                                   self.live_server_url +
+                                                   '/accounts/login/$')

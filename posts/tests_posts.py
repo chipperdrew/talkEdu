@@ -1,8 +1,9 @@
 # Core Django imports
-from django.test import Client, TestCase
-from django.core.urlresolvers import resolve
+from django.contrib.auth.models import User
+from django.core.urlresolvers import resolve, reverse
 from django.http import HttpRequest
 from django.template.loader import render_to_string
+from django.test import Client, TestCase
 
 # App imports
 from .views import home_page, problems_page
@@ -78,7 +79,16 @@ class PostModelTest(TestCase):
         self.assertEqual(saved_post2.text, 'I love lamp?')
 
 
-class RegistrationTest(TestCase):
+class UserRegistrationTest(TestCase):
+
+    def test_save_and_retrieve_users(self):
+        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass')
+        all_users = User.objects.all()
+        self.assertEqual(all_users.count(), 1)
+        user1 = all_users[0]
+        self.assertEqual(user1.username, 'Jim')
+        self.assertEqual(user1.email, 'chipperdrew@gmail.com')
     
     def test_register_page_opens_when_URL_accessed(self):
         client = Client()
@@ -87,4 +97,33 @@ class RegistrationTest(TestCase):
         self.assertTemplateUsed(response,
                                 'registration/registration_form.html')
 
+"""
+class UserLoginLogoutTest(TestCase):
 
+    def test_login_if_pass_is_incorrect(self):
+        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'password')
+        client = Client()
+        response = client.post('/accounts/login/',
+                               {'usernane': 'Jim', 'password': 'pass'})
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(new_user.is_authenticated)
+#        self.assertTrue(new_user.is_anonymous())
+#        self.assertEqual(response.context['request'].get_full_path(), '/hi')
+#        self.assertFalse(response.context['request'].user.is_authenticated())
+#        self.assertTrue(response.context['request'].user.is_anonymous())
+        
+    def test_login_if_user_exists(self):
+        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass')
+        client = Client()
+        response = client.post('/accounts/login/',
+                               {'username': 'Jim', 'password': 'pass'})
+        self.assertEqual(response.status_code, 302)
+#        self.assertEqual(self.client.session['_auth_user_id'], user.pk)
+        self.assertTrue(new_user.is_authenticated())
+#        self.assertFalse(new_user.is_anonymous())
+"""
+
+        
+        
