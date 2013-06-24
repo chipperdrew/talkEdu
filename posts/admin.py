@@ -3,6 +3,6 @@ from .models import Post
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("text", "timeCreated", "timeModified")
+    list_display = ("user_id", "text", "timeCreated", "timeModified")
 
 admin.site.register(Post, PostAdmin)

@@ -37,7 +37,7 @@ class ProblemPageTest(TestCase):
         response = client.get('/problems/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'problems.html')
-
+"""
     def test_prob_page_can_save_POST_request(self):
         request = HttpRequest()
         request.method = 'POST'
@@ -65,7 +65,6 @@ class ProblemPageTest(TestCase):
         
     
 class PostModelTest(TestCase):
-
     def test_save_and_retrieve_posts(self):
         post1 = Post.objects.create(text = 'Post numero uno!')
         post2 = Post.objects.create(text = 'I love lamp?')
@@ -77,7 +76,7 @@ class PostModelTest(TestCase):
         saved_post2 = saved_posts[1]
         self.assertEqual(saved_post1.text, 'Post numero uno!')
         self.assertEqual(saved_post2.text, 'I love lamp?')
-
+"""
 
 class UserRegistrationTest(TestCase):
 

@@ -13,6 +13,7 @@ def problems_page(request):
     if request.method == 'POST':
         Post.objects.create(text = request.POST['post_content'],
                             timeCreated = timezone.now(),
-                            timeModified = timezone.now())
+                            timeModified = timezone.now(),
+                            user_id = request.user)
     posts = Post.objects.all()
     return render(request, 'problems.html', {'posts': posts})

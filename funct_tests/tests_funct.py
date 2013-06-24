@@ -49,7 +49,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim clicks on "Problems" link and is redirect to the problems page
         self.check_for_redirect_after_link_click("Problems", '/problems/$')
-       
+    """
     def test_problems_page_posts_and_saves_content(self):
         # The title of the problems page contains "Problems - "
         self.browser.get(self.live_server_url+'/problems/')
@@ -79,7 +79,7 @@ class NewVisitorTests(LiveServerTestCase):
         page_text =  self.browser.find_element_by_tag_name('body').text
         self.assertIn('School is bad, mkay?', page_text)
         self.assertIn('I good at school', page_text)
-
+    """
     def test_user_creation_form(self):
         # On the homepage, Jim sees a place to create an account
         self.browser.get(self.live_server_url)
