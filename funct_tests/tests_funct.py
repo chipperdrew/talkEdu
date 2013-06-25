@@ -1,6 +1,7 @@
 # Stdlib imports
 
 # Core Django imports
+from django.contrib.auth.models import User
 from django.test import LiveServerTestCase
 
 # 3rd party imports
@@ -15,6 +16,8 @@ class NewVisitorTests(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
+        new_user = User.objects.create_user('Test', 'chipperdrew@gmail.com',
+                                            'test')
         
     def tearDown(self):
         self.browser.quit()
@@ -32,8 +35,16 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, expected_url_regex)
-    
+
+    def login_test_user(self):
+        user_input = self.browser.find_element_by_id('id_user_login')
+        pass_input = self.browser.find_element_by_id('id_pass_login')
+        user_input.send_keys('Test')
+        pass_input.send_keys('test')
+        self.browser.find_element_by_name('login').click()
+       
     def test_home_page_has_proper_content_and_links(self):
+        
         # Jim visits the home page of our site
         self.browser.get(self.live_server_url)
 
@@ -49,12 +60,17 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim clicks on "Problems" link and is redirect to the problems page
         self.check_for_redirect_after_link_click("Problems", '/problems/$')
-    """
-    def test_problems_page_posts_and_saves_content(self):
+        
+    def test_problems_page_posts_and_saves_content_when_logged_in(self):
+        
         # The title of the problems page contains "Problems - "
         self.browser.get(self.live_server_url+'/problems/')
         self.assertIn("Problems - ", self.browser.title)
 
+        # Jim logs in (as Test), and remains on the problems page
+        self.login_test_user()
+        self.assertIn("Problems - ", self.browser.title)
+    
         # A textarea is displayed, prompting "Type your thoughts here!"
         inputText = self.browser.find_element_by_id('id_new_post')
         self.assertEqual(
@@ -64,10 +80,11 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim types in "School is bad, mkay?"
         inputText.send_keys('School is bad, mkay?')
 
-        # Jim presses enter and his post is displayed
+        # Jim presses enter. His post and username are displayed
         inputText.send_keys(Keys.ENTER)
         page_text =  self.browser.find_element_by_tag_name('body').text
         self.assertIn('School is bad, mkay?', page_text)
+        self.assertIn('Test', page_text)
 
         # Jim types "I good at school". Jim clicks the "Post" button
         inputText = self.browser.find_element_by_id('id_new_post')
@@ -79,8 +96,20 @@ class NewVisitorTests(LiveServerTestCase):
         page_text =  self.browser.find_element_by_tag_name('body').text
         self.assertIn('School is bad, mkay?', page_text)
         self.assertIn('I good at school', page_text)
-    """
+        self.assertIn('Test', page_text)
+
+    def test_problems_page_fails_to_post_when_not_logged_in(self):
+        
+        # Jim goes to the problems page and tries to post w/o logging in
+        self.browser.get(self.live_server_url+'/problems/')
+        inputText = self.browser.find_element_by_id('id_new_post')
+        inputText.send_keys('This should fail')
+        self.assertIn('YouTalkEdu', self.browser.title)
+        self.browser.find_element_by_id('id_post_button').click()
+        self.assertNotIn('YouTalkEdu', self.browser.title) #error occurs
+                 
     def test_user_creation_form(self):
+        
         # On the homepage, Jim sees a place to create an account
         self.browser.get(self.live_server_url)
         login_box = self.browser.find_element_by_id('id_login_box').text
@@ -132,7 +161,8 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('A user with that username already exists', body)
 
-    def test_user_login_existance(self):
+    def test_login_box_existance_and_failed_redirect(self):
+        
         # On the homepage, Jim sees a place to enter in his
         # username and password
         self.browser.get(self.live_server_url)

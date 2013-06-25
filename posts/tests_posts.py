@@ -4,6 +4,8 @@ from django.core.urlresolvers import resolve, reverse
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.test import Client, TestCase
+from django.utils import timezone
+
 
 # App imports
 from .views import home_page, problems_page
@@ -37,37 +39,29 @@ class ProblemPageTest(TestCase):
         response = client.get('/problems/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'problems.html')
-"""
-    def test_prob_page_can_save_POST_request(self):
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['post_content'] = 'A new post!'
-
-        response = problems_page(request)
-
-        # Checking database
-        self.assertEqual(Post.objects.all().count(), 1)
-        post1 = Post.objects.all()[0]
-        self.assertEqual(post1.text, 'A new post!')
-
-        self.assertEqual(response.status_code, 200)
-
+    
     def test_prob_page_displays_posts(self):
-        Post.objects.create(text='Post 1')
-        Post.objects.create(text='Post 2')
-
-        request = HttpRequest()
-        response = problems_page(request)
+        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass')
+        Post.objects.create(text='Post 1', user_id=new_user)
+        Post.objects.create(text='Post 2', user_id=new_user)
+        client = Client()
+        response = client.get('/problems/')
 
         self.assertIn('Post 1', response.content)
         self.assertIn('Post 2', response.content)
+        self.assertIn('Jim', response.content)
+        self.assertIn(str(timezone.now().day), response.content)
         self.assertTemplateUsed(response, 'problems.html')
         
     
 class PostModelTest(TestCase):
+    
     def test_save_and_retrieve_posts(self):
-        post1 = Post.objects.create(text = 'Post numero uno!')
-        post2 = Post.objects.create(text = 'I love lamp?')
+        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass')
+        post1 = Post.objects.create(text = 'Post numero uno!', user_id=new_user)
+        post2 = Post.objects.create(text = 'I love lamp?', user_id=new_user)
 
         saved_posts = Post.objects.all()
         self.assertEqual(saved_posts.count(), 2)
@@ -76,8 +70,26 @@ class PostModelTest(TestCase):
         saved_post2 = saved_posts[1]
         self.assertEqual(saved_post1.text, 'Post numero uno!')
         self.assertEqual(saved_post2.text, 'I love lamp?')
-"""
 
+    def test_users_have_posts(self):
+        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass')
+        new_user2 = User.objects.create_user('Jane', 'chipperdrew@gmail.com',
+                                            'pass')
+        post1 = Post.objects.create(text = 'Post numero uno!', user_id=new_user)
+        post2 = Post.objects.create(text = 'I love lamp?', user_id=new_user2)
+        post3 = Post.objects.create(text = '#3', user_id=new_user)
+
+        all_users = User.objects.all()
+        self.assertEqual(all_users.count(), 2)
+        user1 = all_users[0]
+        user2 = all_users[1]
+        self.assertEqual(user1.posts.count(), 2)
+        self.assertEqual(user2.posts.count(), 1)
+        self.assertEqual(user1.posts.all()[0].text, '#3')
+        self.assertEqual(user2.posts.all()[0].text, 'I love lamp?')
+
+        
 class UserRegistrationTest(TestCase):
 
     def test_save_and_retrieve_users(self):
@@ -86,6 +98,7 @@ class UserRegistrationTest(TestCase):
         all_users = User.objects.all()
         self.assertEqual(all_users.count(), 1)
         user1 = all_users[0]
+        self.assertEqual(user1, new_user)
         self.assertEqual(user1.username, 'Jim')
         self.assertEqual(user1.email, 'chipperdrew@gmail.com')
     
