@@ -98,6 +98,10 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('I good at school', page_text)
         self.assertIn('Test', page_text)
 
+        # Jim now logs out
+        self.check_for_redirect_after_button_click("logout",
+                                                   self.live_server_url + '/$')
+
     def test_problems_page_fails_to_post_when_not_logged_in(self):
         
         # Jim goes to the problems page and tries to post w/o logging in

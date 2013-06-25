@@ -31,7 +31,7 @@
 			{% else %} 
 				<p>Welcome {{ user.username }}</p>
 				<form action="{% url 'auth_logout' %}">
-					<button type="submit">Log out</button>
+					<button type="submit" name="logout">Logout</button>
 				</form>
 			{% endif %} 
 		</div>
