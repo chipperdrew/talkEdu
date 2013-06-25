@@ -1,7 +1,10 @@
 TODO:
 =============
- 
-#) Establish and display 'Post' to 'User' relationship (Many to one)
+
+#) Create user profile (display name, # of posts)
+#) Try trying "evil" HTML links into code, see if it works, look up fix if needed
+#) Create remainder of pages, add database field show its knows what posts to show
+#) "Remember me" feature
 #) Allow users to enter in a name(title) in their posts
 #) Display username and have delete option for posts (only for posts made by user)
 #) Change to class based views??
@@ -9,6 +12,7 @@ TODO:
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
+#) DONE - Establish and display 'Post' to 'User' relationship (Many to one)
 
 
 Basic Information
@@ -80,6 +84,7 @@ Thanks to the following
 	* Codecademy - http://www.codecademy.com/
 	* Homebrew, Git, RVM, RoR Tutorial - http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/
 	* Infographic on PHP vs Python vs Ruby - https://www.udemy.com/blog/modern-language-wars/
+	* StackOverflow - http://stackoverflow.com/
 
 * General Services:
 	* Python/IDLE - http://www.python.org/
