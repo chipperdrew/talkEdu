@@ -1,12 +1,19 @@
+.. role:: red
+
+.. raw:: html
+	<style> .red {color:red} </style>
+
 TODO:
 =============
 
+#) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
+#) TOFIX? - Try trying "evil" HTML links into code, see if it works.
+#) Create change/reset password with django-registration
 #) Create user profile (display name, # of posts)
-#) Try trying "evil" HTML links into code, see if it works, look up fix if needed
-#) Create remainder of pages, add database field show its knows what posts to show
-#) "Remember me" feature
+#) :red:'Create remainder of pages, add database field show its knows what posts to show'
+#) Create "Remember me" feature
 #) Allow users to enter in a name(title) in their posts
-#) Display username and have delete option for posts (only for posts made by user)
+#) Have change and delete option for posts made by logged-in user
 #) Change to class based views??
 #) Set up email with SMTP server
 #) DONE - Change database?
