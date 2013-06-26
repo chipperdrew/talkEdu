@@ -11,6 +11,8 @@ urlpatterns = patterns('',
         {'template_name': 'base.html'}),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
         {'next_page': '/'}),
+    url(r'^user/(?P<user>[-\w]+)/$', 'posts.views.user_page',
+        name='user_page'),
 
     # Django-registration package                      
     url(r'^accounts/', include('registration.backends.default.urls'),

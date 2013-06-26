@@ -1,8 +1,3 @@
-.. raw:: html
-	<style> .red {color:red} </style>
-
-.. role:: red
-
 TODO:
 =============
 
@@ -10,7 +5,7 @@ TODO:
 #) TOFIX? - Try trying "evil" HTML links into code, see if it works.
 #) Create change/reset password with django-registration
 #) Create user profile (display name, # of posts)
-#) :red:'Create remainder of pages, add database field show its knows what posts to show'
+#) Create remainder of pages, add database field show its knows what posts to show
 #) Create "Remember me" feature
 #) Allow users to enter in a name(title) in their posts
 #) Have change and delete option for posts made by logged-in user
