@@ -1,10 +1,10 @@
 TODO:
 =============
-
+#) Create a field on registration form for stu/parent/teach/outsider/admin. Display when posting and on account page.
+   SEE: https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.Field.choices 
 #) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
-#) TOFIX? - Try trying "evil" HTML links into code, see if it works.
+#) TOFIX? - Same as above, but with /user/chiPPeRdrew/ link
 #) Create change/reset password with django-registration
-#) Create user profile (display name, # of posts)
 #) Create remainder of pages, add database field show its knows what posts to show
 #) Create "Remember me" feature
 #) Allow users to enter in a name(title) in their posts
@@ -15,6 +15,7 @@ TODO:
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
 #) DONE - Establish and display 'Post' to 'User' relationship (Many to one)
+#) DONE - Create user profile (display name, # of posts)
 
 
 Basic Information
