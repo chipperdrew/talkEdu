@@ -89,6 +89,10 @@ class PostModelTest(TestCase):
         self.assertEqual(user1.posts.all()[0].text, '#3')
         self.assertEqual(user2.posts.all()[0].text, 'I love lamp?')
 
+    def test_user_link_on_post(self):
+        client = Client()
+        response = client.get('/problems/')
+
         
 class UserRegistrationTest(TestCase):
 

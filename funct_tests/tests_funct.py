@@ -98,6 +98,13 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('I good at school', page_text)
         self.assertIn('Test', page_text)
 
+        # Jim now clicks on his name and is redirected to the 'test' user page
+        self.check_for_redirect_after_link_click("Test",
+                                                   self.live_server_url +
+                                                   '/user/Test/')
+        page_text =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('I good at school', page_text)
+
         # Jim now logs out
         self.check_for_redirect_after_button_click("logout",
                                                    self.live_server_url + '/$')
@@ -111,7 +118,15 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('YouTalkEdu', self.browser.title)
         self.browser.find_element_by_id('id_post_button').click()
         self.assertNotIn('YouTalkEdu', self.browser.title) #error occurs
-                 
+
+    def test_user_page_shows_proper_content_when_directly_accessed(self):
+
+        # Jim accesses the 'Test' user page and sees the proper content
+        self.browser.get(self.live_server_url+'/user/Test/')
+        page_text =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Test', page_text)
+        self.assertIn('User Test', self.browser.title)
+        
     def test_user_creation_form(self):
         
         # On the homepage, Jim sees a place to create an account
@@ -202,3 +217,4 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click("login",
                                                    self.live_server_url +
                                                    '/accounts/login/$')
+
