@@ -7,6 +7,6 @@
 	{{ block.super }}
 	<h4> Here are the posts for {{ user_object.username }}: </h4>
 	{% for posts in user_posts %}
-		<p>{{ posts.text }}</p>
+		<p>{{ forloop.counter }}: {{ posts.text }}</p>
 	{% endfor %}
 {% endblock content %}
