@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class TimeStampedModel(models.Model):
@@ -14,9 +15,28 @@ class Post(TimeStampedModel):
     # Leave this as 'name' b/c admin requires one
     name = models.CharField(default="", max_length=150)
     text = models.TextField()
-    user_id = models.ForeignKey(User, related_name='posts')
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts',
+                                default='chipperdrew')
                         # Allows us to access via user.posts
 
     # Better string representation in admin and elsewhere
     def __unicode__(self):
         return self.name
+
+
+class EduUser(AbstractUser):
+    STUDENT = 'STU'
+    TEACHER = 'TEA'
+    PARENT = 'PAR'
+    ADMINISTRATOR = 'ADM'
+    OUTSIDER = 'OUT'
+
+    USER_TYPE_CHOICES = (
+        (STUDENT, 'Student'),
+        (TEACHER, 'Teacher'),
+        (PARENT, 'Parent'),
+        (ADMINISTRATOR, 'Administrator'),
+        (OUTSIDER, 'Outsider'),
+    )
+
+    user_type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES)
