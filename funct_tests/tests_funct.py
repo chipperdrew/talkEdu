@@ -8,14 +8,14 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 # App imports
-from posts.models import EduUser
+from posts.models import eduuser
 
 class NewVisitorTests(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
-        new_user = EduUser.objects.create_user('Test', 'chipperdrew@gmail.com',
+        new_user = eduuser.objects.create_user('Test', 'chipperdrew@gmail.com',
                                             'test')
         
     def tearDown(self):

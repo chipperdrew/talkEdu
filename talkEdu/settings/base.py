@@ -19,7 +19,7 @@ def get_env_var(var_name):
         error_msg = "Set the %s environment variable" % var_name
         raise ImproperlyConfigured(error_msg)
 
-AUTH_USER_MODEL = 'posts.EduUser'
+AUTH_USER_MODEL = "posts.eduuser"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/

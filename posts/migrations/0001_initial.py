@@ -8,18 +8,18 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Post'
+        # Adding model 'post'
         db.create_table(u'posts_post', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('timeCreated', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('timeModified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(default='', max_length=150)),
             ('text', self.gf('django.db.models.fields.TextField')()),
-            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(default='chipperdrew', related_name='posts', to=orm['posts.EduUser'])),
+            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='posts', to=orm['posts.eduuser'])),
         ))
-        db.send_create_signal(u'posts', ['Post'])
+        db.send_create_signal(u'posts', ['post'])
 
-        # Adding model 'EduUser'
+        # Adding model 'eduuser'
         db.create_table(u'posts_eduuser', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('password', self.gf('django.db.models.fields.CharField')(max_length=128)),
@@ -34,9 +34,9 @@ class Migration(SchemaMigration):
             ('date_joined', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
             ('user_type', self.gf('django.db.models.fields.CharField')(max_length=3)),
         ))
-        db.send_create_signal(u'posts', ['EduUser'])
+        db.send_create_signal(u'posts', ['eduuser'])
 
-        # Adding M2M table for field groups on 'EduUser'
+        # Adding M2M table for field groups on 'eduuser'
         m2m_table_name = db.shorten_name(u'posts_eduuser_groups')
         db.create_table(m2m_table_name, (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
@@ -45,7 +45,7 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['eduuser_id', 'group_id'])
 
-        # Adding M2M table for field user_permissions on 'EduUser'
+        # Adding M2M table for field user_permissions on 'eduuser'
         m2m_table_name = db.shorten_name(u'posts_eduuser_user_permissions')
         db.create_table(m2m_table_name, (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
@@ -56,16 +56,16 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Deleting model 'Post'
+        # Deleting model 'post'
         db.delete_table(u'posts_post')
 
-        # Deleting model 'EduUser'
+        # Deleting model 'eduuser'
         db.delete_table(u'posts_eduuser')
 
-        # Removing M2M table for field groups on 'EduUser'
+        # Removing M2M table for field groups on 'eduuser'
         db.delete_table(db.shorten_name(u'posts_eduuser_groups'))
 
-        # Removing M2M table for field user_permissions on 'EduUser'
+        # Removing M2M table for field user_permissions on 'eduuser'
         db.delete_table(db.shorten_name(u'posts_eduuser_user_permissions'))
 
 
@@ -91,7 +91,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'posts.eduuser': {
-            'Meta': {'object_name': 'EduUser'},
+            'Meta': {'object_name': 'eduuser'},
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -108,13 +108,13 @@ class Migration(SchemaMigration):
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
         u'posts.post': {
-            'Meta': {'object_name': 'Post'},
+            'Meta': {'object_name': 'post'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
             'text': ('django.db.models.fields.TextField', [], {}),
             'timeCreated': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'timeModified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'default': "'chipperdrew'", 'related_name': "'posts'", 'to': u"orm['posts.EduUser']"})
+            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['posts.eduuser']"})
         }
     }
 

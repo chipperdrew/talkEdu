@@ -11,7 +11,7 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-class Post(TimeStampedModel):
+class post(TimeStampedModel):
     # Leave this as 'name' b/c admin requires one
     name = models.CharField(default="", max_length=150)
     text = models.TextField()
@@ -23,7 +23,7 @@ class Post(TimeStampedModel):
         return self.name
 
 
-class EduUser(AbstractUser):
+class eduuser(AbstractUser):
     STUDENT = 'STU'
     TEACHER = 'TEA'
     PARENT = 'PAR'
