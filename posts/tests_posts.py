@@ -1,15 +1,13 @@
 # Core Django imports
-from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve, reverse
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.test import Client, TestCase
 from django.utils import timezone
 
-
 # App imports
 from .views import home_page, problems_page
-from .models import Post
+from .models import Post, EduUser
 
 
 class HomePageTest(TestCase):
@@ -41,7 +39,7 @@ class ProblemPageTest(TestCase):
         self.assertTemplateUsed(response, 'problems.html')
     
     def test_prob_page_displays_posts(self):
-        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+        new_user = EduUser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
         Post.objects.create(text='Post 1', user_id=new_user)
         Post.objects.create(text='Post 2', user_id=new_user)
@@ -58,7 +56,7 @@ class ProblemPageTest(TestCase):
 class PostModelTest(TestCase):
     
     def test_save_and_retrieve_posts(self):
-        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+        new_user = EduUser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
         post1 = Post.objects.create(text = 'Post numero uno!', user_id=new_user)
         post2 = Post.objects.create(text = 'I love lamp?', user_id=new_user)
@@ -72,15 +70,15 @@ class PostModelTest(TestCase):
         self.assertEqual(saved_post2.text, 'I love lamp?')
 
     def test_users_have_posts(self):
-        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+        new_user = EduUser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
-        new_user2 = User.objects.create_user('Jane', 'chipperdrew@gmail.com',
+        new_user2 = EduUser.objects.create_user('Jane', 'chipperdrew@gmail.com',
                                             'pass')
         post1 = Post.objects.create(text = 'Post numero uno!', user_id=new_user)
         post2 = Post.objects.create(text = 'I love lamp?', user_id=new_user2)
         post3 = Post.objects.create(text = '#3', user_id=new_user)
 
-        all_users = User.objects.all()
+        all_users = EduUser.objects.all()
         self.assertEqual(all_users.count(), 2)
         user1 = all_users[0]
         user2 = all_users[1]
@@ -97,9 +95,9 @@ class PostModelTest(TestCase):
 class UserRegistrationTest(TestCase):
 
     def test_save_and_retrieve_users(self):
-        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+        new_user = EduUser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
-        all_users = User.objects.all()
+        all_users = EduUser.objects.all()
         self.assertEqual(all_users.count(), 1)
         user1 = all_users[0]
         self.assertEqual(user1, new_user)
@@ -123,7 +121,7 @@ class UserLoginTest(TestCase):
         self.assertEqual(response.status_code, 200) #No redirect => Failed
         
     def test_login_if_user_exists(self):
-        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+        new_user = EduUser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
         client = Client()
         response = client.post('/accounts/login/',
@@ -131,7 +129,7 @@ class UserLoginTest(TestCase):
         self.assertEqual(response.status_code, 302) #Redirect => Passed
 
     def test_login_if_incorrect_pass(self):
-        new_user = User.objects.create_user('Jim', 'chipperdrew@gmail.com',
+        new_user = EduUser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
         client = Client()
         response = client.post('/accounts/login/',

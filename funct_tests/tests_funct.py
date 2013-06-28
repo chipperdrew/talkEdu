@@ -1,7 +1,6 @@
 # Stdlib imports
 
 # Core Django imports
-from django.contrib.auth.models import User
 from django.test import LiveServerTestCase
 
 # 3rd party imports
@@ -9,14 +8,14 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 # App imports
-
+from posts.models import EduUser
 
 class NewVisitorTests(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
-        new_user = User.objects.create_user('Test', 'chipperdrew@gmail.com',
+        new_user = EduUser.objects.create_user('Test', 'chipperdrew@gmail.com',
                                             'test')
         
     def tearDown(self):
