@@ -15,8 +15,7 @@ class Post(TimeStampedModel):
     # Leave this as 'name' b/c admin requires one
     name = models.CharField(default="", max_length=150)
     text = models.TextField()
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts',
-                                default='chipperdrew')
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts')
                         # Allows us to access via user.posts
 
     # Better string representation in admin and elsewhere
