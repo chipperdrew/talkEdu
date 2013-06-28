@@ -1,6 +1,9 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+from registration.backends.default.views import RegistrationView
+from posts.forms import CustomRegistrationForm
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -14,7 +17,9 @@ urlpatterns = patterns('',
     url(r'^user/(?P<user>[-\w]+)/$', 'posts.views.user_page',
         name='user_page'),
 
-    # Django-registration package                      
+    # Django-registration package
+    url(r'^accounts/register/$', RegistrationView.as_view(
+        form_class=CustomRegistrationForm)),
     url(r'^accounts/', include('registration.backends.default.urls'),
         name='accounts'),
 
