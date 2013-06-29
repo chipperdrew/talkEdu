@@ -1,6 +1,7 @@
 
 # USE FOR PRESENTATION LOGIC, NOT BUSINESS LOGIC (put that in models)
 # from django.contrib.auth.models import User
+from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import post, eduuser
@@ -37,6 +38,12 @@ def site_feedback_page(request):
     posts = post_helper(request, 'SIT')
     return render(request, 'site_feedback.html', {'posts': posts})
 
+def login(request, *args, **kwargs):
+    # Adds remember me feature
+    if request.method == 'POST':
+        if not request.POST.get('remember_me', None):
+            request.session.set_expiry(0)
+    return auth_views.login(request, *args, **kwargs)
 
 def user_page(request, user):
     # Currently is cAsE sEnSiTiVe

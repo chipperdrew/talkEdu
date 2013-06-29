@@ -15,7 +15,7 @@ urlpatterns = patterns('',
         name='site_feedback'),
                        
     # Called if error on login. MAY WANT TO CHANGE TEMPLATE???
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login',
+    url(r'^accounts/login/$', 'posts.views.login',
         {'template_name': 'base.html'}),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
         {'next_page': '/'}),

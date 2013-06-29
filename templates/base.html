@@ -25,6 +25,7 @@
 					<label for="id_pass_login">Password:</label> 
 					<input type="password" name="password" id="id_pass_login"/>
 					<button type="submit" name="login">Login</button>
+					<label><input type="checkbox" name="remember_me"/>Remember me</label>
 					<input type="hidden" name="next" value="{{ request.get_full_path }}" />
 					<a href="/accounts/register">Create Account</a>
 				</form>
