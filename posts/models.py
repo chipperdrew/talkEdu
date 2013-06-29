@@ -17,6 +17,13 @@ class post(TimeStampedModel):
     text = models.TextField()
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts')
                         # Allows us to access via user.posts
+    PAGE_TYPE_CHOICES = (
+        ('PRO', 'Problems'),
+        ('IDE', 'Ideas'),
+        ('QUE', 'Questions'),
+        ('SIT', 'Site Feedback'),
+    )
+    page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
 
     # Better string representation in admin and elsewhere
     def __unicode__(self):

@@ -9,6 +9,11 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', 'posts.views.home_page', name='home'),
     url(r'^problems/$', 'posts.views.problems_page', name='problems'),
+    url(r'^ideas/$', 'posts.views.ideas_page', name='ideas'),
+    url(r'^questions/$', 'posts.views.questions_page', name='questions'),
+    url(r'^site_feedback/$', 'posts.views.site_feedback_page',
+        name='site_feedback'),
+                       
     # Called if error on login. MAY WANT TO CHANGE TEMPLATE???
     url(r'^accounts/login/$', 'django.contrib.auth.views.login',
         {'template_name': 'base.html'}),
