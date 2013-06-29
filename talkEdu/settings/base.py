@@ -20,6 +20,7 @@ def get_env_var(var_name):
         raise ImproperlyConfigured(error_msg)
 
 AUTH_USER_MODEL = "posts.eduuser"
+AUTH_PROFILE_MODULE = "posts.eduuser"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/

@@ -13,5 +13,5 @@ RegistrationForm.base_fields.update(eduuserForm.base_fields)
 class CustomRegistrationForm(RegistrationForm):
     def save(self, profile_callback=None):
         user = super(CustomRegistrationForm, self).save(profile_callback=None)
-        org, c = eduuser.objects.get_or_create(user=user,
+        org, c = eduuser.objects.get_or_create(user=user, \
             user_type=self.cleaned_data['user_type'])

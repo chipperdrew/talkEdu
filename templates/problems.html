@@ -15,7 +15,8 @@
 	{% for post in posts %}
 		<h4>{{ post.text }}</h4>
 		<p>Posted by <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a>
-		at {{ post.timeCreated }} and last modified at {{ post.timeModified }} </p>
+		at {{ post.timeCreated }} and last modified at {{ post.timeModified }}. 
+		User type={{ post.user_id.get_user_type_display }} </p>
 	{% endfor %}
 	</div> 
 {% endblock content %}
