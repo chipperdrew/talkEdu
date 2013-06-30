@@ -5,10 +5,8 @@ TODO:
 #) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
 #) TOFIX? - Same as above, but with /user/chiPPeRdrew/ link
 #) Create change/reset password with django-registration
-#) Create remainder of pages, add database field show its knows what posts to show
-#) Create "Remember me" feature
 #) Allow users to enter in a name(title) in their posts
-#) Have change and delete option for posts made by logged-in user
+#) Have change and delete option for posts made by logged-in user -- use CBV?
 #) Change to class based views??
 #) Set up email with SMTP server
 #) DONE - Change database?
@@ -16,6 +14,8 @@ TODO:
 #) DONE - Use django-registration to create new users and verify login
 #) DONE - Establish and display 'Post' to 'User' relationship (Many to one)
 #) DONE - Create user profile (display name, # of posts)
+#) DONE - Create remainder of pages, add database field so its knows what posts to show
+#) DONE - Create "Remember me" feature
 
 
 Basic Information
