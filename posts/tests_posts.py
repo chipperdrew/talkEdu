@@ -19,8 +19,6 @@ class HomePageTest(TestCase):
     def test_home_page_returns_correct_html(self):
         request = HttpRequest()
         response = home_page(request)
-        #expect_html = render_to_string('home.html')
-        #self.assertEqual(response.content, expect_html)
         self.assertTemplateUsed(response, 'home.html')
 
     def test_not_logged_in_upon_arriving_to_home_page(self):
@@ -31,6 +29,10 @@ class HomePageTest(TestCase):
 
 
 class ProblemPageTest(TestCase):
+    """
+    Testing Problems page. Since other POST pages are similar,
+    the some of the problems page tests are not duplicated elsewhere
+    """
     
     def test_prob_page_properly_opens_when_URL_accessed(self):
         client = Client()
@@ -38,19 +40,62 @@ class ProblemPageTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'problems.html')
     
-    def test_prob_page_displays_posts(self):
+    def test_prob_page_displays_only_its_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass')
-        post.objects.create(text='Post 1', user_id=new_user)
-        post.objects.create(text='Post 2', user_id=new_user)
+                                            'pass', user_type='PAR')
+        post.objects.create(text='Post 1', user_id=new_user, page_type='PRO')
+        post.objects.create(text='Post 2', user_id=new_user, page_type='PRO')
+        post.objects.create(text='Post 3', user_id=new_user, page_type='IDE')
         client = Client()
         response = client.get('/problems/')
 
         self.assertIn('Post 1', response.content)
         self.assertIn('Post 2', response.content)
+        self.assertNotIn('Post 3', response.content)
+        self.assertEqual(post.objects.all().filter(page_type='PRO').count(), 2)
         self.assertIn('Jim', response.content)
+        self.assertIn('Parent', response.content)
         self.assertIn(str(timezone.now().day), response.content)
         self.assertTemplateUsed(response, 'problems.html')
+
+
+class OtherPostPagesTest(TestCase):
+    """
+    Testing the other pages that accept POST requests besides Problems.
+    This includes Ideas, Questions, and Site Feedback page
+    """
+    
+    def test_ideas_page_properly_opens_when_URL_accessed(self):
+        client = Client()
+        response = client.get('/ideas/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'ideas.html')
+    
+    def test_questions_page_properly_opens_when_URL_accessed(self):
+        client = Client()
+        response = client.get('/questions/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'questions.html')
+
+    def test_feedback_page_properly_opens_when_URL_accessed(self):
+        client = Client()
+        response = client.get('/site_feedback/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'site_feedback.html')
+
+    def test_feedback_page_only_contains_its_posts(self):
+        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass')
+        post.objects.create(text='Post 1', user_id=new_user, page_type='SIT')
+        post.objects.create(text='Post 2', user_id=new_user, page_type='PRO')
+        post.objects.create(text='Post 3', user_id=new_user, page_type='SIT')
+        client = Client()
+        response = client.get('/site_feedback/')
+
+        self.assertIn('Post 1', response.content)
+        self.assertIn('Post 3', response.content)
+        self.assertNotIn('Post 2', response.content)
+        self.assertEqual(post.objects.all().filter(page_type='SIT').count(), 2)
         
     
 class PostModelTest(TestCase):
@@ -87,12 +132,13 @@ class PostModelTest(TestCase):
         self.assertEqual(user1.posts.all()[0].text, '#3')
         self.assertEqual(user2.posts.all()[0].text, 'I love lamp?')
 
-    def test_user_link_on_post(self):
-        client = Client()
-        response = client.get('/problems/')
 
-        
+# Consider moving tests below into separate user app
 class UserRegistrationTest(TestCase):
+    """
+    Tests creation of user and access of URL page.
+    Tests for interactions with registration form can be seen in funct_tests app
+    """
 
     def test_save_and_retrieve_users(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
@@ -113,7 +159,10 @@ class UserRegistrationTest(TestCase):
 
 
 class UserLoginTest(TestCase):
-
+    """
+    Tests success of user login by examining redirects
+    """
+    
     def test_login_if_user_does_not_exist(self):
         client = Client()
         response = client.post('/accounts/login/',
