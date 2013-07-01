@@ -12,7 +12,8 @@ def home_page(request):
 
 def post_helper(request, page_type):
     if request.method == 'POST':
-        post.objects.create(text = request.POST['post_content'],
+        post.objects.create(title = request.POST['post_title'],
+                            text = request.POST['post_content'],
                             timeCreated = timezone.now(),
                             timeModified = timezone.now(),
                             user_id = request.user,
@@ -52,3 +53,7 @@ def user_page(request, user):
     user_posts = user_object.posts.all()
     return render(request, 'user_page.html',
                   {'user_object': user_object, 'user_posts': user_posts})
+
+def post_page(request, post_id):
+    post_object = post.objects.get(id=post_id)
+    return render(request, 'post_page.html', {'post_object': post_object})

@@ -17,7 +17,6 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.implicitly_wait(3)
         new_user = eduuser.objects.create_user('Test', 'chipperdrew@gmail.com',
                                             'test', user_type='ADM')
-        
     def tearDown(self):
         self.browser.quit()
 
@@ -71,9 +70,9 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn("Problems - ", self.browser.title)
     
         # A textarea is displayed, prompting "Type your thoughts here!"
-        inputText = self.browser.find_element_by_id('id_new_post')
+        inputText = self.browser.find_element_by_id('id_new_post_title')
         self.assertEqual(
-            inputText.get_attribute('placeholder'), 'Type your thoughts here!'
+            inputText.get_attribute('placeholder'), 'Title'
         )
         
         # Jim types in "School is bad, mkay?"
@@ -86,7 +85,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Test', page_text)
 
         # Jim types "I good at school". Jim clicks the "Post" button
-        inputText = self.browser.find_element_by_id('id_new_post')
+        inputText = self.browser.find_element_by_id('id_new_post_title')
         inputText.send_keys('I good at school')
         self.browser.find_element_by_id('id_post_button').click()
 
@@ -120,7 +119,7 @@ class NewVisitorTests(LiveServerTestCase):
         
         # Jim goes to the problems page and tries to post w/o logging in
         self.browser.get(self.live_server_url+'/problems/')
-        inputText = self.browser.find_element_by_id('id_new_post')
+        inputText = self.browser.find_element_by_id('id_new_post_title')
         inputText.send_keys('This should fail')
         self.assertIn('YouTalkEdu', self.browser.title)
         self.browser.find_element_by_id('id_post_button').click()

@@ -43,9 +43,9 @@ class ProblemPageTest(TestCase):
     def test_prob_page_displays_only_its_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass', user_type='PAR')
-        post.objects.create(text='Post 1', user_id=new_user, page_type='PRO')
-        post.objects.create(text='Post 2', user_id=new_user, page_type='PRO')
-        post.objects.create(text='Post 3', user_id=new_user, page_type='IDE')
+        post.objects.create(title='Post 1', user_id=new_user, page_type='PRO')
+        post.objects.create(title='Post 2', user_id=new_user, page_type='PRO')
+        post.objects.create(title='Post 3', user_id=new_user, page_type='IDE')
         client = Client()
         response = client.get('/problems/')
 
@@ -86,9 +86,9 @@ class OtherPostPagesTest(TestCase):
     def test_feedback_page_only_contains_its_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
-        post.objects.create(text='Post 1', user_id=new_user, page_type='SIT')
-        post.objects.create(text='Post 2', user_id=new_user, page_type='PRO')
-        post.objects.create(text='Post 3', user_id=new_user, page_type='SIT')
+        post.objects.create(title='Post 1', user_id=new_user, page_type='SIT')
+        post.objects.create(title='Post 2', user_id=new_user, page_type='PRO')
+        post.objects.create(title='Post 3', user_id=new_user, page_type='SIT')
         client = Client()
         response = client.get('/site_feedback/')
 
@@ -103,25 +103,25 @@ class PostModelTest(TestCase):
     def test_save_and_retrieve_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
-        post1 = post.objects.create(text = 'Post numero uno!', user_id=new_user)
-        post2 = post.objects.create(text = 'I love lamp?', user_id=new_user)
+        post1 = post.objects.create(title = 'Post numero uno!', user_id=new_user)
+        post2 = post.objects.create(title = 'I love lamp?', user_id=new_user)
 
         saved_posts = post.objects.all()
         self.assertEqual(saved_posts.count(), 2)
 
         saved_post1 = saved_posts[0]
         saved_post2 = saved_posts[1]
-        self.assertEqual(saved_post1.text, 'Post numero uno!')
-        self.assertEqual(saved_post2.text, 'I love lamp?')
+        self.assertEqual(saved_post1.title, 'Post numero uno!')
+        self.assertEqual(saved_post2.title, 'I love lamp?')
 
     def test_users_have_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
         new_user2 = eduuser.objects.create_user('Jane', 'chipperdrew@gmail.com',
                                             'pass')
-        post1 = post.objects.create(text = 'Post numero uno!', user_id=new_user)
-        post2 = post.objects.create(text = 'I love lamp?', user_id=new_user2)
-        post3 = post.objects.create(text = '#3', user_id=new_user)
+        post1 = post.objects.create(title = 'Post numero uno!', user_id=new_user)
+        post2 = post.objects.create(title = 'I love lamp?', user_id=new_user2)
+        post3 = post.objects.create(title = '#3', user_id=new_user)
 
         all_users = eduuser.objects.all()
         self.assertEqual(all_users.count(), 2)
@@ -129,8 +129,8 @@ class PostModelTest(TestCase):
         user2 = all_users[1]
         self.assertEqual(user1.posts.count(), 2)
         self.assertEqual(user2.posts.count(), 1)
-        self.assertEqual(user1.posts.all()[0].text, '#3')
-        self.assertEqual(user2.posts.all()[0].text, 'I love lamp?')
+        self.assertEqual(user1.posts.all()[0].title, '#3')
+        self.assertEqual(user2.posts.all()[0].title, 'I love lamp?')
 
 
 # Consider moving tests below into separate user app

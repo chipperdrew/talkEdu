@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Post {{ post_object.id }} - YouTalkEdu{% endblock title %}
+
+{% block content %}
+	{{ block.super }}
+	<h4>Title: {{ post_object.title }}</h4>
+	<p>Text: {{ post_object.text }}</p>
+{% endblock content %}
