@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from posts.forms import RegistrationForm
+from posts.forms import RegistrationForm    # Originally in django-registration
+                                            # but updated in posts.forms
 from posts.views import CustomRegistrationView
 
 admin.autodiscover()

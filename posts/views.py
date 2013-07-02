@@ -66,6 +66,10 @@ def post_page(request, post_id):
 
 
 class CustomRegistrationView(RegistrationView):
+    """
+    Needed override this django-registration feature to have it create
+    a profile with extra field
+    """
     def register(self, request, **cleaned_data):
         username, email, password, user_type = cleaned_data['username'], cleaned_data['email'], cleaned_data['password1'], cleaned_data['user_type']
         if Site._meta.installed:
