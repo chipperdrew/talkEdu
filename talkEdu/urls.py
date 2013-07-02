@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-
-from registration.backends.default.views import RegistrationView
-from posts.forms import CustomRegistrationForm
+from posts.forms import RegistrationForm
+from posts.views import CustomRegistrationView
 
 admin.autodiscover()
 
@@ -25,8 +24,8 @@ urlpatterns = patterns('',
         {'next_page': '/'}),
 
     # Django-registration package
-    url(r'^accounts/register/$', RegistrationView.as_view(
-        form_class=CustomRegistrationForm)),
+    url(r'^accounts/register/$', CustomRegistrationView.as_view(
+        form_class=RegistrationForm)),
     url(r'^accounts/', include('registration.backends.default.urls'),
         name='accounts'),
 
