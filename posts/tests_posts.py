@@ -43,7 +43,8 @@ class ProblemPageTest(TestCase):
     def test_prob_page_displays_only_its_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass', user_type='PAR')
-        post.objects.create(title='Post 1', user_id=new_user, page_type='PRO')
+        post.objects.create(title='Post 1', user_id=new_user, page_type='PRO',
+                            text='Additional text for Post 1')
         post.objects.create(title='Post 2', user_id=new_user, page_type='PRO')
         post.objects.create(title='Post 3', user_id=new_user, page_type='IDE')
         client = Client()
@@ -52,6 +53,7 @@ class ProblemPageTest(TestCase):
         self.assertIn('Post 1', response.content)
         self.assertIn('Post 2', response.content)
         self.assertNotIn('Post 3', response.content)
+        self.assertNotIn('Additional text', response.content)
         self.assertEqual(post.objects.all().filter(page_type='PRO').count(), 2)
         self.assertIn('Jim', response.content)
         self.assertIn('Parent', response.content)
@@ -96,14 +98,42 @@ class OtherPostPagesTest(TestCase):
         self.assertIn('Post 3', response.content)
         self.assertNotIn('Post 2', response.content)
         self.assertEqual(post.objects.all().filter(page_type='SIT').count(), 2)
-        
+
+
+class AdditionalDisplayPagesTest(TestCase):
+    
+    def test_post_page_displays_title_and_text(self):
+        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass', user_type='PAR')
+        p1 = post.objects.create(title='Post 1', user_id=new_user,
+                                 page_type='PRO', text='Additional text')
+        client = Client()
+        response = client.get('/post/' + str(p1.id) + '/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'post_page.html')
+        self.assertIn('Post 1', response.content)
+        self.assertIn('Additional text', response.content)
+
+    def test_user_page_displays_username_and_posts(self):
+        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
+                                            'pass', user_type='PAR')
+        post.objects.create(title='Post 1', user_id=new_user,
+                                 page_type='PRO', text='Additional text')
+        client = Client()
+        response = client.get('/user/Jim/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'user_page.html')
+        self.assertIn('Post 1', response.content)
+        self.assertIn('Jim', response.content)
+
     
 class PostModelTest(TestCase):
     
     def test_save_and_retrieve_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass')
-        post1 = post.objects.create(title = 'Post numero uno!', user_id=new_user)
+        post1 = post.objects.create(title = 'Post numero uno!',
+                                    user_id=new_user, text='Post 1 text')
         post2 = post.objects.create(title = 'I love lamp?', user_id=new_user)
 
         saved_posts = post.objects.all()
@@ -112,6 +142,7 @@ class PostModelTest(TestCase):
         saved_post1 = saved_posts[0]
         saved_post2 = saved_posts[1]
         self.assertEqual(saved_post1.title, 'Post numero uno!')
+        self.assertEqual(saved_post1.text, 'Post 1 text')
         self.assertEqual(saved_post2.title, 'I love lamp?')
 
     def test_users_have_posts(self):
