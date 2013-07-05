@@ -1,10 +1,9 @@
 from registration.forms import RegistrationForm
-from django import forms
 from django.forms import ModelForm
-from .models import eduuser
+from .models import eduuser, post
 
 
-class eduuserForm(forms.ModelForm):
+class eduuserForm(ModelForm):
     """
     Get extra 'user_type' field to add to form for django-registration
     """
@@ -13,3 +12,9 @@ class eduuserForm(forms.ModelForm):
         fields = ('user_type',)
 
 RegistrationForm.base_fields.update(eduuserForm.base_fields)
+
+
+class postForm(ModelForm):
+    class Meta:
+        model = post
+        fields = ('title', 'text',)
