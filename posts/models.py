@@ -1,10 +1,14 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
+
 
 class TimeStampedModel(models.Model):
-    timeCreated = models.DateTimeField(auto_now_add=True)
-    timeModified = models.DateTimeField(auto_now=True)
+    time_created = models.DateTimeField(auto_now_add=True,
+                                        default=timezone.now())
+    time_modified = models.DateTimeField(auto_now=True,
+                                         default=timezone.now())
 
     # Abstract base class
     class Meta:

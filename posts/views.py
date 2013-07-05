@@ -3,7 +3,6 @@
 # from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from .models import post, eduuser
 
 from registration import signals
@@ -20,8 +19,6 @@ def post_helper(request, page_type):
     if request.method == 'POST':
         post.objects.create(title = request.POST['post_title'],
                             text = request.POST['post_content'],
-                            timeCreated = timezone.now(),
-                            timeModified = timezone.now(),
                             user_id = request.user,
                             page_type = page_type
                             )
