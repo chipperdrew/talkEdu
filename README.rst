@@ -5,8 +5,6 @@ TODO:
 #) TOFIX? - New posts will display on last page opened, not current page (controlled by session request in views)
 #) Refactor!!!!! Uncluster the post app by making new app, likely with user models/forms/views?
 #) Test the editing feature for posts
-#) Only display option to edit for current user? THIS IS EASY
-#) Have delete option for posts made by logged-in user
 #) Create change/reset password with django-registration
 #) Begin drawing/creating voting system
 #) Allow for comments on post_page
@@ -20,6 +18,7 @@ TODO:
 #) DONE - Create "Remember me" feature
 #) DONE - Allow users to enter in a name(title) in their posts
 #) DONE - Create a field on registration form for stu/parent/teach/outsider/admin.
+#) DONE - Have edit and delete option for posts made by logged-in user
 #) NO - Change to class based views??
 
 

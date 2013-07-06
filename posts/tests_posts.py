@@ -1,7 +1,5 @@
 # Core Django imports
 from django.core.urlresolvers import resolve, reverse
-from django.http import HttpRequest
-from django.template.loader import render_to_string
 from django.test import Client, TestCase
 from django.utils import timezone
 
@@ -11,27 +9,31 @@ from .models import post, eduuser
 
 
 class HomePageTest(TestCase):
+    """
+    Test - Home page url access, displays proper content
+    """
 
     def test_root_url_resolves_to_home_page_view(self):
         found = resolve('/')
         self.assertEqual(found.func, home_page)
 
     def test_home_page_returns_correct_html(self):
-        request = HttpRequest()
-        response = home_page(request)
+        client = Client()
+        response = client.get('/')
         self.assertTemplateUsed(response, 'home.html')
+        self.assertIn('Welcome', response.content)
+
 
     def test_not_logged_in_upon_arriving_to_home_page(self):
-        request = HttpRequest()
-        response = home_page(request)
+        client = Client()
+        response = client.get('/')
         self.assertIn('Username:', response.content)
         self.assertIn('Password:', response.content)
 
 
 class ProblemPageTest(TestCase):
     """
-    Testing Problems page. Since other POST pages are similar,
-    the some of the problems page tests are not duplicated elsewhere
+    Test - Problems page displays on url access, proper posts & content display
     """
     
     def test_prob_page_properly_opens_when_URL_accessed(self):
@@ -63,8 +65,7 @@ class ProblemPageTest(TestCase):
 
 class OtherPostPagesTest(TestCase):
     """
-    Testing the other pages that accept POST requests besides Problems.
-    This includes Ideas, Questions, and Site Feedback page
+    Test - Proper display on url access, proper posts & content display
     """
     
     def test_ideas_page_properly_opens_when_URL_accessed(self):
@@ -101,6 +102,9 @@ class OtherPostPagesTest(TestCase):
 
 
 class AdditionalDisplayPagesTest(TestCase):
+    """
+    Test - User/Post pages display proper content, return 404s when appropriate
+    """
     
     def test_post_page_displays_title_and_text(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
@@ -114,6 +118,11 @@ class AdditionalDisplayPagesTest(TestCase):
         self.assertIn('Post 1', response.content)
         self.assertIn('Additional text', response.content)
 
+    def test_post_page_displays_404_if_post_DNE(self):
+        client = Client()
+        response = client.get('/post/100/')
+        self.assertEqual(response.status_code, 404)
+
     def test_user_page_displays_username_and_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass', user_type='PAR')
@@ -126,8 +135,16 @@ class AdditionalDisplayPagesTest(TestCase):
         self.assertIn('Post 1', response.content)
         self.assertIn('Jim', response.content)
 
+    def test_user_page_displays_404_if_user_DNE(self):
+        client = Client()
+        response = client.get('/user/Z/')
+        self.assertEqual(response.status_code, 404)
+
     
 class PostModelTest(TestCase):
+    """
+    Test - Post info is saved and retrievable, users have posts
+    """
     
     def test_save_and_retrieve_posts(self):
         new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
@@ -167,8 +184,7 @@ class PostModelTest(TestCase):
 # Consider moving tests below into separate user app
 class UserRegistrationTest(TestCase):
     """
-    Tests creation of user and access of URL page.
-    Tests for interactions with registration form can be seen in funct_tests app
+    Test - User info is saved and retrievable, proper display on URL access
     """
 
     def test_save_and_retrieve_users(self):
@@ -191,13 +207,13 @@ class UserRegistrationTest(TestCase):
 
 class UserLoginTest(TestCase):
     """
-    Tests success of user login by examining redirects
+    Test - Proper redirects when logging in
     """
     
     def test_login_if_user_does_not_exist(self):
         client = Client()
         response = client.post('/accounts/login/',
-                               {'usernane': 'Jim', 'password': 'pass'})
+                               {'username': 'Jim', 'password': 'pass'})
         self.assertEqual(response.status_code, 200) #No redirect => Failed
         
     def test_login_if_user_exists(self):
