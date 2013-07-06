@@ -1,7 +1,6 @@
 # USE FOR PRESENTATION LOGIC, NOT BUSINESS LOGIC (put that in models)
 # from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
-from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import postForm
 from .models import post, eduuser
@@ -50,17 +49,17 @@ def user_page(request, user):
     """
     Displays a page with info about a certain user
     """
-    user_object = eduuser.objects.get(username=user)
-    user_posts = user_object.posts.all()
+    user_of_interest = get_object_or_404(eduuser, username=user)
+    user_posts = user_of_interest.posts.all()
     return render(request, 'user_page.html',
-                  {'user_object': user_object, 'user_posts': user_posts})
+                  {'user': user_of_interest, 'user_posts': user_posts})
 
 def post_page(request, post_id):
     """
     Displays a page with info about a certain post
     """
-    post_object = post.objects.get(id=post_id)
-    return render(request, 'post_page.html', {'post_object': post_object})
+    post_of_interest = get_object_or_404(post, id=post_id)
+    return render(request, 'post_page.html', {'post': post_of_interest})
 
 
 def edit(request, id=None):
@@ -71,8 +70,6 @@ def edit(request, id=None):
     # If id provided, find existing post
     if id:
         post_of_interest = get_object_or_404(post, pk=id)
-        if post_of_interest.user_id != request.user:
-            return HttpResponseForbidden()
     # Else - create a new post
     else:
         post_of_interest = post(user_id=request.user,
@@ -95,6 +92,20 @@ def edit(request, id=None):
         form = postForm(instance=post_of_interest)
         return render(request, 'post_edit.html', {'id': id, 'form': form})
 
+def delete(request, id):
+    post_of_interest = get_object_or_404(post, pk=id)
+    post_of_interest.delete()
+    # This logic is TERRIBLE. Refactor when smarter :)
+    if request.session.get('page_type')=='PRO':
+        return redirect('/problems/')
+    elif request.session.get('page_type')=='IDE':
+        return redirect('/ideas/')
+    elif request.session.get('page_type')=='QUE':
+        return redirect('/questions/')
+    else:
+        return redirect('/site_feedback/')
+
+    
 
 class CustomRegistrationView(RegistrationView):
     """

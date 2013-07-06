@@ -11,10 +11,16 @@
 	<div>
 	{% for post in posts %}
 		<a href="{% url 'post_page' post_id=post.id %}"><h4>{{ post.title }}</h4></a>
-		<p>Posted by <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a>
-		at {{ post.time_created }} and last modified at {{ post.time_modified }}
-		User type={{ post.user_id.get_user_type_display }} </p>
-		<a href="{% url 'post_edit' id=post.id%}"><p>Edit the above post</p></a>
+		<p>
+			Posted by <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a>
+			at {{ post.time_created }} and last modified at {{ post.time_modified }}
+			User type={{ post.user_id.get_user_type_display }}
+			{% if post.user_id == request.user %}
+				<a href="{% url 'post_edit' id=post.id %}">Edit</a>
+				<a href="{% url 'post_delete' id=post.id %}"
+				onclick="return confirm('Your post and all related comments will be deleted. Proceed?')">Delete</a>
+			{% endif %}
+		</p>
 	{% endfor %}
 	</div> 
 {% endblock content %}
