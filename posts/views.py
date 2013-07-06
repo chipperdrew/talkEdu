@@ -1,8 +1,9 @@
-
 # USE FOR PRESENTATION LOGIC, NOT BUSINESS LOGIC (put that in models)
 # from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
-from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import postForm
 from .models import post, eduuser
 
 from registration import signals
@@ -23,12 +24,10 @@ def post_helper(request, page_type):
                             page_type = page_type
                             )
     return post.objects.all().filter(page_type=page_type)
-    
+
 def problems_page(request):
-    # posts is created so we can iterate over it to display all posts
-    # in template
-    posts = post_helper(request, 'PRO')
-    return render(request, 'problems.html', {'posts': posts})
+    posts = post.objects.all().filter(page_type='PRO')
+    return render(request, 'problems.html', {'posts': posts, 'form': postForm})
 
 def ideas_page(request):
     posts = post_helper(request, 'IDE')
@@ -60,6 +59,31 @@ def user_page(request, user):
 def post_page(request, post_id):
     post_object = post.objects.get(id=post_id)
     return render(request, 'post_page.html', {'post_object': post_object})
+
+
+def edit(request, id=None):
+    # If id provided, find existing post
+    if id:
+        post_of_interest = get_object_or_404(post, pk=id)
+        if post_of_interest.user_id != request.user:
+            return HttpResponseForbidden()
+    # Else - create a new post
+    else:
+        post_of_interest = post(user_id=request.user, page_type = 'PRO')
+
+    if request.POST:
+        form = postForm(request.POST, instance=post_of_interest)
+        if form.is_valid():
+            form.save()
+            posts = post.objects.all().filter(page_type='PRO')
+            return redirect('/problems/', 'problems.html',
+                            {'posts': posts, 'form':postForm})
+    else:
+        form = postForm(instance=post_of_interest)
+    # If we reach here, we are NOT posting, thus editing a post
+    return render(request, 'post_edit.html', {'id': id, 'form': form})
+
+
 
 
 class CustomRegistrationView(RegistrationView):

@@ -1,0 +1,11 @@
+<!-- Will be called with form needed to be edited -->
+{% extends "base.html" %}
+
+{% block content %}
+	{{ block.super }}
+	<form method="POST" action="{% url 'post_edit' id=id %}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button id="id_post_button" type="submit">Update</button>	
+	</form>
+{% endblock content %}

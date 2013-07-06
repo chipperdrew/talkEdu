@@ -2,11 +2,9 @@
 
 {% block content %}
 	{{ block.super }}
-	<form method="POST">
+	<form method="POST" action="{% url 'post_new' %}">
 		{% csrf_token %}
-		<input id="id_new_post_title" name="post_title" placeholder="Title" />
-		<textarea id="id_new_post_content" name="post_content" rows="3" cols="8" 
-			placeholder="Type your thoughts here!"></textarea>
+		{{ form.as_p }}
 		<button id="id_post_button" type="submit">Post</button>	
 	</form>
 
@@ -16,6 +14,7 @@
 		<p>Posted by <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a>
 		at {{ post.time_created }} and last modified at {{ post.time_modified }}
 		User type={{ post.user_id.get_user_type_display }} </p>
+		<a href="{% url 'post_edit' id=post.id%}"><p>Edit the above post</p></a>
 	{% endfor %}
 	</div> 
 {% endblock content %}
