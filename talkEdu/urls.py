@@ -18,9 +18,9 @@ urlpatterns = patterns('',
     url(r'^post/(?P<post_id>\d+)/$', 'posts.views.post_page',
         name='post_page'),
 
+    # Creating and editing posts --- both call the same view
     url(r'^post/edit/(?P<id>\d+)/$', 'posts.views.edit', name='post_edit'),
     url(r'^post/new/$', 'posts.views.edit', name='post_new'),
-
                       
     # Called if error on login. MAY WANT TO CHANGE TEMPLATE???
     url(r'^accounts/login/$', 'posts.views.login',

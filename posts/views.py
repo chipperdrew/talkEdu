@@ -6,62 +6,68 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import postForm
 from .models import post, eduuser
 
+# All of these used by CustomRegistrationView
 from registration import signals
 from registration.models import RegistrationProfile
 from registration.backends.default.views import RegistrationView
 from django.contrib.sites.models import Site
 from django.contrib.sites.models import RequestSite
 
-# Create your views here.
+
 def home_page(request):
     return render(request, 'home.html')
 
-def post_helper(request, page_type):
-    if request.method == 'POST':
-        post.objects.create(title = request.POST['post_title'],
-                            text = request.POST['post_content'],
-                            user_id = request.user,
-                            page_type = page_type
-                            )
-    return post.objects.all().filter(page_type=page_type)
+def display_page_helper(request, page_type, template):
+    """
+    Helper function to display any pages with posts
+    """
+    request.session['page_type'] = page_type # Used by 'edit' view for new posts
+    posts = post.objects.all().filter(page_type=page_type)
+    return render(request, template, {'posts': posts, 'form': postForm})
 
 def problems_page(request):
-    posts = post.objects.all().filter(page_type='PRO')
-    return render(request, 'problems.html', {'posts': posts, 'form': postForm})
+    return display_page_helper(request, 'PRO', 'problems.html')
 
 def ideas_page(request):
-    posts = post_helper(request, 'IDE')
-    return render(request, 'ideas.html', {'posts': posts})
+    return display_page_helper(request, 'IDE', 'ideas.html')
 
 def questions_page(request):
-    posts = post_helper(request, 'QUE')
-    return render(request, 'questions.html', {'posts': posts})
+    return display_page_helper(request, 'QUE', 'questions.html')
 
 def site_feedback_page(request):
-    posts = post_helper(request, 'SIT')
-    return render(request, 'site_feedback.html', {'posts': posts})
+    return display_page_helper(request, 'SIT', 'site_feedback.html')
 
 def login(request, *args, **kwargs):
-    # Adds remember me feature
+    """
+    Adds remember me feature, then calls django's provided login view
+    """
     if request.method == 'POST':
         if not request.POST.get('remember_me', None):
             request.session.set_expiry(0)
     return auth_views.login(request, *args, **kwargs)
 
 def user_page(request, user):
-    # Currently is cAsE sEnSiTiVe
-    # user=user.lower()
+    """
+    Displays a page with info about a certain user
+    """
     user_object = eduuser.objects.get(username=user)
     user_posts = user_object.posts.all()
     return render(request, 'user_page.html',
                   {'user_object': user_object, 'user_posts': user_posts})
 
 def post_page(request, post_id):
+    """
+    Displays a page with info about a certain post
+    """
     post_object = post.objects.get(id=post_id)
     return render(request, 'post_page.html', {'post_object': post_object})
 
 
 def edit(request, id=None):
+    """
+    Called when making a new 'post' or editing an existing 'post'.
+    Adapted from: http://stackoverflow.com/questions/1854237/django-edit-form-based-on-add-form
+    """
     # If id provided, find existing post
     if id:
         post_of_interest = get_object_or_404(post, pk=id)
@@ -69,21 +75,25 @@ def edit(request, id=None):
             return HttpResponseForbidden()
     # Else - create a new post
     else:
-        post_of_interest = post(user_id=request.user, page_type = 'PRO')
+        post_of_interest = post(user_id=request.user,
+                                page_type = request.session.get('page_type'))
 
     if request.POST:
         form = postForm(request.POST, instance=post_of_interest)
         if form.is_valid():
             form.save()
-            posts = post.objects.all().filter(page_type='PRO')
-            return redirect('/problems/', 'problems.html',
-                            {'posts': posts, 'form':postForm})
+            # This logic is TERRIBLE. Refactor when smarter :)
+            if request.session.get('page_type')=='PRO':
+                return redirect('/problems/')
+            elif request.session.get('page_type')=='IDE':
+                return redirect('/ideas/')
+            elif request.session.get('page_type')=='QUE':
+                return redirect('/questions/')
+            else:
+                return redirect('/site_feedback/')
     else:
         form = postForm(instance=post_of_interest)
-    # If we reach here, we are NOT posting, thus editing a post
-    return render(request, 'post_edit.html', {'id': id, 'form': form})
-
-
+        return render(request, 'post_edit.html', {'id': id, 'form': form})
 
 
 class CustomRegistrationView(RegistrationView):
