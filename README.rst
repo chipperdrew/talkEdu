@@ -1,12 +1,13 @@
 TODO:
 =============
-#) Create a field on registration form for stu/parent/teach/outsider/admin. Display when posting and on account page.
-   SEE: https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.Field.choices 
 #) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
 #) TOFIX? - Same as above, but with /user/chiPPeRdrew/ link
+#) TOFIX? - New posts will display on last page opened, not current page (controlled by session request in views)
+#) Refactor!!!!! Uncluster the post app by making new app, likely with user models/forms/views?
+#) Test the editing feature for posts
+#) Only display option to edit for current user? THIS IS EASY
+#) Have delete option for posts made by logged-in user
 #) Create change/reset password with django-registration
-#) Have change and delete option for posts made by logged-in user -- use CBV?
-#) Change to class based views??
 #) Begin drawing/creating voting system
 #) Allow for comments on post_page
 #) Set up email with SMTP server
@@ -18,6 +19,9 @@ TODO:
 #) DONE - Create remainder of pages, add database field so its knows what posts to show
 #) DONE - Create "Remember me" feature
 #) DONE - Allow users to enter in a name(title) in their posts
+#) DONE - Create a field on registration form for stu/parent/teach/outsider/admin.
+#) NO - Change to class based views??
+
 
 
 Basic Information
