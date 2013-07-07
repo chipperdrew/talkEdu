@@ -1,14 +1,16 @@
 TODO:
 =============
+#) Refactor!!!!! Uncluster the post app by making new app, likely with user models/forms/views?
+#) Create change/reset password with django-registration
+#) Begin drawing/creating voting system
+#) 20 posts/page?
+#) Allow for comments on POST pages (using django-comments)
+#) Implement "search" feature
+#) Add dropdown to sort posts by various categories (need voting system)
+#) Set up email with SMTP server
 #) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
 #) TOFIX? - Same as above, but with /user/chiPPeRdrew/ link
 #) TOFIX? - New posts will display on last page opened, not current page (controlled by session request in views)
-#) Refactor!!!!! Uncluster the post app by making new app, likely with user models/forms/views?
-#) Test the editing feature for posts
-#) Create change/reset password with django-registration
-#) Begin drawing/creating voting system
-#) Allow for comments on post_page
-#) Set up email with SMTP server
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
