@@ -4,7 +4,7 @@
 from django.test import LiveServerTestCase
 
 # 3rd party imports
-from selenium import webdriver
+from selenium import webdriver, selenium
 from selenium.webdriver.common.keys import Keys
 
 # App imports
@@ -40,7 +40,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys('Test')
         pass_input.send_keys('test')
         self.browser.find_element_by_name('login').click()
-         
+
     def test_home_page_has_proper_content_and_links(self):
         
         # Jim visits the home page of our site
@@ -70,28 +70,33 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn("Problems - ", self.browser.title)
     
         # A title and text box are displayed
-        inputText = self.browser.find_element_by_name('title')
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Title:', page_text)
+        self.assertIn('Text:', page_text)
+        title_input = self.browser.find_element_by_name('title')
         
         # Jim types in "School is bad, mkay?"
-        inputText.send_keys('School is bad, mkay?')
+        title_input.send_keys('School is bad, mkay?')
 
         # Jim presses enter. His post and username are displayed
-        inputText.send_keys(Keys.ENTER)
+        title_input.send_keys(Keys.ENTER)
         page_text =  self.browser.find_element_by_tag_name('body').text
         self.assertIn('School is bad, mkay?', page_text)
         self.assertIn('Test', page_text)
 
         # Jim types "I good at school". Jim clicks the "Post" button
-        inputText = self.browser.find_element_by_id('id_new_post_title')
-        inputText.send_keys('I good at school')
+        title_input = self.browser.find_element_by_name('title')
+        title_input.send_keys('I good at school')
+        textbox_input = self.browser.find_element_by_name('text')
+        textbox_input.send_keys('I really is')
         self.browser.find_element_by_id('id_post_button').click()
 
-        # Both posts are displayed, and the textarea remains on the page
-        # willing to handle more input
+        # Both posts are displayed
         page_text =  self.browser.find_element_by_tag_name('body').text
         self.assertIn('School is bad, mkay?', page_text)
         self.assertIn('I good at school', page_text)
         self.assertIn('Posted by Test', page_text)
+        self.assertNotIn('I really is', page_text)
 
         # Jim now clicks on his name and is redirected to the 'test' user page
         self.check_for_redirect_after_link_click("Test",
@@ -111,13 +116,55 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim now logs out
         self.check_for_redirect_after_button_click("logout",
                                                    self.live_server_url + '/$')
-"""
+
+    def test_edit_and_deletion_of_posts(self):
+        # Jim accesses the ideas page and logs in
+        self.browser.get(self.live_server_url+'/ideas/')
+        self.login_test_user()
+
+        # Jim accidentally posts w/o entering text
+        title_input = self.browser.find_element_by_name('title')
+        title_input.send_keys('Here is a')
+        title_input.send_keys(Keys.ENTER)
+
+        # Jim clicks the edit button and is properly redirected to edit page
+        self.check_for_redirect_after_link_click("Edit", '/post/edit/')
+
+        # Jim sees his post
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Title:', page_text)
+        self.assertIn('Text:', page_text)
+
+        # Jim changes his title and text
+        title_input = self.browser.find_element_by_name('title')
+        title_input.send_keys(' title')
+        text_input = self.browser.find_element_by_name('text')
+        text_input.send_keys('Here is some text')
+
+        # Jim presses update and is returned to the ideas page
+        self.check_for_redirect_after_button_click("update",
+                                                   self.live_server_url + '/ideas/$')
+
+        # Jim sees his updated title
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Here is a title', page_text)
+
+        # Jim decides to delete his post
+        self.browser.find_element_by_link_text("Delete").click()
+        self.browser.switch_to_alert().accept()
+        new_url = self.browser.current_url
+        self.assertRegexpMatches(new_url, '/ideas/$')
+
+        # Jim no longer sees his post
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Here is a title', page_text)
+           
     def test_problems_page_fails_to_post_when_not_logged_in(self):
         
         # Jim goes to the problems page and tries to post w/o logging in
         self.browser.get(self.live_server_url+'/problems/')
-        inputText = self.browser.find_element_by_id('id_new_post_title')
-        inputText.send_keys('This should fail')
+        title_input = self.browser.find_element_by_name('title')
+        title_input.send_keys('This should fail')
         self.assertIn('YouTalkEdu', self.browser.title)
         self.browser.find_element_by_id('id_post_button').click()
         self.assertNotIn('YouTalkEdu', self.browser.title) #error occurs
@@ -236,6 +283,7 @@ class NewVisitorTests(LiveServerTestCase):
 
 
     # THIS TEST IS __NOT__ SAVING COOKIES. LOOK FOR NEW METHOD AND RE-RUN
+    """
     def test_remember_me_feature(self):
 
         # Jim logs on as 'Test', w/o remember me

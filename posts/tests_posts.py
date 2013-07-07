@@ -1,7 +1,7 @@
 # Core Django imports
 from django.core.urlresolvers import resolve, reverse
 from django.test import Client, TestCase
-from django.utils import timezone
+import datetime
 
 # App imports
 from .views import home_page, problems_page
@@ -59,7 +59,7 @@ class ProblemPageTest(TestCase):
         self.assertEqual(post.objects.all().filter(page_type='PRO').count(), 2)
         self.assertIn('Jim', response.content)
         self.assertIn('Parent', response.content)
-        self.assertIn(str(timezone.now().day), response.content)
+        self.assertIn(str(datetime.datetime.now().day), response.content)
         self.assertTemplateUsed(response, 'problems.html')
 
 
