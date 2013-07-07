@@ -28,6 +28,7 @@
 					<label><input type="checkbox" name="remember_me"/>Remember me</label>
 					<input type="hidden" name="next" value="{{ request.get_full_path }}" />
 					<a href="/accounts/register">Create Account</a>
+					<a href="{% url 'password_reset' %}">Reset password</a>
 				</form>
 			{% else %} 
 				<p>Welcome {{ user.username }}</p>

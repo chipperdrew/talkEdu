@@ -28,6 +28,19 @@ urlpatterns = patterns('',
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
         {'next_page': '/'}),
 
+    # Password reset
+    url(r'^accounts/password/reset/$', #Initially called, sends email
+        'django.contrib.auth.views.password_reset', 
+        {'post_reset_redirect': '/accounts/password/reset/done/'},
+        name="password_reset"),
+    url(r'^accounts/password/reset/done/$', #shows success message for email
+        'django.contrib.auth.views.password_reset_done'),
+    url(r'^accounts/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 
+        'django.contrib.auth.views.password_reset_confirm', #resets pass
+        {'post_reset_redirect': '/accounts/password/done/'}),
+    url(r'^accounts/password/done/$', #shows success for resetting
+        'django.contrib.auth.views.password_reset_complete'),
+
     # Django-registration package
     url(r'^accounts/register/$', CustomRegistrationView.as_view(
         form_class=RegistrationForm)),
