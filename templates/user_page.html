@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block title %}User {{ user.username }} - YouTalkEdu{% endblock title %}
+{% block title %}User {{ user_object.username }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
 	{{ block.super }}
-	<h4>User type = {{ user.get_user_type_display }}. Here are the posts for {{ user.username }}: </h4>
+	<h4>User type = {{ user_object.get_user_type_display }}. Here are the posts for {{ user_object.username }}: </h4>
 	{% for post in user_posts %}
 		<p>{{ forloop.counter }}: <a href="{% url 'post_page' post_id=post.id %}">{{ post.title }}</a></p>
 	{% endfor %}
+
+	{% if user_object == request.user %}
+		<p><a href="{% url 'django.contrib.auth.views.password_change' %}">Change your password</a></p>
+	{% endif %}
 {% endblock content %}

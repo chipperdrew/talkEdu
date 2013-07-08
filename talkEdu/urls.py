@@ -18,11 +18,12 @@ urlpatterns = patterns('',
     url(r'^post/(?P<post_id>\d+)/$', 'posts.views.post_page',
         name='post_page'),
 
-    # Creating and editing posts --- both call the same view
+    # Create, edit, delete posts --- notice that create/edit call the same view
     url(r'^post/new/$', 'posts.views.edit', name='post_new'),
     url(r'^post/edit/(?P<id>\d+)/$', 'posts.views.edit', name='post_edit'),
-    url(r'^post/delete/(?P<id>\d+)/$', 'posts.views.delete', name='post_delete'),                      
-    # Called if error on login. MAY WANT TO CHANGE TEMPLATE???
+    url(r'^post/delete/(?P<id>\d+)/$', 'posts.views.delete', name='post_delete'),
+                       
+    # Login/logout. Login called if init login error. CHANGE TEMPLATE???
     url(r'^accounts/login/$', 'posts.views.login',
         {'template_name': 'base.html'}),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
@@ -40,6 +41,13 @@ urlpatterns = patterns('',
         {'post_reset_redirect': '/accounts/password/done/'}),
     url(r'^accounts/password/done/$', #shows success for resetting
         'django.contrib.auth.views.password_reset_complete'),
+
+    # Password change
+    url(r'^accounts/password/change/$',
+        'django.contrib.auth.views.password_change',
+        {'post_change_redirect': '/accounts/password/change/done/'}),
+    url(r'^accounts/password/change/done/$',
+        'django.contrib.auth.views.password_change_done'),
 
     # Django-registration package
     url(r'^accounts/register/$', CustomRegistrationView.as_view(

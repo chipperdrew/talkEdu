@@ -31,7 +31,7 @@
 					<a href="{% url 'password_reset' %}">Reset password</a>
 				</form>
 			{% else %} 
-				<p>Welcome {{ user.username }}</p>
+				<p>Welcome {{ user.username }}. <a href="{% url 'user_page' user=user %}">My page</a></p>
 				<form action="{% url 'auth_logout' %}">
 					<button type="submit" name="logout">Logout</button>
 				</form>

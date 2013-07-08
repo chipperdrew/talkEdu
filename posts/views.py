@@ -52,7 +52,7 @@ def user_page(request, user):
     user_of_interest = get_object_or_404(eduuser, username=user)
     user_posts = user_of_interest.posts.all()
     return render(request, 'user_page.html',
-                  {'user': user_of_interest, 'user_posts': user_posts})
+                  {'user_object': user_of_interest, 'user_posts': user_posts})
 
 def post_page(request, post_id):
     """
