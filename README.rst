@@ -1,12 +1,12 @@
 TODO:
 =============
 #) Refactor!!!!! Uncluster the post app by making new app, likely with user models/forms/views?
-#) Create change/reset password with django-registration
 #) Begin drawing/creating voting system
 #) 20 posts/page?
 #) Allow for comments on POST pages (using django-comments)
 #) Implement "search" feature
 #) Add dropdown to sort posts by various categories (need voting system)
+#) Create a more personalized user page?
 #) Set up email with SMTP server
 #) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
 #) TOFIX? - Same as above, but with /user/chiPPeRdrew/ link
@@ -21,8 +21,7 @@ TODO:
 #) DONE - Allow users to enter in a name(title) in their posts
 #) DONE - Create a field on registration form for stu/parent/teach/outsider/admin.
 #) DONE - Have edit and delete option for posts made by logged-in user
-#) NO - Change to class based views??
-
+#) DONE - Create change/reset password with django-registration
 
 
 Basic Information
@@ -113,6 +112,7 @@ Thanks to the following
 	* The Django Book - http://www.djangobook.com/en/2.0/index.html
 	* Django Documentation - https://docs.djangoproject.com/en/dev/
 	* *Two Scoops of Django* - https://django.2scoops.org/
+	* Resetting passwords - http://garmoncheg.blogspot.com/2012/07/django-resetting-passwords-with.html
 
 * Django Packages:
 	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/#
