@@ -11,11 +11,12 @@ class Migration(SchemaMigration):
         # Adding model 'post'
         db.create_table(u'posts_post', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('timeCreated', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('timeModified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(default='', max_length=150)),
-            ('text', self.gf('django.db.models.fields.TextField')()),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 8, 0, 0), auto_now_add=True, blank=True)),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 8, 0, 0), auto_now=True, blank=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=150)),
+            ('text', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='posts', to=orm['posts.eduuser'])),
+            ('page_type', self.gf('django.db.models.fields.CharField')(max_length=3)),
         ))
         db.send_create_signal(u'posts', ['post'])
 
@@ -95,7 +96,7 @@ class Migration(SchemaMigration):
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -103,17 +104,18 @@ class Migration(SchemaMigration):
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
             'user_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
         u'posts.post': {
             'Meta': {'object_name': 'post'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
-            'text': ('django.db.models.fields.TextField', [], {}),
-            'timeCreated': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'timeModified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'page_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
+            'text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 8, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 8, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
             'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['posts.eduuser']"})
         }
     }

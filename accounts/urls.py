@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
-from posts.forms import RegistrationForm    # Originally in django-registration
+from accounts.forms import RegistrationForm    # Originally in django-registration
                                             # but updated in posts.forms
-from posts.views import CustomRegistrationView
+from accounts.views import CustomRegistrationView
 
 
 urlpatterns = patterns('django.contrib.auth.views',
@@ -32,7 +32,7 @@ urlpatterns = patterns('django.contrib.auth.views',
 
 urlpatterns += patterns('',
     # Login called if init login error. CHANGE TEMPLATE???
-    url(r'^login/$', 'posts.views.login',
+    url(r'^login/$', 'accounts.views.login',
         {'template_name': 'base.html'}),
 
     # Django-registration package

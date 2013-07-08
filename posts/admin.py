@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import post, eduuser
+from django.contrib.auth import get_user_model
+from .models import post
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
@@ -10,4 +11,4 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ("username", "email", "user_type")
 
 admin.site.register(post, PostAdmin)
-admin.site.register(eduuser, UserAdmin)
+admin.site.register(get_user_model(), UserAdmin)

@@ -1,11 +1,10 @@
 # Core Django imports
-from django.core.urlresolvers import resolve, reverse
+from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 import datetime
 
 # App imports
-from .views import home_page, problems_page
-from .models import post, eduuser
+from .models import post
 
 
 class HomePageTest(TestCase):
@@ -13,13 +12,10 @@ class HomePageTest(TestCase):
     Test - Home page url access, displays proper content
     """
 
-    def test_root_url_resolves_to_home_page_view(self):
-        found = resolve('/')
-        self.assertEqual(found.func, home_page)
-
     def test_home_page_returns_correct_html(self):
         client = Client()
         response = client.get('/')
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
         self.assertIn('Welcome', response.content)
 
@@ -43,7 +39,7 @@ class ProblemPageTest(TestCase):
         self.assertTemplateUsed(response, 'problems.html')
     
     def test_prob_page_displays_only_its_posts(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
+        new_user = get_user_model().objects.create_user('Jim', 'chipperdrew@gmail.com',
                                             'pass', user_type='PAR')
         post.objects.create(title='Post 1', user_id=new_user, page_type='PRO',
                             text='Additional text for Post 1')
@@ -87,8 +83,9 @@ class OtherPostPagesTest(TestCase):
         self.assertTemplateUsed(response, 'site_feedback.html')
 
     def test_feedback_page_only_contains_its_posts(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass')
+        new_user = get_user_model().objects.create_user('Jim',
+                                                        'chipperdrew@gmail.com',
+                                                        'pass')
         post.objects.create(title='Post 1', user_id=new_user, page_type='SIT')
         post.objects.create(title='Post 2', user_id=new_user, page_type='PRO')
         post.objects.create(title='Post 3', user_id=new_user, page_type='SIT')
@@ -107,8 +104,9 @@ class AdditionalDisplayPagesTest(TestCase):
     """
     
     def test_post_page_displays_title_and_text(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass', user_type='PAR')
+        new_user = get_user_model().objects.create_user('Jim',
+                                                        'chipperdrew@gmail.com',
+                                                        'pass', user_type='PAR')
         p1 = post.objects.create(title='Post 1', user_id=new_user,
                                  page_type='PRO', text='Additional text')
         client = Client()
@@ -124,8 +122,9 @@ class AdditionalDisplayPagesTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_user_page_displays_username_and_posts(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass', user_type='PAR')
+        new_user = get_user_model().objects.create_user('Jim',
+                                                        'chipperdrew@gmail.com',
+                                                        'pass', user_type='PAR')
         post.objects.create(title='Post 1', user_id=new_user,
                                  page_type='PRO', text='Additional text')
         client = Client()
@@ -148,8 +147,9 @@ class PostModelTest(TestCase):
     """
     
     def test_save_and_retrieve_posts(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass')
+        new_user = get_user_model().objects.create_user('Jim',
+                                                        'chipperdrew@gmail.com',
+                                                        'pass')
         post1 = post.objects.create(title = 'Post numero uno!',
                                     user_id=new_user, text='Post 1 text')
         post2 = post.objects.create(title = 'I love lamp?', user_id=new_user)
@@ -164,15 +164,17 @@ class PostModelTest(TestCase):
         self.assertEqual(saved_post2.title, 'I love lamp?')
 
     def test_users_have_posts(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass')
-        new_user2 = eduuser.objects.create_user('Jane', 'chipperdrew@gmail.com',
-                                            'pass')
+        new_user = get_user_model().objects.create_user('Jim',
+                                                        'chipperdrew@gmail.com',
+                                                        'pass')
+        new_user2 = get_user_model().objects.create_user('Jane',
+                                                         'chipperdrew@gmail.com',
+                                                         'pass')
         post1 = post.objects.create(title = 'Post numero uno!', user_id=new_user)
         post2 = post.objects.create(title = 'I love lamp?', user_id=new_user2)
         post3 = post.objects.create(title = '#3', user_id=new_user)
 
-        all_users = eduuser.objects.all()
+        all_users = get_user_model().objects.all()
         self.assertEqual(all_users.count(), 2)
         user1 = all_users[0]
         user2 = all_users[1]
@@ -180,58 +182,3 @@ class PostModelTest(TestCase):
         self.assertEqual(user2.posts.count(), 1)
         self.assertEqual(user1.posts.all()[0].title, '#3')
         self.assertEqual(user2.posts.all()[0].title, 'I love lamp?')
-
-
-# Consider moving tests below into separate user app
-class UserRegistrationTest(TestCase):
-    """
-    Test - User info is saved and retrievable, proper display on URL access
-    """
-
-    def test_save_and_retrieve_users(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass')
-        all_users = eduuser.objects.all()
-        self.assertEqual(all_users.count(), 1)
-        user1 = all_users[0]
-        self.assertEqual(user1, new_user)
-        self.assertEqual(user1.username, 'Jim')
-        self.assertEqual(user1.email, 'chipperdrew@gmail.com')
-    
-    def test_register_page_opens_when_URL_accessed(self):
-        client = Client()
-        response = client.get('/accounts/register/')
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response,
-                                'registration/registration_form.html')
-
-
-class UserLoginTest(TestCase):
-    """
-    Test - Proper redirects when logging in
-    """
-    
-    def test_login_if_user_does_not_exist(self):
-        client = Client()
-        response = client.post('/accounts/login/',
-                               {'username': 'Jim', 'password': 'pass'})
-        self.assertEqual(response.status_code, 200) #No redirect => Failed
-        
-    def test_login_if_user_exists(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass')
-        client = Client()
-        response = client.post('/accounts/login/',
-                               {'username': 'Jim', 'password': 'pass'})
-        self.assertEqual(response.status_code, 302) #Redirect => Passed
-
-    def test_login_if_incorrect_pass(self):
-        new_user = eduuser.objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass')
-        client = Client()
-        response = client.post('/accounts/login/',
-                               {'username': 'Jim', 'password': 'jim'})
-        self.assertEqual(response.status_code, 200) #No redirect => Failed
-        
-        
-        

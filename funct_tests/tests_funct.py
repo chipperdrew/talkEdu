@@ -1,6 +1,7 @@
 # Stdlib imports
 
 # Core Django imports
+from django.contrib.auth import get_user_model
 from django.test import LiveServerTestCase
 
 # 3rd party imports
@@ -8,15 +9,15 @@ from selenium import webdriver, selenium
 from selenium.webdriver.common.keys import Keys
 
 # App imports
-from posts.models import eduuser
 
 class NewVisitorTests(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
-        new_user = eduuser.objects.create_user('Test', 'chipperdrew@gmail.com',
-                                            'test', user_type='ADM')
+        new_user = get_user_model().objects.create_user('Test',
+                                                        'chipperdrew@gmail.com',
+                                                        'test', user_type='ADM')
     def tearDown(self):
         self.browser.quit()
 
@@ -290,8 +291,8 @@ class NewVisitorTests(LiveServerTestCase):
 
         ## 2 users are now created. Jim properties are saved
         ## Cannot access url emailed for confirming account...
-        self.assertEqual(eduuser.objects.all().count(), 2)
-        jim = eduuser.objects.all().get(username='Jim')
+        self.assertEqual(get_user_model().objects.all().count(), 2)
+        jim = get_user_model().objects.all().get(username='Jim')
         self.assertEqual(jim.username, 'Jim')
         self.assertEqual(jim.email, 'chipperdrew@gmail.com')
         self.assertEqual(jim.get_user_type_display(), 'Teacher')
