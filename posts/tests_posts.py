@@ -134,6 +134,7 @@ class AdditionalDisplayPagesTest(TestCase):
         self.assertTemplateUsed(response, 'user_page.html')
         self.assertIn('Post 1', response.content)
         self.assertIn('Jim', response.content)
+        self.assertNotIn('Delete', response.content)
 
     def test_user_page_displays_404_if_user_DNE(self):
         client = Client()

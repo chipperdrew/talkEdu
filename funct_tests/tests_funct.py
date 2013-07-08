@@ -40,7 +40,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys('Test')
         pass_input.send_keys('test')
         self.browser.find_element_by_name('login').click()
-
+    
     def test_home_page_has_proper_content_and_links(self):
         
         # Jim visits the home page of our site
@@ -99,16 +99,13 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('I really is', page_text)
 
         # Jim now clicks on his name and is redirected to the 'test' user page
-        self.check_for_redirect_after_link_click("Test",
-                                                   self.live_server_url +
-                                                   '/user/Test/')
+        self.check_for_redirect_after_link_click('Test', '/user/Test/$')
         page_text =  self.browser.find_element_by_tag_name('body').text
         self.assertIn('I good at school', page_text)
 
         # Jim click on the 'Site Feedback', and does not see his posts
         self.check_for_redirect_after_link_click("Site Feedback",
-                                                   self.live_server_url +
-                                                   '/site_feedback/')
+                                                 '/site_feedback/$')
         page_text =  self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('I good at school', page_text)
         self.assertNotIn('Posted by Test', page_text)
@@ -128,7 +125,7 @@ class NewVisitorTests(LiveServerTestCase):
         title_input.send_keys(Keys.ENTER)
 
         # Jim clicks the edit button and is properly redirected to edit page
-        self.check_for_redirect_after_link_click("Edit", '/post/edit/')
+        self.check_for_redirect_after_link_click('Edit', '/post/edit/')
 
         # Jim sees his post
         page_text = self.browser.find_element_by_tag_name('body').text
@@ -142,8 +139,8 @@ class NewVisitorTests(LiveServerTestCase):
         text_input.send_keys('Here is some text')
 
         # Jim presses update and is returned to the ideas page
-        self.check_for_redirect_after_button_click("update",
-                                                   self.live_server_url + '/ideas/$')
+        self.check_for_redirect_after_button_click('update',
+                                                   '/ideas/$')
 
         # Jim sees his updated title
         page_text = self.browser.find_element_by_tag_name('body').text
@@ -168,16 +165,88 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('YouTalkEdu', self.browser.title)
         self.browser.find_element_by_id('id_post_button').click()
         self.assertNotIn('YouTalkEdu', self.browser.title) #error occurs
-
+    
     def test_user_page_shows_proper_content_when_directly_accessed(self):
 
         # Jim accesses the 'Test' user page and sees the proper content
         self.browser.get(self.live_server_url+'/user/Test/')
-        page_text =  self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Test', page_text)
-        self.assertIn('Administrator', page_text)
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Test', body)
+        self.assertIn('Administrator', body)
         self.assertIn('User Test', self.browser.title)
-          
+
+    def test_change_password(self):
+        # Jim logs in as test, as sees the link to his test's account page
+        self.browser.get(self.live_server_url+'/ideas/')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('My page', body)
+        self.login_test_user()
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('My page', body)
+
+        # Jim clicks this link then clicks 'Change your password' link
+        self.check_for_redirect_after_link_click('My page', '/user/Test/$')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Change your password', body)
+        self.check_for_redirect_after_link_click('Change your password',
+                                                 '/accounts/password/change/$')
+        # Jim enters in his old password incorrectly
+        old_pass = self.browser.find_element_by_id('id_old_password')
+        new_pass1 = self.browser.find_element_by_id('id_new_password1')
+        new_pass2 = self.browser.find_element_by_id('id_new_password2')
+        old_pass.send_keys('BAD_PASS')
+        new_pass1.send_keys('q')
+        new_pass2.send_keys('q')
+        self.check_for_redirect_after_button_click('pass_change_submit',
+                                                   '/accounts/password/change/$')
+        # Jim correctly fills out the form
+        old_pass = self.browser.find_element_by_id('id_old_password')
+        new_pass1 = self.browser.find_element_by_id('id_new_password1')
+        new_pass2 = self.browser.find_element_by_id('id_new_password2')
+        old_pass.send_keys('test')
+        new_pass1.send_keys('q')
+        new_pass2.send_keys('q')
+        self.check_for_redirect_after_button_click('pass_change_submit',
+                                                   '/accounts/password/change/done/$')
+        # Jim logs out to test his new password
+        self.check_for_redirect_after_button_click("logout",
+                                                   self.live_server_url + '/$')
+
+        # Jim tries to login with his old password and fails
+        user_input = self.browser.find_element_by_id('id_user_login')
+        pass_input = self.browser.find_element_by_id('id_pass_login')
+        user_input.send_keys('Test')
+        pass_input.send_keys('test')
+        self.check_for_redirect_after_button_click('login',
+                                                   '/accounts/login/$')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Welcome Test', body)
+
+        # Jim logs in with his new password
+        user_input = self.browser.find_element_by_id('id_user_login')
+        pass_input = self.browser.find_element_by_id('id_pass_login')
+        user_input.send_keys('Test')
+        pass_input.send_keys('q')
+        self.browser.find_element_by_name('login').click()
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Welcome Test', body)
+
+    def test_reset_password_link(self):
+        # Jim goes to the site, clicks on reset password
+        self.browser.get(self.live_server_url)
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Reset password', body)
+        self.check_for_redirect_after_link_click('Reset password',
+                                                 '/accounts/password/reset/$')
+        # Jim sees the proper content, and enters in his email
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Please enter your email', body)
+        email = self.browser.find_element_by_id('id_email')
+        email.send_keys('q@gmail.com')
+        self.check_for_redirect_after_button_click('reset_pass_submit',
+                                                   '/accounts/password/reset/done/$')
+        ## Cannot access url emailed for resetting password...
+     
     def test_user_creation_form(self):
         
         # On the homepage, Jim sees a place to create an account
@@ -220,6 +289,7 @@ class NewVisitorTests(LiveServerTestCase):
             self.live_server_url +'/accounts/register/complete/')
 
         ## 2 users are now created. Jim properties are saved
+        ## Cannot access url emailed for confirming account...
         self.assertEqual(eduuser.objects.all().count(), 2)
         jim = eduuser.objects.all().get(username='Jim')
         self.assertEqual(jim.username, 'Jim')
@@ -258,9 +328,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim clicks the 'Login' button and is redirected to login page
         # b/c Jim's accounts DNE
-        self.check_for_redirect_after_button_click("login",
-                                                   self.live_server_url +
-                                                   '/accounts/login/$')
+        self.check_for_redirect_after_button_click('login', '/accounts/login/$')
 
         # Jim now decides to try to login on the Problems page
         self.browser.get(self.live_server_url+'/problems/')
@@ -274,9 +342,7 @@ class NewVisitorTests(LiveServerTestCase):
         password = self.browser.find_element_by_id('id_pass_login')
         user.send_keys('Test')
         password.send_keys('test')
-        self.check_for_redirect_after_button_click("login",
-                                                   self.live_server_url +
-                                                   '/problems/$')
+        self.check_for_redirect_after_button_click('login', '/problems/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Welcome Test', body)
 
