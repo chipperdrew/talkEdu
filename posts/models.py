@@ -22,7 +22,7 @@ class post(TimeStampedModel):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts')
                         # Allows us to access via user.posts
     PAGE_TYPE_CHOICES = (
-        ('PRO', 'Problems'),
+        ('PRO', 'Problems'),  # IF MODIFIED, must change 'edit' view
         ('IDE', 'Ideas'),
         ('QUE', 'Questions'),
         ('SIT', 'Site Feedback'),

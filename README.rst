@@ -1,16 +1,17 @@
 TODO:
 =============
-#) Refactor!!!!! Uncluster the post app by making new app, likely with user models/forms/views?
+#) Add eduuser model to accounts app?
 #) Begin drawing/creating voting system
 #) 20 posts/page?
 #) Allow for comments on POST pages (using django-comments)
 #) Implement "search" feature
+#) Implement option to mark a post as spam
 #) Add dropdown to sort posts by various categories (need voting system)
 #) Create a more personalized user page?
-#) Set up email with SMTP server
+#) IN PRODUCTION - Set up email with SMTP server
+#) IN PRODUCTION - Add https protection
 #) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
 #) TOFIX? - Same as above, but with /user/chiPPeRdrew/ link
-#) TOFIX? - New posts will display on last page opened, not current page (controlled by session request in views)
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -22,6 +23,8 @@ TODO:
 #) DONE - Create a field on registration form for stu/parent/teach/outsider/admin.
 #) DONE - Have edit and delete option for posts made by logged-in user
 #) DONE - Create change/reset password with django-registration
+#) FIXED - New posts will display on last page opened, not current page (controlled by session request in views)
+
 
 
 Basic Information
@@ -34,6 +37,21 @@ Basic Information
 Content Layout
 -------------------
 talkEdu/
+
+	accounts/
+		
+		__init__.py
+
+		forms.py
+
+		models.py
+
+		tests_accounts.py
+
+		urls.py
+
+		views.py
+		
 
 	funct_tests/
 
@@ -51,11 +69,15 @@ talkEdu/
 
 		admin.py
 
+		forms.py
+
 		migrations/
 
 		models.py
 
 		tests_posts.py
+
+		urls.py
 
 		views.py
 

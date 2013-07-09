@@ -1,5 +1,6 @@
 # USE FOR PRESENTATION LOGIC, NOT BUSINESS LOGIC (put that in models)
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import postForm
 from .models import post
@@ -12,7 +13,6 @@ def display_page_helper(request, page_type, template):
     """
     Helper function to display any pages with posts
     """
-    request.session['page_type'] = page_type # Used by 'edit' view for new posts
     posts = post.objects.all().filter(page_type=page_type)
     return render(request, template, {'posts': posts, 'form': postForm})
 
@@ -55,8 +55,10 @@ def edit(request, id=None):
         post_of_interest = get_object_or_404(post, pk=id)
     # Else - create a new post
     else:
-        post_of_interest = post(user_id=request.user,
-                                page_type = request.session.get('page_type'))
+        post_of_interest = post(
+            user_id = request.user,
+            page_type = str(request.GET['next'][1:4]).upper()
+            )
 
     if request.POST:
         form = postForm(request.POST, instance=post_of_interest)
@@ -73,6 +75,9 @@ def edit(request, id=None):
                        'redirect_to':request.GET['next']}) #used by edit temp
 
 def delete(request, id):
+    """
+    Deletes a post, returns user to current page
+    """
     post_of_interest = get_object_or_404(post, pk=id)
     post_of_interest.delete()
     return redirect(request.GET['next']) #provided by base_post template
