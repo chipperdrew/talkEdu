@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import postForm
-from .models import post
+from .models import post, vote
 
 
 def home_page(request):
@@ -77,6 +77,9 @@ def edit(request, id=None):
         form = postForm(request.POST, instance=post_of_interest)
         if form.is_valid():
             form.save()
+            vote_of_interest = vote.objects.get_or_create(
+                post_id=post_of_interest
+                )
             if 'next' in request.GET:
                 return redirect(request.GET['next'])
             else:
@@ -94,4 +97,19 @@ def delete(request, id):
     post_of_interest = get_object_or_404(post, pk=id)
     post_of_interest.delete()
     return redirect(request.GET['next']) #provided by base_post template
+
+
+
+def up_vote(request, id):
+    vote_of_interest = get_object_or_404(vote, post_id=id)
+    vote_of_interest.stu_up = vote_of_interest.stu_up + 1
+    vote_of_interest.stu_votes = vote_of_interest.stu_votes + 1
+    vote_of_interest.save()
+    return redirect(request.GET['next'])
+
+def down_vote(request, id):
+    vote_of_interest = get_object_or_404(vote, post_id=id)
+    vote_of_interest.stu_votes = vote_of_interest.stu_votes + 1
+    vote_of_interest.save()
+    return redirect(request.GET['next'])
 

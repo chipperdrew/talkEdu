@@ -34,6 +34,28 @@ class post(TimeStampedModel):
         return self.title
 
 
+class vote(models.Model):
+    post_id = models.OneToOneField(post, primary_key=True)
+
+    stu_up = models.IntegerField(default=0)
+    tea_up = models.IntegerField(default=0)
+    par_up = models.IntegerField(default=0)
+    adm_up = models.IntegerField(default=0)
+    out_up = models.IntegerField(default=0)
+
+    stu_votes = models.IntegerField(default=0)
+    tea_votes = models.IntegerField(default=0)
+    par_votes = models.IntegerField(default=0)
+    adm_votes = models.IntegerField(default=0)
+    out_votes = models.IntegerField(default=0)
+
+    def perc(self):
+        if self.stu_votes==0:
+            return 0
+        else:
+            return round(self.stu_up/float(self.stu_votes), 3) #Prevent int div
+
+
 class eduuser(AbstractUser):
     STUDENT = 'STU'
     TEACHER = 'TEA'

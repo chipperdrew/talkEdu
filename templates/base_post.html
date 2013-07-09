@@ -14,12 +14,19 @@
 		<p>
 			Posted by <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a>
 			at {{ post.time_created }} and last modified at {{ post.time_modified }}
-			User type={{ post.user_id.get_user_type_display }}
+			User type={{ post.user_id.get_user_type_display }}.
 			{% if post.user_id == request.user %}
 				<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
 				<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}"
 				onclick="return confirm('Your post and all related comments will be deleted. Proceed?')">Delete</a>
 			{% endif %}
+		</p>
+		<p> 
+			Student: {{ post.vote.perc }}, Teacher: {{ post.vote.tea_votes }}, 
+			Parent: {{ post.vote.par_votes }}, Administrator: {{ post.vote.adm_votes }},
+			Outsider: {{ post.vote.out_votes }}.  
+			<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
+			<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>
 		</p>
 	{% endfor %}
 	</div>
