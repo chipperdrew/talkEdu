@@ -62,29 +62,18 @@ def edit(request, id=None):
         form = postForm(request.POST, instance=post_of_interest)
         if form.is_valid():
             form.save()
-            # This logic is TERRIBLE. Refactor when smarter :)
-            if request.session.get('page_type')=='PRO':
-                return redirect('/problems/')
-            elif request.session.get('page_type')=='IDE':
-                return redirect('/ideas/')
-            elif request.session.get('page_type')=='QUE':
-                return redirect('/questions/')
+            if 'next' in request.GET:
+                return redirect(request.GET['next'])
             else:
-                return redirect('/site_feedback/')
+                return redirect('/')
     else:
         form = postForm(instance=post_of_interest)
-        return render(request, 'post_edit.html', {'id': id, 'form': form})
+        return render(request, 'post_edit.html',
+                      {'id': id, 'form': form,
+                       'redirect_to':request.GET['next']}) #used by edit temp
 
 def delete(request, id):
     post_of_interest = get_object_or_404(post, pk=id)
     post_of_interest.delete()
-    # This logic is TERRIBLE. Refactor when smarter :)
-    if request.session.get('page_type')=='PRO':
-        return redirect('/problems/')
-    elif request.session.get('page_type')=='IDE':
-        return redirect('/ideas/')
-    elif request.session.get('page_type')=='QUE':
-        return redirect('/questions/')
-    else:
-        return redirect('/site_feedback/')
+    return redirect(request.GET['next']) #provided by base_post template
 

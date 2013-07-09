@@ -2,7 +2,7 @@
 
 {% block content %}
 	{{ block.super }}
-	<form method="POST" action="{% url 'post_new' %}">
+	<form method="POST" action="{% url 'post_new' %}?next={{request.path}}">
 		{% csrf_token %}
 		{{ form.as_p }}
 		<button id="id_post_button" type="submit">Post</button>	
@@ -16,8 +16,8 @@
 			at {{ post.time_created }} and last modified at {{ post.time_modified }}
 			User type={{ post.user_id.get_user_type_display }}
 			{% if post.user_id == request.user %}
-				<a href="{% url 'post_edit' id=post.id %}">Edit</a>
-				<a href="{% url 'post_delete' id=post.id %}"
+				<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
+				<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}"
 				onclick="return confirm('Your post and all related comments will be deleted. Proceed?')">Delete</a>
 			{% endif %}
 		</p>

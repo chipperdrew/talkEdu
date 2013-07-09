@@ -5,7 +5,7 @@
 
 {% block content %}
 	{{ block.super }}
-	<form method="POST" action="{% url 'post_edit' id=id %}">
+	<form method="POST" action="{% url 'post_edit' id=id %}?next={{redirect_to}}">
 		{% csrf_token %}
 		{{ form.as_p }}
 		<button name="update" type="submit">Update</button>	
