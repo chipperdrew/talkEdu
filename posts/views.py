@@ -1,5 +1,6 @@
 # USE FOR PRESENTATION LOGIC, NOT BUSINESS LOGIC (put that in models)
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import postForm
@@ -11,9 +12,21 @@ def home_page(request):
 
 def display_page_helper(request, page_type, template):
     """
-    Helper function to display any pages with posts
+    Helper function to display any pages with posts.
+    Paginator logic adapted from:
+    https://docs.djangoproject.com/en/dev/topics/pagination/
     """
-    posts = post.objects.all().filter(page_type=page_type)
+    posts_all = post.objects.all().filter(page_type=page_type)
+    paginator = Paginator(posts_all, 5)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
     return render(request, template, {'posts': posts, 'form': postForm})
 
 def problems_page(request):

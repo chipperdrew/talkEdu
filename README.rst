@@ -2,7 +2,6 @@ TODO:
 =============
 #) Add eduuser model to accounts app?
 #) Begin drawing/creating voting system
-#) 20 posts/page?
 #) Allow for comments on POST pages (using django-comments)
 #) Implement "search" feature
 #) Implement option to mark a post as spam
@@ -24,6 +23,7 @@ TODO:
 #) DONE - Have edit and delete option for posts made by logged-in user
 #) DONE - Create change/reset password with django-registration
 #) FIXED - New posts will display on last page opened, not current page (controlled by session request in views)
+#) DONE - 20 posts/page?
 
 
 
