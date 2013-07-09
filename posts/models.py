@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from model_utils import Choices
 
 
 class TimeStampedModel(models.Model):
@@ -34,28 +35,6 @@ class post(TimeStampedModel):
         return self.title
 
 
-class vote(models.Model):
-    post_id = models.OneToOneField(post, primary_key=True)
-
-    stu_up = models.IntegerField(default=0)
-    tea_up = models.IntegerField(default=0)
-    par_up = models.IntegerField(default=0)
-    adm_up = models.IntegerField(default=0)
-    out_up = models.IntegerField(default=0)
-
-    stu_votes = models.IntegerField(default=0)
-    tea_votes = models.IntegerField(default=0)
-    par_votes = models.IntegerField(default=0)
-    adm_votes = models.IntegerField(default=0)
-    out_votes = models.IntegerField(default=0)
-
-    def perc(self):
-        if self.stu_votes==0:
-            return 0
-        else:
-            return round(self.stu_up/float(self.stu_votes), 3) #Prevent int div
-
-
 class eduuser(AbstractUser):
     STUDENT = 'STU'
     TEACHER = 'TEA'
@@ -74,3 +53,55 @@ class eduuser(AbstractUser):
     user_type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES)
 
 
+
+
+class vote(models.Model):
+
+    post_id = models.OneToOneField(post, primary_key=True)
+    up_votes = models.SmallIntegerField(default=0)
+    total_votes = models.SmallIntegerField(default=0)
+
+"""
+class vote(models.Model):
+    post_id = models.OneToOneField(post, primary_key=True)
+
+    vote_dict = {} #Names of fields are stored as vote_dict
+    for user_type in getattr(eduuser, 'USER_TYPE_CHOICES'):
+        models.IntegerField(
+            default=0, name=user_type[0]+'_up')
+        models.IntegerField(
+            default=0, name=user_type[0]+'_votes')
+    
+    a = models.IntegerField(
+        default=0, name=getattr(eduuser, 'STUDENT')+'_up')
+    b = models.IntegerField(
+        default=0, name=getattr(eduuser, 'TEACHER')+'_up')
+    c = models.IntegerField(
+        default=0, name=getattr(eduuser, 'PARENT')+'_up')
+    d = models.IntegerField(
+        default=0, name=getattr(eduuser, 'ADMINISTRATOR')+'_up')
+    e = models.IntegerField(
+        default=0, name=getattr(eduuser, 'OUTSIDER')+'_up')
+    
+    models.IntegerField(
+        default=0, name=getattr(eduuser, 'STUDENT')+'_votes')
+    models.IntegerField(
+        default=0, name=getattr(eduuser, 'TEACHER')+'_votes')
+    models.IntegerField(
+        default=0, name=getattr(eduuser, 'PARENT')+'_votes')
+    models.IntegerField(
+        default=0, name=getattr(eduuser, 'ADMINISTRATOR')+'_votes')
+    models.IntegerField(
+        default=0, name=getattr(eduuser, 'OUTSIDER')+'_votes')
+
+    def perc(self):
+        perc_array = []
+        for user_type in getattr(eduuser, 'USER_TYPE_CHOICES'):
+            up = float(getattr(self, user_type[0]+'_up')) #Prevent int divis
+            votes = getattr(self, user_type[0]+'_votes')
+            if votes==0:
+                perc_array.append(0)
+            else:
+                perc_array.append(round(up/votes, 3))
+        return perc_array
+"""

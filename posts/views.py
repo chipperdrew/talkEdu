@@ -102,14 +102,14 @@ def delete(request, id):
 
 def up_vote(request, id):
     vote_of_interest = get_object_or_404(vote, post_id=id)
-    vote_of_interest.stu_up = vote_of_interest.stu_up + 1
-    vote_of_interest.stu_votes = vote_of_interest.stu_votes + 1
+    vote_of_interest.up_votes = vote_of_interest.up_votes + 1
+    vote_of_interest.total_votes = vote_of_interest.total_votes + 1
     vote_of_interest.save()
     return redirect(request.GET['next'])
 
 def down_vote(request, id):
     vote_of_interest = get_object_or_404(vote, post_id=id)
-    vote_of_interest.stu_votes = vote_of_interest.stu_votes + 1
+    vote_of_interest.total_votes = vote_of_interest.total_votes + 1
     vote_of_interest.save()
     return redirect(request.GET['next'])
 

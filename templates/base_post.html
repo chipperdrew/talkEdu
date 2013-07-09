@@ -22,9 +22,8 @@
 			{% endif %}
 		</p>
 		<p> 
-			Student: {{ post.vote.perc }}, Teacher: {{ post.vote.tea_votes }}, 
-			Parent: {{ post.vote.par_votes }}, Administrator: {{ post.vote.adm_votes }},
-			Outsider: {{ post.vote.out_votes }}.  
+			Student: {{ post.vote.up_votes }}  Teacher: {{ post.vote.total_votes }}
+		</p>
 			<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
 			<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>
 		</p>
