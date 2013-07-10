@@ -22,7 +22,6 @@ def display_page_helper(request, page_type, template):
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         posts = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
@@ -46,16 +45,20 @@ def display_page_helper(request, page_type, template):
                                       'vote_dict': vote_dict})
 
 def problems_page(request):
-    return display_page_helper(request, 'PRO', 'problems.html')
+    return display_page_helper(request, post.PAGE_TYPE_CHOICES.PRO,
+                               'problems.html')
 
 def ideas_page(request):
-    return display_page_helper(request, 'IDE', 'ideas.html')
+    return display_page_helper(request, post.PAGE_TYPE_CHOICES.IDE,
+                               'ideas.html')
 
 def questions_page(request):
-    return display_page_helper(request, 'QUE', 'questions.html')
+    return display_page_helper(request, post.PAGE_TYPE_CHOICES.QUE,
+                               'questions.html')
 
 def site_feedback_page(request):
-    return display_page_helper(request, 'SIT', 'site_feedback.html')
+    return display_page_helper(request, post.PAGE_TYPE_CHOICES.SIT,
+                               'site_feedback.html')
 
 def user_page(request, user):
     """
@@ -87,6 +90,7 @@ def edit(request, id=None):
         post_of_interest = post(
             user_id = request.user,
             page_type = str(request.GET['next'][1:4]).upper()
+            #Modify above line if changes are made to PAGE_TYPE_CHOICES
             )
 
     if request.POST:

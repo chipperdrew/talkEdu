@@ -1,12 +1,13 @@
 TODO:
 =============
 #) Add eduuser model to accounts app?
-#) Begin drawing/creating voting system
+#) Draw voting system
 #) Allow for comments on POST pages (using django-comments)
 #) Implement "search" feature
 #) Implement option to mark a post as spam
 #) Add dropdown to sort posts by various categories (need voting system)
 #) Create a more personalized user page?
+#) Think of way to prevent post spam
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - Add https protection
 #) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
@@ -24,6 +25,7 @@ TODO:
 #) DONE - Create change/reset password with django-registration
 #) FIXED - New posts will display on last page opened, not current page (controlled by session request in views)
 #) DONE - 20 posts/page?
+#) DONE - Create voting system
 
 
 
@@ -74,6 +76,8 @@ talkEdu/
 		migrations/
 
 		models.py
+
+		templatetags/
 
 		tests_posts.py
 
