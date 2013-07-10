@@ -23,7 +23,7 @@
 			{% endif %}
 		</p>
 		<p> 
-			Student: {{ vote_dict|key:post }}
+			{{ vote_dict|key:post }}
 		</p>
 			<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
 			<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>

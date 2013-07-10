@@ -11,8 +11,8 @@ class Migration(SchemaMigration):
         # Adding model 'post'
         db.create_table(u'posts_post', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 8, 0, 0), auto_now_add=True, blank=True)),
-            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 8, 0, 0), auto_now=True, blank=True)),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 9, 0, 0), auto_now_add=True, blank=True)),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 9, 0, 0), auto_now=True, blank=True)),
             ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=150)),
             ('text', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='posts', to=orm['posts.eduuser'])),
@@ -55,6 +55,15 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['eduuser_id', 'permission_id'])
 
+        # Adding model 'vote'
+        db.create_table(u'posts_vote', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('post_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['posts.post'])),
+            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['posts.eduuser'])),
+            ('vote_choice', self.gf('django.db.models.fields.CharField')(default='upvote', max_length=8)),
+        ))
+        db.send_create_signal(u'posts', ['vote'])
+
 
     def backwards(self, orm):
         # Deleting model 'post'
@@ -68,6 +77,9 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field user_permissions on 'eduuser'
         db.delete_table(db.shorten_name(u'posts_eduuser_user_permissions'))
+
+        # Deleting model 'vote'
+        db.delete_table(u'posts_vote')
 
 
     models = {
@@ -113,10 +125,17 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'page_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             'text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 8, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
-            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 8, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 9, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 9, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
             'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['posts.eduuser']"})
+        },
+        u'posts.vote': {
+            'Meta': {'object_name': 'vote'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'post_id': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['posts.post']"}),
+            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['posts.eduuser']"}),
+            'vote_choice': ('django.db.models.fields.CharField', [], {'default': "'upvote'", 'max_length': '8'})
         }
     }
 

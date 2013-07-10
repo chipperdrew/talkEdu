@@ -62,7 +62,7 @@ class vote(models.Model):
         ('downvote'),
     )
 
-    post_id = models.ForeignKey(post, primary_key=True)
+    post_id = models.ForeignKey(post)
     user_id = models.ForeignKey(eduuser)
     vote_choice = models.CharField(max_length=8, choices=VOTE_CHOICES,
                                    default=VOTE_CHOICES.upvote)
