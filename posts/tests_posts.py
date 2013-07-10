@@ -39,12 +39,16 @@ class ProblemPageTest(TestCase):
         self.assertTemplateUsed(response, 'problems.html')
     
     def test_prob_page_displays_only_its_posts(self):
-        new_user = get_user_model().objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass', user_type='PAR')
-        post.objects.create(title='Post 1', user_id=new_user, page_type='PRO',
-                            text='Additional text for Post 1')
-        post.objects.create(title='Post 2', user_id=new_user, page_type='PRO')
-        post.objects.create(title='Post 3', user_id=new_user, page_type='IDE')
+        new_user = get_user_model().objects.create_user(
+            'Jim', 'chipperdrew@gmail.com', 'pass',
+            user_type=get_user_model().PARENT
+        )
+        post.objects.create(
+            title='Post 1', user_id=new_user, page_type=post.PROBLEMS,
+            text='Additional text for Post 1'
+        )
+        post.objects.create(title='Post 2', user_id=new_user, page_type=post.PROBLEMS)
+        post.objects.create(title='Post 3', user_id=new_user, page_type=post.IDEAS)
         client = Client()
         response = client.get('/problems/')
 
@@ -52,7 +56,8 @@ class ProblemPageTest(TestCase):
         self.assertIn('Post 2', response.content)
         self.assertNotIn('Post 3', response.content)
         self.assertNotIn('Additional text', response.content)
-        self.assertEqual(post.objects.all().filter(page_type='PRO').count(), 2)
+        self.assertEqual(post.objects.all().filter(
+            page_type=post.PROBLEMS).count(), 2)
         self.assertIn('Jim', response.content)
         self.assertIn('Parent', response.content)
         self.assertIn(str(datetime.datetime.now().day), response.content)
@@ -86,16 +91,17 @@ class OtherPostPagesTest(TestCase):
         new_user = get_user_model().objects.create_user('Jim',
                                                         'chipperdrew@gmail.com',
                                                         'pass')
-        post.objects.create(title='Post 1', user_id=new_user, page_type='SIT')
-        post.objects.create(title='Post 2', user_id=new_user, page_type='PRO')
-        post.objects.create(title='Post 3', user_id=new_user, page_type='SIT')
+        post.objects.create(title='Post 1', user_id=new_user, page_type=post.SITE_FEEDBACK)
+        post.objects.create(title='Post 2', user_id=new_user, page_type=post.PROBLEMS)
+        post.objects.create(title='Post 3', user_id=new_user, page_type=post.SITE_FEEDBACK)
         client = Client()
         response = client.get('/site_feedback/')
 
         self.assertIn('Post 1', response.content)
         self.assertIn('Post 3', response.content)
         self.assertNotIn('Post 2', response.content)
-        self.assertEqual(post.objects.all().filter(page_type='SIT').count(), 2)
+        self.assertEqual(post.objects.all().filter(
+            page_type=post.SITE_FEEDBACK).count(), 2)
 
 
 class AdditionalDisplayPagesTest(TestCase):
@@ -104,11 +110,14 @@ class AdditionalDisplayPagesTest(TestCase):
     """
     
     def test_post_page_displays_title_and_text(self):
-        new_user = get_user_model().objects.create_user('Jim',
-                                                        'chipperdrew@gmail.com',
-                                                        'pass', user_type='PAR')
-        p1 = post.objects.create(title='Post 1', user_id=new_user,
-                                 page_type='PRO', text='Additional text')
+        new_user = get_user_model().objects.create_user(
+            'Jim', 'chipperdrew@gmail.com', 'pass', 
+            user_type=get_user_model().PARENT
+        )
+        p1 = post.objects.create(
+            title='Post 1', user_id=new_user,
+            page_type=post.PROBLEMS, text='Additional text'
+        )
         client = Client()
         response = client.get('/post/' + str(p1.id) + '/')
         self.assertEqual(response.status_code, 200)
@@ -122,11 +131,14 @@ class AdditionalDisplayPagesTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_user_page_displays_username_and_posts(self):
-        new_user = get_user_model().objects.create_user('Jim',
-                                                        'chipperdrew@gmail.com',
-                                                        'pass', user_type='PAR')
-        post.objects.create(title='Post 1', user_id=new_user,
-                                 page_type='PRO', text='Additional text')
+        new_user = get_user_model().objects.create_user(
+            'Jim', 'chipperdrew@gmail.com', 'pass',
+            user_type=get_user_model().PARENT
+        )
+        post.objects.create(
+            title='Post 1', user_id=new_user,
+            page_type=post.PROBLEMS, text='Additional text'
+        )
         client = Client()
         response = client.get('/user/Jim/')
         self.assertEqual(response.status_code, 200)
@@ -145,13 +157,15 @@ class PostModelTest(TestCase):
     """
     Test - Post info is saved and retrievable, users have posts
     """
-    
+
+    ## Make user_type and page_type fields REQUIRED
     def test_save_and_retrieve_posts(self):
-        new_user = get_user_model().objects.create_user('Jim',
-                                                        'chipperdrew@gmail.com',
-                                                        'pass')
-        post1 = post.objects.create(title = 'Post numero uno!',
-                                    user_id=new_user, text='Post 1 text')
+        new_user = get_user_model().objects.create_user(
+            'Jim', 'chipperdrew@gmail.com', 'pass'
+        )
+        post1 = post.objects.create(
+            title = 'Post numero uno!', user_id=new_user, text='Post 1 text'
+        )
         post2 = post.objects.create(title = 'I love lamp?', user_id=new_user)
 
         saved_posts = post.objects.all()

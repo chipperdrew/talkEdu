@@ -8,8 +8,9 @@ class UserRegistrationTest(TestCase):
     """
 
     def test_save_and_retrieve_users(self):
-        new_user = get_user_model().objects.create_user('Jim', 'chipperdrew@gmail.com',
-                                            'pass')
+        new_user = get_user_model().objects.create_user(
+            'Jim', 'chipperdrew@gmail.com', 'pass'
+        )
         all_users = get_user_model().objects.all()
         self.assertEqual(all_users.count(), 1)
         user1 = all_users[0]

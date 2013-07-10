@@ -9,15 +9,17 @@ from selenium import webdriver, selenium
 from selenium.webdriver.common.keys import Keys
 
 # App imports
+from posts.models import post
 
 class NewVisitorTests(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
-        new_user = get_user_model().objects.create_user('Test',
-                                                        'chipperdrew@gmail.com',
-                                                        'test', user_type='ADM')
+        new_user = get_user_model().objects.create_user(
+            'Test', 'chipperdrew@gmail.com', 'test',
+            user_type=get_user_model().ADMINISTRATOR
+        )
     def tearDown(self):
         self.browser.quit()
 
@@ -41,7 +43,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys('Test')
         pass_input.send_keys('test')
         self.browser.find_element_by_name('login').click()
-    
+      
     def test_home_page_has_proper_content_and_links(self):
         
         # Jim visits the home page of our site
@@ -171,7 +173,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim accesses the 'Test' user page and sees the proper content
         self.browser.get(self.live_server_url+'/user/Test/')
-        body =  self.browser.find_element_by_tag_name('body').text
+        body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Test', body)
         self.assertIn('Administrator', body)
         self.assertIn('User Test', self.browser.title)
@@ -179,7 +181,7 @@ class NewVisitorTests(LiveServerTestCase):
     def test_change_password(self):
         # Jim logs in as test, as sees the link to his test's account page
         self.browser.get(self.live_server_url+'/ideas/')
-        body =  self.browser.find_element_by_tag_name('body').text
+        body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('My page', body)
         self.login_test_user()
         body = self.browser.find_element_by_tag_name('body').text
@@ -346,7 +348,35 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click('login', '/problems/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Welcome Test', body)
+    
+    def test_pagination(self):
+        # Jim visit a POST page and see 'Page 1 of 1'
+        self.browser.get(self.live_server_url+'/questions/')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Page 1 of 1', body)
+        test_user = get_user_model().objects.get(username='Test')
+        for i in range(0,6): ## Modify this if change made to posts per page
+            post.objects.create(title='Test post ' + str(i),
+                            page_type=post.QUESTIONS,
+                            user_id=test_user)
 
+        # Multiple posts are created, some of which are pushed to a new page
+        self.browser.get(self.live_server_url+'/questions/')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Page 1 of 2', body)
+        self.assertIn('Next', body)
+
+        # Jim goes to the next page
+        self.check_for_redirect_after_link_click('Next', 'page=2$')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Page 2 of 2', body)
+        self.assertIn('Previous', body)
+
+        # Jim goes back to the previous page
+        self.check_for_redirect_after_link_click('Previous', 'page=1$')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Page 1 of 2', body)
+        self.assertIn('Next', body)
 
 
     # THIS TEST IS __NOT__ SAVING COOKIES. LOOK FOR NEW METHOD AND RE-RUN

@@ -22,11 +22,18 @@ class post(TimeStampedModel):
     text = models.TextField(blank=True)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts')
                         # Allows us to access via user.posts
+
+    # IF MODIFY BELOW, must change 'edit' view
+    PROBLEMS = 'PRO'
+    IDEAS = 'IDE'
+    QUESTIONS = 'QUE'
+    SITE_FEEDBACK = 'SIT'
+    
     PAGE_TYPE_CHOICES = Choices(
-        ('PRO', 'Problems'),  # IF MODIFIED, must change 'edit' view
-        ('IDE', 'Ideas'),
-        ('QUE', 'Questions'),
-        ('SIT', 'Site Feedback'),
+        (PROBLEMS, 'Problems'),
+        (IDEAS, 'Ideas'),
+        (QUESTIONS, 'Questions'),
+        (SITE_FEEDBACK, 'Site Feedback'),
     )
     page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
 
