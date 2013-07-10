@@ -28,19 +28,23 @@ def display_page_helper(request, page_type, template):
         posts = paginator.page(paginator.num_pages)
 
     vote_dict = {}
-    # Loop over posts, check for matching post and upvote
+    # Grabs the current post and switches to its inner dictionary
     for current_post in posts:
         vote_dict[current_post] = {}
-        all_votes = vote.objects.all().filter(
+        post_votes = vote.objects.all().filter(
             post_id=current_post,
-            vote_choice=vote.VOTE_CHOICES.upvote
         )
-        user_dict = vote_dict[current_post] #Grab inner dict
-        # Loop over possible user_type values
+        user_dict = vote_dict[current_post]
+        # Gets the votes by user_type, then stores % of up_votes in inner dict
         for user_type in get_user_model().USER_TYPE_CHOICES:
-            votes = all_votes.filter(user_id__user_type=user_type[0])
-            user_dict[user_type[0]] = len(votes)
-
+            all_votes = post_votes.filter(user_id__user_type=user_type[0])
+            up_votes = all_votes.filter(vote_choice = vote.VOTE_CHOICES.upvote)
+            if len(all_votes)==0:
+                user_dict[user_type[0]] = 0
+            else:
+                user_dict[user_type[0]] = round(
+                    float(len(up_votes))/len(all_votes), 3
+                )
     return render(request, template, {'posts': posts, 'form': postForm,
                                       'vote_dict': vote_dict})
 
@@ -76,16 +80,15 @@ def post_page(request, post_id):
     post_of_interest = get_object_or_404(post, id=post_id)
     return render(request, 'post_page.html', {'post': post_of_interest})
 
-
+###### POST VIEWS #######
 def edit(request, id=None):
     """
     Called when making a new 'post' or editing an existing 'post'.
     Adapted from: http://stackoverflow.com/questions/1854237/django-edit-form-based-on-add-form
     """
-    # If id provided, find existing post
     if id:
         post_of_interest = get_object_or_404(post, pk=id)
-    # Else - create a new post
+    # Create a new post if it doesn't already exist
     else:
         post_of_interest = post(
             user_id = request.user,
@@ -116,22 +119,26 @@ def delete(request, id):
     return redirect(request.GET['next']) #provided by base_post template
 
 
-
+####### VOTING VIEWS ########
 def up_vote(request, id):
     post_of_interest = post.objects.get(id=id)
-    vote_of_interest = vote.objects.get_or_create(
+    vote_of_interest, bool_created = vote.objects.get_or_create(
                 post_id = post_of_interest,
                 user_id = request.user,
-                vote_choice = vote.VOTE_CHOICES.upvote
                 )
+    # Default vote choice is up_vote, so only modify vote if accessed via get
+    if bool_created == False:
+        vote_of_interest.vote_choice = vote.VOTE_CHOICES.upvote
+        vote_of_interest.save()
     return redirect(request.GET['next'])
 
 def down_vote(request, id):
     post_of_interest = post.objects.get(id=id)
-    vote_of_interest = vote.objects.get_or_create(
+    vote_of_interest, bool_created = vote.objects.get_or_create(
                 post_id = post_of_interest,
                 user_id = request.user,
-                vote_choice = vote.VOTE_CHOICES.downvote
                 )
+    vote_of_interest.vote_choice = vote.VOTE_CHOICES.downvote
+    vote_of_interest.save()
     return redirect(request.GET['next'])
 
