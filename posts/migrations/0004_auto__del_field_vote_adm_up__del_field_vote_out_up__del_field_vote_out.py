@@ -38,11 +38,19 @@ class Migration(SchemaMigration):
         # Deleting field 'vote.stu_up'
         db.delete_column(u'posts_vote', 'stu_up')
 
-        # Adding field 'vote.up_votes'
-        db.add_column(u'posts_vote', 'up_votes',
-                      self.gf('django.db.models.fields.SmallIntegerField')(default=0),
+        # Adding field 'vote.user_id'
+        db.add_column(u'posts_vote', 'user_id',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['posts.eduuser']),
                       keep_default=False)
 
+        # Adding field 'vote.vote_choice'
+        db.add_column(u'posts_vote', 'vote_choice',
+                      self.gf('django.db.models.fields.CharField')(default='upvote', max_length=8),
+                      keep_default=False)
+
+
+        # Changing field 'vote.post_id'
+        db.alter_column(u'posts_vote', 'post_id_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['posts.post'], primary_key=True))
 
     def backwards(self, orm):
         # Adding field 'vote.adm_up'
@@ -95,9 +103,15 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.IntegerField')(default=0),
                       keep_default=False)
 
-        # Deleting field 'vote.up_votes'
-        db.delete_column(u'posts_vote', 'up_votes')
+        # Deleting field 'vote.user_id'
+        db.delete_column(u'posts_vote', 'user_id_id')
 
+        # Deleting field 'vote.vote_choice'
+        db.delete_column(u'posts_vote', 'vote_choice')
+
+
+        # Changing field 'vote.post_id'
+        db.alter_column(u'posts_vote', 'post_id_id', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['posts.post'], unique=True, primary_key=True))
 
     models = {
         u'auth.group': {
@@ -149,8 +163,9 @@ class Migration(SchemaMigration):
         },
         u'posts.vote': {
             'Meta': {'object_name': 'vote'},
-            'post_id': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['posts.post']", 'unique': 'True', 'primary_key': 'True'}),
-            'up_votes': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'})
+            'post_id': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['posts.post']", 'primary_key': 'True'}),
+            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['posts.eduuser']"}),
+            'vote_choice': ('django.db.models.fields.CharField', [], {'default': "'upvote'", 'max_length': '8'})
         }
     }
 

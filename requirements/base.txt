@@ -2,6 +2,7 @@ gg=Django-dev
 South = 0.8.1
 coverage==3.6
 distribute==0.6.40
+django-model-utils==1.4.0
 django-registration==1.0
 git-remote-helpers==0.1.0
 psycopg2==2.5

@@ -27,7 +27,23 @@ def display_page_helper(request, page_type, template):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         posts = paginator.page(paginator.num_pages)
-    return render(request, template, {'posts': posts, 'form': postForm})
+
+    vote_dict = {}
+    # Loop over posts, check for matching post and upvote
+    for current_post in posts:
+        vote_dict[current_post] = {}
+        all_votes = vote.objects.all().filter(
+            post_id=current_post,
+            vote_choice=vote.VOTE_CHOICES.upvote
+        )
+        user_dict = vote_dict[current_post] #Grab inner dict
+        # Loop over possible user_type values
+        for user_type in get_user_model().USER_TYPE_CHOICES:
+            votes = all_votes.filter(user_id__user_type=user_type[0])
+            user_dict[user_type[0]] = len(votes)
+
+    return render(request, template, {'posts': posts, 'form': postForm,
+                                      'vote_dict': vote_dict})
 
 def problems_page(request):
     return display_page_helper(request, 'PRO', 'problems.html')
@@ -77,9 +93,6 @@ def edit(request, id=None):
         form = postForm(request.POST, instance=post_of_interest)
         if form.is_valid():
             form.save()
-            vote_of_interest = vote.objects.get_or_create(
-                post_id=post_of_interest
-                )
             if 'next' in request.GET:
                 return redirect(request.GET['next'])
             else:
@@ -101,15 +114,20 @@ def delete(request, id):
 
 
 def up_vote(request, id):
-    vote_of_interest = get_object_or_404(vote, post_id=id)
-    vote_of_interest.up_votes = vote_of_interest.up_votes + 1
-    vote_of_interest.total_votes = vote_of_interest.total_votes + 1
-    vote_of_interest.save()
+    post_of_interest = post.objects.get(id=id)
+    vote_of_interest = vote.objects.get_or_create(
+                post_id = post_of_interest,
+                user_id = request.user,
+                vote_choice = vote.VOTE_CHOICES.upvote
+                )
     return redirect(request.GET['next'])
 
 def down_vote(request, id):
-    vote_of_interest = get_object_or_404(vote, post_id=id)
-    vote_of_interest.total_votes = vote_of_interest.total_votes + 1
-    vote_of_interest.save()
+    post_of_interest = post.objects.get(id=id)
+    vote_of_interest = vote.objects.get_or_create(
+                post_id = post_of_interest,
+                user_id = request.user,
+                vote_choice = vote.VOTE_CHOICES.downvote
+                )
     return redirect(request.GET['next'])
 

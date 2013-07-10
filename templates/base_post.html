@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load dictionary_extras %} {# For dictionary access to variable keys #}
 
 {% block content %}
 	{{ block.super }}
@@ -22,7 +23,7 @@
 			{% endif %}
 		</p>
 		<p> 
-			Student: {{ post.vote.up_votes }}  Teacher: {{ post.vote.total_votes }}
+			Student: {{ vote_dict|key:post }}
 		</p>
 			<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
 			<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>

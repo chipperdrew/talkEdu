@@ -42,7 +42,7 @@ class eduuser(AbstractUser):
     ADMINISTRATOR = 'ADM'
     OUTSIDER = 'OUT'
 
-    USER_TYPE_CHOICES = (
+    USER_TYPE_CHOICES = Choices(
         (STUDENT, 'Student'),
         (TEACHER, 'Teacher'),
         (PARENT, 'Parent'),
@@ -57,10 +57,15 @@ class eduuser(AbstractUser):
 
 class vote(models.Model):
 
-    post_id = models.OneToOneField(post, primary_key=True)
-    up_votes = models.SmallIntegerField(default=0)
-    total_votes = models.SmallIntegerField(default=0)
+    VOTE_CHOICES = Choices(
+        ('upvote'),
+        ('downvote'),
+    )
 
+    post_id = models.ForeignKey(post, primary_key=True)
+    user_id = models.ForeignKey(eduuser)
+    vote_choice = models.CharField(max_length=8, choices=VOTE_CHOICES,
+                                   default=VOTE_CHOICES.upvote)
 """
 class vote(models.Model):
     post_id = models.OneToOneField(post, primary_key=True)
