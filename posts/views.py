@@ -1,5 +1,7 @@
 # USE FOR PRESENTATION LOGIC, NOT BUSINESS LOGIC (put that in models)
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -109,16 +111,21 @@ def edit(request, id=None):
                       {'id': id, 'form': form,
                        'redirect_to':request.GET['next']}) #used by edit temp
 
+@login_required
 def delete(request, id):
     """
     Deletes a post, returns user to current page
     """
     post_of_interest = get_object_or_404(post, pk=id)
-    post_of_interest.delete()
+    if post_of_interest.user_id == request.user:
+        post_of_interest.delete()
+    else:
+        raise PermissionDenied()
     return redirect(request.GET['next']) #provided by base_post template
 
 
 ####### VOTING VIEWS ########
+@login_required
 def up_vote(request, id):
     post_of_interest = post.objects.get(id=id)
     vote_of_interest, bool_created = vote.objects.get_or_create(
@@ -131,6 +138,7 @@ def up_vote(request, id):
         vote_of_interest.save()
     return redirect(request.GET['next'])
 
+@login_required
 def down_vote(request, id):
     post_of_interest = post.objects.get(id=id)
     vote_of_interest, bool_created = vote.objects.get_or_create(

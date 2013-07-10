@@ -31,9 +31,8 @@ urlpatterns = patterns('django.contrib.auth.views',
 
 
 urlpatterns += patterns('',
-    # Login called if init login error. CHANGE TEMPLATE???
     url(r'^login/$', 'accounts.views.login',
-        {'template_name': 'base.html'}),
+        {'template_name': 'login.html'}),
 
     # Django-registration package
     url(r'^register/$', CustomRegistrationView.as_view(

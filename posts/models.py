@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from model_utils import Choices
 
-
+# Adapted from '2 Scoops of Django' book
 class TimeStampedModel(models.Model):
     time_created = models.DateTimeField(auto_now_add=True,
                                         default=timezone.now())

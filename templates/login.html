@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{# This will be called if:
+	1) Login attempt fails
+	2) User tries to perform an action requiring login
+#}
+
+{% block title %}Login - YouTalkEdu{% endblock title %}
+
+
+{% block content %}
+	{{ block.super }}
+
+	{% block login %}{% endblock login %}
+
+	<div id="id_login_box" style="text-align:center">
+	{% if user.is_anonymous %} 
+			<!-- If success, stays on current page. Else, redirects to /accounts/login -->
+			{% if form.errors %}
+				<p>Either the username does not exist, or the incorrect password was entered. 
+				Please try again.</p>
+			{% endif %}
+			<form method="POST" action="{% url 'auth_login' %}">
+				{% csrf_token %}
+				<label for="id_user_login">Username:</label> 
+				<input type="text" name="username" id="id_user_login" />
+				<label for="id_pass_login">Password:</label> 
+				<input type="password" name="password" id="id_pass_login"/><br/>
+				<button type="submit" name="login">Login</button>
+				<label><input type="checkbox" name="remember_me"/>Remember me</label>
+				<a href="/accounts/register">Create Account</a>
+				<a href="{% url 'password_reset' %}">Reset password</a>
+				<input type="hidden" name="next" value="{{ next }}" />
+			</form>
+		{% else %} 
+			<p> You are already logged in!
+	{% endif %}
+	</div>
+
+{% endblock content %}

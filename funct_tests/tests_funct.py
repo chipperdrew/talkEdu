@@ -43,7 +43,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys('Test')
         pass_input.send_keys('test')
         self.browser.find_element_by_name('login').click()
-      
+    
     def test_home_page_has_proper_content_and_links(self):
         
         # Jim visits the home page of our site
@@ -221,7 +221,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys('Test')
         pass_input.send_keys('test')
         self.check_for_redirect_after_button_click('login',
-                                                   '/accounts/login/$')
+                                                   '/accounts/login/')
         body =  self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Welcome Test', body)
 
@@ -249,7 +249,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click('reset_pass_submit',
                                                    '/accounts/password/reset/done/$')
         ## Cannot access url emailed for resetting password...
-     
+    
     def test_user_creation_form(self):
         
         # On the homepage, Jim sees a place to create an account
@@ -263,14 +263,14 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim sees 4 input boxes and a button
         inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertEqual(len(inputs), 11) # 5 header + 4 input + button + hidden
+        self.assertEqual(len(inputs), 10) # 4 header + 4 input + button + hidden
         
         # ATTEMPT 1: Jim (incorrectly) enters in his information
         # KEY: inputs 0-3 in header, 4 hidden in form, 5-8 inputs, 9 button
-        inputs[6].send_keys('Jim')
-        inputs[7].send_keys('chipperdrew@gmail.com')
-        inputs[8].send_keys('Password')
-        inputs[9].send_keys('Pazzword')
+        inputs[5].send_keys('Jim')
+        inputs[6].send_keys('chipperdrew@gmail.com')
+        inputs[7].send_keys('Password')
+        inputs[8].send_keys('Pazzword')
         self.browser.find_element_by_xpath("//select[@name='user_type']/option[text()='Teacher']").click()
 
         # Jim presses the "Create" button and is shown an error
@@ -283,8 +283,8 @@ class NewVisitorTests(LiveServerTestCase):
         # ATTEMPT 2: Jim (correctly) re-enters in his passwords
         # KEY: inputs 0-3 in header, 4 hidden in form, 5-8 inputs, 9 button
         inputs = self.browser.find_elements_by_tag_name('input')
+        inputs[7].send_keys('Password')
         inputs[8].send_keys('Password')
-        inputs[9].send_keys('Password')
 
         # Jim presses the "Create" button and sent to the complete page
         self.check_for_redirect_after_button_click(
@@ -302,16 +302,16 @@ class NewVisitorTests(LiveServerTestCase):
         # ATTEMPT 3: Jim (incorrectly) tries to create another 'Jim' account
         self.browser.get(self.live_server_url + '/accounts/register/')
         inputs = self.browser.find_elements_by_tag_name('input')
-        inputs[6].send_keys('Jim')
-        inputs[7].send_keys('chipperdrew@gmail.com')
+        inputs[5].send_keys('Jim')
+        inputs[6].send_keys('chipperdrew@gmail.com')
+        inputs[7].send_keys('P')
         inputs[8].send_keys('P')
-        inputs[9].send_keys('P')
         self.check_for_redirect_after_button_click(
             "create",
             self.live_server_url +'/accounts/register/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('A user with that username already exists', body)
-
+    
     def test_login_box_existance_and_redirect(self):
         
         # On the homepage, Jim sees a place to enter in his
@@ -323,7 +323,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim see enters his username and password into the appropriate boxes
         inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertEqual(len(inputs), 5) #hidden, user, pass, login, remember me
+        self.assertEqual(len(inputs), 4) #user, pass, login, remember me
         user_input = self.browser.find_element_by_id('id_user_login')
         pass_input = self.browser.find_element_by_id('id_pass_login')
         user_input.send_keys('Jim')
@@ -331,7 +331,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim clicks the 'Login' button and is redirected to login page
         # b/c Jim's accounts DNE
-        self.check_for_redirect_after_button_click('login', '/accounts/login/$')
+        self.check_for_redirect_after_button_click('login', '/accounts/login/')
 
         # Jim now decides to try to login on the Problems page
         self.browser.get(self.live_server_url+'/problems/')
