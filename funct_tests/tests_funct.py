@@ -11,6 +11,13 @@ from selenium.webdriver.common.keys import Keys
 # App imports
 from posts.models import post
 
+"""
+TO TEST WITH MULTIPLE TABS:
+After login, go to POST page. In new tab, logout. Try to post/vote.
+Should return to /accounts/login/
+"""
+
+
 class NewVisitorTests(LiveServerTestCase):
 
     def setUp(self):
@@ -158,17 +165,6 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim no longer sees his post
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Here is a title', page_text)
-            
-    def test_posting_without_login(self):
-        
-        # Jim goes to the problems page and tries to post w/o logging in
-        self.browser.get(self.live_server_url+'/problems/')
-        title_input = self.browser.find_element_by_name('title')
-        title_input.send_keys('This should fail')
-
-        # Jim is redirected to the login page
-        self.check_for_redirect_after_button_click('post_button',
-                                                   '/accounts/login/$')
     
     def test_user_page_shows_proper_content_when_directly_accessed(self):
 

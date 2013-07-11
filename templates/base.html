@@ -12,10 +12,14 @@
 <body>
 	{% block login %}
 		<div id="id_login_box" style="border:2px solid black">
-			{% if user.is_anonymous %} 
+			{% if user.is_authenticated %} 
+				<p>Welcome {{ user.username }}. <a href="{% url 'user_page' user=user %}">My page</a></p>
+				<form action="{% url 'auth_logout' %}">
+					<button type="submit" name="logout">Logout</button>
+				</form>
+			{% else %}
 				<!-- If success, stays on current page. Else, redirects to /accounts/login -->
 				<form method="POST" action="{% url 'auth_login' %}?next={{request.path}}"> 
-									<!-- Calls auth.views.login -->
 					{% csrf_token %}
 					<label for="id_user_login">Username:</label> 
 					<input type="text" name="username" id="id_user_login" />
@@ -25,11 +29,6 @@
 					<label><input type="checkbox" name="remember_me"/>Remember me</label>
 					<a href="/accounts/register">Create Account</a>
 					<a href="{% url 'password_reset' %}">Reset password</a>
-				</form>
-			{% else %} 
-				<p>Welcome {{ user.username }}. <a href="{% url 'user_page' user=user %}">My page</a></p>
-				<form action="{% url 'auth_logout' %}">
-					<button type="submit" name="logout">Logout</button>
 				</form>
 			{% endif %} 
 		</div>

@@ -3,11 +3,18 @@
 
 {% block content %}
 	{{ block.super }}
-	<form method="POST" action="{% url 'post_new' %}?next={{request.path}}">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<button name="post_button" type="submit">Post</button>	
-	</form>
+
+	{% if user.is_authenticated %} 
+		{% if form.errors %}
+			{{ form.non_field_errors }}		
+		{% endif %}
+		<form method="POST" action="{% url 'post_new' %}?next={{request.path}}">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button name="post_button" type="submit">Post</button>	
+		</form>
+	{% endif %}
+
 
 	<div>
 	{% for post in posts %}

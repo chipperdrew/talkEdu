@@ -13,7 +13,9 @@
 	{% block login %}{% endblock login %}
 
 	<div id="id_login_box" style="text-align:center">
-	{% if user.is_anonymous %} 
+	{% if user.is_authenticated %} 
+			<p> You are already logged in!
+	{% else %}
 			<!-- If success, stays on current page. Else, redirects to /accounts/login -->
 			{% if form.errors %}
 				<p>Either the username does not exist, or the incorrect password was entered. 
@@ -37,8 +39,6 @@
 					<input type="hidden" name="next" value="/" />				
 				{% endif %}
 			</form>
-		{% else %} 
-			<p> You are already logged in!
 	{% endif %}
 	</div>
 

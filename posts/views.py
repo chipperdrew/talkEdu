@@ -19,6 +19,14 @@ def display_page_helper(request, page_type, template):
     Paginator logic adapted from:
     https://docs.djangoproject.com/en/dev/topics/pagination/
     """
+    # If given a bad form, show form and errors
+    if request.session.get('bad_form'):
+        form = postForm(request.session.get('bad_form'))
+        form.is_valid()
+        del request.session['bad_form']
+    else:
+        form = postForm
+    
     posts_all = post.objects.all().filter(page_type=page_type)
     paginator = Paginator(posts_all, 5)
     page = request.GET.get('page')
@@ -48,7 +56,7 @@ def display_page_helper(request, page_type, template):
                 user_dict[user_type[0]] = round(
                     float(len(up_votes))/len(all_votes), 3
                 )
-    return render(request, template, {'posts': posts, 'form': postForm,
+    return render(request, template, {'posts': posts, 'form': form,
                                       'vote_dict': vote_dict})
 
 def problems_page(request):
@@ -107,6 +115,9 @@ def edit(request, id=None):
         form = postForm(request.POST, instance=post_of_interest)
         if form.is_valid():
             form.save()
+        else:
+            # In order to display errors, display_page_helper needs access
+            request.session['bad_form'] = request.POST 
         if 'next' in request.GET:
             return redirect(request.GET['next'])
         else:
