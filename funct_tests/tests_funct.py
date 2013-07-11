@@ -92,7 +92,7 @@ class NewVisitorTests(LiveServerTestCase):
         title_input.send_keys('I good at school')
         textbox_input = self.browser.find_element_by_name('text')
         textbox_input.send_keys('I really is')
-        self.browser.find_element_by_id('id_post_button').click()
+        self.browser.find_element_by_name('post_button').click()
 
         # Both posts are displayed
         page_text =  self.browser.find_element_by_tag_name('body').text
@@ -116,7 +116,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim now logs out
         self.check_for_redirect_after_button_click("logout",
                                                    self.live_server_url + '/$')
-
+    
     def test_edit_and_deletion_of_posts(self):
         # Jim accesses the ideas page and logs in
         self.browser.get(self.live_server_url+'/ideas/')
@@ -158,16 +158,17 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim no longer sees his post
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Here is a title', page_text)
-           
-    def test_problems_page_fails_to_post_when_not_logged_in(self):
+            
+    def test_posting_without_login(self):
         
         # Jim goes to the problems page and tries to post w/o logging in
         self.browser.get(self.live_server_url+'/problems/')
         title_input = self.browser.find_element_by_name('title')
         title_input.send_keys('This should fail')
-        self.assertIn('YouTalkEdu', self.browser.title)
-        self.browser.find_element_by_id('id_post_button').click()
-        self.assertNotIn('YouTalkEdu', self.browser.title) #error occurs
+
+        # Jim is redirected to the login page
+        self.check_for_redirect_after_button_click('post_button',
+                                                   '/accounts/login/$')
     
     def test_user_page_shows_proper_content_when_directly_accessed(self):
 

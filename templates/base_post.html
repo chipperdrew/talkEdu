@@ -6,7 +6,7 @@
 	<form method="POST" action="{% url 'post_new' %}?next={{request.path}}">
 		{% csrf_token %}
 		{{ form.as_p }}
-		<button id="id_post_button" type="submit">Post</button>	
+		<button name="post_button" type="submit">Post</button>	
 	</form>
 
 	<div>

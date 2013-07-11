@@ -112,7 +112,6 @@ def edit(request, id=None):
         else:
             return redirect('/')
     else:
-        return HttpResponse('WHY?')
         form = postForm(instance=post_of_interest)
         return render(request, 'post_edit.html',
                       {'id': id, 'form': form,
