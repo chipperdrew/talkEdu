@@ -16,7 +16,7 @@ class NewVisitorTests(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
-        new_user = get_user_model().objects.create_user(
+        get_user_model().objects.create_user(
             'Test', 'chipperdrew@gmail.com', 'test',
             user_type=get_user_model().ADMINISTRATOR
         )
@@ -37,11 +37,11 @@ class NewVisitorTests(LiveServerTestCase):
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, expected_url_regex)
 
-    def login_test_user(self):
+    def login_user(self, username, password):
         user_input = self.browser.find_element_by_id('id_user_login')
         pass_input = self.browser.find_element_by_id('id_pass_login')
-        user_input.send_keys('Test')
-        pass_input.send_keys('test')
+        user_input.send_keys(username)
+        pass_input.send_keys(password)
         self.browser.find_element_by_name('login').click()
     
     def test_home_page_has_proper_content_and_links(self):
@@ -69,7 +69,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn("Problems - ", self.browser.title)
 
         # Jim logs in (as Test), and remains on the problems page
-        self.login_test_user()
+        self.login_user('Test', 'test')
         self.assertIn("Problems - ", self.browser.title)
     
         # A title and text box are displayed
@@ -120,7 +120,7 @@ class NewVisitorTests(LiveServerTestCase):
     def test_edit_and_deletion_of_posts(self):
         # Jim accesses the ideas page and logs in
         self.browser.get(self.live_server_url+'/ideas/')
-        self.login_test_user()
+        self.login_user('Test', 'test')
 
         # Jim accidentally posts w/o entering text
         title_input = self.browser.find_element_by_name('title')
@@ -183,7 +183,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('My page', body)
-        self.login_test_user()
+        self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('My page', body)
 
@@ -333,6 +333,12 @@ class NewVisitorTests(LiveServerTestCase):
         # b/c Jim's accounts DNE
         self.check_for_redirect_after_button_click('login', '/accounts/login/')
 
+        # Jim logs in successfully, is returned to the home page. Jim logs out.
+        self.login_user('Test', 'test')
+        new_url = self.browser.current_url
+        self.assertEqual(new_url, self.live_server_url+'/')
+        self.browser.find_element_by_name('logout').click()
+
         # Jim now decides to try to login on the Problems page
         self.browser.get(self.live_server_url+'/problems/')
         login_box = self.browser.find_element_by_id('id_login_box').text
@@ -377,7 +383,99 @@ class NewVisitorTests(LiveServerTestCase):
         body =  self.browser.find_element_by_tag_name('body').text
         self.assertIn('Page 1 of 2', body)
         self.assertIn('Next', body)
+        
+    def test_vote_existance_and_functionality(self):
+        test_user = get_user_model().objects.get(username='Test')
+        post.objects.create(title='T1', page_type=post.IDEAS, user_id=test_user)
+        post.objects.create(title='T2', page_type=post.IDEAS, user_id=test_user)
 
+        # Jim visits the ideas page, logins in, and sees the current votes
+        self.browser.get(self.live_server_url+'/ideas/')
+        self.login_user('Test', 'test')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn('Up', body)
+        self.assertIn('Down', body)
+
+        up_votes = self.browser.find_elements_by_link_text('Up')
+        self.assertEqual(len(up_votes), 2)
+
+        # Jim clicks the 'up' vote for one of the posts
+        up_votes[0].click()
+        self.browser.implicitly_wait(3)
+        new_url = self.browser.current_url
+        self.assertRegexpMatches(new_url, self.live_server_url+'/ideas/$')
+
+        # Jim sees his vote and logs out satisfied
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 1.0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.browser.find_element_by_name('logout').click()
+        
+        # Bob, another user, logs in and sees the posts
+        get_user_model().objects.create_user(
+            'Bob', 'bob@gmail.com', 'b',
+            user_type=get_user_model().ADMINISTRATOR
+        )
+        self.login_user('Bob', 'b')
+        self.check_for_redirect_after_link_click('Ideas', '/ideas/$')
+
+        # Bob votes on the same post
+        down_votes = self.browser.find_elements_by_link_text('Down')
+        down_votes[0].click()
+        self.browser.implicitly_wait(3)
+        new_url = self.browser.current_url
+        self.assertRegexpMatches(new_url, self.live_server_url+'/ideas/$')
+
+        # Bob sees how his vote has changed the voting value
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0.5, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.browser.find_element_by_name('logout').click()
+
+        # Jill, a student, logs in
+        get_user_model().objects.create_user(
+            'Jill', 'bob@gmail.com', 'j',
+            user_type=get_user_model().STUDENT
+        )
+        self.login_user('Jill', 'j')
+        self.check_for_redirect_after_link_click('Ideas', '/ideas/$')
+        
+        # Jill votes and sees the changes
+        up_votes = self.browser.find_elements_by_link_text('Up')
+        up_votes[0].click()
+        self.browser.implicitly_wait(3)
+        new_url = self.browser.current_url
+        self.assertRegexpMatches(new_url, self.live_server_url+'/ideas/$')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn("'STU': 1.0, 'PAR': 0, 'ADM': 0.5, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)      
+
+    def test_voting_without_login_and_login_page_redirects_back(self):
+        test_user = get_user_model().objects.get(username='Test')
+        post.objects.create(
+            title='T1', page_type=post.SITE_FEEDBACK, user_id=test_user
+        )
+
+        # Jim visits the site_feedback page and tries to vote on the 'T1' post
+        self.browser.get(self.live_server_url+'/site_feedback/')
+        self.check_for_redirect_after_link_click(
+            'Up', self.live_server_url + '/accounts/login/'
+        )
+
+        # Jim has to login. He initially messes up.
+        self.login_user('Test', 'teeest')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Please try again', body)
+
+        # Jim successfully logs in and is returned to the site_feedback page
+        # His vote is saved.
+        self.login_user('Test', 'test')
+        new_url = self.browser.current_url
+        self.assertEqual(new_url, self.live_server_url+'/site_feedback/')
+        body =  self.browser.find_element_by_tag_name('body').text
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 1.0, 'OUT': 0, 'TEA': 0", body)
+    
 
     # THIS TEST IS __NOT__ SAVING COOKIES. LOOK FOR NEW METHOD AND RE-RUN
     """

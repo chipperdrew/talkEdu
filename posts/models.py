@@ -69,51 +69,7 @@ class vote(models.Model):
         ('downvote'),
     )
 
-    post_id = models.ForeignKey(post)
-    user_id = models.ForeignKey(eduuser)
+    post_id = models.ForeignKey(post, related_name='votes')
+    user_id = models.ForeignKey(eduuser, related_name='votes')
     vote_choice = models.CharField(max_length=8, choices=VOTE_CHOICES,
                                    default=VOTE_CHOICES.upvote)
-"""
-class vote(models.Model):
-    post_id = models.OneToOneField(post, primary_key=True)
-
-    vote_dict = {} #Names of fields are stored as vote_dict
-    for user_type in getattr(eduuser, 'USER_TYPE_CHOICES'):
-        models.IntegerField(
-            default=0, name=user_type[0]+'_up')
-        models.IntegerField(
-            default=0, name=user_type[0]+'_votes')
-    
-    a = models.IntegerField(
-        default=0, name=getattr(eduuser, 'STUDENT')+'_up')
-    b = models.IntegerField(
-        default=0, name=getattr(eduuser, 'TEACHER')+'_up')
-    c = models.IntegerField(
-        default=0, name=getattr(eduuser, 'PARENT')+'_up')
-    d = models.IntegerField(
-        default=0, name=getattr(eduuser, 'ADMINISTRATOR')+'_up')
-    e = models.IntegerField(
-        default=0, name=getattr(eduuser, 'OUTSIDER')+'_up')
-    
-    models.IntegerField(
-        default=0, name=getattr(eduuser, 'STUDENT')+'_votes')
-    models.IntegerField(
-        default=0, name=getattr(eduuser, 'TEACHER')+'_votes')
-    models.IntegerField(
-        default=0, name=getattr(eduuser, 'PARENT')+'_votes')
-    models.IntegerField(
-        default=0, name=getattr(eduuser, 'ADMINISTRATOR')+'_votes')
-    models.IntegerField(
-        default=0, name=getattr(eduuser, 'OUTSIDER')+'_votes')
-
-    def perc(self):
-        perc_array = []
-        for user_type in getattr(eduuser, 'USER_TYPE_CHOICES'):
-            up = float(getattr(self, user_type[0]+'_up')) #Prevent int divis
-            votes = getattr(self, user_type[0]+'_votes')
-            if votes==0:
-                perc_array.append(0)
-            else:
-                perc_array.append(round(up/votes, 3))
-        return perc_array
-"""

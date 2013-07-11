@@ -10,6 +10,7 @@ TODO:
 #) Think of way to prevent post spam
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - Add https protection
+#) TOFIX? - Require certain password length/chars???
 #) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
 #) TOFIX? - Same as above, but with /user/chiPPeRdrew/ link
 #) DONE - Change database?
