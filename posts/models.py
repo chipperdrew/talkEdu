@@ -58,18 +58,3 @@ class eduuser(AbstractUser):
     )
 
     user_type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES)
-
-
-
-
-class vote(models.Model):
-
-    VOTE_CHOICES = Choices(
-        ('upvote'),
-        ('downvote'),
-    )
-
-    post_id = models.ForeignKey(post, related_name='votes')
-    user_id = models.ForeignKey(eduuser, related_name='votes')
-    vote_choice = models.CharField(max_length=8, choices=VOTE_CHOICES,
-                                   default=VOTE_CHOICES.upvote)

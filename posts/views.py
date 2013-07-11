@@ -6,8 +6,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+
 from .forms import postForm
-from .models import post, vote
+from .models import post
+from votes.models import vote
 
 
 def home_page(request):
@@ -139,30 +141,4 @@ def delete(request, id):
     else:
         raise PermissionDenied()
     return redirect(request.GET['next']) #provided by base_post template
-
-
-####### VOTING VIEWS ########
-@login_required
-def up_vote(request, id):
-    post_of_interest = post.objects.get(id=id)
-    vote_of_interest, bool_created = vote.objects.get_or_create(
-                post_id = post_of_interest,
-                user_id = request.user,
-                )
-    # Default vote choice is up_vote, so only modify vote if accessed via get
-    if bool_created == False:
-        vote_of_interest.vote_choice = vote.VOTE_CHOICES.upvote
-        vote_of_interest.save()
-    return redirect(request.GET['next'])
-
-@login_required
-def down_vote(request, id):
-    post_of_interest = post.objects.get(id=id)
-    vote_of_interest, bool_created = vote.objects.get_or_create(
-                post_id = post_of_interest,
-                user_id = request.user,
-                )
-    vote_of_interest.vote_choice = vote.VOTE_CHOICES.downvote
-    vote_of_interest.save()
-    return redirect(request.GET['next'])
 

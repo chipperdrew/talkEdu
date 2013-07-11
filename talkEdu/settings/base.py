@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'south',
     'posts',
     'accounts',
+    'votes',
     'funct_tests',
 )
 
