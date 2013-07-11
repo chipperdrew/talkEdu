@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import postForm
@@ -88,6 +89,11 @@ def edit(request, id=None):
     Called when making a new 'post' or editing an existing 'post'.
     Adapted from: http://stackoverflow.com/questions/1854237/django-edit-form-based-on-add-form
     """
+    ## Preferred over @login_required b/c login_required doesn't save POST
+    ## requests, thus causing an error upon return to POST page
+    if not request.user.is_authenticated():
+        return redirect(reverse('accounts.views.login'))
+    
     if id:
         post_of_interest = get_object_or_404(post, pk=id)
     # Create a new post if it doesn't already exist
@@ -101,11 +107,12 @@ def edit(request, id=None):
         form = postForm(request.POST, instance=post_of_interest)
         if form.is_valid():
             form.save()
-            if 'next' in request.GET:
-                return redirect(request.GET['next'])
-            else:
-                return redirect('/')
+        if 'next' in request.GET:
+            return redirect(request.GET['next'])
+        else:
+            return redirect('/')
     else:
+        return HttpResponse('WHY?')
         form = postForm(instance=post_of_interest)
         return render(request, 'post_edit.html',
                       {'id': id, 'form': form,

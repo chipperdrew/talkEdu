@@ -29,7 +29,13 @@
 				<label><input type="checkbox" name="remember_me"/>Remember me</label>
 				<a href="/accounts/register">Create Account</a>
 				<a href="{% url 'password_reset' %}">Reset password</a>
-				<input type="hidden" name="next" value="{{ next }}" />
+				{% if next and next.strip %}
+					{# Next value is provided, redirect back to that page #}
+					<input type="hidden" name="next" value="{{ next }}" />
+				{% else %}
+					{# NO next value is provided, redirect home #}
+					<input type="hidden" name="next" value="/" />				
+				{% endif %}
 			</form>
 		{% else %} 
 			<p> You are already logged in!
