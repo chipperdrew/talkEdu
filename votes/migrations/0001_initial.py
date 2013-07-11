@@ -12,7 +12,7 @@ class Migration(SchemaMigration):
         db.create_table(u'votes_vote', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('post_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='votes', to=orm['posts.post'])),
-            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='votes', to=orm['posts.eduuser'])),
+            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='votes', to=orm['accounts.eduuser'])),
             ('vote_choice', self.gf('django.db.models.fields.CharField')(default='upvote', max_length=8)),
         ))
         db.send_create_signal(u'votes', ['vote'])
@@ -24,6 +24,23 @@ class Migration(SchemaMigration):
 
 
     models = {
+        u'accounts.eduuser': {
+            'Meta': {'object_name': 'eduuser'},
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
+            'user_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
+        },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -44,23 +61,6 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'posts.eduuser': {
-            'Meta': {'object_name': 'eduuser'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'user_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
         u'posts.post': {
             'Meta': {'object_name': 'post'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -69,13 +69,13 @@ class Migration(SchemaMigration):
             'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 11, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
             'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 11, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
-            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['posts.eduuser']"})
+            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['accounts.eduuser']"})
         },
         u'votes.vote': {
             'Meta': {'object_name': 'vote'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'post_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'votes'", 'to': u"orm['posts.post']"}),
-            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'votes'", 'to': u"orm['posts.eduuser']"}),
+            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'votes'", 'to': u"orm['accounts.eduuser']"}),
             'vote_choice': ('django.db.models.fields.CharField', [], {'default': "'upvote'", 'max_length': '8'})
         }
     }

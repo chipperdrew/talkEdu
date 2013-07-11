@@ -11,78 +11,39 @@ class Migration(SchemaMigration):
         # Adding model 'post'
         db.create_table(u'posts_post', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 9, 0, 0), auto_now_add=True, blank=True)),
-            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 9, 0, 0), auto_now=True, blank=True)),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 11, 0, 0), auto_now_add=True, blank=True)),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 11, 0, 0), auto_now=True, blank=True)),
             ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=150)),
             ('text', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='posts', to=orm['posts.eduuser'])),
+            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='posts', to=orm['accounts.eduuser'])),
             ('page_type', self.gf('django.db.models.fields.CharField')(max_length=3)),
         ))
         db.send_create_signal(u'posts', ['post'])
-
-        # Adding model 'eduuser'
-        db.create_table(u'posts_eduuser', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('password', self.gf('django.db.models.fields.CharField')(max_length=128)),
-            ('last_login', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('is_superuser', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('username', self.gf('django.db.models.fields.CharField')(unique=True, max_length=30)),
-            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, blank=True)),
-            ('is_staff', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('is_active', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('date_joined', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('user_type', self.gf('django.db.models.fields.CharField')(max_length=3)),
-        ))
-        db.send_create_signal(u'posts', ['eduuser'])
-
-        # Adding M2M table for field groups on 'eduuser'
-        m2m_table_name = db.shorten_name(u'posts_eduuser_groups')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('eduuser', models.ForeignKey(orm[u'posts.eduuser'], null=False)),
-            ('group', models.ForeignKey(orm[u'auth.group'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['eduuser_id', 'group_id'])
-
-        # Adding M2M table for field user_permissions on 'eduuser'
-        m2m_table_name = db.shorten_name(u'posts_eduuser_user_permissions')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('eduuser', models.ForeignKey(orm[u'posts.eduuser'], null=False)),
-            ('permission', models.ForeignKey(orm[u'auth.permission'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['eduuser_id', 'permission_id'])
-
-        # Adding model 'vote'
-        db.create_table(u'posts_vote', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('post_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['posts.post'])),
-            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['posts.eduuser'])),
-            ('vote_choice', self.gf('django.db.models.fields.CharField')(default='upvote', max_length=8)),
-        ))
-        db.send_create_signal(u'posts', ['vote'])
 
 
     def backwards(self, orm):
         # Deleting model 'post'
         db.delete_table(u'posts_post')
 
-        # Deleting model 'eduuser'
-        db.delete_table(u'posts_eduuser')
-
-        # Removing M2M table for field groups on 'eduuser'
-        db.delete_table(db.shorten_name(u'posts_eduuser_groups'))
-
-        # Removing M2M table for field user_permissions on 'eduuser'
-        db.delete_table(db.shorten_name(u'posts_eduuser_user_permissions'))
-
-        # Deleting model 'vote'
-        db.delete_table(u'posts_vote')
-
 
     models = {
+        u'accounts.eduuser': {
+            'Meta': {'object_name': 'eduuser'},
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
+            'user_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
+        },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -103,39 +64,15 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'posts.eduuser': {
-            'Meta': {'object_name': 'eduuser'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'user_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
         u'posts.post': {
             'Meta': {'object_name': 'post'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'page_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             'text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 9, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
-            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 9, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 11, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 11, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
-            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['posts.eduuser']"})
-        },
-        u'posts.vote': {
-            'Meta': {'object_name': 'vote'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'post_id': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['posts.post']"}),
-            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['posts.eduuser']"}),
-            'vote_choice': ('django.db.models.fields.CharField', [], {'default': "'upvote'", 'max_length': '8'})
+            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['accounts.eduuser']"})
         }
     }
 
