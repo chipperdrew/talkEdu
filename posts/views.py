@@ -91,7 +91,7 @@ def post_page(request, post_id):
     Displays a page with info about a certain post
     """
     post_of_interest = get_object_or_404(post, id=post_id)
-    return render(request, 'post_page.html', {'post': post_of_interest})
+    return render(request, 'post_page.html', {'post_object': post_of_interest})
 
 ###### POST VIEWS #######
 def edit(request, id=None):

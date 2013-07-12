@@ -49,12 +49,18 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'registration',
+    'disqus',
     'south',
     'posts',
     'accounts',
     'votes',
     'funct_tests',
 )
+
+# DISQUS VALUES
+DISQUS_API_KEY = 'TZMxSP4vmfKsCmj7fqsUrRCaYuAI0iQ0PSfzwgU9gliPlrgKlugLvuPz1Ytohhfe'
+DISQUS_WEBSITE_SHORTNAME = 'YouTalkEdu'
+
 
 SITE_ID = 1
 

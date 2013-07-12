@@ -16,6 +16,7 @@
 	{% endif %}
 
 
+	{# ALL POSTS ON THE PAGE #}
 	<div>
 	{% for post in posts %}
 		<a href="{% url 'post_page' post_id=post.id %}"><h4>{{ post.title }}</h4></a>
@@ -37,8 +38,9 @@
 		</p>
 	{% endfor %}
 	</div>
+    
 
-
+	{# PAGINATION #}
 	{# Source: https://docs.djangoproject.com/en/dev/topics/pagination/ #}
 	<div class="pagination">
 		<span class="step-links">

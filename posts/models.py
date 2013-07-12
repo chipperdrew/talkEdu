@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 from model_utils import Choices
@@ -39,3 +40,6 @@ class post(TimeStampedModel):
     # Better string representation in admin and elsewhere
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('post_page', kwargs={"post_id": self.id}) 

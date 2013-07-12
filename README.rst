@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Add eduuser model to accounts app?
 #) Draw voting system
 #) Allow for comments on POST pages (using django-comments)
 #) Implement "search" feature
@@ -27,6 +26,7 @@ TODO:
 #) FIXED - New posts will display on last page opened, not current page (controlled by session request in views)
 #) DONE - 20 posts/page?
 #) DONE - Create voting system
+#) Add eduuser model to Accounts app, create Votes app
 
 
 
@@ -111,6 +111,19 @@ talkEdu/
 		wsgi.py
 
 	templates/
+
+	votes/
+		
+		__init__.py
+
+		models.py
+
+		tests_votes.py
+
+		urls.py
+
+		views.py
+
 
 
 
