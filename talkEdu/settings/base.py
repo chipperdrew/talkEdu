@@ -51,17 +51,28 @@ INSTALLED_APPS = (
     'registration',
     'disqus',
     'south',
+    'haystack',
     'posts',
     'accounts',
     'votes',
     'funct_tests',
 )
 
-# DISQUS VALUES
+# Disqus values
 DISQUS_API_KEY = 'TZMxSP4vmfKsCmj7fqsUrRCaYuAI0iQ0PSfzwgU9gliPlrgKlugLvuPz1Ytohhfe'
 DISQUS_WEBSITE_SHORTNAME = 'YouTalkEdu'
 
+# Haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://localhost:8983/solr'
+        # ...or for multicore...
+        # 'URL': 'http://127.0.0.1:8983/solr/mysite',
+    },
+}
 
+# Requires for django.contrib.sites
 SITE_ID = 1
 
 ACCOUNT_ACTIVATION_DAYS = 7

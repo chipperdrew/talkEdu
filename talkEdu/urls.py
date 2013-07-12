@@ -17,6 +17,7 @@ urlpatterns += patterns('',
     url(r'^post/', include('posts.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^', include('votes.urls')),
+    url(r'^search/', include('haystack.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 )
