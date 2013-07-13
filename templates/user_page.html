@@ -11,5 +11,6 @@
 
 	{% if user_object == request.user %}
 		<p><a href="{% url 'django.contrib.auth.views.password_change' %}">Change your password</a></p>
+		<p><a href="{% url 'user_type_change' %}">Change your account type</a></p>
 	{% endif %}
 {% endblock content %}

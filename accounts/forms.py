@@ -2,6 +2,7 @@ from registration.forms import RegistrationForm
 from django.contrib.auth import get_user_model  #eduuser
 from django.forms import ModelForm
 
+
 class eduuserForm(ModelForm):
     """
     Get extra 'user_type' field to add to form for django-registration

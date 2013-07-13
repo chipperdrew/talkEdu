@@ -30,8 +30,8 @@ urlpatterns = patterns('django.contrib.auth.views',
 )
 
 
-urlpatterns += patterns('',
-    url(r'^login/$', 'accounts.views.login',
+urlpatterns += patterns('accounts.views',
+    url(r'^login/$', 'login',
         {'template_name': 'login.html'}),
 
     # Django-registration package
@@ -39,4 +39,10 @@ urlpatterns += patterns('',
         form_class=RegistrationForm)),
     url(r'^', include('registration.backends.default.urls'),
         name='accounts'),
+
+    # User type change
+    url(r'^user_type/change/$', 'user_type_change',
+        name='user_type_change'),
+    url(r'^user_type/change/done/(?P<id>\d+)/$', 'user_type_change_done',
+        name='user_type_change_done'),
 )
