@@ -37,6 +37,15 @@ class post(TimeStampedModel):
     )
     page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
 
+    def get_vote_percentage(self):
+        from votes.models import vote #Must import here b/c cross-relationship
+        all_votes = self.votes.all().count()
+        if all_votes==0:
+            return 0
+        else:
+            up_votes = self.votes.filter(vote_choice = vote.VOTE_CHOICES.upvote).count()
+            return round(float(up_votes)/all_votes, 3)
+    
     # Better string representation in admin and elsewhere
     def __unicode__(self):
         return self.title

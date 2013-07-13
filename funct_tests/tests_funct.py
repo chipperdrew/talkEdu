@@ -50,7 +50,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys(username)
         pass_input.send_keys(password)
         self.browser.find_element_by_name('login').click()
-    """
+    
     def test_home_page_has_proper_content_and_links(self):
         
         # Jim visits the home page of our site
@@ -175,12 +175,16 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Here is a title', body)
     
     def test_user_page_shows_proper_content_when_directly_accessed(self):
+        test_user = get_user_model().objects.get(username='Test')
+        post.objects.create(title='Title', user_id=test_user)
 
         # Jim accesses the 'Test' user page and sees the proper content
         self.browser.get(self.live_server_url+'/user/Test/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Test', body)
         self.assertIn('Administrator', body)
+        self.assertIn('1: Title', body)
+        self.assertIn('Overall rating: 0', body)
         self.assertIn('User Test', self.browser.title)
 
     def test_change_password(self):
@@ -399,6 +403,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn('Overall: 0', body)
         self.assertIn('Up', body)
         self.assertIn('Down', body)
 
@@ -454,7 +459,9 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertRegexpMatches(new_url, self.live_server_url+'/ideas/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 1.0, 'PAR': 0, 'ADM': 0.5, 'OUT': 0, 'TEA': 0", body)
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)      
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn('Overall: 0.667', body)
+        self.assertIn('Overall: 0', body)
 
     def test_voting_without_login_and_login_page(self):
         test_user = get_user_model().objects.get(username='Test')
@@ -492,7 +499,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/accounts/login/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('You are already logged in', body)
-    """
+
     def test_user_type_change(self):
         # Jim logs in as Test and votes Up on a post
         test_user = get_user_model().objects.get(username='Test')
