@@ -205,5 +205,3 @@ class SearchLinkTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'search/search.html')
         self.assertIn('Search', response.content)
-
-    

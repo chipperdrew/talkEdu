@@ -50,7 +50,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys(username)
         pass_input.send_keys(password)
         self.browser.find_element_by_name('login').click()
-    
+    """
     def test_home_page_has_proper_content_and_links(self):
         
         # Jim visits the home page of our site
@@ -492,7 +492,40 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/accounts/login/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('You are already logged in', body)
+    """
+    def test_user_type_change(self):
+        # Jim logs in as Test and votes Up on a post
+        test_user = get_user_model().objects.get(username='Test')
+        post.objects.create(title='Test post',
+                            page_type=post.SITE_FEEDBACK,
+                            user_id=test_user
+        )
+        self.browser.get(self.live_server_url+'/site_feedback/')
+        self.login_user('Test', 'test')
+        self.check_for_redirect_after_link_click('Up', '/site_feedback/$')
 
+        # The post shows than an ADMIN has voted up
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 1.0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn('User type=Administrator', body)
+
+        # Jim changes user type to TEACHER
+        self.browser.get(self.live_server_url+'/user/Test')
+        self.check_for_redirect_after_link_click('Change your account type',
+                                                 '/user_type/change/$'
+                                                 )
+        self.browser.find_element_by_xpath("//select[@name='user_type']/option[text()='Teacher']").click()
+        self.check_for_redirect_after_button_click('user_type_change_button',
+                                                 '/user_type/change/done/'
+                                                 )
+
+        # Jim sees his user type and vote has been changed
+        self.browser.get(self.live_server_url+'/site_feedback/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 1.0", body)
+        self.assertIn('User type=Teacher', body)
+
+        
 
 
     # THIS TEST IS __NOT__ SAVING COOKIES. LOOK FOR NEW METHOD AND RE-RUN
