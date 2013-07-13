@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load dictionary_extras %} {# For dictionary access to variable keys #}
+{% load honeypot %}
 
 {% block content %}
 	{{ block.super }}
@@ -10,6 +11,7 @@
 		{% endif %}
 		<form method="POST" action="{% url 'post_new' %}?next={{request.path}}">
 			{% csrf_token %}
+			{% render_honeypot_field %}
 			{{ form.as_p }}
 			<button name="post_button" type="submit">Post</button>	
 		</form>

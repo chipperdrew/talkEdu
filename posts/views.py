@@ -6,6 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from honeypot.decorators import check_honeypot
 
 from .forms import postForm
 from .models import post
@@ -94,6 +95,7 @@ def post_page(request, post_id):
     return render(request, 'post_page.html', {'post_object': post_of_interest})
 
 ###### POST VIEWS #######
+@check_honeypot
 def edit(request, id=None):
     """
     Called when making a new 'post' or editing an existing 'post'.

@@ -1,5 +1,7 @@
 {# Will be called with form needed to be edited #}
 {% extends "base.html" %}
+{% load honeypot %}
+
 
 {% block title %}Edit post - YouTalkEdu{% endblock title %}
 
@@ -7,6 +9,7 @@
 	{{ block.super }}
 	<form method="POST" action="{% url 'post_edit' id=id %}?next={{redirect_to}}">
 		{% csrf_token %}
+		{% render_honeypot_field %}		
 		{{ form.as_p }}
 		<button name="update" type="submit">Update</button>	
 	</form>

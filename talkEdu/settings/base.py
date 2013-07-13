@@ -32,7 +32,7 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] # AC: 7/13/13 Set this in production
 
 
 # Email
@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'disqus',
     'south',
     'haystack',
+    'honeypot',
     'posts',
     'accounts',
     'votes',
@@ -70,6 +71,9 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'haystack',
     },
 }
+
+# Honeypot name
+HONEYPOT_FIELD_NAME = 'website'
 
 # Requires for django.contrib.sites
 SITE_ID = 1
