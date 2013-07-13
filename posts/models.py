@@ -36,16 +36,19 @@ class post(TimeStampedModel):
         (SITE_FEEDBACK, 'Site Feedback'),
     )
     page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
+    vote_percentage = models.FloatField(default=0) #Consider setting min/max
 
-    def get_vote_percentage(self):
+    class Meta:
+        ordering = ['-time_created']
+
+    def update_vote_percentage(self):
         from votes.models import vote #Must import here b/c cross-relationship
         all_votes = self.votes.all().count()
-        if all_votes==0:
-            return 0
-        else:
+        if all_votes!=0:
             up_votes = self.votes.filter(vote_choice = vote.VOTE_CHOICES.upvote).count()
-            return round(float(up_votes)/all_votes, 3)
-    
+            setattr(self, 'vote_percentage', round(float(up_votes)/all_votes, 3))
+            self.save()
+            
     # Better string representation in admin and elsewhere
     def __unicode__(self):
         return self.title

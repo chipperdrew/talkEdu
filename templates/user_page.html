@@ -7,7 +7,7 @@
 	<h4>User type = {{ user_object.get_user_type_display }}. Here are the posts for {{ user_object.username }}: </h4>
 	{% for post in user_posts %}
 		<p>{{ forloop.counter }}: <a href="{% url 'post_page' post_id=post.id %}">{{ post.title }}</a>.
-		Overall rating: {{ post.get_vote_percentage }}</p>
+		Overall rating: {{ post.vote_percentage }}</p>
 	{% endfor %}
 	<br/><br/>
 

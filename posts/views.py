@@ -16,7 +16,7 @@ from votes.models import vote
 def home_page(request):
     return render(request, 'home.html')
 
-def display_page_helper(request, page_type, template):
+def display_page_helper(request, page_type, template, sort_id=None):
     """
     Helper function to display any pages with posts.
     Paginator logic adapted from:
@@ -29,8 +29,22 @@ def display_page_helper(request, page_type, template):
         del request.session['bad_form']
     else:
         form = postForm
-    
+
+
+    # Update vote percentage values
     posts_all = post.objects.all().filter(page_type=page_type)
+    for current_post in posts_all:
+        current_post.update_vote_percentage()
+
+    # Sort logic
+    if sort_id==1:
+        posts_all = posts_all.order_by('-time_created')
+    elif sort_id==2:
+        posts_all = posts_all.order_by('-vote_percentage')
+    else:
+        pass
+    
+    # Paginator logic
     paginator = Paginator(posts_all, 5)
     page = request.GET.get('page')
     try:
@@ -40,7 +54,9 @@ def display_page_helper(request, page_type, template):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         posts = paginator.page(paginator.num_pages)
-
+        
+        
+    # Filling vote values
     vote_dict = {}
     # Grabs the current post and switches to its inner dictionary
     for current_post in posts:
@@ -59,6 +75,7 @@ def display_page_helper(request, page_type, template):
                 user_dict[user_type[0]] = round(
                     float(len(up_votes))/len(all_votes), 3
                 )
+    
     return render(request, template, {'posts': posts, 'form': form,
                                       'vote_dict': vote_dict})
 
@@ -84,6 +101,8 @@ def user_page(request, user):
     """
     user_of_interest = get_object_or_404(get_user_model(), username=user)
     user_posts = user_of_interest.posts.all()
+    for current_post in user_posts:
+        current_post.update_vote_percentage()
     return render(request, 'user_page.html',
                   {'user_object': user_of_interest, 'user_posts': user_posts})
 

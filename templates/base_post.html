@@ -33,7 +33,7 @@
 			{% endif %}
 		</p>
 		<p> 
-			{{ vote_dict|key:post }}. Overall: {{ post.get_vote_percentage }}
+			{{ vote_dict|key:post }}. Overall: {{ post.vote_percentage }}
 		</p>
 			<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
 			<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>

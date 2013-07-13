@@ -170,11 +170,11 @@ class PostModelTest(TestCase):
         saved_posts = post.objects.all()
         self.assertEqual(saved_posts.count(), 2)
 
-        saved_post1 = saved_posts[0]
+        saved_post1 = saved_posts[0] #First is most recent
         saved_post2 = saved_posts[1]
-        self.assertEqual(saved_post1.title, 'Post numero uno!')
-        self.assertEqual(saved_post1.text, 'Post 1 text')
-        self.assertEqual(saved_post2.title, 'I love lamp?')
+        self.assertEqual(saved_post1.title, 'I love lamp?')
+        self.assertEqual(saved_post2.title, 'Post numero uno!')
+        self.assertEqual(saved_post2.text, 'Post 1 text')
 
     def test_users_have_posts(self):
         new_user = get_user_model().objects.create_user('Jim',
