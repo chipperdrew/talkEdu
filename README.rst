@@ -2,11 +2,11 @@ TODO:
 =============
 #) Draw voting system
 #) Allow for comments on POST pages (using django-comments)
-#) Implement "search" feature
 #) Implement option to mark a post as spam
 #) Add dropdown to sort posts by various categories (need voting system)
-#) Create a more personalized user page?
-#) Think of way to prevent post spam
+#) Think of way to prevent post spam (look at Django packages)
+#) TIME PERMITTING - Create a more personalized user page?
+#) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - Add https protection
 #) TOFIX? - Require certain password length/chars???
@@ -26,7 +26,8 @@ TODO:
 #) FIXED - New posts will display on last page opened, not current page (controlled by session request in views)
 #) DONE - 20 posts/page?
 #) DONE - Create voting system
-#) Add eduuser model to Accounts app, create Votes app
+#) DONE - Add eduuser model to Accounts app, create Votes app
+#) DONE - Implement "search" feature
 
 
 
@@ -77,6 +78,8 @@ talkEdu/
 		migrations/
 
 		models.py
+
+		search_indexes.py
 
 		templatetags/
 
@@ -141,7 +144,6 @@ Thanks to the following
 	* Git - http://git-scm.com/
 	* Github - https://github.com/
 	* Twitter Bootstrap - http://twitter.github.io/bootstrap/index.html
-	* Selenium - http://docs.seleniumhq.org/
 	* Homebrew - http://mxcl.github.io/homebrew/
 	* MacVim - http://macvim.org/
 	* PostgreSQL - http://www.postgresql.org/
@@ -154,10 +156,17 @@ Thanks to the following
 	* *Two Scoops of Django* - https://django.2scoops.org/
 	* Resetting passwords - http://garmoncheg.blogspot.com/2012/07/django-resetting-passwords-with.html
 
-* Django Packages:
+* Packages Used (Django related and others):
 	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/#
+	* Django-disqus (for easy Disqus use) - http://django-disqus.readthedocs.org/en/latest/
+	* Django-haystack (for search functionality) - http://haystacksearch.org/
+	* Django-model-utils (to use Choices) - https://pypi.python.org/pypi/django-model-utils
 	* Django-registration (for creating/verifying user accounts) - http://django-registration.readthedocs.org/en/v1.0/index.html
+	* Pyelasticsearch (adapter to use ElasticSearch) - http://pyelasticsearch.readthedocs.org/en/latest/
 	* Psycopg2 (needed to use PostgreSQL) - http://initd.org/psycopg/
+	* Requests (Pyelasticsearch dependency) - https://django-request.readthedocs.org/en/latest/
+	* Selenium (for testing) - http://docs.seleniumhq.org/
+	* Simplejson (Pyelasticsearch dependency) - http://simplejson.readthedocs.org/en/latest/
 	* South (for database migrations) - http://south.readthedocs.org/en/latest/index.html
 
 * Ruby on Rails
