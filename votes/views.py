@@ -15,6 +15,7 @@ def up_vote(request, id):
     if bool_created == False:
         vote_of_interest.vote_choice = vote.VOTE_CHOICES.upvote
         vote_of_interest.save()
+    post_of_interest.update_vote_percentage()
     return redirect(request.GET['next'])
 
 @login_required
@@ -26,4 +27,5 @@ def down_vote(request, id):
                 )
     vote_of_interest.vote_choice = vote.VOTE_CHOICES.downvote
     vote_of_interest.save()
+    post_of_interest.update_vote_percentage()
     return redirect(request.GET['next'])

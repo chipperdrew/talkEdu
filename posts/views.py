@@ -31,11 +31,7 @@ def display_page_helper(request, page_type, template, sort_id=None):
         form = postForm
 
 
-    # Update vote percentage values
     posts_all = post.objects.all().filter(page_type=page_type)
-    for current_post in posts_all:
-        current_post.update_vote_percentage()
-
     # Sort logic
     if sort_id==1:
         posts_all = posts_all.order_by('-time_created')
@@ -101,8 +97,6 @@ def user_page(request, user):
     """
     user_of_interest = get_object_or_404(get_user_model(), username=user)
     user_posts = user_of_interest.posts.all()
-    for current_post in user_posts:
-        current_post.update_vote_percentage()
     return render(request, 'user_page.html',
                   {'user_object': user_of_interest, 'user_posts': user_posts})
 
