@@ -18,4 +18,5 @@ class eduuser(AbstractUser):
         (OUTSIDER, 'Outsider'),
     )
 
-    user_type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES)
+    user_type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES,
+                                 default=STUDENT)

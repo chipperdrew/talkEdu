@@ -195,3 +195,15 @@ class PostModelTest(TestCase):
         self.assertEqual(user2.posts.count(), 1)
         self.assertEqual(user1.posts.all()[0].title, '#3')
         self.assertEqual(user2.posts.all()[0].title, 'I love lamp?')
+
+
+class SearchLinkTest(TestCase):
+
+    def test_search_page_properly_opens_when_URL_accessed(self):
+        client = Client()
+        response = client.get('/search/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'search/search.html')
+        self.assertIn('Search', response.content)
+
+    
