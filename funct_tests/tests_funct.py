@@ -72,7 +72,7 @@ class NewVisitorTests(LiveServerTestCase):
     def test_posts_are_saved_and_properly_displayed(self):
         
         # Jim does not sees the text boxes on the 'Problems' page w/o login
-        self.browser.get(self.live_server_url+'/problems/')
+        self.browser.get(self.live_server_url+'/pages/problems/')
         self.assertIn("Problems - ", self.browser.title)
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Title:', body)
@@ -135,7 +135,7 @@ class NewVisitorTests(LiveServerTestCase):
     
     def test_edit_and_deletion_of_posts(self):
         # Jim accesses the ideas page and logs in
-        self.browser.get(self.live_server_url+'/ideas/')
+        self.browser.get(self.live_server_url+'/pages/ideas/')
         self.login_user('Test', 'test')
 
         # Jim accidentally posts w/o entering text
@@ -189,7 +189,7 @@ class NewVisitorTests(LiveServerTestCase):
 
     def test_change_password(self):
         # Jim logs in as test, as sees the link to his test's account page
-        self.browser.get(self.live_server_url+'/ideas/')
+        self.browser.get(self.live_server_url+'/pages/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('My page', body)
         self.login_user('Test', 'test')
@@ -349,7 +349,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_name('logout').click()
 
         # Jim now decides to try to login on the Problems page
-        self.browser.get(self.live_server_url+'/problems/')
+        self.browser.get(self.live_server_url+'/pages/problems/')
         login_box = self.browser.find_element_by_id('id_login_box').text
         self.assertIn('Username:', login_box)
         self.assertIn('Password:', login_box)
@@ -366,7 +366,7 @@ class NewVisitorTests(LiveServerTestCase):
     
     def test_pagination(self):
         # Jim visit a POST page and see 'Page 1 of 1'
-        self.browser.get(self.live_server_url+'/questions/')
+        self.browser.get(self.live_server_url+'/pages/questions/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Page 1 of 1', body)
         test_user = get_user_model().objects.get(username='Test')
@@ -376,7 +376,7 @@ class NewVisitorTests(LiveServerTestCase):
                             user_id=test_user)
 
         # Multiple posts are created, some of which are pushed to a new page
-        self.browser.get(self.live_server_url+'/questions/')
+        self.browser.get(self.live_server_url+'/pages/questions/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Page 1 of 2', body)
         self.assertIn('Next', body)
@@ -399,7 +399,7 @@ class NewVisitorTests(LiveServerTestCase):
         post.objects.create(title='T2', page_type=post.IDEAS, user_id=test_user)
 
         # Jim visits the ideas page, logins in, and sees the current votes
-        self.browser.get(self.live_server_url+'/ideas/')
+        self.browser.get(self.live_server_url+'/pages/ideas/')
         self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
@@ -414,7 +414,7 @@ class NewVisitorTests(LiveServerTestCase):
         up_votes[0].click()
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
-        self.assertRegexpMatches(new_url, self.live_server_url+'/ideas/$')
+        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/$')
 
         # Jim sees his vote and logs out satisfied
         body = self.browser.find_element_by_tag_name('body').text
@@ -435,7 +435,7 @@ class NewVisitorTests(LiveServerTestCase):
         down_votes[0].click()
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
-        self.assertRegexpMatches(new_url, self.live_server_url+'/ideas/$')
+        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/$')
 
         # Bob sees how his vote has changed the voting value
         body = self.browser.find_element_by_tag_name('body').text
@@ -456,7 +456,7 @@ class NewVisitorTests(LiveServerTestCase):
         up_votes[0].click()
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
-        self.assertRegexpMatches(new_url, self.live_server_url+'/ideas/$')
+        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 1.0, 'PAR': 0, 'ADM': 0.5, 'OUT': 0, 'TEA': 0", body)
         self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
@@ -470,7 +470,7 @@ class NewVisitorTests(LiveServerTestCase):
         )
 
         # Jim visits the site_feedback page and tries to vote on the 'T1' post
-        self.browser.get(self.live_server_url+'/site_feedback/')
+        self.browser.get(self.live_server_url+'/pages/site_feedback/')
         self.check_for_redirect_after_link_click(
             'Up', self.live_server_url + '/accounts/login/'
         )
@@ -484,7 +484,7 @@ class NewVisitorTests(LiveServerTestCase):
         # His vote is saved.
         self.login_user('Test', 'test')
         new_url = self.browser.current_url
-        self.assertEqual(new_url, self.live_server_url+'/site_feedback/')
+        self.assertEqual(new_url, self.live_server_url+'/pages/site_feedback/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 1.0, 'OUT': 0, 'TEA': 0", body)
         self.browser.find_element_by_name('logout').click()
@@ -507,7 +507,7 @@ class NewVisitorTests(LiveServerTestCase):
                             page_type=post.SITE_FEEDBACK,
                             user_id=test_user
         )
-        self.browser.get(self.live_server_url+'/site_feedback/')
+        self.browser.get(self.live_server_url+'/pages/site_feedback/')
         self.login_user('Test', 'test')
         self.check_for_redirect_after_link_click('Up', '/site_feedback/$')
 
@@ -527,7 +527,7 @@ class NewVisitorTests(LiveServerTestCase):
                                                  )
 
         # Jim sees his user type and vote has been changed
-        self.browser.get(self.live_server_url+'/site_feedback/')
+        self.browser.get(self.live_server_url+'/pages/site_feedback/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 1.0", body)
         self.assertIn('User type=Teacher', body)

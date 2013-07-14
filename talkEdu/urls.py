@@ -7,10 +7,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('posts.views',
     url(r'^$', 'home_page', name='home'),
-    url(r'^problems/$', 'problems_page', name='problems'),
-    url(r'^ideas/$', 'ideas_page', name='ideas'),
-    url(r'^questions/$', 'questions_page', name='questions'),
-    url(r'^site_feedback/$', 'site_feedback_page', name='site_feedback'),
+    url(r'^pages/(?P<page>[-\w]+)/$', 'display_page_helper', name='post_page_base'),
+    url(r'^pages/(?P<page>[-\w]+)/(?P<sort_id>\d+)/$', 'display_page_helper', name='post_page_base'),
     url(r'^user/(?P<user>[-\w]+)/$', 'user_page', name='user_page'),
 )
 

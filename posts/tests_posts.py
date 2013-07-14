@@ -35,9 +35,9 @@ class ProblemPageTest(TestCase):
     
     def test_prob_page_properly_opens_when_URL_accessed(self):
         client = Client()
-        response = client.get('/problems/')
+        response = client.get('/pages/problems/')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'problems.html')
+        self.assertTemplateUsed(response, 'base_post.html')
     
     def test_prob_page_displays_only_its_posts(self):
         new_user = get_user_model().objects.create_user(
@@ -51,7 +51,7 @@ class ProblemPageTest(TestCase):
         post.objects.create(title='Post 2', user_id=new_user, page_type=post.PROBLEMS)
         post.objects.create(title='Post 3', user_id=new_user, page_type=post.IDEAS)
         client = Client()
-        response = client.get('/problems/')
+        response = client.get('/pages/problems/')
 
         self.assertIn('Post 1', response.content)
         self.assertIn('Post 2', response.content)
@@ -62,7 +62,7 @@ class ProblemPageTest(TestCase):
         self.assertIn('Jim', response.content)
         self.assertIn('Parent', response.content)
         self.assertIn(str(datetime.datetime.now().day), response.content)
-        self.assertTemplateUsed(response, 'problems.html')
+        self.assertTemplateUsed(response, 'base_post.html')
 
 
 class OtherPostPagesTest(TestCase):
@@ -72,21 +72,21 @@ class OtherPostPagesTest(TestCase):
     
     def test_ideas_page_properly_opens_when_URL_accessed(self):
         client = Client()
-        response = client.get('/ideas/')
+        response = client.get('/pages/ideas/')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'ideas.html')
+        self.assertTemplateUsed(response, 'base_post.html')
     
     def test_questions_page_properly_opens_when_URL_accessed(self):
         client = Client()
-        response = client.get('/questions/')
+        response = client.get('/pages/quesTIons/') #case insensitive!
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'questions.html')
+        self.assertTemplateUsed(response, 'base_post.html')
 
     def test_feedback_page_properly_opens_when_URL_accessed(self):
         client = Client()
-        response = client.get('/site_feedback/')
+        response = client.get('/pages/site_feedback/')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'site_feedback.html')
+        self.assertTemplateUsed(response, 'base_post.html')
 
     def test_feedback_page_only_contains_its_posts(self):
         new_user = get_user_model().objects.create_user('Jim',
@@ -96,7 +96,7 @@ class OtherPostPagesTest(TestCase):
         post.objects.create(title='Post 2', user_id=new_user, page_type=post.PROBLEMS)
         post.objects.create(title='Post 3', user_id=new_user, page_type=post.SITE_FEEDBACK)
         client = Client()
-        response = client.get('/site_feedback/')
+        response = client.get('/pages/site_feedback/')
 
         self.assertIn('Post 1', response.content)
         self.assertIn('Post 3', response.content)

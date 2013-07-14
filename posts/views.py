@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from honeypot.decorators import check_honeypot
 
@@ -16,12 +16,26 @@ from votes.models import vote
 def home_page(request):
     return render(request, 'home.html')
 
-def display_page_helper(request, page_type, template, sort_id=None):
+def display_page_helper(request, page, sort_id=None):
     """
     Helper function to display any pages with posts.
     Paginator logic adapted from:
     https://docs.djangoproject.com/en/dev/topics/pagination/
     """
+    current_page = page #Save current page and pass it to template
+    page_title = page.title()
+    if page_title == 'Problems':
+        page_type = post.PROBLEMS
+    elif page_title == 'Ideas':
+        page_type = post.IDEAS
+    elif page_title == 'Questions':
+        page_type = post.QUESTIONS
+    elif page_title == 'Site_Feedback':
+        page_title = 'Site Feedback'
+        page_type = post.SITE_FEEDBACK
+    else:
+        return Http404
+    
     # If given a bad form, show form and errors
     if request.session.get('bad_form'):
         form = postForm(request.session.get('bad_form'))
@@ -30,12 +44,11 @@ def display_page_helper(request, page_type, template, sort_id=None):
     else:
         form = postForm
 
-
     posts_all = post.objects.all().filter(page_type=page_type)
     # Sort logic
-    if sort_id==1:
+    if sort_id=='1':
         posts_all = posts_all.order_by('-time_created')
-    elif sort_id==2:
+    elif sort_id=='2':
         posts_all = posts_all.order_by('-vote_percentage')
     else:
         pass
@@ -72,24 +85,10 @@ def display_page_helper(request, page_type, template, sort_id=None):
                     float(len(up_votes))/len(all_votes), 3
                 )
     
-    return render(request, template, {'posts': posts, 'form': form,
-                                      'vote_dict': vote_dict})
-
-def problems_page(request):
-    return display_page_helper(request, post.PROBLEMS,
-                               'problems.html')
-
-def ideas_page(request):
-    return display_page_helper(request, post.IDEAS,
-                               'ideas.html')
-
-def questions_page(request):
-    return display_page_helper(request, post.QUESTIONS,
-                               'questions.html')
-
-def site_feedback_page(request):
-    return display_page_helper(request, post.SITE_FEEDBACK,
-                               'site_feedback.html')
+    return render(request, 'base_post.html',
+                  {'posts': posts, 'form': form, 'vote_dict': vote_dict,
+                   'page_title': page_title, 'page_abbrev': page_type,
+                   'current_page': current_page})
 
 def user_page(request, user):
     """
@@ -109,7 +108,7 @@ def post_page(request, post_id):
 
 ###### POST VIEWS #######
 @check_honeypot
-def edit(request, id=None):
+def edit(request, id=None, page_abbrev=None):
     """
     Called when making a new 'post' or editing an existing 'post'.
     Adapted from: http://stackoverflow.com/questions/1854237/django-edit-form-based-on-add-form
@@ -125,7 +124,7 @@ def edit(request, id=None):
     else:
         post_of_interest = post(
             user_id = request.user,
-            page_type = str(request.GET['next'][1:4]).upper()
+            page_type = page_abbrev
             )
 
     if request.POST:

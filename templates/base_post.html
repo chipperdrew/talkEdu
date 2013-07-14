@@ -2,6 +2,8 @@
 {% load dictionary_extras %} {# For dictionary access to variable keys #}
 {% load honeypot %}
 
+{% block title %}{{ page_title }} - YouTalkEdu{% endblock title %}
+
 {% block content %}
 	{{ block.super }}
 
@@ -9,13 +11,23 @@
 		{% if form.errors %}
 			{{ form.non_field_errors }}		
 		{% endif %}
-		<form method="POST" action="{% url 'post_new' %}?next={{request.path}}">
+		<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
 			{% csrf_token %}
 			{% render_honeypot_field %}
 			{{ form.as_p }}
 			<button name="post_button" type="submit">Post</button>	
 		</form>
 	{% endif %}
+
+	
+	{# Sort by links #}
+	<br/>
+	<div>
+		<p> Sort by:
+			<a href="{% url 'post_page_base' page=current_page sort_id=1%}">Most Recent</a>
+			<a href="{% url 'post_page_base' page=current_page sort_id=2%}">Highest Rated</a>			
+		</p>
+	</div>
 
 
 	{# ALL POSTS ON THE PAGE #}
