@@ -141,6 +141,22 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Please enter a title', body)
         self.assertNotIn('Click me to create a post', body)
 
+        # Jim tries to test the posting limit
+        self.browser.get(self.live_server_url+'/pages/problems/')
+        for i in range(0,3):
+            self.browser.find_element_by_id('id_show_form').click()
+            title_input = self.browser.find_element_by_name('title')
+            title_input.send_keys('Test Post')
+            self.browser.find_element_by_name('post_button').click()
+        self.browser.find_element_by_id('id_show_form').click()
+        title_input = self.browser.find_element_by_name('title')
+        title_input.send_keys('Post #6')
+        self.browser.find_element_by_name('post_button').click()
+
+        # His 6th post does not appear
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Post #6', body)
+
         # Jim now logs out
         self.check_for_redirect_after_button_click("logout",
                                                    self.live_server_url + '/$')

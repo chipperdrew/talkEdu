@@ -1,15 +1,15 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.utils import timezone
 from model_utils import Choices
+import datetime
 
 # Adapted from '2 Scoops of Django' book
 class TimeStampedModel(models.Model):
     time_created = models.DateTimeField(auto_now_add=True,
-                                        default=timezone.now())
+                                        default=datetime.datetime.now())
     time_modified = models.DateTimeField(auto_now=True,
-                                         default=timezone.now())
+                                         default=datetime.datetime.now())
 
     # Abstract base class
     class Meta:

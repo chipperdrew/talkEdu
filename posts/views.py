@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from honeypot.decorators import check_honeypot
+import datetime
 
 from .forms import postForm
 from .models import post
@@ -117,6 +118,14 @@ def edit(request, id=None, page_abbrev=None):
     ## requests, thus causing an error upon return to POST page
     if not request.user.is_authenticated():
         return redirect(reverse('accounts.views.login'))
+
+    # Limit number of posts per 24 hours
+    posts_in_last_24_hours = post.objects.all().filter(
+        time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
+        user_id=request.user
+    )
+    if posts_in_last_24_hours.count() >= 5: #IF MODIFIED - CHANGE TEMPLATE TEXT
+        return redirect(request.GET['next'])
     
     if id:
         post_of_interest = get_object_or_404(post, pk=id)
