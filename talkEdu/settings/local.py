@@ -2,7 +2,7 @@ from base import *
 
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
@@ -18,6 +18,6 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = [
-    '.localhost'
+    '.localhost',
     '.127.0.0.1'
 ]

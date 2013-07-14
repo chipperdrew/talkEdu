@@ -1,10 +1,8 @@
 TODO:
 =============
 #) Draw voting system
-#) Allow for comments on POST pages (using django-comments)
+#) Allow for comments on POST pages (using Disqus?)
 #) Implement option to mark a post as spam
-#) Add dropdown to sort posts by various categories (need voting system)
-#) Think of way to prevent post spam (look at Django packages)
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Set up email with SMTP server
@@ -28,6 +26,9 @@ TODO:
 #) DONE - Create voting system
 #) DONE - Add eduuser model to Accounts app, create Votes app
 #) DONE - Implement "search" feature
+#) DONE - Think of way to prevent post spam (created post limit and pot o' honey)
+#) DONE - Add dropdown to sort posts by various categories (need voting system)
+
 
 
 
