@@ -36,8 +36,11 @@ class post(TimeStampedModel):
         (SITE_FEEDBACK, 'Site Feedback'),
     )
     page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
-    vote_percentage = models.FloatField(default=0) #Consider setting min/max
-
+    # AC: 7/14/13 Consider setting min/max below
+    vote_percentage = models.FloatField(default=0)
+    # Purpose - to see the number of spam counts in admin and reset if necessary
+    spam_count = models.SmallIntegerField(default=0)
+    
     class Meta:
         ordering = ['-time_created']
 
@@ -48,10 +51,27 @@ class post(TimeStampedModel):
             up_votes = self.votes.filter(vote_choice = vote.VOTE_CHOICES.upvote).count()
             setattr(self, 'vote_percentage', round(float(up_votes)/all_votes, 3))
             self.save()
+
+    def check_spam_count(self):
+        # Not set to self.spam.count() in case there is a need to reset spam_count
+        self.spam_count = self.spam_count + 1
+        if self.spam_count >= 2:
+            page_type_first_letter = self.page_type[0]
+            setattr(self, 'page_type', 'SP' + page_type_first_letter)
+        else:
+            pass
+        self.save()
             
     # Better string representation in admin and elsewhere
     def __unicode__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post_page', kwargs={"post_id": self.id}) 
+        return reverse('post_page', kwargs={"post_id": self.id})
+
+
+# Purpose - To limit users to one "Mark as spam" vote
+class spam(models.Model):
+    post_id = models.ForeignKey(post, related_name='spam')
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='spam')
+

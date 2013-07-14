@@ -76,6 +76,7 @@
 		</p>
 			<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
 			<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>
+			<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}">Mark as spam</a>
 		</p>
 	{% endfor %}
 	</div>

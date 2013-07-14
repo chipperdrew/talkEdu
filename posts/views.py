@@ -10,7 +10,7 @@ from honeypot.decorators import check_honeypot
 import datetime
 
 from .forms import postForm
-from .models import post
+from .models import post, spam
 from votes.models import vote
 
 
@@ -165,3 +165,16 @@ def delete(request, id):
         raise PermissionDenied()
     return redirect(request.GET['next']) #provided by base_post template
 
+@login_required
+def mark_as_spam(request, id):
+    post_of_interest = get_object_or_404(post, pk=id)
+    spam_of_interest, bool_created = spam.objects.get_or_create(
+        post_id = post_of_interest,
+        user_id = request.user,
+        )
+    if bool_created == True:
+        post_of_interest.check_spam_count()
+    return redirect(request.GET['next'])
+
+
+    

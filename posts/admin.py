@@ -5,8 +5,8 @@ from .models import post
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("user_id", "title", "page_type",
-                    "time_created", "time_modified")
+    list_display = ("id", "user_id", "title", "page_type",
+                    "time_created", "spam_count")
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ("username", "email", "user_type", "date_joined")
