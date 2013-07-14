@@ -6,22 +6,46 @@
 
 {% block content %}
 	{{ block.super }}
-
-	{% if user.is_authenticated %} 
-		{% if form.errors %}
-			{{ form.non_field_errors }}		
-		{% endif %}
-		<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
-			{% csrf_token %}
-			{% render_honeypot_field %}
-			{{ form.as_p }}
-			<button name="post_button" type="submit">Post</button>	
-		</form>
-	{% endif %}
-
 	
+	{% if user.is_authenticated %}
+		<br/><br/>
+		{# Automatically re-display form if error #}
+		{% if form.errors %}
+			{{ form.non_field_errors }}
+ 			<div id="id_post_form">
+			<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
+				{% csrf_token %}
+				{% render_honeypot_field %}
+				{{ form.as_p }}
+				<button name="post_button" type="submit">Post</button>	
+			</form>
+			</div>
+		{# Otherwise hide form so it's not in the way #}
+		{% else %}
+			<a id="id_show_form" style="font-size:1.2em; font-style:italic">Click me to create a post</a>
+			<script type="text/javascript">
+				jQuery(document).ready(function(){
+    					$('#id_post_form').hide();			
+  	 				$('#id_show_form').click(function() {
+    						$('#id_post_form').show();
+    						$('#id_show_form').hide();
+    						});
+				});
+			</script>
+ 			<div id="id_post_form">
+			<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
+				{% csrf_token %}
+				{% render_honeypot_field %}
+				{{ form.as_p }}
+				<button name="post_button" type="submit">Post</button>	
+			</form>
+			</div>
+		{% endif %}
+	{% endif %}
+	
+
 	{# Sort by links #}
-	<br/>
+	<br/><br/>
 	<div>
 		<p> Sort by:
 			<a href="{% url 'post_page_base' page=current_page sort_id=1%}">Most Recent</a>
@@ -30,7 +54,7 @@
 	</div>
 
 
-	{# ALL POSTS ON THE PAGE #}
+	{# POSTS DISPLAY #}
 	<div>
 	{% for post in posts %}
 		<a href="{% url 'post_page' post_id=post.id %}"><h4>{{ post.title }}</h4></a>

@@ -8,8 +8,6 @@
 	<h4>Title: {{ post_object.title }}</h4>
 	<p>Text: {{ post_object.text }}</p>
 	<p>Posted by: <a href="{% url 'user_page' user=post_object.user_id %}">{{ post_object.user_id }}</a></p>
-	<p> The post id is: {{ post_object.id}} </p>
-	<p> The post URL: {{ post_object.get_absolute_url }}
 	
 
 	{# DISQUS #}

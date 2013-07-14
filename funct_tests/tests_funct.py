@@ -81,11 +81,19 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim logs in (as Test), and remains on the problems page
         self.login_user('Test', 'test')
         self.assertIn("Problems - ", self.browser.title)
+
+        # A link saying "Click me to create a post" is displayed. Jim clicks it
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Title:', body)
+        self.assertNotIn('Text:', body)
+        self.assertIn('Click me to create a post', body)
+        self.browser.find_element_by_id('id_show_form').click()
     
-        # A title and text box are displayed
+        # A title and text box are now displayed
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Title:', body)
         self.assertIn('Text:', body)
+        self.assertNotIn('Click me to create a post', body)
         title_input = self.browser.find_element_by_name('title')
         
         # Jim types in "School is bad, mkay?"
@@ -97,7 +105,9 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('School is bad, mkay?', body)
         self.assertIn('Test', body)
 
-        # Jim types "I good at school". Jim clicks the "Post" button
+        # Jim click the link to post, types "I good at school", and
+        # clicks the "Post" button
+        self.browser.find_element_by_id('id_show_form').click()
         title_input = self.browser.find_element_by_name('title')
         title_input.send_keys('I good at school')
         textbox_input = self.browser.find_element_by_name('text')
@@ -124,10 +134,12 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Posted by Test', body)
 
         # Jim tries to post w/o entering in a title
+        self.browser.find_element_by_id('id_show_form').click()
         self.check_for_redirect_after_button_click('post_button',
                                                    '/site_feedback/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Please enter a title', body)
+        self.assertNotIn('Click me to create a post', body)
 
         # Jim now logs out
         self.check_for_redirect_after_button_click("logout",
@@ -139,6 +151,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.login_user('Test', 'test')
 
         # Jim accidentally posts w/o entering text
+        self.browser.find_element_by_id('id_show_form').click()
         title_input = self.browser.find_element_by_name('title')
         title_input.send_keys('Here is a')
         title_input.send_keys(Keys.ENTER)
