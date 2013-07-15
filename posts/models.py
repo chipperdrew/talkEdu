@@ -36,7 +36,9 @@ class post(TimeStampedModel):
         (SITE_FEEDBACK, 'Site Feedback'),
     )
     page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
-    # AC: 7/14/13 Consider setting min/max below
+    up_votes = models.SmallIntegerField(default=0)
+    total_votes = models.SmallIntegerField(default=0)
+    # AC: 7/14/13 Consider setting min/max on float field
     vote_percentage = models.FloatField(default=0)
     # Purpose - to see the number of spam counts in admin and reset if necessary
     spam_count = models.SmallIntegerField(default=0)
@@ -44,12 +46,12 @@ class post(TimeStampedModel):
     class Meta:
         ordering = ['-time_created']
 
-    def update_vote_percentage(self):
+    def update_votes(self, up_vote_to_add, total_vote_to_add):
         from votes.models import vote #Must import here b/c cross-relationship
-        all_votes = self.votes.all().count()
-        if all_votes!=0:
-            up_votes = self.votes.filter(vote_choice = vote.VOTE_CHOICES.upvote).count()
-            setattr(self, 'vote_percentage', round(float(up_votes)/all_votes, 3))
+        self.up_votes = self.up_votes + up_vote_to_add
+        self.total_votes = self.total_votes + total_vote_to_add
+        if self.total_votes != 0:
+            self.vote_percentage = round(float(self.up_votes)/self.total_votes, 3)
             self.save()
 
     def check_spam_count(self):

@@ -5,6 +5,7 @@
 {% block content %}
 	{{ block.super }}
 	<h4>User type = {{ user_object.get_user_type_display }}. Here are the posts for {{ user_object.username }}: </h4>
+	<p> Overall user rating: {{ user_object.vote_percentage }}</p>
 	{% for post in user_posts %}
 		<p>{{ forloop.counter }}: <a href="{% url 'post_page' post_id=post.id %}">{{ post.title }}</a>.
 		Overall rating: {{ post.vote_percentage }}</p>
