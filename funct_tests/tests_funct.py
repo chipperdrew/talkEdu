@@ -9,7 +9,7 @@ from selenium import webdriver, selenium
 from selenium.webdriver.common.keys import Keys
 
 # App imports
-from posts.models import post
+from posts.models import post, spam
 
 """
 TO TEST WITH MULTIPLE TABS:
@@ -427,8 +427,14 @@ class NewVisitorTests(LiveServerTestCase):
         post.objects.create(title='T1', page_type=post.IDEAS, user_id=test_user)
         post.objects.create(title='T2', page_type=post.IDEAS, user_id=test_user)
 
-        # Jim visits the ideas page, logins in, and sees the current votes
+        # Jim visits the ideas page, sees the voting info, but cannot vote
         self.browser.get(self.live_server_url+'/pages/ideas/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertNotIn('Up', body)
+        self.assertNotIn('Down', body)
+
+        # Jim logs in, sees the current votes, and can vote
         self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
@@ -497,7 +503,7 @@ class NewVisitorTests(LiveServerTestCase):
         post.objects.create(
             title='T1', page_type=post.SITE_FEEDBACK, user_id=test_user
         )
-
+        """
         # Jim visits the site_feedback page and tries to vote on the 'T1' post
         self.browser.get(self.live_server_url+'/pages/site_feedback/')
         self.check_for_redirect_after_link_click(
@@ -517,7 +523,8 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 1.0, 'OUT': 0, 'TEA': 0", body)
         self.browser.find_element_by_name('logout').click()
-
+        """
+        
         # Jim directly accesses the login page and is redirected home
         self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
@@ -560,8 +567,33 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 1.0", body)
         self.assertIn('User type=Teacher', body)
+    
+    def test_mark_as_spam_link(self):
+        test_user = get_user_model().objects.get(username='Test')
+        post.objects.create(
+             title='T1', page_type=post.PROBLEMS, user_id=test_user
+        )
 
-        
+        # Jim visits the ideas page and only sees 'Mark as spam' once logged in
+        self.browser.get(self.live_server_url+'/pages/problems/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Mark as spam', body)
+        self.login_user('Test', 'test')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Mark as spam', body)
+
+        # Jim marks the post as spam
+        self.browser.find_element_by_link_text('Mark as spam').click()
+        post_of_interest = post.objects.get(title='T1')
+        self.assertEqual(1, post_of_interest.spam.count())
+        self.assertEqual(1, post_of_interest.spam_count)
+
+        # Jim marks the post as spam again -- but the values do not change
+        self.browser.find_element_by_link_text('Mark as spam').click()
+        post_of_interest = post.objects.get(title='T1')
+        self.assertEqual(1, post_of_interest.spam.count())
+        self.assertEqual(1, post_of_interest.spam_count)
+
 
 
     # THIS TEST IS __NOT__ SAVING COOKIES. LOOK FOR NEW METHOD AND RE-RUN

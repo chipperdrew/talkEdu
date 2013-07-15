@@ -74,10 +74,13 @@
 		<p> 
 			{{ vote_dict|key:post }}. Overall: {{ post.vote_percentage }}
 		</p>
-			<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
-			<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>
-			<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}">Mark as spam</a>
-		</p>
+		{% if user.is_authenticated %}		
+			<p>
+				<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
+				<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>
+				<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}">Mark as spam</a>
+			</p>
+		{% endif %}
 	{% endfor %}
 	</div>
     
