@@ -2,7 +2,6 @@ TODO:
 =============
 #) Draw voting system
 #) Allow for comments on POST pages (using Disqus?)
-#) Implement option to mark a post as spam
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Set up email with SMTP server
@@ -28,6 +27,7 @@ TODO:
 #) DONE - Implement "search" feature
 #) DONE - Think of way to prevent post spam (created post limit and pot o' honey)
 #) DONE - Add dropdown to sort posts by various categories (need voting system)
+#) DONE - Implement option to mark a post as spam
 
 
 

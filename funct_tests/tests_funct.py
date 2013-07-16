@@ -498,6 +498,37 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Overall: 0.667', body)
         self.assertIn('Overall: 0', body)
 
+    def test_user_voting_numbers_are_stored_properly(self):
+        test_user = get_user_model().objects.get(username='Test')
+        post.objects.create(title='T1', page_type=post.PROBLEMS, user_id=test_user)
+        post.objects.create(title='T2', page_type=post.IDEAS, user_id=test_user)
+        post.objects.create(title='T3', page_type=post.QUESTIONS, user_id=test_user)
+
+        # Jim logs in, visits the problems page, and votes up
+        self.browser.get(self.live_server_url+'/pages/problems/')
+        self.login_user('Test', 'test')
+        self.browser.find_element_by_link_text('Up').click()
+
+        # Jim goes the the ideas page and votes down
+        self.browser.get(self.live_server_url+'/pages/ideas/')
+        self.browser.find_element_by_link_text('Down').click()
+
+        # Jim goes the questions page and votes up
+        self.browser.get(self.live_server_url+'/pages/questions/')
+        self.browser.find_element_by_link_text('Up').click()
+
+        # Jim goes to his user page and sees the proper vote percentage
+        self.check_for_redirect_after_link_click('My page', '/user/Test/$')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Overall user rating: 0.667', body)
+
+        # Jim changes his vote, goes to his user page, and sees the updated perc
+        self.browser.get(self.live_server_url+'/pages/questions/')
+        self.browser.find_element_by_link_text('Down').click()
+        self.browser.get(self.live_server_url+'/user/Test/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Overall user rating: 0.333', body)
+        
     def test_voting_without_login_and_login_page(self):
         test_user = get_user_model().objects.get(username='Test')
         post.objects.create(
