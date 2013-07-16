@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load dictionary_extras %} {# For dictionary access to variable keys #}
 {% load honeypot %}
+{% load staticfiles %}
 
 {% block title %}{{ page_title }} - YouTalkEdu{% endblock title %}
 
@@ -52,7 +53,7 @@
 	<div>
 		<p> Sort by:
 			<a href="{% url 'post_page_base' page=current_page sort_id=1%}">Most Recent</a>
-			<a href="{% url 'post_page_base' page=current_page sort_id=2%}">Highest Rated</a>			
+			<a href="{% url 'post_page_base' page=current_page sort_id=2%}">Highest Rated</a>		
 		</p>
 	</div>
 
@@ -81,6 +82,26 @@
 				<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}">Mark as spam</a>
 			</p>
 		{% endif %}
+
+
+		<p> 
+			<canvas id="myCanvas{{post.id}}" width="150" height="100">
+         		   If you see this, your browser does not support HTML5 Canvas.
+        		</canvas>
+			<script	src="{% static 'js/vote_script.js' %}"></script>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					var canv = document.getElementById("myCanvas{{post.id}}");
+					var draw = canv.getContext("2d");
+					drawPulseOutline(draw);
+					drawPulse(0.05, 0, draw);
+					drawPulse(0.01, separationDist, draw);
+					drawPulse(0.5, separationDist*2, draw);
+					drawPulse(0.99, separationDist*3, draw);
+					drawPulse(0.95, separationDist*4, draw);
+				});
+			</script>
+		</p>
 	{% endfor %}
 	</div>
     
@@ -101,5 +122,6 @@
 			<a href="?page={{ posts.next_page_number }}">Next</a>
 		{% endif %}
 		</span>
-	</div> 
+	</div>
+ 
 {% endblock content %}
