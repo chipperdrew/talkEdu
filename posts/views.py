@@ -89,7 +89,8 @@ def display_page_helper(request, page, sort_id=None):
     return render(request, 'base_post.html',
                   {'posts': posts, 'form': form, 'vote_dict': vote_dict,
                    'page_title': page_title, 'page_abbrev': page_type,
-                   'current_page': current_page})
+                   'current_page': current_page,
+                   'user_color_dict': get_user_model().COLORS})
 
 def user_page(request, user):
     """

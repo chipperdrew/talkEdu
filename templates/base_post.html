@@ -64,20 +64,21 @@
 		<a href="{% url 'post_page' post_id=post.id %}"><h4>{{ post.title }}</h4></a>
 		<p>
 			Posted by <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a>
-			at {{ post.time_created }} and last modified at {{ post.time_modified }}
-			User type={{ post.user_id.get_user_type_display }}.
+			at {{ post.time_created }}
+		{% with u_type=post.user_id.user_type %}
+		<span style="color:{{user_color_dict|get_item:u_type}}">{{ post.user_id.get_user_type_display }}</span>
+		{% endwith %}
 			{% if post.user_id == request.user %}
 				<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
 				<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}"
-				onclick="return confirm('Your post and all related comments will be deleted. Proceed?')">Delete</a>
+				onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
 			{% endif %}
 		</p>
-		<p> 
-			Student: {{ vote_dict|key:post|key:'STU' }}
-			Teacher: {{ vote_dict|key:post|key:'TEA' }}
-			Parent: {{ vote_dict|key:post|key:'PAR' }}
-			Administrator: {{ vote_dict|key:post|key:'ADM' }}
-			Outsider: {{ vote_dict|key:post|key:'OUT' }}
+		<p>
+			{% for user_type_key in user_color_dict %}
+				{{ user_type_key }}:		
+				{{ vote_dict|key:post|key:user_type_key}},
+			{% endfor %}
 		</p>
 		<p>
 			Overall: {{ post.vote_percentage }}
@@ -101,17 +102,12 @@
 					var canv = document.getElementById("myCanvas{{post.id}}");
 					var draw = canv.getContext("2d");
 					drawPulseOutline(draw);
-					draw.fillStyle="red"; {# For some reasion this doesnt work in function #}
-					drawPulse({{ vote_dict|key:post|key:'STU' }}, 0, draw);
-					draw.fillStyle="green";
-					drawPulse({{ vote_dict|key:post|key:'TEA' }}, separationDist, draw);
-					draw.fillStyle="blue";
-					drawPulse({{ vote_dict|key:post|key:'PAR' }}, separationDist*2, draw);
-					draw.fillStyle="black";
-					drawPulse({{ vote_dict|key:post|key:'ADM' }}, separationDist*3, draw);
-					draw.fillStyle="purple";
-					drawPulse({{ vote_dict|key:post|key:'OUT' }}, separationDist*4, draw);
-				});
+					{% for user_type_key in user_color_dict %}
+						draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
+						drawPulse({{ vote_dict|key:post|key:user_type_key}}, separationDist*({{ forloop.counter }}-1), draw);
+					{% endfor %}
+
+			});
 			</script>
 		</p>
 	{% endfor %}

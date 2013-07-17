@@ -430,14 +430,14 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim visits the ideas page, sees the voting info, but cannot vote
         self.browser.get(self.live_server_url+'/pages/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertNotIn('Up', body)
         self.assertNotIn('Down', body)
 
         # Jim logs in, sees the current votes, and can vote
         self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertIn('Overall: 0', body)
         self.assertIn('Up', body)
         self.assertIn('Down', body)
@@ -453,8 +453,8 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim sees his vote and logs out satisfied
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 1.0, 'OUT': 0, 'TEA': 0", body)
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 1.0, OUT: 0, TEA: 0", body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.browser.find_element_by_name('logout').click()
         
         # Bob, another user, logs in and sees the posts
@@ -474,8 +474,8 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Bob sees how his vote has changed the voting value
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0.5, 'OUT': 0, 'TEA': 0", body)
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 0.5, OUT: 0, TEA: 0", body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.browser.find_element_by_name('logout').click()
 
         # Jill, a student, logs in
@@ -493,8 +493,8 @@ class NewVisitorTests(LiveServerTestCase):
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/$')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("'STU': 1.0, 'PAR': 0, 'ADM': 0.5, 'OUT': 0, 'TEA': 0", body)
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 0", body)
+        self.assertIn("STU: 1.0, PAR: 0, ADM: 0.5, OUT: 0, TEA: 0", body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertIn('Overall: 0.667', body)
         self.assertIn('Overall: 0', body)
 
@@ -580,8 +580,8 @@ class NewVisitorTests(LiveServerTestCase):
 
         # The post shows than an ADMIN has voted up
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 1.0, 'OUT': 0, 'TEA': 0", body)
-        self.assertIn('User type=Administrator', body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 1.0, OUT: 0, TEA: 0", body)
+        self.assertIn('Administrator', body)
 
         # Jim changes user type to TEACHER
         self.browser.get(self.live_server_url+'/user/Test')
@@ -596,8 +596,8 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim sees his user type and vote has been changed
         self.browser.get(self.live_server_url+'/pages/site_feedback/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 0, 'OUT': 0, 'TEA': 1.0", body)
-        self.assertIn('User type=Teacher', body)
+        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 1.0", body)
+        self.assertIn('Teacher', body)
     
     def test_mark_as_spam_link(self):
         test_user = get_user_model().objects.get(username='Test')
