@@ -73,7 +73,14 @@
 			{% endif %}
 		</p>
 		<p> 
-			{{ vote_dict|key:post }}. Overall: {{ post.vote_percentage }}
+			Student: {{ vote_dict|key:post|key:'STU' }}
+			Teacher: {{ vote_dict|key:post|key:'TEA' }}
+			Parent: {{ vote_dict|key:post|key:'PAR' }}
+			Administrator: {{ vote_dict|key:post|key:'ADM' }}
+			Outsider: {{ vote_dict|key:post|key:'OUT' }}
+		</p>
+		<p>
+			Overall: {{ post.vote_percentage }}
 		</p>
 		{% if user.is_authenticated %}		
 			<p>
@@ -94,11 +101,16 @@
 					var canv = document.getElementById("myCanvas{{post.id}}");
 					var draw = canv.getContext("2d");
 					drawPulseOutline(draw);
-					drawPulse(0.05, 0, draw);
-					drawPulse(0.01, separationDist, draw);
-					drawPulse(0.5, separationDist*2, draw);
-					drawPulse(0.99, separationDist*3, draw);
-					drawPulse(0.95, separationDist*4, draw);
+					draw.fillStyle="red"; {# For some reasion this doesnt work in function #}
+					drawPulse({{ vote_dict|key:post|key:'STU' }}, 0, draw);
+					draw.fillStyle="green";
+					drawPulse({{ vote_dict|key:post|key:'TEA' }}, separationDist, draw);
+					draw.fillStyle="blue";
+					drawPulse({{ vote_dict|key:post|key:'PAR' }}, separationDist*2, draw);
+					draw.fillStyle="black";
+					drawPulse({{ vote_dict|key:post|key:'ADM' }}, separationDist*3, draw);
+					draw.fillStyle="purple";
+					drawPulse({{ vote_dict|key:post|key:'OUT' }}, separationDist*4, draw);
 				});
 			</script>
 		</p>

@@ -29,7 +29,7 @@ function clearPulse() {
 
 // Draws the outline of the pulse
 function drawPulseOutline(draw) {
-	draw.lineWidth = 2;	
+	draw.lineWidth = 1;	
 	for (var i=0; i<numberOfTypes*separationDist; i+=separationDist) {
 		draw.beginPath();
 		draw.arc(leftArc+i, bottomArc, rad, 0*Math.PI, 1*Math.PI);
