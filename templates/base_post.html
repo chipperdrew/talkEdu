@@ -86,14 +86,14 @@
 			</p>
 		</div>
 
-		<div style="display:inline-block; width:640px; border:3px solid blue">
+		<div style="display:inline-block; width:640px">
 			<p>
 				At {{ post.time_created }}, <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a> posted:
 				{% with u_type=post.user_id.user_type %}
 				<span style="color:{{user_color_dict|get_item:u_type}}; float:right; font-weight:bold">{{ post.user_id.get_user_type_display }}</span>
 				{% endwith %}
 			</p>
-			<a href="{% url 'post_page' post_id=post.id %}"><h4 style="word-wrap:break-word">{{ post.title }}</h4></a>
+			<a href="{% url 'post_page' post_id=post.id %}"><h4 style="word-wrap:break-word; height:60px">{{ post.title }}</h4></a>
 			<p>
 				{% for user_type_key in user_color_dict %}
 					{{ user_type_key }}:		
