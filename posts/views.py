@@ -51,6 +51,8 @@ def display_page_helper(request, page, sort_id=None):
         posts_all = posts_all.order_by('-time_created')
     elif sort_id=='2':
         posts_all = posts_all.order_by('-vote_percentage')
+    elif sort_id=='3':
+        posts_all = posts_all.order_by('-total_votes')
     else:
         pass
     

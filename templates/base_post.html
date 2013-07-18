@@ -7,9 +7,10 @@
 
 {% block content %}
 	{{ block.super }}
-	
+
+	<br/>
 	{% if user.is_authenticated %}
-		<br/ id="id_line_break"><br/>
+		<br/ id="id_line_break">
 		{# Automatically re-display form if error #}
 		{% if form.errors %}
 			{{ form.non_field_errors }}
@@ -53,7 +54,8 @@
 	<div>
 		<p> Sort by:
 			<a href="{% url 'post_page_base' page=current_page sort_id=1%}">Most Recent</a>
-			<a href="{% url 'post_page_base' page=current_page sort_id=2%}">Highest Rated</a>		
+			<a href="{% url 'post_page_base' page=current_page sort_id=2%}">Highest Rated</a>
+			<a href="{% url 'post_page_base' page=current_page sort_id=3%}">Most Votes</a>		
 		</p>
 	</div>
 
@@ -61,38 +63,8 @@
 	{# POSTS DISPLAY #}
 	<div>
 	{% for post in posts %}
-		<a href="{% url 'post_page' post_id=post.id %}"><h4>{{ post.title }}</h4></a>
-		<p>
-			Posted by <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a>
-			at {{ post.time_created }}
-		{% with u_type=post.user_id.user_type %}
-		<span style="color:{{user_color_dict|get_item:u_type}}">{{ post.user_id.get_user_type_display }}</span>
-		{% endwith %}
-			{% if post.user_id == request.user %}
-				<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
-				<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}"
-				onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
-			{% endif %}
-		</p>
-		<p>
-			{% for user_type_key in user_color_dict %}
-				{{ user_type_key }}:		
-				{{ vote_dict|key:post|key:user_type_key}},
-			{% endfor %}
-		</p>
-		<p>
-			Overall: {{ post.vote_percentage }}
-		</p>
-		{% if user.is_authenticated %}		
-			<p>
-				<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a>
-				<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a>
-				<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}">Mark as spam</a>
-			</p>
-		{% endif %}
-
-
-		<p> 
+		<div style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
+		<div style="display:inline-block; width:150px">  
 			<canvas id="myCanvas{{post.id}}" width="150" height="100">
          		   If you see this, your browser does not support HTML5 Canvas.
         		</canvas>
@@ -109,7 +81,44 @@
 
 			});
 			</script>
-		</p>
+			<p style="text-align:center">
+				Overall: {{ post.vote_percentage }}
+			</p>
+		</div>
+
+		<div style="display:inline-block; width:640px; border:3px solid blue">
+			<p>
+				At {{ post.time_created }}, <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a> posted:
+				{% with u_type=post.user_id.user_type %}
+				<span style="color:{{user_color_dict|get_item:u_type}}; float:right; font-weight:bold">{{ post.user_id.get_user_type_display }}</span>
+				{% endwith %}
+			</p>
+			<a href="{% url 'post_page' post_id=post.id %}"><h4 style="word-wrap:break-word">{{ post.title }}</h4></a>
+			<p>
+				{% for user_type_key in user_color_dict %}
+					{{ user_type_key }}:		
+					{{ vote_dict|key:post|key:user_type_key}},
+				{% endfor %}
+			</p>
+			{% if user.is_authenticated %}		
+				<p>
+					<div style="display:inline-block">					
+					<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}">Up</a> &nbsp;
+					<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}">Down</a> &nbsp;
+					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}">Mark as spam</a>
+					</div>			
+				{% if post.user_id == request.user %}
+					<div style="float:right; display:inline-block">
+					<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
+					<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}"
+					onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
+					</div>
+				{% endif %}
+
+				</p>
+			{% endif %}
+		</div>
+		</div>
 	{% endfor %}
 	</div>
     
