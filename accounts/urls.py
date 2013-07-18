@@ -36,7 +36,7 @@ urlpatterns += patterns('accounts.views',
 
     # Django-registration package
     url(r'^register/$', CustomRegistrationView.as_view(
-        form_class=RegistrationForm)),
+        form_class=RegistrationForm), name="register"),
     url(r'^', include('registration.backends.default.urls'),
         name='accounts'),
 

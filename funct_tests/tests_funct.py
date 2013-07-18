@@ -118,7 +118,7 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('School is bad, mkay?', body)
         self.assertIn('I good at school', body)
-        self.assertIn('Posted by Test', body)
+        self.assertIn('Test posted', body)
         self.assertNotIn('I really is', body)
 
         # Jim now clicks on his name and is redirected to the 'test' user page
@@ -131,7 +131,7 @@ class NewVisitorTests(LiveServerTestCase):
                                                  '/site_feedback/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('I good at school', body)
-        self.assertNotIn('Posted by Test', body)
+        self.assertNotIn('Test posted', body)
 
         # Jim tries to post w/o entering in a title
         self.browser.find_element_by_id('id_show_form').click()
@@ -293,10 +293,10 @@ class NewVisitorTests(LiveServerTestCase):
         # On the homepage, Jim sees a place to create an account
         self.browser.get(self.live_server_url)
         login_box = self.browser.find_element_by_id('id_login_box').text
-        self.assertIn('Create Account', login_box)
+        self.assertIn('Create account', login_box)
 
         # Jim clicks the link and is redirected to a create account page
-        self.check_for_redirect_after_link_click('Create Account',
+        self.check_for_redirect_after_link_click('Create account',
                                                  '/accounts/register/$')
 
         # Jim sees 4 input boxes and a button
