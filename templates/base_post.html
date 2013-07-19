@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dictionary_extras %} {# For dictionary access to variable keys #}
+{% load dictionary_extras %} {# For dictionary access to variable keys and key content #}
 {% load honeypot %}
 {% load staticfiles %}
 
@@ -8,7 +8,6 @@
 {% block content %}
 	{{ block.super }}
 
-	<br/>
 	{% if user.is_authenticated %}
 		<br/ id="id_line_break">
 		{# Automatically re-display form if error #}

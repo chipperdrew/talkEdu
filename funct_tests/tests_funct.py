@@ -212,7 +212,8 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Test', body)
         self.assertIn('Administrator', body)
-        self.assertIn('1: Title', body)
+        self.assertIn('1: ', body)
+        self.assertIn('Title', body)
         self.assertIn('Overall rating: 0', body)
         self.assertIn('User Test', self.browser.title)
 

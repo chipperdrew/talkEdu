@@ -2,10 +2,11 @@
 <html>
 <head>
 	{% block stylesheets %}
-		<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
-	{% endblock stylesheets %}
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"  media="screen">
+		<link href="{% static 'css/bootstrap-responsive.min.css' %}" rel="stylesheet" media="screen"> 			{% endblock stylesheets %}
 	<title>
-		{% block title %}Welcome to YouTalkEdu{% endblock title %}
+		{% block title %}YouTalkEdu{% endblock title %}
 	</title>
 </head>
 
@@ -39,20 +40,26 @@
 	{% endblock login %}
 
 	{% block navbar %}
-		<div style="clear:both"></div>
-			<a id="id_home_link" href="{% url 'home' %}">Home</a>
-			<a id="id_problems_link" href="{% url 'post_page_base' page='problems' %}">Problems</a>
-			<a id="id_ideas_link" href="{% url 'post_page_base' page='ideas' %}">Ideas</a>
-			<a id="id_questions_link" href="{% url 'post_page_base' page='questions' %}">Questions</a>
-			<a id="id_site_feedback_link" href="{% url 'post_page_base' page='site_feedback' %}">Site Feedback</a>
-			<a href="{% url 'search' %}">Search</a>
+		<div class="navbar" style="clear:both">
+		<div class="navbar-inner">
+		<div class="container">
+			<a class="brand" href="{% url 'home' %}">YouTalkEdu</a>
+			<ul class="nav">
+				<li><a id="id_home_link" href="{% url 'home' %}">Home</a></li>
+				<li><a id="id_problems_link" href="{% url 'post_page_base' page='problems' %}">Problems</a></li>
+				<li><a id="id_ideas_link" href="{% url 'post_page_base' page='ideas' %}">Ideas</a></li>
+				<li><a id="id_questions_link" href="{% url 'post_page_base' page='questions' %}">Questions</a></li>
+				<li><a id="id_site_feedback_link" href="{% url 'post_page_base' page='site_feedback' %}">Site Feedback</a></li>
+				<li><a href="{% url 'search' %}">Search</a></li>
+			</ul>
 		</div>
+		</div>
+		</div>
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	{% endblock navbar %}
 
 	{% block content %}
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="{% static 'js/vendor/jquery-1.9.1.min.js' %}"><\/script>')</script>
-		<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	{% endblock content %}
 </body>
 </html>
