@@ -63,8 +63,8 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Welcome', header_text)
 
         # Jim is not logged in so the header contains login info
-        login_box = self.browser.find_element_by_id('id_login_box').text
-        self.assertIn("Login", login_box)
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn("Login", body)
 
         # Jim clicks on "Problems" link and is redirect to the problems page
         self.check_for_redirect_after_link_click("Problems", '/problems/$')
@@ -78,11 +78,13 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Title:', body)
         self.assertNotIn('Text:', body)
 
-        # Jim logs in (as Test), and remains on the problems page
+        # Jim logs in (as Test), and is returned home
+        self.check_for_redirect_after_button_click('login_nav', '/accounts/login/$')
         self.login_user('Test', 'test')
-        self.assertIn("Problems - ", self.browser.title)
+        self.assertIn("Welcome to YouTalkEdu", self.browser.title)
 
         # A link saying "Click me to create a post" is displayed. Jim clicks it
+        self.browser.get(self.live_server_url+'/pages/problems/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Title:', body)
         self.assertNotIn('Text:', body)
@@ -158,13 +160,15 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Post #6', body)
 
         # Jim now logs out
-        self.check_for_redirect_after_button_click("logout",
+        self.check_for_redirect_after_button_click("logout_nav",
                                                    self.live_server_url + '/$')
     
     def test_edit_and_deletion_of_posts(self):
-        # Jim accesses the ideas page and logs in
-        self.browser.get(self.live_server_url+'/pages/ideas/')
+        # Jim logs in then goes to the ideas page
+        self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
+        self.browser.get(self.live_server_url+'/pages/ideas/')
+
 
         # Jim accidentally posts w/o entering text
         self.browser.find_element_by_id('id_show_form').click()
@@ -212,6 +216,7 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Test', body)
         self.assertIn('Administrator', body)
+        self.assertIn('Last logged in on', body)
         self.assertIn('1: ', body)
         self.assertIn('Title', body)
         self.assertIn('Overall rating: 0', body)
@@ -219,15 +224,15 @@ class NewVisitorTests(LiveServerTestCase):
 
     def test_change_password(self):
         # Jim logs in as test, as sees the link to his test's account page
-        self.browser.get(self.live_server_url+'/pages/ideas/')
+        self.browser.get(self.live_server_url+'/accounts/login/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('My page', body)
+        self.assertNotIn('Test', body)
         self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('My page', body)
+        self.assertIn('Test', body)
 
         # Jim clicks this link then clicks 'Change your password' link
-        self.check_for_redirect_after_link_click('My page', '/user/Test/$')
+        self.check_for_redirect_after_link_click('Test', '/user/Test/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Change your password', body)
         self.check_for_redirect_after_link_click('Change your password',
@@ -251,10 +256,11 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click('pass_change_submit',
                                                    '/accounts/password/change/done/$')
         # Jim logs out to test his new password
-        self.check_for_redirect_after_button_click("logout",
+        self.check_for_redirect_after_button_click("logout_nav",
                                                    self.live_server_url + '/$')
 
         # Jim tries to login with his old password and fails
+        self.browser.get(self.live_server_url+'/accounts/login/')
         user_input = self.browser.find_element_by_id('id_user_login')
         pass_input = self.browser.find_element_by_id('id_pass_login')
         user_input.send_keys('Test')
@@ -271,11 +277,11 @@ class NewVisitorTests(LiveServerTestCase):
         pass_input.send_keys('q')
         self.browser.find_element_by_name('login').click()
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Welcome Test', body)
-
+        self.assertIn('Test', body)
+    
     def test_reset_password_link(self):
         # Jim goes to the site, clicks on reset password
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.live_server_url+'/accounts/login/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Reset password', body)
         self.check_for_redirect_after_link_click('Reset password',
@@ -292,9 +298,9 @@ class NewVisitorTests(LiveServerTestCase):
     def test_user_creation_form(self):
         
         # On the homepage, Jim sees a place to create an account
-        self.browser.get(self.live_server_url)
-        login_box = self.browser.find_element_by_id('id_login_box').text
-        self.assertIn('Create account', login_box)
+        self.browser.get(self.live_server_url+'/accounts/login/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Create account', body)
 
         # Jim clicks the link and is redirected to a create account page
         self.check_for_redirect_after_link_click('Create account',
@@ -302,14 +308,14 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim sees 4 input boxes and a button
         inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertEqual(len(inputs), 10) # 4 header + 4 input + button + hidden
+        self.assertEqual(len(inputs), 6) # 4 input + button + hidden
         
         # ATTEMPT 1: Jim (incorrectly) enters in his information
-        # KEY: inputs 0-3 in header, 4 hidden in form, 5-8 inputs, 9 button
-        inputs[5].send_keys('Jim')
-        inputs[6].send_keys('chipperdrew@gmail.com')
-        inputs[7].send_keys('Password')
-        inputs[8].send_keys('Pazzword')
+        # KEY: 0 is hidden in form, 1-4 are inputs, 5 is button
+        inputs[1].send_keys('Jim')
+        inputs[2].send_keys('chipperdrew@gmail.com')
+        inputs[3].send_keys('Password')
+        inputs[4].send_keys('Pazzword')
         self.browser.find_element_by_xpath("//select[@name='user_type']/option[text()='Teacher']").click()
 
         # Jim presses the "Create" button and is shown an error
@@ -320,10 +326,10 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('The two password fields didn\'t match', body)
 
         # ATTEMPT 2: Jim (correctly) re-enters in his passwords
-        # KEY: inputs 0-3 in header, 4 hidden in form, 5-8 inputs, 9 button
+        # KEY: 0 is hidden in form, 1-4 are inputs, 5 is button
         inputs = self.browser.find_elements_by_tag_name('input')
-        inputs[7].send_keys('Password')
-        inputs[8].send_keys('Password')
+        inputs[3].send_keys('Password')
+        inputs[4].send_keys('Password')
 
         # Jim presses the "Create" button and sent to the complete page
         self.check_for_redirect_after_button_click(
@@ -341,58 +347,15 @@ class NewVisitorTests(LiveServerTestCase):
         # ATTEMPT 3: Jim (incorrectly) tries to create another 'Jim' account
         self.browser.get(self.live_server_url + '/accounts/register/')
         inputs = self.browser.find_elements_by_tag_name('input')
-        inputs[5].send_keys('Jim')
-        inputs[6].send_keys('chipperdrew@gmail.com')
-        inputs[7].send_keys('P')
-        inputs[8].send_keys('P')
+        inputs[1].send_keys('Jim')
+        inputs[2].send_keys('chipperdrew@gmail.com')
+        inputs[3].send_keys('P')
+        inputs[4].send_keys('P')
         self.check_for_redirect_after_button_click(
             "create",
             self.live_server_url +'/accounts/register/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('A user with that username already exists', body)
-    
-    def test_login_box_existance_and_redirect(self):
-        
-        # On the homepage, Jim sees a place to enter in his
-        # username and password
-        self.browser.get(self.live_server_url)
-        login_box = self.browser.find_element_by_id('id_login_box').text
-        self.assertIn('Username:', login_box)
-        self.assertIn('Password:', login_box)
-
-        # Jim see enters his username and password into the appropriate boxes
-        inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertEqual(len(inputs), 4) #user, pass, login, remember me
-        user_input = self.browser.find_element_by_id('id_user_login')
-        pass_input = self.browser.find_element_by_id('id_pass_login')
-        user_input.send_keys('Jim')
-        pass_input.send_keys('Password')
-
-        # Jim clicks the 'Login' button and is redirected to login page
-        # b/c Jim's accounts DNE
-        self.check_for_redirect_after_button_click('login', '/accounts/login/')
-
-        # Jim logs in successfully, is returned to the home page. Jim logs out.
-        self.login_user('Test', 'test')
-        new_url = self.browser.current_url
-        self.assertEqual(new_url, self.live_server_url+'/')
-        self.browser.find_element_by_name('logout').click()
-
-        # Jim now decides to try to login on the Problems page
-        self.browser.get(self.live_server_url+'/pages/problems/')
-        login_box = self.browser.find_element_by_id('id_login_box').text
-        self.assertIn('Username:', login_box)
-        self.assertIn('Password:', login_box)
-
-        # Jim (successfully) enters in his info,
-        # clicks 'Login', and is redirected back to Problems page
-        user = self.browser.find_element_by_id('id_user_login')
-        password = self.browser.find_element_by_id('id_pass_login')
-        user.send_keys('Test')
-        password.send_keys('test')
-        self.check_for_redirect_after_button_click('login', '/problems/$')
-        body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Welcome Test', body)
     
     def test_pagination(self):
         # Jim visit a POST page and see 'Page 1 of 1'
@@ -422,7 +385,7 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Page 1 of 2', body)
         self.assertIn('Next', body)
-        
+    
     def test_vote_existance_and_functionality(self):
         test_user = get_user_model().objects.get(username='Test')
         post.objects.create(title='T1', page_type=post.IDEAS, user_id=test_user)
@@ -436,7 +399,9 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Down', body)
 
         # Jim logs in, sees the current votes, and can vote
+        self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
+        self.browser.get(self.live_server_url+'/pages/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertIn('Overall: 0', body)
@@ -456,13 +421,14 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("STU: 0, PAR: 0, ADM: 1.0, OUT: 0, TEA: 0", body)
         self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
-        self.browser.find_element_by_name('logout').click()
+        self.browser.find_element_by_name('logout_nav').click()
         
         # Bob, another user, logs in and sees the posts
         get_user_model().objects.create_user(
             'Bob', 'bob@gmail.com', 'b',
             user_type=get_user_model().ADMINISTRATOR
         )
+        self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Bob', 'b')
         self.check_for_redirect_after_link_click('Ideas', '/ideas/$')
 
@@ -477,13 +443,14 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("STU: 0, PAR: 0, ADM: 0.5, OUT: 0, TEA: 0", body)
         self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
-        self.browser.find_element_by_name('logout').click()
+        self.browser.find_element_by_name('logout_nav').click()
 
         # Jill, a student, logs in
         get_user_model().objects.create_user(
             'Jill', 'bob@gmail.com', 'j',
             user_type=get_user_model().STUDENT
         )
+        self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Jill', 'j')
         self.check_for_redirect_after_link_click('Ideas', '/ideas/$')
         
@@ -498,7 +465,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertIn('Overall: 0.667', body)
         self.assertIn('Overall: 0', body)
-
+    
     def test_user_voting_numbers_are_stored_properly(self):
         test_user = get_user_model().objects.get(username='Test')
         post.objects.create(title='T1', page_type=post.PROBLEMS, user_id=test_user)
@@ -506,8 +473,9 @@ class NewVisitorTests(LiveServerTestCase):
         post.objects.create(title='T3', page_type=post.QUESTIONS, user_id=test_user)
 
         # Jim logs in, visits the problems page, and votes up
-        self.browser.get(self.live_server_url+'/pages/problems/')
+        self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
+        self.browser.get(self.live_server_url+'/pages/problems/')
         self.browser.find_element_by_link_text('Up').click()
 
         # Jim goes the the ideas page and votes down
@@ -519,7 +487,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_link_text('Up').click()
 
         # Jim goes to his user page and sees the proper vote percentage
-        self.check_for_redirect_after_link_click('My page', '/user/Test/$')
+        self.check_for_redirect_after_link_click('Test', '/user/Test/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall user rating: 0.667', body)
 
@@ -529,33 +497,12 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/user/Test/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall user rating: 0.333', body)
-        
+    
     def test_voting_without_login_and_login_page(self):
         test_user = get_user_model().objects.get(username='Test')
         post.objects.create(
             title='T1', page_type=post.SITE_FEEDBACK, user_id=test_user
         )
-        """
-        # Jim visits the site_feedback page and tries to vote on the 'T1' post
-        self.browser.get(self.live_server_url+'/pages/site_feedback/')
-        self.check_for_redirect_after_link_click(
-            'Up', self.live_server_url + '/accounts/login/'
-        )
-
-        # Jim has to login. He initially messes up.
-        self.login_user('Test', 'teeest')
-        body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Please try again', body)
-
-        # Jim successfully logs in and is returned to the site_feedback page
-        # His vote is saved.
-        self.login_user('Test', 'test')
-        new_url = self.browser.current_url
-        self.assertEqual(new_url, self.live_server_url+'/pages/site_feedback/')
-        body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("'STU': 0, 'PAR': 0, 'ADM': 1.0, 'OUT': 0, 'TEA': 0", body)
-        self.browser.find_element_by_name('logout').click()
-        """
         
         # Jim directly accesses the login page and is redirected home
         self.browser.get(self.live_server_url+'/accounts/login/')
@@ -575,8 +522,9 @@ class NewVisitorTests(LiveServerTestCase):
                             page_type=post.SITE_FEEDBACK,
                             user_id=test_user
         )
-        self.browser.get(self.live_server_url+'/pages/site_feedback/')
+        self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
+        self.browser.get(self.live_server_url+'/pages/site_feedback/')
         self.check_for_redirect_after_link_click('Up', '/site_feedback/$')
 
         # The post shows than an ADMIN has voted up
@@ -610,7 +558,9 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/pages/problems/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Mark as spam', body)
+        self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
+        self.browser.get(self.live_server_url+'/pages/problems/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Mark as spam', body)
 

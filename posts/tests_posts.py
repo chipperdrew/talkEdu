@@ -24,8 +24,7 @@ class HomePageTest(TestCase):
     def test_not_logged_in_upon_arriving_to_home_page(self):
         client = Client()
         response = client.get('/')
-        self.assertIn('Username:', response.content)
-        self.assertIn('Password:', response.content)
+        self.assertIn('Login', response.content)
 
 
 class ProblemPageTest(TestCase):
