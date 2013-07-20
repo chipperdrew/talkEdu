@@ -23,11 +23,13 @@
 				<li><a id="id_questions_link" href="{% url 'post_page_base' page='questions' %}">Questions</a></li>
 				<li><a id="id_site_feedback_link" href="{% url 'post_page_base' page='site_feedback' %}">Site Feedback</a></li>
 				<li><a href="{% url 'search' %}">Search</a></li>
+			</ul>
+            	        <ul class="nav pull-right">
 				{% if user.is_authenticated %}
 					<li><a href="{% url 'user_page' user=user %}">{{ user.username }}</a></li>
 					<li><a href="{% url 'auth_logout' %}">Logout</a></li>
 				{% else %}
-					<li><a href="{% url 'login' %}">Login</a></li>
+					<li class="pull-right"><a href="{% url 'login' %}">Login</a></li>
 				{% endif %}
 			</ul>
 		</div>

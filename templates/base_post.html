@@ -50,12 +50,16 @@
 
 	{# Sort by links #}
 	<br/>
-	<div>
-		<p> Sort by:
-			<a href="{% url 'post_page_base' page=current_page sort_id=1%}">Most Recent</a>
-			<a href="{% url 'post_page_base' page=current_page sort_id=2%}">Highest Rated</a>
-			<a href="{% url 'post_page_base' page=current_page sort_id=3%}">Most Votes</a>		
-		</p>
+	<div class="btn-group">
+		<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+			Sort by:
+			<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			<li><a href="{% url 'post_page_base' page=current_page sort_id=1%}">Most Recent</a></li>
+			<li><a href="{% url 'post_page_base' page=current_page sort_id=2%}">Highest Rated</a></li>
+			<li><a href="{% url 'post_page_base' page=current_page sort_id=3%}">Most Votes</a></li>	
+		</ul>
 	</div>
 
 
