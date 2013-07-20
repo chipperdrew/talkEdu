@@ -1,6 +1,7 @@
 TODO:
 =============
-#) Draw voting system
+#) Add FAQ page
+#) Add some sort of graphic on home page?? Introduce to site?
 #) Allow for comments on POST pages (using Disqus?)
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
@@ -28,7 +29,7 @@ TODO:
 #) DONE - Think of way to prevent post spam (created post limit and pot o' honey)
 #) DONE - Add dropdown to sort posts by various categories (need voting system)
 #) DONE - Implement option to mark a post as spam
-
+#) DONE - Draw voting system
 
 
 
