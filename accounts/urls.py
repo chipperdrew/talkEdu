@@ -33,7 +33,8 @@ urlpatterns = patterns('django.contrib.auth.views',
 
 urlpatterns += patterns('accounts.views',
     url(r'^login/$', 'login',
-        {'template_name': 'login.html'}),
+        {'template_name': 'login.html'},
+        name='login'),
 
     # Django-registration package
     url(r'^register/$', CustomRegistrationView.as_view(

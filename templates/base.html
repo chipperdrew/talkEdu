@@ -11,34 +11,6 @@
 </head>
 
 <body>
-	{% block login %}
-			{% if user.is_authenticated %} 
-				<div id="id_login_box">
-				<p>Welcome {{ user.username }}. <a href="{% url 'user_page' user=user %}">My page</a></p>
-				<form action="{% url 'auth_logout' %}">
-					<button type="submit" name="logout">Logout</button>
-				</form>
-			{% else %}
-				<div id="id_login_box" style="border:2px solid black; float:left; padding-left:10px; padding-right:10px; height: 160px">
-				<!-- If success, stays on current page. Else, redirects to /accounts/login -->
-				<form method="POST" action="{% url 'auth_login' %}?next={{request.path}}"> 
-					{% csrf_token %}
-					<label for="id_user_login">Username:</label> 
-					<input type="text" name="username" id="id_user_login" />
-					<label for="id_pass_login">Password:</label> 
-					<input type="password" name="password" id="id_pass_login"/><br/>
-					<button type="submit" name="login">Login</button>
-					<label style="float:right">&nbsp;Remember me</label>
-					<input type="checkbox" name="remember_me" style="float:right"/><br/>
-					<div style="display:inline-block">
-						<a href="{% url 'register' %}">Create account</a>
-						<a href="{% url 'password_reset' %}">Reset password</a>
-					</div>
-				</form>
-			{% endif %} 
-		</div>
-	{% endblock login %}
-
 	{% block navbar %}
 		<div class="navbar" style="clear:both">
 		<div class="navbar-inner">
@@ -51,6 +23,12 @@
 				<li><a id="id_questions_link" href="{% url 'post_page_base' page='questions' %}">Questions</a></li>
 				<li><a id="id_site_feedback_link" href="{% url 'post_page_base' page='site_feedback' %}">Site Feedback</a></li>
 				<li><a href="{% url 'search' %}">Search</a></li>
+				{% if user.is_authenticated %}
+					<li><a href="{% url 'user_page' user=user %}">{{ user.username }}</a></li>
+					<li><a href="{% url 'auth_logout' %}">Logout</a></li>
+				{% else %}
+					<li><a href="{% url 'login' %}">Login</a></li>
+				{% endif %}
 			</ul>
 		</div>
 		</div>

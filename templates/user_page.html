@@ -6,23 +6,32 @@
 {% block content %}
 	{{ block.super }}
 	<h3 style="color:{{ user_object.COLORS|get_item:user_object.user_type}}">User {{ user_object.username}}: {{ user_object.get_user_type_display }}</h3>
-	<h4> Overall user rating: {{ user_object.vote_percentage }}</h4>
-	<p>Last logged in on {{ user.last_login.date }} at {{ user.last_login.time }}</p>
-
-	<br/>
-	<h4>Here are the posts for {{ user_object.username }}: </h4>
-	{% for post in user_posts %}
-		<p>
-			<span style="float:left">{{ forloop.counter }}: &nbsp;</span>
-			<a href="{% url 'post_page' post_id=post.id %}" style="float:left; display:inline-block; width:400px; text-overflow:ellipsis; overflow: hidden">{{ post.title }}</a>.
-			<span style="float:left">Overall rating: {{ post.vote_percentage }}</span>
-		</p>
-	{% endfor %}
-	<br/><br/>
-
 	{% if user_object == request.user %}
 		<p><a href="{% url 'pass_change' %}">Change your password</a></p>
 		<p><a href="{% url 'user_type_change' %}">Change your account type</a></p>
 	{% endif %}
+	<h4> Overall user rating: {{ user_object.vote_percentage }}</h4>
+	<p>Last logged in on {{ user.last_login.date }} at {{ user.last_login.time }}</p>
+
+	<br/>
+	{% if user_object == request.user %}
+		<h4>Here are your posts:</h4>
+	{% else %}
+		<h4>Here are the posts for {{ user_object.username }}:</h4>
+	{% endif %}
+	{% for post in user_posts %}
+		<p>
+			<span style="float:left">{{ forloop.counter }}: &nbsp;</span>
+			<a href="{% url 'post_page' post_id=post.id %}" style="float:left; display:inline-block; width:400px; text-overflow:ellipsis; overflow: hidden">{{ post.title }}</a>.
+			<span style="float:left">Overall rating: {{ post.vote_percentage }} 
+				{% if post.total_votes == 1 %}
+					({{ post.total_votes }} vote)
+				{% else %}
+					({{ post.total_votes }} votes)
+				{% endif %}
+			</span>
+		</p>
+	{% endfor %}
+	<br/><br/>
 
 {% endblock content %}
