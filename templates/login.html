@@ -31,10 +31,10 @@
 				<input type="text" name="username" id="id_user_login" />
 				<label for="id_pass_login">Password:</label> 
 				<input type="password" name="password" id="id_pass_login"/><br/>
-				<button type="submit" name="login">Login</button>
 				<label><input type="checkbox" name="remember_me"/>&nbsp;Remember me</label>
-				<a href="/accounts/register">Create account</a>
-				<a href="{% url 'password_reset' %}">Reset password</a>
+				<button class="btn btn-primary btn-large" type="submit" name="login">Login</button><br/><br/>
+				<a href="/accounts/register">Create an account</a><br/>
+				<a href="{% url 'password_reset' %}">Forgot my password</a>
 				{% if next and next.strip %}
 					{# Next value is provided, redirect back to that page #}
 					<input type="hidden" name="next" value="{{ next }}" />
