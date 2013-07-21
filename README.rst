@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Add FAQ page
 #) Limit number of login attempts
 #) Add some sort of graphic on home page?? Introduce to site?
 #) Allow for comments on POST pages (using Disqus?)
@@ -31,7 +30,7 @@ TODO:
 #) DONE - Implement option to mark a post as spam
 #) DONE - Draw voting system
 #) FIXED - By default, user login is cAsE sEnSiTiVe (however user creation is not)
-
+#) DONE - Add FAQ page
 
 
 Basic Information
@@ -147,6 +146,7 @@ Thanks to the following
 	* Git - http://git-scm.com/
 	* Github - https://github.com/
 	* Twitter Bootstrap - http://twitter.github.io/bootstrap/index.html
+	* Bootswatch - http://bootswatch.com/
 	* Homebrew - http://mxcl.github.io/homebrew/
 	* MacVim - http://macvim.org/
 	* PostgreSQL - http://www.postgresql.org/

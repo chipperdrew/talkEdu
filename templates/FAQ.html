@@ -10,10 +10,10 @@
 		<li><a href="#1">My overall user rating is incorrect</a></li>
 		<li><a href="#2">My post has disappeared!</a></li>
 		<li><a href="#3">I can't log in!</a></li>
+		<li><a href="#4"></a></li>
 	</ul>
 
 	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 	<ul>
 		<h4><a id="1">My overall user rating is incorrect</a></h4>
 		<p>
@@ -38,8 +38,30 @@
 		</p><br/>
 
 		<h4><a id="3">I can't log in!</a></h4>
-		<p>
-		</p>
+		<p>There are a couple of possibilities:</p>
+		<ol>
+			<li>The incorrect password is being entered.</li>
+				<p>
+					Please change your password. You may do so by clicking 
+					<a href="{% url 'password_reset' %}">here</a>.
+				</p>
+			<li>The incorrect username is being entered.</li>
+				<p>
+					If you have made any posts/comments on the site, try searching for them and
+					finding the username attached to them. If worst comes to worst, you may try 
+					emailing me {# EMAIL #}, but the odds are slim that I will be able to help
+					(send me every piece of info you can -- email, posts voted on, last login, etc).
+				</p>
+			<li>The account has been banned.</li>
+				<p>
+					If you are sure you are entering in the correct username and password,
+					your account is likely banned. This is probably the result of someone
+					stealing your password and posting as you. Email me {# EMAIL #} if you would
+					like your account back, but PROMISE me you will choose a stronger password.
+				</p>
+		</ol>
+
+		<h4><a id="4"></a></h4>
 
 	</ul>
 {% endblock content %}
