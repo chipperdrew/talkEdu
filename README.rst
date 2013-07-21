@@ -1,6 +1,7 @@
 TODO:
 =============
 #) Add FAQ page
+#) Limit number of login attempts
 #) Add some sort of graphic on home page?? Introduce to site?
 #) Allow for comments on POST pages (using Disqus?)
 #) TIME PERMITTING - Create a more personalized user page?
@@ -8,8 +9,7 @@ TODO:
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - Add https protection
 #) TOFIX? - Require certain password length/chars???
-#) TOFIX? - By default, user authorization is cAsE sEnSiTiVe (however user creation is not)
-#) TOFIX? - Same as above, but with /user/chiPPeRdrew/ link
+#) TOFIX? - Case sensitive user page links --  /user/chiPPeRdrew/ link. NOFIX?
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -30,6 +30,7 @@ TODO:
 #) DONE - Add dropdown to sort posts by various categories (need voting system)
 #) DONE - Implement option to mark a post as spam
 #) DONE - Draw voting system
+#) FIXED - By default, user login is cAsE sEnSiTiVe (however user creation is not)
 
 
 

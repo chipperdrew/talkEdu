@@ -12,12 +12,24 @@
 		<br/ id="id_line_break">
 		{# Automatically re-display form if error #}
 		{% if form.errors %}
-			{{ form.non_field_errors }}
- 			<div id="id_post_form">
+			<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				{% for field in form %} 
+					{% if field.errors %}
+						<li>{{ field.errors|striptags }}</li>
+					{% endif %}
+				{% endfor %}
+			</div>
+			<div id="id_post_form">
 			<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
 				{% csrf_token %}
 				{% render_honeypot_field %}
-				{{ form.as_p }}
+				{# Would use form.as.p but want special error display above #}
+				{% for field in form %}
+					<div class="fieldWrapper">
+					{{ field.label_tag }} {{ field }}
+					</div>
+				{% endfor %}
 				<button name="post_button" type="submit">Post</button>	
 			</form>
 			</div>

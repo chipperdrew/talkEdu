@@ -18,8 +18,12 @@
 	{% else %}
 			<!-- If success, stays on current page. Else, redirects to /accounts/login -->
 			{% if form.errors %}
-				<p>Either the username does not exist, or the incorrect password was entered. 
-				Please try again.</p>
+				<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+					<strong>Login Failed:</strong> 
+					Either the username does not exist, or the incorrect password was entered. 
+					Please try again.
+				</div>
 			{% endif %}
 			<form method="POST" action="{% url 'auth_login' %}">
 				{% csrf_token %}

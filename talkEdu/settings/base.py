@@ -21,11 +21,11 @@ def get_env_var(var_name):
 
 AUTH_USER_MODEL = 'accounts.eduuser'
 AUTH_PROFILE_MODULE = 'accounts.eduuser'
+AUTHENTICATION_BACKENDS = ('accounts.backends.CaseInsensitiveModelBackend',)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
 
 DEBUG = False
