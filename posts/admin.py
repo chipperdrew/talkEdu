@@ -9,7 +9,8 @@ class PostAdmin(admin.ModelAdmin):
                     "time_created", "spam_count")
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("username", "email", "user_type", "date_joined")
+    list_display = ("username", "email", "user_type", "date_joined",
+                    "vote_percentage", "total_votes")
 
 #class VoteAdmin(admin.ModelAdmin):
 #    list_display = ("post_id", "user_id", "vote_choice")

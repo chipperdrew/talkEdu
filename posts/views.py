@@ -17,6 +17,9 @@ from votes.models import vote
 def home_page(request):
     return render(request, 'home.html')
 
+def faq_page(request):
+    return render(request, 'FAQ.html')
+
 def display_page_helper(request, page, sort_id=None):
     """
     Helper function to display any pages with posts.

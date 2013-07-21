@@ -11,12 +11,6 @@ from selenium.webdriver.common.keys import Keys
 # App imports
 from posts.models import post, spam
 
-"""
-TO TEST WITH MULTIPLE TABS:
-After login, go to POST page. In new tab, logout. Try to post/vote.
-Should return to /accounts/login/
-"""
-
 
 class NewVisitorTests(LiveServerTestCase):
 
@@ -283,8 +277,8 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim goes to the site, clicks on reset password
         self.browser.get(self.live_server_url+'/accounts/login/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Reset password', body)
-        self.check_for_redirect_after_link_click('Reset password',
+        self.assertIn('Forgot my password', body)
+        self.check_for_redirect_after_link_click('Forgot my password',
                                                  '/accounts/password/reset/$')
         # Jim sees the proper content, and enters in his email
         body = self.browser.find_element_by_tag_name('body').text
@@ -297,13 +291,13 @@ class NewVisitorTests(LiveServerTestCase):
     
     def test_user_creation_form(self):
         
-        # On the homepage, Jim sees a place to create an account
+        # On the login page, Jim sees a place to create an account
         self.browser.get(self.live_server_url+'/accounts/login/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Create account', body)
+        self.assertIn('Create an account', body)
 
         # Jim clicks the link and is redirected to a create account page
-        self.check_for_redirect_after_link_click('Create account',
+        self.check_for_redirect_after_link_click('Create an account',
                                                  '/accounts/register/$')
 
         # Jim sees 4 input boxes and a button
@@ -504,9 +498,9 @@ class NewVisitorTests(LiveServerTestCase):
             title='T1', page_type=post.SITE_FEEDBACK, user_id=test_user
         )
         
-        # Jim directly accesses the login page and is redirected home
+        # Jim directly accesses the login page, logs in, and is redirected home
         self.browser.get(self.live_server_url+'/accounts/login/')
-        self.login_user('Test', 'test')
+        self.login_user('teST', 'test') #Testing cAsE iNsEnSiTiVe login
         new_url = self.browser.current_url
         self.assertEqual(new_url, self.live_server_url+'/')
 
