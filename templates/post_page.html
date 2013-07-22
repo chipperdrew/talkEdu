@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load disqus_tags %}
 
 {% block title %}Post {{ post_object.id }} - YouTalkEdu{% endblock title %}
 
@@ -9,25 +8,11 @@
 	<p>Text: {{ post_object.text }}</p>
 	<p>Posted by: <a href="{% url 'user_page' user=post_object.user_id %}">{{ post_object.user_id }}</a></p>
 	
-
-	{# DISQUS #}
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_developer = 1;
-	var disqus_shortname = 'youtalkedu'; // required
-	var disqus_identifier = '{{ post_object.id }}';
-	var disqus_url = 'http://localhost:8000{{ post_object.get_absolute_url }}';
-	var disqus_title = '{{ post_object.title }}';
-
-	/* * * DON'T EDIT BELOW THIS LINE * * */
-	(function() {
-        	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	})();
+	<script>
+		var idcomments_acct = '95d9456630cad1b6a27ae728b53d9254';
+		var idcomments_post_id;
+		var idcomments_post_url;
 	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
+	<span id="IDCommentsPostTitle" style="display:none"></span>
+	<script type='text/javascript' src='http://www.intensedebate.com/js/genericCommentWrapperV2.js'></script>
 {% endblock content %}

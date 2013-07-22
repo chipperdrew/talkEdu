@@ -48,11 +48,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'registration',
-    'disqus',
-    'south',
-    'haystack',
-    'honeypot',
+    'registration', # Easy registration
+    'disqus', # Commenting -- UNNECESSARY?!?
+    'south', # Database migration
+    'haystack', # Search
+    'honeypot', # Prevent spam
+    'axes', # Limit login attempts
     'posts',
     'accounts',
     'votes',
@@ -87,7 +88,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.FailedLoginMiddleware',
 )
+
+AXES_LOGIN_FAILURE_LIMIT = 5 # 5 login attempts unless account is locked up
 
 ROOT_URLCONF = '%s.urls' % SITE_NAME
 
