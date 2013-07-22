@@ -20,7 +20,6 @@ def get_env_var(var_name):
         raise ImproperlyConfigured(error_msg)
 
 AUTH_USER_MODEL = 'accounts.eduuser'
-AUTH_PROFILE_MODULE = 'accounts.eduuser'
 AUTHENTICATION_BACKENDS = ('accounts.backends.CaseInsensitiveModelBackend',)
 
 # Quick-start development settings - unsuitable for production

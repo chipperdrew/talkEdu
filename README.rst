@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Limit number of login attempts
 #) Add some sort of graphic on home page?? Introduce to site?
 #) Allow for comments on POST pages (using Disqus?)
 #) TIME PERMITTING - Create a more personalized user page?
@@ -31,6 +30,7 @@ TODO:
 #) DONE - Draw voting system
 #) FIXED - By default, user login is cAsE sEnSiTiVe (however user creation is not)
 #) DONE - Add FAQ page
+#) DONE - Limit number of login attempts
 
 
 Basic Information
@@ -47,6 +47,8 @@ talkEdu/
 	accounts/
 		
 		__init__.py
+
+		backends.py
 
 		forms.py
 
@@ -121,6 +123,8 @@ talkEdu/
 		
 		__init__.py
 
+		migrations/
+
 		models.py
 
 		tests_votes.py
@@ -139,6 +143,7 @@ Thanks to the following
 	* Homebrew, Git, RVM, RoR Tutorial - http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/
 	* Infographic on PHP vs Python vs Ruby - https://www.udemy.com/blog/modern-language-wars/
 	* StackOverflow - http://stackoverflow.com/
+	* StackOverflow (deserves to be mentioned again) - http://stackoverflow.com/
 
 * General Services:
 	* Python/IDLE - http://www.python.org/
@@ -160,7 +165,8 @@ Thanks to the following
 	* Resetting passwords - http://garmoncheg.blogspot.com/2012/07/django-resetting-passwords-with.html
 
 * Packages Used (Django related and others):
-	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/#
+	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/
+	* Django-axes (limit login attempts) - https://pypi.python.org/pypi/django-axes/1.3.3
 	* Django-disqus (for easy Disqus use) - http://django-disqus.readthedocs.org/en/latest/
 	* Django-haystack (for search functionality) - http://haystacksearch.org/
 	* Django-model-utils (to use Choices) - https://pypi.python.org/pypi/django-model-utils
