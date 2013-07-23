@@ -8,10 +8,6 @@
 
 
 {% block content %}
-	{{ block.super }}
-
-	{% block login %}{% endblock login %}
-
 	<div id="id_login_box" style="text-align:center">
 	{% if user.is_authenticated %} 
 			<p> You are already logged in!

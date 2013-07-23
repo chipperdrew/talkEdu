@@ -3,10 +3,26 @@
 {% block title %}Register - YouTalkEdu{% endblock title %}
 
 {% block content %}
-	{{ block.super }}
 	<form action="/accounts/register/" method="POST">
 		{% csrf_token %}
-		{{ form.as_p }}
+		{% if form.errors %}
+			<div class="alert alert-error">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				{{ form.non_field_errors }} {# If pass fields don't match #}
+				{% for field in form %} 
+					{% if field.errors %}
+						<li>{{ field.errors|striptags }}</li>
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% endif %}
+		{# Would use form.as.p but want special error display above #}
+		{% for field in form %}
+			<div class="fieldWrapper">
+			{{ field.label_tag }} {{ field }}<br/><br/>
+			</div>
+		{% endfor %}
+
 		<input type="submit" name="create" value="Create" />
 	</form>
 {% endblock content %}

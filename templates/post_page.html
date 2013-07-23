@@ -3,7 +3,6 @@
 {% block title %}Post {{ post_object.id }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
-	{{ block.super }}
 	<h4>Title: {{ post_object.title }}</h4>
 	<p>Text: {{ post_object.text }}</p>
 	<p>Posted by: <a href="{% url 'user_page' user=post_object.user_id %}">{{ post_object.user_id }}</a></p>

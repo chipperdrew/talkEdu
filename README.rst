@@ -1,12 +1,10 @@
 TODO:
 =============
-#) Fix error display on create account page
-#) Add green color when user type has been changed
+#) Blank title posts WORK. FIX FIX FIX
 #) Add focus on username when logging in, title when posting
 #) Tell what the posts are sorted by
 #) Say the number of posts left for the day rather than 5 posts per day
 #) Add logo/picture at top of tab
-#) Add a space between text and input on user_type_change form
 #) Change the name outsider to ????
 #) With pagination -- stay on same page after vote
 #) Dotted line through the center of votes for overall vote
@@ -16,7 +14,6 @@ TODO:
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - Add https protection
-#) TOFIX? - Require certain password length/chars???
 #) TOFIX? - Case sensitive user page links --  /user/chiPPeRdrew/ link. NOFIX?
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
@@ -41,6 +38,9 @@ TODO:
 #) FIXED - By default, user login is cAsE sEnSiTiVe (however user creation is not)
 #) DONE - Add FAQ page
 #) DONE - Limit number of login attempts
+#) DONE - Require certain password length/chars???
+#) DONE - Fix error display on create account page
+
 
 
 Basic Information

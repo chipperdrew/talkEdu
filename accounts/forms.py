@@ -16,6 +16,15 @@ class eduuserForm(ModelForm):
 
 class MinPassLengthRegistrationForm(RegistrationForm):
     min_password_length = 8
+
+    def __init__(self, *args, **kwargs):
+        super(MinPassLengthRegistrationForm, self).__init__(*args, **kwargs)
+
+        # Custom error if title is blank
+        self.fields['username'].error_messages = {'required': 'Please enter a username'}
+        self.fields['email'].error_messages = {'required': 'Please enter a valid email address'}
+        self.fields['password1'].error_messages = {'required': 'Please enter a password'}
+        self.fields['password2'].error_messages = {'required': 'Please verify your password'}
     
     def clean_password1(self):
         password = self.cleaned_data.get('password1', '')

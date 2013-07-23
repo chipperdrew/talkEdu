@@ -6,7 +6,6 @@
 {% block title %}Edit post - YouTalkEdu{% endblock title %}
 
 {% block content %}
-	{{ block.super }}
 	<form method="POST" action="{% url 'post_edit' id=id %}?next={{redirect_to}}">
 		{% csrf_token %}
 		{% render_honeypot_field %}		
