@@ -137,6 +137,14 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Please enter a title', body)
         self.assertNotIn('Click me to create a post', body)
 
+        # Jim tries to post with a white-space only title
+        title_input = self.browser.find_element_by_name('title')
+        title_input.send_keys('  ')
+        self.check_for_redirect_after_button_click('post_button',
+                                                   '/site_feedback/$')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Please enter a valid title', body)
+
         # Jim tries to test the posting limit
         self.browser.get(self.live_server_url+'/pages/problems/')
         for i in range(0,3):
@@ -300,32 +308,45 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_link_click('Create an account',
                                                  '/accounts/register/$')
 
+        # ATTEMPT 0: Jim clicks enter withot entering in anything
+        self.check_for_redirect_after_button_click(
+            "create", self.live_server_url +'/accounts/register/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Please enter a username', body)
+        self.assertIn('Please enter a valid email', body)
+        self.assertIn('Please enter a password', body)
+        self.assertIn('Please verify your password', body)
+
+
         # Jim sees 4 input boxes and a button
         inputs = self.browser.find_elements_by_tag_name('input')
         self.assertEqual(len(inputs), 6) # 4 input + button + hidden
-        
-        # ATTEMPT 1: Jim (incorrectly) enters in his information
+
+        # ATTEMPT 0.5: Jim creates too short of a password:
         # KEY: 0 is hidden in form, 1-4 are inputs, 5 is button
         inputs[1].send_keys('Jim')
         inputs[2].send_keys('chipperdrew@gmail.com')
+        inputs[3].send_keys('Pass')
+        inputs[4].send_keys('Pass')
+        self.check_for_redirect_after_button_click(
+            "create", self.live_server_url +'/accounts/register/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Password must have at least', body)
+        
+        # ATTEMPT 1: Jim enters in non-matching passwords
+        inputs = self.browser.find_elements_by_tag_name('input')
         inputs[3].send_keys('Password')
         inputs[4].send_keys('Pazzword')
         self.browser.find_element_by_xpath("//select[@name='user_type']/option[text()='Teacher']").click()
-
-        # Jim presses the "Create" button and is shown an error
         self.check_for_redirect_after_button_click(
-            "create",
-            self.live_server_url +'/accounts/register/')
+            "create", self.live_server_url +'/accounts/register/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('The two password fields didn\'t match', body)
 
         # ATTEMPT 2: Jim (correctly) re-enters in his passwords
-        # KEY: 0 is hidden in form, 1-4 are inputs, 5 is button
         inputs = self.browser.find_elements_by_tag_name('input')
         inputs[3].send_keys('Password')
         inputs[4].send_keys('Password')
-
-        # Jim presses the "Create" button and sent to the complete page
         self.check_for_redirect_after_button_click(
             "create",
             self.live_server_url +'/accounts/register/complete/')

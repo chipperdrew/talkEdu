@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Blank title posts WORK. FIX FIX FIX
 #) Add focus on username when logging in, title when posting
 #) Tell what the posts are sorted by
 #) Say the number of posts left for the day rather than 5 posts per day
@@ -40,6 +39,7 @@ TODO:
 #) DONE - Limit number of login attempts
 #) DONE - Require certain password length/chars???
 #) DONE - Fix error display on create account page
+#) FIXED - Blank title posts work
 
 
 
