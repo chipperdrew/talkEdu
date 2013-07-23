@@ -54,7 +54,7 @@ class NewVisitorTests(LiveServerTestCase):
         # displayed on the page
         self.assertIn("Welcome to ", self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('Welcome', header_text)
+        self.assertIn('talk education', header_text)
 
         # Jim is not logged in so the header contains login info
         body = self.browser.find_element_by_tag_name('body').text

@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
-from accounts.forms import RegistrationForm    # Originally in django-registration
-                                            # but updated in posts.forms
+from accounts.forms import MinPassLengthRegistrationForm
 from accounts.views import CustomRegistrationView
 
 
@@ -38,7 +37,7 @@ urlpatterns += patterns('accounts.views',
 
     # Django-registration package
     url(r'^register/$', CustomRegistrationView.as_view(
-        form_class=RegistrationForm), name="register"),
+        form_class=MinPassLengthRegistrationForm), name="register"),
     url(r'^', include('registration.backends.default.urls'),
         name='accounts'),
 

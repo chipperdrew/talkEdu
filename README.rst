@@ -1,5 +1,15 @@
 TODO:
 =============
+#) Fix error display on create account page
+#) Add green color when user type has been changed
+#) Add focus on username when logging in, title when posting
+#) Tell what the posts are sorted by
+#) Say the number of posts left for the day rather than 5 posts per day
+#) Add logo/picture at top of tab
+#) Add a space between text and input on user_type_change form
+#) Change the name outsider to ????
+#) With pagination -- stay on same page after vote
+#) Dotted line through the center of votes for overall vote
 #) Add some sort of graphic on home page?? Introduce to site?
 #) Allow for comments on POST pages (using Disqus?)
 #) TIME PERMITTING - Create a more personalized user page?
