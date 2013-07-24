@@ -1,9 +1,11 @@
 TODO:
 =============
-#) Add logo/picture at top of tab
+#) Move the left margin
+#) Make sure the text is not being cut off -- Change font type/size?
 #) Change the name outsider to ????
 #) With pagination -- stay on same page after vote
 #) Dotted line through the center of votes for overall vote
+#) Add logo/picture at top of tab
 #) Add some sort of graphic on home page?? Introduce to site?
 #) Allow for comments on POST pages (using Disqus?)
 #) TIME PERMITTING - Create a more personalized user page?

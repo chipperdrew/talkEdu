@@ -112,7 +112,7 @@ def display_page_helper(request, page, sort_id=1):
                    'current_page': current_page,
                    'user_color_dict': get_user_model().COLORS,
                    'sort_categs': sort_categs, 'sort_id':sort_id,
-                   'posts_left': posts_left})
+                   'posts_left': posts_left, 'page': page})
 
 def user_page(request, user):
     """
@@ -141,14 +141,6 @@ def edit(request, id=None, page_abbrev=None):
     ## requests, thus causing an error upon return to POST page
     if not request.user.is_authenticated():
         return redirect(reverse('accounts.views.login'))
-
-    # Limit number of posts per 24 hours
-    posts_in_last_24_hours = post.objects.all().filter(
-        time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
-        user_id=request.user
-    )
-    if posts_in_last_24_hours.count() >= POSTS_ALLOWED_PER_DAY:
-        return redirect(request.GET['next'])
     
     if id:
         post_of_interest = get_object_or_404(post, pk=id)
@@ -158,6 +150,13 @@ def edit(request, id=None, page_abbrev=None):
             user_id = request.user,
             page_type = page_abbrev
             )
+        # Limit number of posts per 24 hours
+        posts_in_last_24_hours = post.objects.all().filter(
+            time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
+            user_id=request.user
+        )
+        if posts_in_last_24_hours.count() >= POSTS_ALLOWED_PER_DAY:
+            return redirect(request.GET['next'])
 
     if request.POST:
         form = postForm(request.POST, instance=post_of_interest)
