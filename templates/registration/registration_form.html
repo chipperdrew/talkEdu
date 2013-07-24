@@ -3,6 +3,14 @@
 {% block title %}Register - YouTalkEdu{% endblock title %}
 
 {% block content %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			window.onload = function() {
+				$("#id_username").focus();
+			};  
+		}); 
+        </script> 
+
 	<form action="/accounts/register/" method="POST">
 		{% csrf_token %}
 		{% if form.errors %}

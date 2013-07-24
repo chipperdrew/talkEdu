@@ -8,6 +8,16 @@
 
 
 {% block content %}
+	{# Focus on user login on load #}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			window.onload = function() {
+				$("#id_user_login").focus();
+			};  
+		}); 
+        </script> 
+
+
 	<div id="id_login_box" style="text-align:center">
 	{% if user.is_authenticated %} 
 			<p> You are already logged in!
