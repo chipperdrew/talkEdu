@@ -1,8 +1,5 @@
 TODO:
 =============
-#) Add focus on username when logging in, title when posting
-#) Tell what the posts are sorted by
-#) Say the number of posts left for the day rather than 5 posts per day
 #) Add logo/picture at top of tab
 #) Change the name outsider to ????
 #) With pagination -- stay on same page after vote
@@ -40,6 +37,7 @@ TODO:
 #) DONE - Require certain password length/chars???
 #) DONE - Fix error display on create account page
 #) FIXED - Blank title posts work
+#) DONE - Tell what the posts are sorted by
 
 
 

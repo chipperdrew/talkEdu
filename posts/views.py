@@ -13,6 +13,7 @@ from .forms import postForm
 from .models import post, spam
 from votes.models import vote
 
+POSTS_ALLOWED_PER_DAY = 5
 
 def home_page(request):
     return render(request, 'home.html')
@@ -20,7 +21,7 @@ def home_page(request):
 def faq_page(request):
     return render(request, 'FAQ.html')
 
-def display_page_helper(request, page, sort_id=None):
+def display_page_helper(request, page, sort_id=1):
     """
     Helper function to display any pages with posts.
     Paginator logic adapted from:
@@ -50,11 +51,15 @@ def display_page_helper(request, page, sort_id=None):
 
     posts_all = post.objects.all().filter(page_type=page_type)
     # Sort logic
+    sort_categs = ['Most Recent', 'Highest Rated', 'Most Votes']
     if sort_id=='1':
+        sort_id = 1 #Keep as int
         posts_all = posts_all.order_by('-time_created')
     elif sort_id=='2':
+        sort_id = 2
         posts_all = posts_all.order_by('-vote_percentage')
     elif sort_id=='3':
+        sort_id = 3
         posts_all = posts_all.order_by('-total_votes')
     else:
         pass
@@ -90,12 +95,24 @@ def display_page_helper(request, page, sort_id=None):
                 user_dict[user_type[0]] = round(
                     float(len(up_votes))/len(all_votes), 3
                 )
+
+    # Display number of posts left for the day
+    if request.user.is_authenticated():
+        posts_in_last_24_hours = post.objects.all().filter(
+            time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
+            user_id=request.user
+        )
+        posts_left = POSTS_ALLOWED_PER_DAY - posts_in_last_24_hours.count()
+    else:
+        posts_left = None
     
     return render(request, 'base_post.html',
                   {'posts': posts, 'form': form, 'vote_dict': vote_dict,
                    'page_title': page_title, 'page_abbrev': page_type,
                    'current_page': current_page,
-                   'user_color_dict': get_user_model().COLORS})
+                   'user_color_dict': get_user_model().COLORS,
+                   'sort_categs': sort_categs, 'sort_id':sort_id,
+                   'posts_left': posts_left})
 
 def user_page(request, user):
     """
@@ -130,7 +147,7 @@ def edit(request, id=None, page_abbrev=None):
         time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
         user_id=request.user
     )
-    if posts_in_last_24_hours.count() >= 5: #IF MODIFIED - CHANGE TEMPLATE TEXT
+    if posts_in_last_24_hours.count() >= POSTS_ALLOWED_PER_DAY:
         return redirect(request.GET['next'])
     
     if id:

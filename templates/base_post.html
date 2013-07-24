@@ -6,8 +6,6 @@
 {% block title %}{{ page_title }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
-	{{ block.super }}
-
 	{% if user.is_authenticated %}
 		<br/ id="id_line_break">
 		{# Automatically re-display form if error #}
@@ -49,13 +47,18 @@
 				});
 			</script>
  			<div id="id_post_form">
-			<p>PLEASE NOTE: You cannot post more than 5 times in a 24 hour period.</p>
-			<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
-				{% csrf_token %}
-				{% render_honeypot_field %}
-				{{ form.as_p }}
-				<button name="post_button" type="submit">Post</button>	
-			</form>
+			{% if posts_left <= 0 %}
+				<p>:( You have used up all of your posts for the day. However, you may still
+				(and are encouraged to) vote and comment on posts made by others.</p>
+			{% else %}
+				<p>PLEASE NOTE: You have {{ posts_left }} post(s) remaining for the day.</p>
+				<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
+					{% csrf_token %}
+					{% render_honeypot_field %}
+					{{ form.as_p }}
+					<button name="post_button" type="submit">Post</button>	
+				</form>
+			{% endif %}
 			</div>
 		{% endif %}
 		<br/>		
@@ -69,9 +72,17 @@
 			<span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu">
-			<li><a href="{% url 'post_page_base' page=current_page sort_id=1%}">Most Recent</a></li>
-			<li><a href="{% url 'post_page_base' page=current_page sort_id=2%}">Highest Rated</a></li>
-			<li><a href="{% url 'post_page_base' page=current_page sort_id=3%}">Most Votes</a></li>	
+			{% for categ in sort_categs %}
+				{% if forloop.counter == sort_id %}
+					<li> <a href="{% url 'post_page_base' page=current_page sort_id=forloop.counter %}">
+					<img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" />    {{ categ }}</a>
+			</li>
+				{% else %}
+				<li><a href="{% url 'post_page_base' page=current_page sort_id=forloop.counter %}">
+					{{ categ }}</a>
+				</li>
+				{% endif %}
+			{% endfor %}	
 		</ul>
 	</div>
 
