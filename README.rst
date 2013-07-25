@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Fix errors on password change page
 #) Make cooler buttons
 #) Change the name outsider to ????
 #) Add logo/picture at top of tab

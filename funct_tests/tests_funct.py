@@ -236,15 +236,20 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Change your password', body)
         self.check_for_redirect_after_link_click('Change your password',
                                                  '/accounts/password/change/$')
-        # Jim enters in his old password incorrectly
+        # Jim enters in his old password incorrectly & enters 2 diff passwords
         old_pass = self.browser.find_element_by_id('id_old_password')
         new_pass1 = self.browser.find_element_by_id('id_new_password1')
         new_pass2 = self.browser.find_element_by_id('id_new_password2')
         old_pass.send_keys('BAD_PASS')
         new_pass1.send_keys('q')
-        new_pass2.send_keys('q')
+        new_pass2.send_keys('qqqq')
         self.check_for_redirect_after_button_click('pass_change_submit',
                                                    '/accounts/password/change/$')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('old password was entered incorrectly', body)
+        self.assertIn('two password fields didn\'t match', body)
+
+        
         # Jim correctly fills out the form
         old_pass = self.browser.find_element_by_id('id_old_password')
         new_pass1 = self.browser.find_element_by_id('id_new_password1')
@@ -285,9 +290,17 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Forgot my password', body)
         self.check_for_redirect_after_link_click('Forgot my password',
                                                  '/accounts/password/reset/$')
-        # Jim sees the proper content, and enters in his email
+
+        # Jim sees the proper content and clicks the button w/o entering info
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Please enter your email', body)
+        self.check_for_redirect_after_button_click('reset_pass_submit',
+                                                   '/accounts/password/reset/$')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('This field is required.', body)
+
+        
+        # Jim sees the proper content, and enters in his email
         email = self.browser.find_element_by_id('id_email')
         email.send_keys('q@gmail.com')
         self.check_for_redirect_after_button_click('reset_pass_submit',
