@@ -1,7 +1,7 @@
 TODO:
 =============
+#) Fix errors on password change page
 #) Make cooler buttons
-#) Make sure the text is not being cut off -- Change font type/size?
 #) Change the name outsider to ????
 #) Add logo/picture at top of tab
 #) Add some sort of graphic on home page?? Introduce to site?
