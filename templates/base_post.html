@@ -6,6 +6,7 @@
 {% block title %}{{ page_title }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
+	<div class="move_right">
 	{% if user.is_authenticated %}
 		<br/ id="id_line_break">
 		{# Automatically re-display form if error #}
@@ -105,8 +106,7 @@
 						draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
 						drawPulse({{ vote_dict|key:post|key:user_type_key}}, separationDist*({{ forloop.counter }}-1), draw);
 					{% endfor %}
-
-			});
+				});
 			</script>
 			<p style="text-align:center">
 				Overall: {{ post.vote_percentage }}
@@ -129,7 +129,6 @@
 			</p>
 			{% if user.is_authenticated %}		
 				<p>
-					{{ request.path }}
 					<div style="display:inline-block">					
 					<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
 					<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
@@ -137,7 +136,7 @@
 					</div>			
 				{% if post.user_id == request.user %}
 					<div style="float:right; display:inline-block">
-					<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
+					<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}?page={{ page }}">Edit</a>
 					<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}?page={{ page }}"
 					onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
 					</div>
@@ -168,5 +167,5 @@
 		{% endif %}
 		</span>
 	</div>
- 
+ 	</div>
 {% endblock content %}

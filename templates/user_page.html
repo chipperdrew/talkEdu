@@ -4,6 +4,7 @@
 {% block title %}User {{ user_object.username }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
+	<div class="move_right">
 	<h3 style="color:{{ user_object.COLORS|get_item:user_object.user_type}}">User {{ user_object.username}}: {{ user_object.get_user_type_display }}</h3>
 	{% if user_object == request.user %}
 		<p><a href="{% url 'pass_change' %}">Change your password</a></p>
@@ -32,5 +33,5 @@
 		</p>
 	{% endfor %}
 	<br/><br/>
-
+	</div>
 {% endblock content %}

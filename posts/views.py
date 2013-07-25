@@ -67,6 +67,8 @@ def display_page_helper(request, page, sort_id=1):
     # Paginator logic
     paginator = Paginator(posts_all, 5)
     page = request.GET.get('page')
+    if page is None:
+        page = 1
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:

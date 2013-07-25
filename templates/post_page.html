@@ -3,6 +3,7 @@
 {% block title %}Post {{ post_object.id }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
+	<div class="move_right">
 	<h4>Title: {{ post_object.title }}</h4>
 	<p>Text: {{ post_object.text }}</p>
 	<p>Posted by: <a href="{% url 'user_page' user=post_object.user_id %}">{{ post_object.user_id }}</a></p>
@@ -14,4 +15,5 @@
 	</script>
 	<span id="IDCommentsPostTitle" style="display:none"></span>
 	<script type='text/javascript' src='http://www.intensedebate.com/js/genericCommentWrapperV2.js'></script>
+	</div>
 {% endblock content %}

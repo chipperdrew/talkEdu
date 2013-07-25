@@ -3,6 +3,7 @@
 {% block title %}Change user type - YouTalkEdu{% endblock title %}
 
 {% block content %}
+	<div class="move_right">
 	<form method="POST" action="{% url 'user_type_change_done' id=request.user.id %}">
 		{% csrf_token %}
 		<br/>
@@ -17,5 +18,6 @@
 			</tr>
 		</table>
 	</form>
+	</div>
 {% endblock content %}
 

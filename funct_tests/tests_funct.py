@@ -190,7 +190,7 @@ class NewVisitorTests(LiveServerTestCase):
         text_input.send_keys('Here is some text')
 
         # Jim presses update and is returned to the ideas page
-        self.check_for_redirect_after_button_click('update', '/ideas/$')
+        self.check_for_redirect_after_button_click('update', '/ideas/')
 
         # Jim sees his updated title
         body = self.browser.find_element_by_tag_name('body').text
@@ -200,7 +200,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_link_text("Delete").click()
         self.browser.switch_to_alert().accept()
         new_url = self.browser.current_url
-        self.assertRegexpMatches(new_url, '/ideas/$')
+        self.assertRegexpMatches(new_url, '/ideas/')
 
         # Jim no longer sees his post
         body = self.browser.find_element_by_tag_name('body').text
@@ -427,7 +427,7 @@ class NewVisitorTests(LiveServerTestCase):
         up_votes[0].click()
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
-        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/$')
+        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
 
         # Jim sees his vote and logs out satisfied
         body = self.browser.find_element_by_tag_name('body').text
@@ -449,7 +449,7 @@ class NewVisitorTests(LiveServerTestCase):
         down_votes[0].click()
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
-        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/$')
+        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
 
         # Bob sees how his vote has changed the voting value
         body = self.browser.find_element_by_tag_name('body').text
@@ -471,7 +471,7 @@ class NewVisitorTests(LiveServerTestCase):
         up_votes[0].click()
         self.browser.implicitly_wait(3)
         new_url = self.browser.current_url
-        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/$')
+        self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("STU: 1.0, PAR: 0, ADM: 0.5, OUT: 0, TEA: 0", body)
         self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
@@ -537,7 +537,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
         self.browser.get(self.live_server_url+'/pages/site_feedback/')
-        self.check_for_redirect_after_link_click('Up', '/site_feedback/$')
+        self.check_for_redirect_after_link_click('Up', '/site_feedback/')
 
         # The post shows than an ADMIN has voted up
         body = self.browser.find_element_by_tag_name('body').text
