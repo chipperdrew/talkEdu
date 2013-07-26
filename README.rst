@@ -10,7 +10,6 @@ TODO:
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - Add https protection
 #) TOFIX? - Case sensitive user page links --  /user/chiPPeRdrew/ link. NOFIX?
-#) FIREFOXSUCKS - Dotted line through the center of votes for overall vote
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -38,6 +37,8 @@ TODO:
 #) DONE - Fix error display on create account page
 #) FIXED - Blank title posts work
 #) DONE - Tell what the posts are sorted by
+#) DONE - Dotted line through the center of votes for overall vote
+
 
 
 

@@ -106,6 +106,7 @@
 						draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
 						drawPulse({{ vote_dict|key:post|key:user_type_key}}, separationDist*({{ forloop.counter }}-1), draw);
 					{% endfor %}
+					drawMiddle({{ post.vote_percentage }}, draw);
 				});
 			</script>
 			<p style="text-align:center">

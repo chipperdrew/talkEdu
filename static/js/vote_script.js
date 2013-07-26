@@ -49,9 +49,9 @@ function drawPulse(perc, offset, draw) {
 		// Area of circular segment = R^2/2*(theta - sin(theta))
 		var percArea = perc*totalArea;
 		var num = 2*percArea/Math.pow(rad,2);
-		// Root finding using Newton's Method --- theta - sin(theta) - num = 0
+		// Finding theta using root finding (Newton's Method): theta - sin(theta) - num = 0.
 		var tol = 0.01;
-		var theta = num;
+		var theta = num; // THETA=0 ==> 0% area
 		var f = theta - Math.sin(theta) - num;
 		var fPrime = 1 - Math.cos(theta);
 		while(Math.abs(f) > tol) {
@@ -90,9 +90,9 @@ function drawPulse(perc, offset, draw) {
 		// Area of circular segment = R^2/2*(theta - sin(theta))
 		var percAreaFromTop = (1-perc)*totalArea;
 		var num = 2*percAreaFromTop/Math.pow(rad,2);
-		// Root finding using Newton's Method --- theta - sin(theta) - num = 0
+		// Finding theta using root finding (Newton's Method): theta - sin(theta) - num = 0.
 		var tol = 0.01;
-		var theta = num;
+		var theta = num; // THETA=0 ==> 100% area
 		var f = theta - Math.sin(theta) - num;
 		var fPrime = 1 - Math.cos(theta);
 		while(Math.abs(f) > tol) {
@@ -110,3 +110,72 @@ function drawPulse(perc, offset, draw) {
 	}
 }
 
+function drawMiddle(perc, draw) {
+	draw.lineWidth = 3;	
+	if(perc == 0 || perc == 1) {
+		null
+	}  else if(perc <= arcPerc) {
+		// MIDDLE LINE IN BOTTOM SEMICIRCLE
+		// Area of circular segment = R^2/2*(theta - sin(theta))
+		var percArea = perc*totalArea;
+		var num = 2*percArea/Math.pow(rad,2);
+		// Finding theta using root finding (Newton's Method): theta - sin(theta) - num = 0.
+		var tol = 0.1; // Less tolerance needed b/c of line thickness
+		var theta = num;
+		var f = theta - Math.sin(theta) - num;
+		var fPrime = 1 - Math.cos(theta);
+		while(Math.abs(f) > tol) {
+			thetaPrev = theta;
+			theta = thetaPrev - (f/fPrime);
+			f = theta - Math.sin(theta) - num;
+			fPrime = 1 - Math.cos(theta);
+		}
+		// Using found theta to draw arc
+		var heightOn = rad*Math.sin(theta);
+		draw.beginPath();
+		draw.moveTo(leftArc-rad, bottomArc+heightOn);
+		draw.lineTo(5*separationDist, bottomArc+heightOn);
+		draw.stroke();
+	
+			
+	} else if(perc <= 1 - arcPerc) {
+		// MIDDLE LINE IN RECTANGLE
+		var rectHeightPerc = (perc - arcPerc)/rectPerc;
+		var lineHeight = (height+rad)-(height*rectHeightPerc)+topOffset
+		draw.beginPath();
+		draw.moveTo(leftArc-rad, lineHeight);
+		draw.lineTo(5*separationDist, lineHeight);
+		draw.stroke();
+	} else {
+		// MIDDLE LINE IN TOP SEMICIRCLE
+		// Area of circular segment = R^2/2*(theta - sin(theta))
+		var percAreaFromTop = (1-perc)*totalArea;
+		var num = 2*percAreaFromTop/Math.pow(rad,2);
+		// Finding theta using root finding (Newton's Method): theta - sin(theta) - num = 0.
+		var tol = 0.1;
+		var theta = num;
+		var f = theta - Math.sin(theta) - num;
+		var fPrime = 1 - Math.cos(theta);
+		while(Math.abs(f) > tol) {
+			thetaPrev = theta;
+			theta = thetaPrev - (f/fPrime);
+			f = theta - Math.sin(theta) - num;
+			fPrime = 1 - Math.cos(theta);
+		}
+		var bottomOfCircle = bottomArc-height;
+		var heightOff = rad*Math.sin(theta);
+		draw.beginPath();
+		draw.moveTo(leftArc-rad, bottomOfCircle-heightOff);
+		draw.lineTo(5*separationDist, bottomOfCircle-heightOff);
+		draw.stroke();
+
+/*
+		// Using found theta to draw 2 arcs
+		draw.beginPath();
+		draw.arc(leftArc+offset, bottomArc-height, rad, -(Math.PI-theta)/2, 0*Math.PI);
+		draw.arc(leftArc+offset, bottomArc-height, rad, 1*Math.PI, -(Math.PI+theta)/2);
+		draw.closePath();
+		draw.fill();
+*/		
+	}
+}
