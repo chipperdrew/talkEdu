@@ -4,9 +4,12 @@
 
 {% block content %}
 	<div class="move_right">
-	<h4>Title: {{ post_object.title }}</h4>
-	<p>Text: {{ post_object.text }}</p>
-	<p>Posted by: <a href="{% url 'user_page' user=post_object.user_id %}">{{ post_object.user_id }}</a></p>
+	<div style="border:2px solid black">
+		<h3>{{ post_object.title }}</h3>
+		<p>{{ post_object.text }}</p><br/><br/>
+		<p>Posted by: <a href="{% url 'user_page' user=post_object.user_id %}">{{ post_object.user_id }}</a></p>
+		<p>Posted at {{ post_object.time_created }}</p>
+	</div>
 	
 	<script>
 		var idcomments_acct = '95d9456630cad1b6a27ae728b53d9254';

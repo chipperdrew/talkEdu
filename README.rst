@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Style post_page, add vote chart, up, down, etc
 #) Change the color of some buttons
 #) Change the name outsider to ????
 #) Add logo/picture at top of tab
