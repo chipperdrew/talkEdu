@@ -1,6 +1,6 @@
 TODO:
 =============
-#) Make cooler buttons
+#) Change the color of some buttons
 #) Change the name outsider to ????
 #) Add logo/picture at top of tab
 #) Add some sort of graphic on home page?? Introduce to site?
@@ -9,7 +9,7 @@ TODO:
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - Add https protection
-#) TOFIX? - Case sensitive user page links --  /user/chiPPeRdrew/ link. NOFIX?
+#) IN PRODUCTION - Set up search updates?
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login

@@ -29,7 +29,7 @@
 					{{ field.label_tag }} {{ field }}
 					</div>
 				{% endfor %}
-				<button name="post_button" type="submit">Post</button>	
+				<button class="btn btn-primary" name="post_button" type="submit">Post</button>	
 			</form>
 			</div>
 		{# Otherwise hide form so it's not in the way #}
@@ -57,7 +57,7 @@
 					{% csrf_token %}
 					{% render_honeypot_field %}
 					{{ form.as_p }}
-					<button name="post_button" type="submit">Post</button>	
+					<button class="btn btn-primary" name="post_button" type="submit">Post</button>	
 				</form>
 			{% endif %}
 			</div>

@@ -330,10 +330,10 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim sees 4 input boxes and a button
         inputs = self.browser.find_elements_by_tag_name('input')
-        self.assertEqual(len(inputs), 6) # 4 input + button + hidden
+        self.assertEqual(len(inputs), 5) # 4 input + hidden
 
         # ATTEMPT 0.5: Jim creates too short of a password:
-        # KEY: 0 is hidden in form, 1-4 are inputs, 5 is button
+        # KEY: 0 is hidden in form, 1-4 are inputs
         inputs[1].send_keys('Jim')
         inputs[2].send_keys('chipperdrew@gmail.com')
         inputs[3].send_keys('Pass')
