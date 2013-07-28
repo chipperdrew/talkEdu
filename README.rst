@@ -1,7 +1,6 @@
 TODO:
 =============
 #) Upgrade Bootstrap?
-#) Login redirect back to current page
 #) In post models, consider making up_votes and total_votes a dict, sorted by user_type? Then remove view logic
 #) Change the name outsider to ????
 #) Allow for comments on POST pages (using Disqus?)

@@ -72,13 +72,12 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Title:', body)
         self.assertNotIn('Text:', body)
 
-        # Jim logs in (as Test), and is returned home
-        self.check_for_redirect_after_button_click('login_nav', '/accounts/login/$')
+        # Jim logs in (as Test), and is returned to the problems page
+        self.check_for_redirect_after_link_click('Login', '/accounts/login/')
         self.login_user('Test', 'test')
-        self.assertIn("Welcome to YouTalkEdu", self.browser.title)
+        self.assertIn("Problems - YouTalkEdu", self.browser.title)
 
         # A link saying "Click me to create a post" is displayed. Jim clicks it
-        self.browser.get(self.live_server_url+'/pages/problems/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Title:', body)
         self.assertNotIn('Text:', body)
@@ -166,8 +165,9 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim logs in then goes to the ideas page
         self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
+        self.assertRegexpMatches(self.browser.current_url,
+                                 self.live_server_url+'/$')
         self.browser.get(self.live_server_url+'/pages/ideas/')
-
 
         # Jim accidentally posts w/o entering text
         self.browser.find_element_by_id('id_show_form').click()
@@ -251,10 +251,8 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Edit', body)
 
         # Jim logs in and sees some links
-        self.browser.get(self.live_server_url+'/accounts/login/')
+        self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
-        self.browser.get(self.live_server_url+'/pages/questions/')
-        self.browser.find_element_by_link_text('Test post').click()
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Up', body)
         self.assertIn('Edit', body)
@@ -276,7 +274,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.switch_to_alert().accept()
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, self.live_server_url+'/$')
-        
+    
     def test_change_password(self):
         # Jim logs in as test, as sees the link to his test's account page
         self.browser.get(self.live_server_url+'/accounts/login/')
@@ -480,9 +478,8 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Down', body)
 
         # Jim logs in, sees the current votes, and can vote
-        self.browser.get(self.live_server_url+'/accounts/login/')
+        self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
-        self.browser.get(self.live_server_url+'/pages/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertIn('Overall: 0', body)
@@ -641,9 +638,8 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/pages/problems/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Mark as spam', body)
-        self.browser.get(self.live_server_url+'/accounts/login/')
+        self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
-        self.browser.get(self.live_server_url+'/pages/problems/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Mark as spam', body)
 
