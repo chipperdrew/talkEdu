@@ -220,7 +220,55 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Title', body)
         self.assertIn('Overall rating: 0', body)
         self.assertIn('User Test', self.browser.title)
+    
+    def test_post_page_shows_proper_content(self):
+        test_user = get_user_model().objects.get(username='Test')
+        post.objects.create(title='Test post', text='Some text',
+                            page_type=post.QUESTIONS,
+                            user_id=test_user)
 
+        # Jim visits his posts page and sees the proper content
+        self.browser.get(self.live_server_url+'/pages/questions/')
+        self.browser.find_element_by_link_text('Test post').click()
+        self.assertRegexpMatches(self.browser.current_url, 'post/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Test post', body)
+        self.assertIn('Some text', body)
+        self.assertIn('Test', body)
+        self.assertIn('Administrator', body)
+        self.assertIn('Posted at', body)
+        self.assertIn('Overall: 0', body)
+        self.assertIn('Total Votes: 0', body)
+        self.assertNotIn('Up', body)
+        self.assertNotIn('Edit', body)
+
+        # Jim logs in and sees some links
+        self.browser.get(self.live_server_url+'/accounts/login/')
+        self.login_user('Test', 'test')
+        self.browser.get(self.live_server_url+'/pages/questions/')
+        self.browser.find_element_by_link_text('Test post').click()
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Up', body)
+        self.assertIn('Edit', body)
+
+        # Jim votes and sees the effect
+        self.browser.find_element_by_link_text('Up').click()
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Overall: 1.0', body)
+        self.assertIn('Total Votes: 1', body)
+
+        # Jim changes his vote
+        self.browser.find_element_by_link_text('Down').click()
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Overall: 0.0', body)
+        self.assertIn('Total Votes: 1', body)
+
+        # Jim deletes his post and is redirected
+        self.browser.find_element_by_link_text('Delete').click()
+        self.browser.switch_to_alert().accept()
+        new_url = self.browser.current_url
+        self.assertRegexpMatches(new_url, self.live_server_url+'/$')
+        
     def test_change_password(self):
         # Jim logs in as test, as sees the link to his test's account page
         self.browser.get(self.live_server_url+'/accounts/login/')
@@ -489,7 +537,9 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn("STU: 1.0, PAR: 0, ADM: 0.5, OUT: 0, TEA: 0", body)
         self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertIn('Overall: 0.667', body)
+        self.assertIn('Total Votes: 3', body)
         self.assertIn('Overall: 0', body)
+        self.assertIn('Total Votes: 0', body)
     
     def test_user_voting_numbers_are_stored_properly(self):
         test_user = get_user_model().objects.get(username='Test')
