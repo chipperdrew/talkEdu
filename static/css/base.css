@@ -2,10 +2,3 @@
 .move_right {
 	margin-left:10px;
 }
-
-/* ADD ANY ADDED INPUTS HERE: Firefox likes to cut off the bottom of input text for whatever reason */
-#id_q, #id_user_login, #id_pass_login, #id_username, #id_password1, #id_password2, #id_email, #id_old_password,
-#id_new_password1, #id_new_password2, #id_title {
-	height:23px;
-}
-

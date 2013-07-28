@@ -117,7 +117,7 @@ function drawMiddle(perc, draw) {
 function rootFindingHelper(percArea) {
 	var num = 2*percArea/Math.pow(rad,2);
 	// Finding theta using root finding (Newton's Method): theta - sin(theta) - num = 0.
-	var tol = 0.01;
+	var tol = 0.1;
 	var theta = num; // THETA=0 ==> 0% area
 	var f = theta - Math.sin(theta) - num;
 	var fPrime = 1 - Math.cos(theta);

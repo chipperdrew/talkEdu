@@ -29,7 +29,7 @@
 			</p>
 		</div>
 
-	<div style="border:2px solid black; display:inline-block; width:800px">
+	<div style="display:inline-block; width:800px">
 		<h3>{{ post.title }}</h3>
 		<p>{{ post.text }}</p><br/><br/>
 		<p>Posted by: <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a></p>

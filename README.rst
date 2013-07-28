@@ -1,8 +1,8 @@
 TODO:
 =============
+#) Upgrade Bootstrap?
 #) Test 'total votes' present in base_post, test link on post_page
 #) In post models, consider making up_votes and total_votes a dict, sorted by user_type?
-#) Change the color of some buttons
 #) Change the name outsider to ????
 #) Allow for comments on POST pages (using Disqus?)
 #) TEDDY - Add logo/picture at top of tab
