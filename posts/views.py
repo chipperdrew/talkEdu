@@ -156,11 +156,19 @@ def edit(request, id=None, page_abbrev=None):
         if form.is_valid():
             form.save()
         else:
-            # In order to display errors, display_page_helper needs access
-            request.session['bad_form'] = request.POST 
+            # If error on edit, display error
+            if 'edit' in request.path:
+                return render(request, 'post_edit.html',
+                              {'id': id, 'form': form,
+                               'redirect_to':request.GET['next']})
+            else:
+                # For new post errors, display_page_helper needs access
+                request.session['bad_form'] = request.POST
         if 'next' in request.GET:
             return redirect(request.GET['next'])
         else:
+            # Should never be entered, but remove session if so
+            del request.session['bad_form']
             return redirect('/')
     else:
         form = postForm(instance=post_of_interest)

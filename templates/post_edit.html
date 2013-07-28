@@ -6,10 +6,24 @@
 {% block title %}Edit post - YouTalkEdu{% endblock title %}
 
 {% block content %}
+	{% if form.errors %}
+		<div class="alert alert-error">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			{% for field in form %} 
+				{% if field.errors %}
+					<li>{{ field.errors|striptags }}</li>
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% endif %}
 	<form method="POST" action="{% url 'post_edit' id=id %}?next={{redirect_to}}">
 		{% csrf_token %}
 		{% render_honeypot_field %}		
-		{{ form.as_p }}
+		{% for field in form %}
+			<div class="fieldWrapper">
+			{{ field.label_tag }} {{ field }}
+			</div>
+		{% endfor %}
 		<button class="btn btn-primary" name="update" type="submit">Update</button>	
 	</form>
 {% endblock content %}

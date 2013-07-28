@@ -183,9 +183,16 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Title:', body)
         self.assertIn('Text:', body)
 
+        # Jim tries to create an error by removing his title, but sees an error
+        title_input = self.browser.find_element_by_name('title')
+        title_input.clear()
+        self.check_for_redirect_after_button_click('update', '/edit/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Please enter a title', body)
+        
         # Jim changes his title and text
         title_input = self.browser.find_element_by_name('title')
-        title_input.send_keys(' title')
+        title_input.send_keys('Here is a title')
         text_input = self.browser.find_element_by_name('text')
         text_input.send_keys('Here is some text')
 
@@ -205,6 +212,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim no longer sees his post
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Here is a title', body)
+        
     
     def test_user_page_shows_proper_content_when_directly_accessed(self):
         test_user = get_user_model().objects.get(username='Test')
