@@ -1,14 +1,61 @@
 {% extends "base.html" %}
+{% load dictionary_extras %} {# For dictionary access to variable keys and key content #}
+{% load staticfiles %}
 
-{% block title %}Post {{ post_object.id }} - YouTalkEdu{% endblock title %}
+{% block title %}Post {{ post.id }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
 	<div class="move_right">
-	<div style="border:2px solid black">
-		<h3>{{ post_object.title }}</h3>
-		<p>{{ post_object.text }}</p><br/><br/>
-		<p>Posted by: <a href="{% url 'user_page' user=post_object.user_id %}">{{ post_object.user_id }}</a></p>
-		<p>Posted at {{ post_object.time_created }}</p>
+	{# Post Vote #}
+		<div style="display:inline-block; width:150px">  
+			<canvas id="myCanvas{{post.id}}" width="150" height="100">
+         		   If you see this, your browser does not support HTML5 Canvas.
+        		</canvas>
+			<script	src="{% static 'js/vote_script.js' %}"></script>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					var canv = document.getElementById("myCanvas{{post.id}}");
+					var draw = canv.getContext("2d");
+					drawPulseOutline(draw);
+					{% for user_type_key in user_color_dict %}
+						draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
+						drawPulse({{ user_dict|key:user_type_key}}, separationDist*({{ forloop.counter }}-1), draw);
+					{% endfor %}
+					drawMiddle({{ post.vote_percentage }}, draw);
+				});
+			</script>
+			<p style="text-align:center">
+				Overall: {{ post.vote_percentage }}<br/>Total Votes: {{ post.total_votes }}
+			</p>
+		</div>
+
+	<div style="border:2px solid black; display:inline-block; width:800px">
+		<h3>{{ post.title }}</h3>
+		<p>{{ post.text }}</p><br/><br/>
+		<p>Posted by: <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a></p>
+		{% with u_type=post.user_id.user_type %}
+		<p style="color:{{user_color_dict|get_item:u_type}}; font-weight:bold">{{ post.user_id.get_user_type_display }}</p>
+		{% endwith %}
+		<p>Posted at {{ post.time_created }}</p>
+
+
+			{% if user.is_authenticated %}		
+				<p>
+					<div style="display:inline-block">					
+					<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
+					<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
+					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
+					</div>			
+				{% if post.user_id == request.user %}
+					<div style="float:right; display:inline-block">
+					<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
+					<a href="{% url 'post_delete' id=post.id %}?next=/"
+					onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
+					</div>
+				{% endif %}
+
+				</p>
+			{% endif %}
 	</div>
 	
 	<script>

@@ -83,20 +83,8 @@ def display_page_helper(request, page, sort_id=1):
     # Grabs the current post and switches to its inner dictionary
     for current_post in posts:
         vote_dict[current_post] = {}
-        post_votes = vote.objects.all().filter(
-            post_id=current_post,
-        )
         user_dict = vote_dict[current_post]
-        # Gets the votes by user_type, then stores % of up_votes in inner dict
-        for user_type in get_user_model().USER_TYPE_CHOICES:
-            all_votes = post_votes.filter(user_id__user_type=user_type[0])
-            up_votes = all_votes.filter(vote_choice = vote.VOTE_CHOICES.upvote)
-            if len(all_votes)==0:
-                user_dict[user_type[0]] = 0
-            else:
-                user_dict[user_type[0]] = round(
-                    float(len(up_votes))/len(all_votes), 3
-                )
+        post_votes_by_user_type_helper(user_dict, current_post)
 
     # Display number of posts left for the day
     if request.user.is_authenticated():
@@ -130,7 +118,13 @@ def post_page(request, post_id):
     Displays a page with info about a certain post
     """
     post_of_interest = get_object_or_404(post, id=post_id)
-    return render(request, 'post_page.html', {'post_object': post_of_interest})
+    # Filling vote values
+    user_dict = {}
+    post_votes_by_user_type_helper(user_dict, post_of_interest)
+    return render(request, 'post_page.html',
+                  {'post': post_of_interest,
+                   'user_color_dict': get_user_model().COLORS,
+                   'user_dict': user_dict})
 
 ###### POST VIEWS #######
 @check_honeypot
@@ -148,10 +142,7 @@ def edit(request, id=None, page_abbrev=None):
         post_of_interest = get_object_or_404(post, pk=id)
     # Create a new post if it doesn't already exist
     else:
-        post_of_interest = post(
-            user_id = request.user,
-            page_type = page_abbrev
-            )
+        post_of_interest = post(user_id = request.user, page_type = page_abbrev)
         # Limit number of posts per 24 hours
         posts_in_last_24_hours = post.objects.all().filter(
             time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
@@ -199,6 +190,21 @@ def mark_as_spam(request, id):
     if bool_created == True:
         post_of_interest.check_spam_count()
     return redirect(request.GET['next'])
+
+
+## Helper functions
+def post_votes_by_user_type_helper(user_dict, post_of_interest):
+    # For a given post, fills a dictionary with % up votes by user type
+    post_votes = vote.objects.all().filter(post_id=post_of_interest)
+    for user_type in get_user_model().USER_TYPE_CHOICES:
+        all_votes = post_votes.filter(user_id__user_type=user_type[0])
+        up_votes = all_votes.filter(vote_choice = vote.VOTE_CHOICES.upvote)
+        if len(all_votes)==0:
+            user_dict[user_type[0]] = 0
+        else:
+            user_dict[user_type[0]] = round(
+                float(len(up_votes))/len(all_votes), 3
+            )
 
 
     

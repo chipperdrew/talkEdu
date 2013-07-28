@@ -10,6 +10,6 @@
 		{% csrf_token %}
 		{% render_honeypot_field %}		
 		{{ form.as_p }}
-		<button name="update" type="submit">Update</button>	
+		<button class="btn btn-primary" name="update" type="submit">Update</button>	
 	</form>
 {% endblock content %}

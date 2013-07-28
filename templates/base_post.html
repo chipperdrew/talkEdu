@@ -92,6 +92,7 @@
 	<div>
 	{% for post in posts %}
 		<div style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
+		{# Vote display #}
 		<div style="display:inline-block; width:150px">  
 			<canvas id="myCanvas{{post.id}}" width="150" height="100">
          		   If you see this, your browser does not support HTML5 Canvas.
@@ -110,10 +111,12 @@
 				});
 			</script>
 			<p style="text-align:center">
-				Overall: {{ post.vote_percentage }}
+				Overall: {{ post.vote_percentage }}<br/>Total Votes: {{ post.total_votes }}
 			</p>
+
 		</div>
 
+		{# Post content display #}
 		<div style="display:inline-block; width:640px">
 			<p>
 				At {{ post.time_created }}, <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a> posted:

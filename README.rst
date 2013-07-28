@@ -1,11 +1,12 @@
 TODO:
 =============
-#) Style post_page, add vote chart, up, down, etc
+#) Test 'total votes' present in base_post, test link on post_page
+#) In post models, consider making up_votes and total_votes a dict, sorted by user_type?
 #) Change the color of some buttons
 #) Change the name outsider to ????
-#) Add logo/picture at top of tab
-#) Add some sort of graphic on home page?? Introduce to site?
 #) Allow for comments on POST pages (using Disqus?)
+#) TEDDY - Add logo/picture at top of tab
+#) TEDDY - Add some sort of graphic on home page?? Introduce to site?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Set up email with SMTP server
@@ -22,7 +23,7 @@ TODO:
 #) DONE - Create a field on registration form for stu/parent/teach/outsider/admin.
 #) DONE - Have edit and delete option for posts made by logged-in user
 #) DONE - Create change/reset password with django-registration
-#) FIXED - New posts will display on last page opened, not current page (controlled by session request in views)
+#) FIXED - New posts will display on last page opened, not current page (bad session request)
 #) DONE - 20 posts/page?
 #) DONE - Create voting system
 #) DONE - Add eduuser model to Accounts app, create Votes app
@@ -39,8 +40,7 @@ TODO:
 #) FIXED - Blank title posts work
 #) DONE - Tell what the posts are sorted by
 #) DONE - Dotted line through the center of votes for overall vote
-
-
+#) DONE - Style post_page, add vote chart, up, down, etc
 
 
 Basic Information
