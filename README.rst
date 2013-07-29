@@ -69,6 +69,21 @@ talkEdu/
 		urls.py
 
 		views.py
+
+	comments/
+
+		__init__.py
+
+		forms.py
+
+		migrations/
+
+		models.py
+
+		tests_comments.py
+
+		views.py
+
 		
 
 	funct_tests/

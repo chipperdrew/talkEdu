@@ -12,6 +12,7 @@ import datetime
 from .forms import postForm
 from .models import post, spam
 from votes.models import vote
+from comments.forms import commentForm
 
 POSTS_ALLOWED_PER_DAY = 5
 
@@ -124,7 +125,8 @@ def post_page(request, post_id):
     return render(request, 'post_page.html',
                   {'post': post_of_interest,
                    'user_color_dict': get_user_model().COLORS,
-                   'user_dict': user_dict})
+                   'user_dict': user_dict,
+                   'commentForm': commentForm})
 
 ###### POST VIEWS #######
 @check_honeypot

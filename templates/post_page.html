@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load dictionary_extras %} {# For dictionary access to variable keys and key content #}
+{% load honeypot %}
 {% load staticfiles %}
 
 {% block title %}Post {{ post.id }} - YouTalkEdu{% endblock title %}
@@ -54,4 +55,16 @@
 			{% endif %}
 	</div>
 	</div>
+
+	<form method="POST" action="">
+		{% csrf_token %}
+		{% render_honeypot_field %}
+		{# Would use form.as.p but want special error display above #}
+		{% for field in commentForm %}
+			<div class="fieldWrapper">
+				{{ field.label_tag }} {{ field }}
+			</div>
+		{% endfor %}
+		<button class="btn btn-success" name="post_button" type="submit">Comment</button>	
+	</form>
 {% endblock content %}
