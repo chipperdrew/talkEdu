@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Test comments
 #) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
 #) Change the name outsider to ????
 #) Allow for comments on POST pages (using Disqus?)

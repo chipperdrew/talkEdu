@@ -13,6 +13,7 @@ from .forms import postForm
 from .models import post, spam
 from votes.models import vote
 from comments.forms import commentForm
+from comments.models import comment
 
 POSTS_ALLOWED_PER_DAY = 5
 
@@ -135,8 +136,8 @@ def post_page(request, post_id):
                   {'post': post_of_interest,
                    'user_color_dict': get_user_model().COLORS,
                    'user_dict': user_dict,
-                   'commentForm': comment_form,
-                   'comments': post_of_interest.comments.all()})
+                   'comment_form': comment_form,
+                   'comment_tree': comment.objects.all().order_by('path')})
 
 ###### POST VIEWS #######
 @check_honeypot
