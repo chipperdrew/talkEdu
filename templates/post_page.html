@@ -38,32 +38,20 @@
 		{% endwith %}
 		<p>Posted at {{ post.time_created }}</p>
 
-
-			{% if user.is_authenticated %}		
-				<p>
-					<div style="display:inline-block">					
+			{% if user.is_authenticated %}			
+				<div style="display:inline-block">					
 					<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
 					<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
 					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
-					</div>			
+				</div>			
 				{% if post.user_id == request.user %}
-					<div style="float:right; display:inline-block">
+				<div style="float:right; display:inline-block">
 					<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
 					<a href="{% url 'post_delete' id=post.id %}?next=/"
 					onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
-					</div>
-				{% endif %}
-
-				</p>
+				</div>
+				{% endif %}	
 			{% endif %}
 	</div>
-	
-	<script>
-		var idcomments_acct = '95d9456630cad1b6a27ae728b53d9254';
-		var idcomments_post_id;
-		var idcomments_post_url;
-	</script>
-	<span id="IDCommentsPostTitle" style="display:none"></span>
-	<script type='text/javascript' src='http://www.intensedebate.com/js/genericCommentWrapperV2.js'></script>
 	</div>
 {% endblock content %}

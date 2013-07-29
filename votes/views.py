@@ -26,9 +26,7 @@ def up_vote(request, id):
             total_vote_to_add = 0
             vote_of_interest.vote_choice = vote.VOTE_CHOICES.upvote
             vote_of_interest.save()
-    post_of_interest.update_votes(up_vote_to_add, total_vote_to_add)
-    post_user = post_of_interest.user_id
-    post_user.update_votes(up_vote_to_add, total_vote_to_add)
+    update_stats_helper(post_of_interest, up_vote_to_add, total_vote_to_add)
     return redirect(request.GET['next'])
 
 @login_required
@@ -38,12 +36,10 @@ def down_vote(request, id):
                 post_id = post_of_interest,
                 user_id = request.user,
                 )
-    # Scenario 1: Vote is being created. Default is up-vote so no need to save
+    # Scenario 1: Vote is being created.
     if bool_created == True:
         up_vote_to_add = 0
         total_vote_to_add = 1
-        vote_of_interest.vote_choice = vote.VOTE_CHOICES.downvote
-        vote_of_interest.save()
     else:
         # Scenario 2: Vote is not being modified
         if vote_of_interest.vote_choice == vote.VOTE_CHOICES.downvote:
@@ -52,9 +48,12 @@ def down_vote(request, id):
         else:
             up_vote_to_add = -1
             total_vote_to_add = 0
-            vote_of_interest.vote_choice = vote.VOTE_CHOICES.downvote
-            vote_of_interest.save()
+    vote_of_interest.vote_choice = vote.VOTE_CHOICES.downvote
+    vote_of_interest.save()
+    update_stats_helper(post_of_interest, up_vote_to_add, total_vote_to_add)
+    return redirect(request.GET['next'])
+
+def update_stats_helper(post_of_interest, up_vote_to_add, total_vote_to_add):
     post_of_interest.update_votes(up_vote_to_add, total_vote_to_add)
     post_user = post_of_interest.user_id
     post_user.update_votes(up_vote_to_add, total_vote_to_add)
-    return redirect(request.GET['next'])

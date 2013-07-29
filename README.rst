@@ -1,7 +1,6 @@
 TODO:
 =============
 #) Upgrade Bootstrap?
-#) In post models, consider making up_votes and total_votes a dict, sorted by user_type? Then remove view logic
 #) Change the name outsider to ????
 #) Allow for comments on POST pages (using Disqus?)
 #) TEDDY - Add logo/picture at top of tab
@@ -40,6 +39,8 @@ TODO:
 #) DONE - Tell what the posts are sorted by
 #) DONE - Dotted line through the center of votes for overall vote
 #) DONE - Style post_page, add vote chart, up, down, etc
+#) DON'T WANT 3 INSTANCE DICT IN CLASS - In post models, consider making up_votes and total_votes a dict, sorted by user_type? Then remove view logic
+
 
 
 Basic Information

@@ -35,6 +35,7 @@ class post(TimeStampedModel):
         (QUESTIONS, 'Questions'),
         (SITE_FEEDBACK, 'Site Feedback'),
     )
+    
     page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
     up_votes = models.SmallIntegerField(default=0)
     total_votes = models.SmallIntegerField(default=0)
@@ -48,11 +49,11 @@ class post(TimeStampedModel):
 
     def update_votes(self, up_vote_to_add, total_vote_to_add):
         from votes.models import vote #Must import here b/c cross-relationship
-        self.up_votes = self.up_votes + up_vote_to_add
-        self.total_votes = self.total_votes + total_vote_to_add
+        self.up_votes += up_vote_to_add
+        self.total_votes += total_vote_to_add
         if self.total_votes != 0:
             self.vote_percentage = round(float(self.up_votes)/self.total_votes, 3)
-            self.save()
+        self.save()
 
     def check_spam_count(self):
         # Not set to self.spam.count() in case there is a need to reset spam_count
