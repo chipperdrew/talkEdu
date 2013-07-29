@@ -14,5 +14,5 @@ class commentForm(ModelForm):
                                                'blank': 'Please enter a valid comment'}
 
     # Remove whitespace from content
-    def clean_content(self):
+    def clean_comment(self):
         return self.cleaned_data['comment'].strip()

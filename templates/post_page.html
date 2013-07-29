@@ -56,7 +56,18 @@
 	</div>
 	</div>
 
-	<form method="POST" action="">
+	{# COMMENTS #}
+	{% if commentForm.errors %}
+		<div class="alert alert-error">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			{% for field in commentForm %} 
+				{% if field.errors %}
+					<li>{{ field.errors|striptags }}</li>
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% endif %}
+	<form method="POST" action="{% url 'new_comment' post.id %}?next={{request.path}}">
 		{% csrf_token %}
 		{% render_honeypot_field %}
 		{# Would use form.as.p but want special error display above #}
@@ -67,4 +78,7 @@
 		{% endfor %}
 		<button class="btn btn-success" name="post_button" type="submit">Comment</button>	
 	</form>
+	{% for com in comments %}
+		<p>{{ com.comment }}</p>
+	{% endfor %}
 {% endblock content %}

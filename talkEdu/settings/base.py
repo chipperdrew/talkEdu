@@ -91,7 +91,7 @@ MIDDLEWARE_CLASSES = (
     'axes.middleware.FailedLoginMiddleware',
 )
 
-AXES_LOGIN_FAILURE_LIMIT = 5 # 5 login attempts unless account is locked up
+AXES_LOGIN_FAILURE_LIMIT = 5 # Num of login attempts until account is locked up
 
 ROOT_URLCONF = '%s.urls' % SITE_NAME
 

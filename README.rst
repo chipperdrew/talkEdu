@@ -1,10 +1,11 @@
 TODO:
 =============
-#) Upgrade Bootstrap?
+#) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
 #) Change the name outsider to ????
 #) Allow for comments on POST pages (using Disqus?)
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page?? Introduce to site?
+#) TIME PERMITTING - Upgrade Bootstrap?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Set up email with SMTP server

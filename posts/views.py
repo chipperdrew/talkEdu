@@ -43,10 +43,10 @@ def display_page_helper(request, page, sort_id=1):
         return Http404
     
     # If given a bad form, show form and errors
-    if request.session.get('bad_form'):
-        form = postForm(request.session.get('bad_form'))
+    if request.session.get('bad_post_form'):
+        form = postForm(request.session.get('bad_post_form'))
         form.is_valid()
-        del request.session['bad_form']
+        del request.session['bad_post_form']
     else:
         form = postForm
 
@@ -122,11 +122,21 @@ def post_page(request, post_id):
     # Filling vote values
     user_dict = {}
     post_votes_by_user_type_helper(user_dict, post_of_interest)
+
+    # If given a bad form, show form and errors
+    if request.session.get('bad_comment_form'):
+        comment_form = commentForm(request.session.get('bad_comment_form'))
+        comment_form.is_valid()
+        del request.session['bad_comment_form']
+    else:
+        comment_form = commentForm
+        
     return render(request, 'post_page.html',
                   {'post': post_of_interest,
                    'user_color_dict': get_user_model().COLORS,
                    'user_dict': user_dict,
-                   'commentForm': commentForm})
+                   'commentForm': comment_form,
+                   'comments': post_of_interest.comments.all()})
 
 ###### POST VIEWS #######
 @check_honeypot
@@ -165,12 +175,12 @@ def edit(request, id=None, page_abbrev=None):
                                'redirect_to':request.GET['next']})
             else:
                 # For new post errors, display_page_helper needs access
-                request.session['bad_form'] = request.POST
+                request.session['bad_post_form'] = request.POST
         if 'next' in request.GET:
             return redirect(request.GET['next'])
         else:
             # Should never be entered, but remove session if so
-            del request.session['bad_form']
+            del request.session['bad_post_form']
             return redirect('/')
     else:
         form = postForm(instance=post_of_interest)
