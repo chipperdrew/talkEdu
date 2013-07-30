@@ -51,21 +51,21 @@ def new_comment(request, post_id):
         # Should never be entered, but remove session if so
         del request.session['bad_comment_form']
         return redirect('/')
-    #Retrieve all comments and sort them by path
-#    comment_tree = comment.objects.all().order_by('path')
-#    return render(request, 'commentTest.html', locals())
 
 
-# TODO: Delete child comments. Or not have option to delete?
 @login_required
 def delete_comment(request, comment_id):
-    """
-    Deletes a comment, returns user to current page
-    """
     comment_of_interest = get_object_or_404(comment, pk=comment_id)
+
     if comment_of_interest.user_id == request.user:
+        # Need to remove children of post (sounds evil)
+        post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id)
+        for com in post_comments:
+            if comment_of_interest.id in com.path:
+                com.delete()
+        # And remove initial comment
         comment_of_interest.delete()
     else:
         raise PermissionDenied()
-    return redirect(request.GET['next']) #provided by base_post template
+    return redirect(request.GET['next'])
 

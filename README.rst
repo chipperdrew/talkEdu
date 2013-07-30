@@ -1,6 +1,8 @@
 TODO:
 =============
-#) Test comments
+#) Test comments -- Comment w/o text, comment w/ just spaces, reply, delete, spam
+#) Hide nested comments. Display if id in array path and length=??. Likely add filter tag
+#) Add "Mark as spam" feature on comments
 #) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
 #) Change the name outsider to ????
 #) Allow for comments on POST pages (using Disqus?)
@@ -76,6 +78,8 @@ talkEdu/
 
 		__init__.py
 
+		dbarray.py
+
 		forms.py
 
 		migrations/
@@ -83,6 +87,8 @@ talkEdu/
 		models.py
 
 		tests_comments.py
+
+		urls.py
 
 		views.py
 
@@ -190,6 +196,7 @@ Thanks to the following
 	* Django Documentation - https://docs.djangoproject.com/en/dev/
 	* *Two Scoops of Django* - https://django.2scoops.org/
 	* Resetting passwords - http://garmoncheg.blogspot.com/2012/07/django-resetting-passwords-with.html
+	* Threaded Comments - http://maxburstein.com/blog/django-threaded-comments/
 
 * Packages Used (Django related and others):
 	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/

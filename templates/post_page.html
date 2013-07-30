@@ -58,86 +58,90 @@
 
 
 
-	{# Comments #}
+	{# Comments -- Credit to Max Burstein on logic and design #}
 	<br/><br/>
 	<h3>Comments</h3>
 	<script>
 		$(document).ready(function(){
 			$("#commenters").on("click", ".reply", function(event){
 				event.preventDefault(); //Prevent reloading page
-				var form = $("#postcomment").clone(true); //Clone comment box
+				var form = $("#id_comment_form").clone(true); //Clone comment form
 				form.find('.parent').val($(this).parent().parent().attr('id'));
 				$(this).parent().append(form);
 			});
 		});
 	</script>
-    <style>
-        ul p a {
-            font-weight: bold;
-            color: #ff982c;
-            text-decoration: none;
-        }
-        
-        #commenters {
-            padding-left: 0px;
-        }
-        
-            #commenters li {
-                list-style-type: none;
-            }
-        
-        .poster {
-            font-size: 12px;
-            color: #AAAAAA;
-        }
-        
-        #postcomment ul {
-            padding-left: 0px;
-        }
-        
-            #postcomment ul li {
-                list-style-type: none;
-                padding-bottom: 5px;
-            }
-                
-        #postcomment label {
-            width: 74px;
-            display: inline-block;
-        }
-        
-        .c {
-            font-size: 14px;
-            background: #0E0E0E;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-            color: #FFFFFF;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
+	<style>
+		ul p a {
+			font-weight: bold;
+			color: #ff982c;
+			text-decoration: none;
+		}
 
-	{% if comment_form.errors %}
-		<div class="alert alert-error">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		{% for field in comment_form %} 
-			{% if field.errors %}
-				<li>{{ field.errors|striptags }}</li>
-			{% endif %}
-		{% endfor %}
-		</div>
-	{% endif %}
-	<form id="postcomment" method="POST" action="{% url 'new_comment' post.id %}?next={{request.path}}">
-		{% csrf_token %}
-		{% render_honeypot_field %}
-		<div class="fieldWrapper">
-			{{ comment_form.content.label_tag }} {{ comment_form.content }}
-			{{ comment_form.parent }}			
-		</div>
-		<button class="btn btn-success" name="comment_button" type="submit">Comment</button>	
-	</form>
-	</div>
+		#commenters {
+			padding-left: 0px;
+		}
+        
+		#commenters li {
+			list-style-type: none;
+		}
+
+		.poster {
+			font-size: 12px;
+			color: #AAAAAA;
+		}
+
+		#postcomment ul {
+			padding-left: 0px;
+		}
+
+		#postcomment ul li {
+			list-style-type: none;
+			padding-bottom: 5px;
+		}
+
+		#postcomment label {
+			width: 74px;
+			display: inline-block;
+		}
+
+		.c {
+			font-size: 14px;
+			background: #0E0E0E;
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			color: #FFFFFF;
+			padding: 10px;
+			margin-bottom: 10px;
+		}
+	</style>
 	
+	{# Comment Form #}
+	{% if user.is_authenticated %}
+		{% if comment_form.errors %}
+			<div class="alert alert-error">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			{% for field in comment_form %} 
+				{% if field.errors %}
+					<li>{{ field.errors|striptags }}</li>
+				{% endif %}
+			{% endfor %}
+			</div>
+		{% endif %}
+		<form id="id_comment_form" method="POST" action="{% url 'new_comment' post.id %}?next={{request.path}}">
+			{% csrf_token %}
+			{% render_honeypot_field %}
+			<div class="fieldWrapper">
+				{{ comment_form.content }}
+				{{ comment_form.parent }}			
+			</div>
+			<button class="btn btn-success" name="comment_button" type="submit">Comment</button>	
+		</form>
+	{% endif %}
+	</div> {# End move_right div #}
+	
+	{# Comment Display #}
 	<ul id="commenters">
 		{% for c in comment_tree %}
 			<li id="{{c.id}}" class="c" style="margin-left:{{c.depth|add:c.depth}}em;">
@@ -148,7 +152,7 @@
 					<a href="" class="reply">Reply</a>
 					{% if c.user_id == request.user %}
 						<a href="{% url 'delete_comment' c.id %}?next={{request.path}}"
-						onclick="return confirm('Are you sure you want to delete your comment?')">Delete</a>
+						onclick="return confirm('Your comment and any sub-comments will be permanently deleted. Continue?')">Delete</a>
 					{% endif %}
 				</p>
 			{% endif %}
