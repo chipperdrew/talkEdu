@@ -654,7 +654,88 @@ class NewVisitorTests(LiveServerTestCase):
         post_of_interest = post.objects.get(title='T1')
         self.assertEqual(1, post_of_interest.spam.count())
         self.assertEqual(1, post_of_interest.spam_count)
+    
+    def test_comment_functionality_and_existance(self):
+        test_user = get_user_model().objects.get(username='Test')
+        post.objects.create(
+            title='T1', page_type=post.PROBLEMS, user_id=test_user
+        )
+        post.objects.create(
+            title='T2', page_type=post.PROBLEMS, user_id=test_user
+        )
 
+        # Jim clicks on the post w/o login and doesn't see the Comment button
+        self.browser.get(self.live_server_url+'/pages/problems/')
+        self.browser.find_element_by_link_text('T1').click()
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Comments', body)
+        self.assertIn('no comments', body)
+        self.assertIn('login to comment', body)
+        text_areas = self.browser.find_elements_by_tag_name('textarea')
+        self.assertEqual(len(text_areas), 0)
+
+        # Jim logs in and sees the appropriate text and a place to comment
+        self.browser.find_element_by_link_text('Login').click()
+        self.login_user('Test', 'test')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Comments', body)
+        self.assertIn('no comments', body)
+        text_areas = self.browser.find_elements_by_tag_name('textarea')
+        self.assertEqual(len(text_areas), 1)
+
+        # 1: Jim enters a comment and sees it
+        text_areas[0].send_keys('Comment 1')
+        self.browser.find_element_by_name('comment_button').click()
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertIn('Comment 1', comment_display)
+        self.assertIn('Test', comment_display)
+        self.assertIn('Reply', comment_display)
+        self.assertIn('Delete', comment_display)
+
+        # 2: Jim replys to himself (poor Jim)
+        self.browser.find_element_by_link_text('Reply').click()
+        text_areas = self.browser.find_elements_by_tag_name('textarea')
+        text_areas[1].send_keys('1.1') #2nd textarea appeared from reply click
+        comment_buttons = self.browser.find_elements_by_name('comment_button')
+        comment_buttons[1].click() #2nd button appeared from reply click
+
+        # Jim sees both his comments
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertIn('Comment 1', comment_display)
+        self.assertIn('1.1', comment_display)
+
+        # 3: Jim comments again (not a reply)
+        self.browser.find_element_by_id('id_content').send_keys('Comment 2')
+        self.browser.find_element_by_name('comment_button').click()
+
+        # Jim deletes his 1st comment, which deletes his 1st 2 comments
+        deletes = self.browser.find_elements_by_link_text('Delete')
+        self.assertEqual(len(deletes), 4) # 0 - Delete post
+        deletes[1].click() # 1 - 1st comment, 2 - Reply, 3 - Recent comment
+        self.browser.switch_to_alert().accept()
+
+        # Jim doesn't see his first 2 comments but sees his 3rd
+        body = self.browser.find_element_by_tag_name('body').text
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertNotIn('Comment 1', comment_display)
+        self.assertNotIn('1.1', comment_display)
+        self.assertIn('Comment 2', comment_display)
+        
+        # Jim goes to the next post, & doesn't see his comment
+        self.browser.find_element_by_link_text('Problems').click()
+        self.browser.find_element_by_link_text('T2').click()
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Comment 2', body)
+        self.assertIn('no comments', body)
+
+        # Jim tries to comment w/o entering text and just spaces
+        self.browser.find_element_by_name('comment_button').click()
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Please enter a comment', body)
+        self.browser.find_element_by_id('id_content').send_keys('  ')
+        self.browser.find_element_by_name('comment_button').click()
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Please enter a valid comment', body)
 
 
     # THIS TEST IS __NOT__ SAVING COOKIES. LOOK FOR NEW METHOD AND RE-RUN

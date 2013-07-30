@@ -138,7 +138,10 @@
 			</div>
 			<button class="btn btn-success" name="comment_button" type="submit">Comment</button>	
 		</form>
-	{% endif %}
+	{% else %}
+		<p>Please login to comment.</p><br/><br/>
+	{% endif %}		
+
 	</div> {# End move_right div #}
 	
 	{# Comment Display #}

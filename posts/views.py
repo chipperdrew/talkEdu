@@ -131,13 +131,14 @@ def post_page(request, post_id):
         del request.session['bad_comment_form']
     else:
         comment_form = commentForm
+    post_comments = comment.objects.all().filter(post_id=post_id).order_by('path')
         
     return render(request, 'post_page.html',
                   {'post': post_of_interest,
                    'user_color_dict': get_user_model().COLORS,
                    'user_dict': user_dict,
                    'comment_form': comment_form,
-                   'comment_tree': comment.objects.all().order_by('path')})
+                   'comment_tree': post_comments})
 
 ###### POST VIEWS #######
 @check_honeypot
