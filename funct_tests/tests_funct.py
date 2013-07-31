@@ -10,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 
 # App imports
 from posts.models import post
-from comments.models import spam
+from comments.models import comment, spam
 
 
 class NewVisitorTests(LiveServerTestCase):
@@ -629,9 +629,9 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 1.0", body)
         self.assertIn('Teacher', body)
     
-    def test_mark_as_spam_link(self):
+    def test_mark_as_spam_links(self):
         test_user = get_user_model().objects.get(username='Test')
-        post.objects.create(
+        post1 = post.objects.create(
              title='T1', page_type=post.PROBLEMS, user_id=test_user
         )
 
@@ -655,6 +655,25 @@ class NewVisitorTests(LiveServerTestCase):
         post_of_interest = post.objects.get(title='T1')
         self.assertEqual(1, post_of_interest.spam.count())
         self.assertEqual(1, post_of_interest.spam_count)
+
+        # Jim marks the comment as spam
+        self.browser.find_element_by_link_text('T1').click()
+        self.browser.find_element_by_id('id_content').send_keys('A comment')
+        self.browser.find_element_by_name('comment_button').click()
+        spam_links = self.browser.find_elements_by_link_text('Mark as spam')
+        spam_links[1].click() #0 is for post
+        comment_of_interest = comment.objects.get(content='A comment')
+        self.assertEqual(1, comment_of_interest.spam.count())
+        self.assertEqual(1, comment_of_interest.spam_count)
+
+        # Jim marks the comment as spam again -- but nothing happens
+        spam_links = self.browser.find_elements_by_link_text('Mark as spam')
+        spam_links[1].click() #0 is for post
+        comment_of_interest = comment.objects.get(content='A comment')
+        self.assertEqual(1, comment_of_interest.spam.count())
+        self.assertEqual(1, comment_of_interest.spam_count)
+
+        
     
     def test_comment_functionality_and_existance(self):
         test_user = get_user_model().objects.get(username='Test')
