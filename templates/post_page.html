@@ -152,7 +152,8 @@
 			<p>{{c.content}}</p>
 			{% if user.is_authenticated %}		
 				<p>
-					<a href="" class="reply">Reply</a>
+					<a href="" class="reply">Reply</a>&nbsp;
+					<a href="{% url 'comment_spam' id=c.id %}?next={{request.path}}">Mark as spam</a>&nbsp;
 					{% if c.user_id == request.user %}
 						<a href="{% url 'delete_comment' c.id %}?next={{request.path}}"
 						onclick="return confirm('Your comment and any sub-comments will be permanently deleted. Continue?')">Delete</a>

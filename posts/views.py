@@ -10,10 +10,10 @@ from honeypot.decorators import check_honeypot
 import datetime
 
 from .forms import postForm
-from .models import post, spam
+from .models import post
 from votes.models import vote
 from comments.forms import commentForm
-from comments.models import comment
+from comments.models import comment, spam
 
 POSTS_ALLOWED_PER_DAY = 5
 
@@ -209,7 +209,7 @@ def mark_as_spam(request, id):
         post_id = post_of_interest,
         user_id = request.user,
         )
-    if bool_created == True:
+    if bool_created:
         post_of_interest.check_spam_count()
     return redirect(request.GET['next'])
 

@@ -11,8 +11,8 @@ class Migration(SchemaMigration):
         # Adding model 'post'
         db.create_table(u'posts_post', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 29, 0, 0), auto_now_add=True, blank=True)),
-            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 29, 0, 0), auto_now=True, blank=True)),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 30, 0, 0), auto_now_add=True, blank=True)),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 30, 0, 0), auto_now=True, blank=True)),
             ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=150)),
             ('text', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='posts', to=orm['accounts.eduuser'])),
@@ -24,21 +24,10 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'posts', ['post'])
 
-        # Adding model 'spam'
-        db.create_table(u'posts_spam', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('post_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='spam', to=orm['posts.post'])),
-            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='spam', to=orm['accounts.eduuser'])),
-        ))
-        db.send_create_signal(u'posts', ['spam'])
-
 
     def backwards(self, orm):
         # Deleting model 'post'
         db.delete_table(u'posts_post')
-
-        # Deleting model 'spam'
-        db.delete_table(u'posts_spam')
 
 
     models = {
@@ -88,19 +77,13 @@ class Migration(SchemaMigration):
             'page_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             'spam_count': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
             'text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 29, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
-            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 29, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 30, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 30, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
             'total_votes': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
             'up_votes': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
             'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['accounts.eduuser']"}),
             'vote_percentage': ('django.db.models.fields.FloatField', [], {'default': '0'})
-        },
-        u'posts.spam': {
-            'Meta': {'object_name': 'spam'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'post_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'spam'", 'to': u"orm['posts.post']"}),
-            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'spam'", 'to': u"orm['accounts.eduuser']"})
         }
     }
 

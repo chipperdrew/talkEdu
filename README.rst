@@ -3,7 +3,6 @@ TODO:
 #) Add voting to comments
 #) Add sort-by feature for comments
 #) Hide nested comments. Display if id in array path and length=??. Likely add filter tag
-#) Add "Mark as spam" feature on comments
 #) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
 #) Change the name outsider to ????
 #) Allow for comments on POST pages (using Disqus?)

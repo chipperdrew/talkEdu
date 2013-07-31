@@ -6,7 +6,7 @@ from honeypot.decorators import check_honeypot
 from itertools import ifilter
 
 from .forms import commentForm
-from .models import comment
+from .models import comment, spam
 from posts.models import post
 
 @check_honeypot
@@ -56,16 +56,34 @@ def new_comment(request, post_id):
 @login_required
 def delete_comment(request, comment_id):
     comment_of_interest = get_object_or_404(comment, pk=comment_id)
-
     if comment_of_interest.user_id == request.user:
-        # Need to remove children of post (sounds evil)
-        post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id)
-        for com in post_comments:
-            if comment_of_interest.id in com.path:
-                com.delete()
-        # And remove initial comment
-        comment_of_interest.delete()
+        delete_comment_path_helper(comment_of_interest)
     else:
         raise PermissionDenied()
     return redirect(request.GET['next'])
 
+@login_required
+def comment_mark_as_spam(request, id):
+    """
+    Based off of post view, but checks the boolean returned by check_spam_count
+    b/c needs to delete comment AND children
+    """
+    comment_of_interest = get_object_or_404(comment, pk=id)
+    spam_of_interest, bool_created = spam.objects.get_or_create(
+        comment_id = comment_of_interest,
+        user_id = request.user,
+        )
+    if bool_created:
+        bool_spam_limit = comment_of_interest.check_spam_count()
+        if bool_spam_limit:
+            delete_comment_path_helper(comment_of_interest)
+    return redirect(request.GET['next'])
+
+def delete_comment_path_helper(comment_of_interest):
+    # Need to remove children of post (sounds evil)
+    post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id)
+    for com in post_comments:
+        if comment_of_interest.id in com.path:
+            com.delete()
+    # And remove initial comment
+    comment_of_interest.delete()

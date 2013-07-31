@@ -4,6 +4,8 @@ from django.db import models
 from model_utils import Choices
 import datetime
 
+POST_SPAM_LIMIT = 2
+
 # Adapted from '2 Scoops of Django' book
 class TimeStampedModel(models.Model):
     time_created = models.DateTimeField(auto_now_add=True,
@@ -58,7 +60,7 @@ class post(TimeStampedModel):
     def check_spam_count(self):
         # Not set to self.spam.count() in case there is a need to reset spam_count
         self.spam_count = self.spam_count + 1
-        if self.spam_count >= 2:
+        if self.spam_count >= POST_SPAM_LIMIT:
             page_type_first_letter = self.page_type[0]
             setattr(self, 'page_type', 'SP' + page_type_first_letter)
         else:
@@ -71,10 +73,3 @@ class post(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('post_page', kwargs={"post_id": self.id})
-
-
-# Purpose - To limit users to one "Mark as spam" vote
-class spam(models.Model):
-    post_id = models.ForeignKey(post, related_name='spam')
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='spam')
-

@@ -9,7 +9,8 @@ from selenium import webdriver, selenium
 from selenium.webdriver.common.keys import Keys
 
 # App imports
-from posts.models import post, spam
+from posts.models import post
+from comments.models import spam
 
 
 class NewVisitorTests(LiveServerTestCase):

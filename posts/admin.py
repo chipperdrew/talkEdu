@@ -14,7 +14,7 @@ class UserAdmin(admin.ModelAdmin):
                     "vote_percentage", "total_votes")
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ("id", "user_id", "post_id", "content")
+    list_display = ("id", "user_id", "post_id", "content", "spam_count")
 
 #class VoteAdmin(admin.ModelAdmin):
 #    list_display = ("post_id", "user_id", "vote_choice")
