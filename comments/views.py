@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from honeypot.decorators import check_honeypot
 from itertools import ifilter
@@ -33,6 +34,8 @@ def new_comment(request, post_id):
             else:
                 #Get the parent node
                 node = comment.objects.get(id=parent)
+                node.children += 1 #Keep track of children to display
+                node.save()
                 temp.depth = node.depth + 1
                 temp.path = node.path
                 #Store parents path then apply comment ID
@@ -79,11 +82,33 @@ def comment_mark_as_spam(request, id):
             delete_comment_path_helper(comment_of_interest)
     return redirect(request.GET['next'])
 
+
+def show_replies(request, comment_id):
+    comment_of_interest = comment.objects.all().get(id=comment_id)
+    depth = comment_of_interest.depth
+    post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id).order_by('path')
+    comments_array = []
+    for com in post_comments:
+        if com.depth <= depth:
+            comments_array.append(com)
+        if comment_of_interest.id in com.path and com.depth==depth+1:
+            comments_array.append(com)
+    request.session['post_comments_to_show'] = comments_array
+    return redirect(request.GET['next'])
+
+# Helper Functions
 def delete_comment_path_helper(comment_of_interest):
     # Need to remove children of post (sounds evil)
     post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id)
     for com in post_comments:
         if comment_of_interest.id in com.path:
             com.delete()
+    # Decrement parent count of children
+    if comment_of_interest.depth != 0:
+        comment_path = comment_of_interest.path
+        del comment_path[-1]
+        parent = comment.objects.all().get(path=comment_path)
+        parent.children -= 1
+        parent.save()
     # And remove initial comment
     comment_of_interest.delete()

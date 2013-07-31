@@ -60,13 +60,14 @@
 
 	{# Comments -- Credit to Max Burstein on logic and design #}
 	<br/><br/>
-	<h3>Comments</h3>
+	<h3>Comments({{num_comments}})</h3>
 	<script>
 		$(document).ready(function(){
 			$("#commenters").on("click", ".reply", function(event){
 				event.preventDefault(); //Prevent reloading page
 				var form = $("#id_comment_form").clone(true); //Clone comment form
-				form.find('.parent').val($(this).parent().parent().attr('id'));
+				form.find('.parent').val($(this).parent().parent().attr('id')); 
+				//$(this).parent().parent().attr('id') is the id of the post
 				$(this).parent().append(form);
 			});
 		});
@@ -146,20 +147,41 @@
 	
 	{# Comment Display #}
 	<ul id="commenters">
+		{# Display dropdown: Show all or just top level #}
+		<div class="btn-group">
+			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+				Show
+				<span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu">
+				{% if 'all' in request.path %}
+					<li> <a href="{% url 'post_page' post.id%}">Only top-level comments</a></li>
+					<li> <a href="{% url 'post_page_all' post.id%}">
+					<img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" /> All comments (make take time to load)</a>
+					</li>
+
+				{% else %}
+					<li> <a href="{% url 'post_page' post.id%}"><img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" /> Only top-level comments</a></li>
+					<li> <a href="{% url 'post_page_all' post.id%}">All comments (make take time to load)</a></li>
+				{% endif %}	
+			</ul>
+		</div>
+
 		{% for c in comment_tree %}
 			<li id="{{c.id}}" class="c" style="margin-left:{{c.depth|add:c.depth}}em;">
 			<p class="poster"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
 			<p>{{c.content}}</p>
-			{% if user.is_authenticated %}		
-				<p>
+			<p>
+				<a href="{% url 'show_replies' c.id %}?next={{request.path}}">Show replies({{c.children}})</a>&nbsp;		
+				{% if user.is_authenticated %}			
 					<a href="" class="reply">Reply</a>&nbsp;
 					<a href="{% url 'comment_spam' id=c.id %}?next={{request.path}}">Mark as spam</a>&nbsp;
 					{% if c.user_id == request.user %}
 						<a href="{% url 'delete_comment' c.id %}?next={{request.path}}"
 						onclick="return confirm('Your comment and any sub-comments will be permanently deleted. Continue?')">Delete</a>
 					{% endif %}
-				</p>
-			{% endif %}
+			</p>
+				{% endif %}
 			</li>
 		{% empty %}
 			<li>There are currently no comments. You can be first!</li>

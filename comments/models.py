@@ -14,6 +14,7 @@ class comment(TimeStampedModel):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 related_name='comments')
     spam_count = models.SmallIntegerField(default=0)
+    children = models.SmallIntegerField(default=0)
 
 
     def __unicode__(self):

@@ -131,12 +131,20 @@ def post_page(request, post_id):
         del request.session['bad_comment_form']
     else:
         comment_form = commentForm
-    post_comments = comment.objects.all().filter(post_id=post_id).order_by('path')
         
+    # Determine which comments to show
+    if request.session.get('post_comments_to_show'):
+        post_comments = request.session.get('post_comments_to_show')
+        del request.session['post_comments_to_show']
+    elif 'all' in request.path:
+        post_comments = comment.objects.all().filter(post_id=post_id).order_by('path')
+    else:
+        post_comments = comment.objects.all().filter(post_id=post_id, depth=0).order_by('path')
+    num_comments = len(comment.objects.all().filter(post_id=post_id))
     return render(request, 'post_page.html',
                   {'post': post_of_interest,
                    'user_color_dict': get_user_model().COLORS,
-                   'user_dict': user_dict,
+                   'user_dict': user_dict, 'num_comments': num_comments,
                    'comment_form': comment_form,
                    'comment_tree': post_comments})
 
