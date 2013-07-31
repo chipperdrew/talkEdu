@@ -149,7 +149,7 @@
 	<ul id="commenters">
 		{# Display dropdown: Show all or just top level #}
 		<div class="btn-group">
-			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" name="show_dropdown">
 				Show
 				<span class="caret"></span>
 			</a>
@@ -157,12 +157,12 @@
 				{% if 'all' in request.path %}
 					<li> <a href="{% url 'post_page' post.id%}">Only top-level comments</a></li>
 					<li> <a href="{% url 'post_page_all' post.id%}">
-					<img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" /> All comments (make take time to load)</a>
+					<img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" /> All comments</a>
 					</li>
 
 				{% else %}
 					<li> <a href="{% url 'post_page' post.id%}"><img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" /> Only top-level comments</a></li>
-					<li> <a href="{% url 'post_page_all' post.id%}">All comments (make take time to load)</a></li>
+					<li> <a href="{% url 'post_page_all' post.id%}">All comments</a></li>
 				{% endif %}	
 			</ul>
 		</div>

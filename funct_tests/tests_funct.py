@@ -673,8 +673,6 @@ class NewVisitorTests(LiveServerTestCase):
         comment_of_interest = comment.objects.get(content='A comment')
         self.assertEqual(1, comment_of_interest.spam.count())
         self.assertEqual(1, comment_of_interest.spam_count)
-
-        
     
     def test_comment_functionality_and_existance(self):
         test_user = get_user_model().objects.get(username='Test')
@@ -720,9 +718,28 @@ class NewVisitorTests(LiveServerTestCase):
         comment_buttons = self.browser.find_elements_by_name('comment_button')
         comment_buttons[1].click() #2nd button appeared from reply click
 
-        # Jim sees both his comments
+        # Jim doesn't see his reply, but the body says are 2 comments
         comment_display = self.browser.find_element_by_id('commenters').text
+        body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Comment 1', comment_display)
+        self.assertNotIn('1.1', comment_display)
+        self.assertIn('Comments(2)', body)
+
+        # Jim changes the dropdown to show all comments & sees his reply
+        self.browser.find_element_by_name("show_dropdown").click()
+        self.browser.find_element_by_link_text("All comments").click()
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertIn('1.1', comment_display)
+
+        # Jim changes the dropdown & his reply disappears
+        self.browser.find_element_by_name("show_dropdown").click()
+        self.browser.find_element_by_link_text("Only top-level comments").click()
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertNotIn('1.1', comment_display)
+
+        # Jim clicks 'show replies' & his reply reappears
+        self.browser.find_element_by_link_text("Show replies(1)").click()
+        comment_display = self.browser.find_element_by_id('commenters').text
         self.assertIn('1.1', comment_display)
 
         # 3: Jim comments again (not a reply)
@@ -731,16 +748,15 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim deletes his 1st comment, which deletes his 1st 2 comments
         deletes = self.browser.find_elements_by_link_text('Delete')
-        self.assertEqual(len(deletes), 4) # 0 - Delete post
-        deletes[1].click() # 1 - 1st comment, 2 - Reply, 3 - Recent comment
+        self.assertEqual(len(deletes), 3) # 0 - Delete post, 1 - 1st comment
+        deletes[1].click() # 2 - Recent comment (note: reply is hidden)
         self.browser.switch_to_alert().accept()
 
-        # Jim doesn't see his first 2 comments but sees his 3rd
+        # Only Jim's 3rd comment remains
         body = self.browser.find_element_by_tag_name('body').text
-        comment_display = self.browser.find_element_by_id('commenters').text
-        self.assertNotIn('Comment 1', comment_display)
-        self.assertNotIn('1.1', comment_display)
-        self.assertIn('Comment 2', comment_display)
+        self.assertNotIn('Comment 1', body)
+        self.assertIn('Comment 2', body)
+        self.assertIn('Comments(1)', body)
         
         # Jim goes to the next post, & doesn't see his comment
         self.browser.find_element_by_link_text('Problems').click()
