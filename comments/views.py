@@ -7,8 +7,9 @@ from honeypot.decorators import check_honeypot
 from itertools import ifilter
 
 from .forms import commentForm
-from .models import comment, spam
+from .models import comment
 from posts.models import post
+from votes.models import spam
 
 @check_honeypot
 def new_comment(request, post_id):

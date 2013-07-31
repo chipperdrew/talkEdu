@@ -10,7 +10,8 @@ from selenium.webdriver.common.keys import Keys
 
 # App imports
 from posts.models import post
-from comments.models import comment, spam
+from comments.models import comment
+from votes.models import spam
 
 
 class NewVisitorTests(LiveServerTestCase):

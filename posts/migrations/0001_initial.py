@@ -11,8 +11,8 @@ class Migration(SchemaMigration):
         # Adding model 'post'
         db.create_table(u'posts_post', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 30, 0, 0), auto_now_add=True, blank=True)),
-            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 30, 0, 0), auto_now=True, blank=True)),
+            ('time_created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 31, 0, 0), auto_now_add=True, blank=True)),
+            ('time_modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 7, 31, 0, 0), auto_now=True, blank=True)),
             ('title', self.gf('django.db.models.fields.CharField')(default='', max_length=150)),
             ('text', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='posts', to=orm['accounts.eduuser'])),
@@ -77,8 +77,8 @@ class Migration(SchemaMigration):
             'page_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             'spam_count': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
             'text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 30, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
-            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 30, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 31, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 31, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
             'total_votes': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
             'up_votes': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),

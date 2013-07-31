@@ -11,9 +11,9 @@ import datetime
 
 from .forms import postForm
 from .models import post
-from votes.models import vote
+from votes.models import vote, spam
 from comments.forms import commentForm
-from comments.models import comment, spam
+from comments.models import comment
 
 POSTS_ALLOWED_PER_DAY = 5
 

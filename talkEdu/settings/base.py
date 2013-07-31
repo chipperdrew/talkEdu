@@ -60,6 +60,8 @@ INSTALLED_APPS = (
     'funct_tests',
 )
 
+SOUTH_TESTS_MIGRATE = False #South likes to throw errors on tests for some reason
+
 # Disqus values
 DISQUS_API_KEY = 'TZMxSP4vmfKsCmj7fqsUrRCaYuAI0iQ0PSfzwgU9gliPlrgKlugLvuPz1Ytohhfe'
 DISQUS_WEBSITE_SHORTNAME = 'YouTalkEdu'

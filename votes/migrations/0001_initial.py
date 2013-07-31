@@ -11,16 +11,29 @@ class Migration(SchemaMigration):
         # Adding model 'vote'
         db.create_table(u'votes_vote', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('post_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='votes', to=orm['posts.post'])),
+            ('post_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='votes', null=True, to=orm['posts.post'])),
+            ('comment_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='votes', null=True, to=orm['comments.comment'])),
             ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='votes', to=orm['accounts.eduuser'])),
             ('vote_choice', self.gf('django.db.models.fields.CharField')(default='upvote', max_length=8)),
         ))
         db.send_create_signal(u'votes', ['vote'])
 
+        # Adding model 'spam'
+        db.create_table(u'votes_spam', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('post_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='spam', null=True, to=orm['posts.post'])),
+            ('comment_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='spam', null=True, to=orm['comments.comment'])),
+            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='spam', to=orm['accounts.eduuser'])),
+        ))
+        db.send_create_signal(u'votes', ['spam'])
+
 
     def backwards(self, orm):
         # Deleting model 'vote'
         db.delete_table(u'votes_vote')
+
+        # Deleting model 'spam'
+        db.delete_table(u'votes_spam')
 
 
     models = {
@@ -57,6 +70,19 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
+        u'comments.comment': {
+            'Meta': {'object_name': 'comment'},
+            'children': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
+            'content': ('django.db.models.fields.TextField', [], {}),
+            'depth': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'path': ('comments.dbarray.IntegerArrayField', [], {'blank': 'True'}),
+            'post_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'comments'", 'to': u"orm['posts.post']"}),
+            'spam_count': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 31, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 31, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'comments'", 'to': u"orm['accounts.eduuser']"})
+        },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -70,18 +96,26 @@ class Migration(SchemaMigration):
             'page_type': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             'spam_count': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
             'text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 30, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
-            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 30, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
+            'time_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 31, 0, 0)', 'auto_now_add': 'True', 'blank': 'True'}),
+            'time_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 7, 31, 0, 0)', 'auto_now': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '150'}),
             'total_votes': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
             'up_votes': ('django.db.models.fields.SmallIntegerField', [], {'default': '0'}),
             'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'posts'", 'to': u"orm['accounts.eduuser']"}),
             'vote_percentage': ('django.db.models.fields.FloatField', [], {'default': '0'})
         },
+        u'votes.spam': {
+            'Meta': {'object_name': 'spam'},
+            'comment_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'spam'", 'null': 'True', 'to': u"orm['comments.comment']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'post_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'spam'", 'null': 'True', 'to': u"orm['posts.post']"}),
+            'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'spam'", 'to': u"orm['accounts.eduuser']"})
+        },
         u'votes.vote': {
             'Meta': {'object_name': 'vote'},
+            'comment_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'votes'", 'null': 'True', 'to': u"orm['comments.comment']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'post_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'votes'", 'to': u"orm['posts.post']"}),
+            'post_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'votes'", 'null': 'True', 'to': u"orm['posts.post']"}),
             'user_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'votes'", 'to': u"orm['accounts.eduuser']"}),
             'vote_choice': ('django.db.models.fields.CharField', [], {'default': "'upvote'", 'max_length': '8'})
         }

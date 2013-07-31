@@ -2,7 +2,6 @@ TODO:
 =============
 #) Add voting to comments
 #) Add sort-by feature for comments
-#) Hide nested comments. Display if id in array path and length=??. Likely add filter tag
 #) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
 #) Change the name outsider to ????
 #) Allow for comments on POST pages (using Disqus?)
@@ -44,6 +43,8 @@ TODO:
 #) DONE - Dotted line through the center of votes for overall vote
 #) DONE - Style post_page, add vote chart, up, down, etc
 #) DON'T WANT 3 INSTANCE DICT IN CLASS - In post models, consider making up_votes and total_votes a dict, sorted by user_type? Then remove view logic
+#) DONE - Hide nested comments. Display if id in array path and length=??.
+
 
 
 
