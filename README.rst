@@ -1,6 +1,8 @@
 TODO:
 =============
 #) Add voting to comments
+#) Add tests for sort by feature, check only top level comments displayed
+#) Fix comment display to wrap text in box
 #) Add sort-by feature for comments
 #) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
 #) Change the name outsider to ????

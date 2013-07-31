@@ -1,10 +1,10 @@
 // Pulse bar and canvas dimensions
-var canvasWidth = 150;
+var canvasWidth = 125;
 var canvasHeight = 100;
 var leftArc = 15;
 var bottomArc = 90;
 var rad = 9;
-var topOffset = 1; // MAY HAVE NO IMPACT??
+var topOffset = 1; // Prevents top of chart from being cut off
 var height = bottomArc-rad-topOffset;
 var numberOfTypes = 5;
 var separationDist = 25;

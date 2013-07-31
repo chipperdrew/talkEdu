@@ -146,7 +146,9 @@ def post_page(request, post_id):
                    'user_color_dict': get_user_model().COLORS,
                    'user_dict': user_dict, 'num_comments': num_comments,
                    'comment_form': comment_form,
-                   'comment_tree': post_comments})
+                   'comment_tree': post_comments,
+                   'user_color_dict': get_user_model().COLORS
+                   })
 
 ###### POST VIEWS #######
 @check_honeypot

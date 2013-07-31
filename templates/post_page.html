@@ -66,8 +66,8 @@
 			$("#commenters").on("click", ".reply", function(event){
 				event.preventDefault(); //Prevent reloading page
 				var form = $("#id_comment_form").clone(true); //Clone comment form
-				form.find('.parent').val($(this).parent().parent().attr('id')); 
-				//$(this).parent().parent().attr('id') is the id of the post
+				form.find('.parent').val($(this).parent().parent().parent().attr('id')); 
+				//$(this).parent().parent().parent().attr('id') is the id of the post
 				$(this).parent().append(form);
 			});
 		});
@@ -106,7 +106,7 @@
 			display: inline-block;
 		}
 
-		.c {
+		.comment_box {
 			font-size: 14px;
 			background: #0E0E0E;
 			-webkit-border-radius: 10px;
@@ -115,6 +115,7 @@
 			color: #FFFFFF;
 			padding: 10px;
 			margin-bottom: 10px;
+			width:800px;
 		}
 	</style>
 	
@@ -145,7 +146,6 @@
 
 	</div> {# End move_right div #}
 	
-	{# Comment Display #}
 	<ul id="commenters">
 		{# Display dropdown: Show all or just top level #}
 		<div class="btn-group">
@@ -167,8 +167,35 @@
 			</ul>
 		</div>
 
+		{# Comment and Vote Display #}
 		{% for c in comment_tree %}
-			<li id="{{c.id}}" class="c" style="margin-left:{{c.depth|add:c.depth}}em;">
+			<br/>
+			<li id="{{c.id}}" class="comment_box" style="margin-left:{{c.depth|add:c.depth}}em">
+			{# Vote Display #}
+			<div style="display:inline-block; width:150px; clear:both">
+				<canvas id="commentCanvas{{c.id}}" width="125" height="100">
+         			   If you see this, your browser does not support HTML5 Canvas. Sorry :(
+        			</canvas>
+				<script type="text/javascript">
+					$(document).ready(function() {
+						var canv = document.getElementById("commentCanvas{{c.id}}");
+						var draw = canv.getContext("2d");
+						draw.strokeStyle = "White";
+						drawPulseOutline(draw);
+						{% for user_type_key in user_color_dict %}
+							draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
+							drawPulse(0.95, separationDist*({{ forloop.counter }}-1), draw);
+						{% endfor %}
+						drawMiddle(0.95, draw);
+					});
+				</script>
+				<p style="text-align:center">
+					Overall: 0<br/>Total Votes: 0
+				</p>
+			</div>
+
+			{# Comment display #}
+			<div style="display:inline-block; width:640px">
 			<p class="poster"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
 			<p>{{c.content}}</p>
 			<p>
@@ -181,6 +208,7 @@
 						onclick="return confirm('Your comment and any sub-comments will be permanently deleted. Continue?')">Delete</a>
 					{% endif %}
 			</p>
+			</div>
 				{% endif %}
 			</li>
 		{% empty %}
