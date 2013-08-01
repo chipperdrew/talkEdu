@@ -21,9 +21,13 @@
 		<h4><a id="1">My overall user rating is incorrect</a></h4>
 		<p>
 			The overall user rating is calculated from all posts -- even deleted posts.
-			For example, if you have 2 posts with 100% rating and 5 votes each, your user rating should be 1.0.
+			User comments have no effect on the overall user rating.
+		</p>
+		<p>
+			For example, if you have two posts with 100% rating and five votes each, 
+			your user rating should be 1.0.
 			However, if you had deleted a 3rd post with 0% rating and 10 votes, your overall user rating
-			should be 0.5, even though your page will display 2 posts with 100% rating each.
+			should be 0.5, even though your page will display two posts with 100% rating each.
 		</p>
 		<p>
 			If you believe your user rating has been inaccurately calculated, please email me. {# EMAIL #}
@@ -45,22 +49,24 @@
 		<ol>
 			<li>The incorrect password is being entered.</li>
 				<p>
-					Please change your password. You may do so by clicking 
+					Fix: Please change your password. You may do so by clicking 
 					<a href="{% url 'password_reset' %}">here</a>.
 				</p>
 			<li>The incorrect username is being entered.</li>
 				<p>
-					If you have made any posts/comments on the site, try searching for them and
+					Fix: If you have made any posts/comments on the site, try searching for them and
 					finding the username attached to them. If worst comes to worst, you may try 
 					emailing me {# EMAIL #}, but the odds are slim that I will be able to help
 					(send me every piece of info you can -- email, posts voted on, last login, etc).
 				</p>
 			<li>The account has been banned.</li>
 				<p>
-					If you are sure you are entering in the correct username and password,
-					your account is likely banned. This is probably the result of someone
-					stealing your password and posting as you. Depending on my mood, I may return 
-					your account to you. Press your luck by emailing me here {# EMAIL #}.
+					Fix: If you are sure you are entering in the correct username and password,
+					your account is likely banned. 
+					If you haven't posted any ban-worthy material on the site,
+					this is likely the result of someone stealing your password and posting as you. 
+					Depending on my mood, I may return your account to you. 
+					Press your luck by emailing me here {# EMAIL #}.
 				</p>
 		</ol><br/>
 

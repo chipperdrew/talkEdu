@@ -80,17 +80,13 @@
 }
 
 /* Templates used on: user_page */
-.item_ratings {
-	width:200px;
-	float:left; 
+.item_title_cutoff {
+	text-overflow:ellipsis; 
+	overflow:hidden; 
+	white-space:nowrap; 
+	width:500px;
 }
 
-.item_titles {
-	width:500px; 
-	display:inline-block;
-}
-		
-.overall_rating_label {
-	width:200px; 
-	display:inline-block;
+.user_page_headers th {
+	text-align:left;
 }
