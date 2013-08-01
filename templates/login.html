@@ -31,11 +31,11 @@
 					Please try again.
 				</div>
 			{% endif %}
-			<form method="POST" action="{% url 'auth_login' %}">
+			<form method="POST" action="{% url 'login' %}">
 				{% csrf_token %}
-				<label for="id_user_login">Username:</label> 
+				<label for="id_user_login">Username:</label>
 				<input type="text" name="username" id="id_user_login" />
-				<label for="id_pass_login">Password:</label> 
+				<label for="id_pass_login">Password:</label>
 				<input type="password" name="password" id="id_pass_login"/><br/>
 				<label><input type="checkbox" name="remember_me"/>&nbsp;Remember me</label>
 				<button class="btn btn-primary btn-large" type="submit" name="login">Login</button><br/><br/>
@@ -51,5 +51,4 @@
 			</form>
 	{% endif %}
 	</div>
-
 {% endblock content %}

@@ -7,18 +7,33 @@ import datetime
 POST_SPAM_LIMIT = 2
 
 # Adapted from '2 Scoops of Django' book
-class TimeStampedModel(models.Model):
+class TimeStampedVoteableModel(models.Model):
+    # Abstract base class
+    class Meta:
+        abstract = True
+        
     time_created = models.DateTimeField(auto_now_add=True,
                                         default=datetime.datetime.now())
     time_modified = models.DateTimeField(auto_now=True,
                                          default=datetime.datetime.now())
+    up_votes = models.SmallIntegerField(default=0)
+    total_votes = models.SmallIntegerField(default=0)
+    vote_percentage = models.FloatField(default=0) ##Set min/max?
 
-    # Abstract base class
-    class Meta:
-        abstract = True
+    # Purpose - to see the number of spam counts in admin and reset if necessary
+    spam_count = models.SmallIntegerField(default=0)
 
 
-class post(TimeStampedModel):
+    def update_votes(self, up_vote_to_add, total_vote_to_add):
+        from votes.models import vote #Must import here b/c cross-relationship
+        self.up_votes += up_vote_to_add
+        self.total_votes += total_vote_to_add
+        if self.total_votes != 0:
+            self.vote_percentage = round(float(self.up_votes)/self.total_votes, 3)
+        self.save()
+
+
+class post(TimeStampedVoteableModel):
     # Leave this as 'name' b/c admin requires one
     title = models.CharField(default="", max_length=150)
     text = models.TextField(blank=True)
@@ -39,23 +54,9 @@ class post(TimeStampedModel):
     )
     
     page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
-    up_votes = models.SmallIntegerField(default=0)
-    total_votes = models.SmallIntegerField(default=0)
-    # AC: 7/14/13 Consider setting min/max on float field
-    vote_percentage = models.FloatField(default=0)
-    # Purpose - to see the number of spam counts in admin and reset if necessary
-    spam_count = models.SmallIntegerField(default=0)
     
     class Meta:
         ordering = ['-time_created']
-
-    def update_votes(self, up_vote_to_add, total_vote_to_add):
-        from votes.models import vote #Must import here b/c cross-relationship
-        self.up_votes += up_vote_to_add
-        self.total_votes += total_vote_to_add
-        if self.total_votes != 0:
-            self.vote_percentage = round(float(self.up_votes)/self.total_votes, 3)
-        self.save()
 
     def check_spam_count(self):
         # Not set to self.spam.count() in case there is a need to reset spam_count

@@ -20,6 +20,8 @@ def login(request, *args, **kwargs):
     if request.method == 'POST':
         if not request.POST.get('remember_me', None):
             request.session.set_expiry(0)
+        if not request.POST.get('username', None):
+            request.method = 'GET' #Prevents lockout on accidental submit
     return auth_views.login(request, *args, **kwargs)
 
 @login_required

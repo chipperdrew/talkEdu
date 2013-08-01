@@ -1,18 +1,18 @@
 TODO:
 =============
-#) Abstract Voteable model, clean up vote views (passing object as param, putting if
-'c' or 'p' in up_vote and down_vote).
+#) Clean up vote views (passing object as param, putting if 'c' or 'p' in up_vote and down_vote).
 #) Fix where the reply comment box appears
 #) Change views so only one chart is redrawn upon voting & no page reload
-#) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
+#) Do something to prevent comment spam
 #) Change the name outsider to ????
-#) Allow for comments on POST pages (using Disqus?)
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page?? Introduce to site?
 #) TIME PERMITTING - Upgrade Bootstrap?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
+#) IN PRODUCTION - Make sure Django-axes is IP specific
 #) IN PRODUCTION - Set up email with SMTP server
+#) IN PRODUCTION - If reset db -- Change "Sites" in django admin
 #) IN PRODUCTION - Add https protection
 #) IN PRODUCTION - Set up search updates?
 #) DONE - Change database?
@@ -45,6 +45,7 @@ TODO:
 #) DONE - Dotted line through the center of votes for overall vote
 #) DONE - Style post_page, add vote chart, up, down, etc
 #) DON'T WANT 3 INSTANCE DICT IN CLASS - In post models, consider making up_votes and total_votes a dict, sorted by user_type? Then remove view logic
+#) DONE - Allow for comments on POST pages (using Disqus? NO DISQUS IS EVIL)
 #) DONE - Hide nested comments. Display if id in array path and length=??.
 #) DONE - Add comment voting logic
 
