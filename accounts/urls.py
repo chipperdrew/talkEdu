@@ -1,10 +1,11 @@
 from django.conf.urls import patterns, include, url
-from accounts.forms import MinPassLengthRegistrationForm
+from accounts.forms import MinPassLengthRegistrationForm, MinPassChangeForm
 from accounts.views import CustomRegistrationView
 
 
 urlpatterns = patterns('django.contrib.auth.views',
-    url(r'^logout/$', 'logout'),
+    url(r'^logout/$', 'logout',
+        {'next_page': '/'}), # For direct access of accounts/logout/ url
 
     # Password reset
     url(r'^password/reset/$',
@@ -22,7 +23,8 @@ urlpatterns = patterns('django.contrib.auth.views',
     # Password change
     url(r'^password/change/$',
         'password_change',
-        {'post_change_redirect': '/accounts/password/change/done/'},
+        {'password_change_form': MinPassChangeForm,
+         'post_change_redirect': '/accounts/password/change/done/'},
         name='pass_change'),
     url(r'^password/change/done/$',
         'password_change_done'),

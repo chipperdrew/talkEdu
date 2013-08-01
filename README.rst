@@ -2,8 +2,7 @@ TODO:
 =============
 #) Abstract Voteable model, clean up vote views (passing object as param, putting if
 'c' or 'p' in up_vote and down_vote). Use tables for user_page?
-#) Remove accounts/logout link
-#) Check pass length on password reset form
+#) Test password change form -- passwords don't match, too short, blank fields, etc.
 #) Test comment voting logic
 #) Change views so only one chart is redrawn upon voting & no page reload
 #) Add sort-by feature for comments

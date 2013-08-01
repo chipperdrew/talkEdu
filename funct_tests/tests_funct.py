@@ -299,8 +299,8 @@ class NewVisitorTests(LiveServerTestCase):
         new_pass1 = self.browser.find_element_by_id('id_new_password1')
         new_pass2 = self.browser.find_element_by_id('id_new_password2')
         old_pass.send_keys('BAD_PASS')
-        new_pass1.send_keys('q')
-        new_pass2.send_keys('qqqq')
+        new_pass1.send_keys('test1234')
+        new_pass2.send_keys('test123456')
         self.check_for_redirect_after_button_click('pass_change_submit',
                                                    '/accounts/password/change/$')
         body = self.browser.find_element_by_tag_name('body').text
@@ -313,8 +313,8 @@ class NewVisitorTests(LiveServerTestCase):
         new_pass1 = self.browser.find_element_by_id('id_new_password1')
         new_pass2 = self.browser.find_element_by_id('id_new_password2')
         old_pass.send_keys('test')
-        new_pass1.send_keys('q')
-        new_pass2.send_keys('q')
+        new_pass1.send_keys('test1234')
+        new_pass2.send_keys('test1234')
         self.check_for_redirect_after_button_click('pass_change_submit',
                                                    '/accounts/password/change/done/$')
         # Jim logs out to test his new password
@@ -336,7 +336,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input = self.browser.find_element_by_id('id_user_login')
         pass_input = self.browser.find_element_by_id('id_pass_login')
         user_input.send_keys('Test')
-        pass_input.send_keys('q')
+        pass_input.send_keys('test1234')
         self.browser.find_element_by_name('login').click()
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Test', body)
