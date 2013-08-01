@@ -111,9 +111,11 @@ def user_page(request, user):
     Displays a page with info about a certain user
     """
     user_of_interest = get_object_or_404(get_user_model(), username=user)
-    user_posts = user_of_interest.posts.all()
+    user_posts = user_of_interest.posts.all().order_by('-time_created')[:10]
+    user_comments = user_of_interest.comments.all().order_by('-time_created')[:10]
     return render(request, 'user_page.html',
-                  {'user_object': user_of_interest, 'user_posts': user_posts})
+                  {'user_object': user_of_interest,
+                   'user_posts': user_posts, 'user_comments': user_comments})
 
 def post_page(request, post_id):
     """
