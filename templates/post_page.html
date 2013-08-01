@@ -7,7 +7,7 @@
 
 {% block content %}
 	<div class="move_right">
-	{# Post Vote #}
+		{# Post Vote #}
 		<div style="display:inline-block; width:150px">  
 			<canvas id="myCanvas{{post.id}}" width="150" height="100">
          		   If you see this, your browser does not support HTML5 Canvas.
@@ -30,9 +30,10 @@
 			</p>
 		</div>
 
+	{# Post display #}
 	<div style="display:inline-block; width:800px">
-		<h3>{{ post.title }}</h3>
-		<p>{{ post.text }}</p><br/><br/>
+		<h3>{{ post.title|capfirst }}</h3>
+		<p>{{ post.text|linebreaks }}</p><br/><br/>
 		<p>Posted by: <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a></p>
 		{% with u_type=post.user_id.user_type %}
 		<p style="color:{{user_color_dict|get_item:u_type}}; font-weight:bold">{{ post.user_id.get_user_type_display }}</p>
@@ -147,6 +148,7 @@
 	</div> {# End move_right div #}
 	
 	<ul id="commenters">
+		{% if comment_tree %}
 		{# Display dropdown: Show all or just top level #}
 		<div class="btn-group">
 			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" name="show_dropdown">
@@ -166,6 +168,7 @@
 				{% endif %}	
 			</ul>
 		</div>
+		{% endif %}
 
 		{# Comment and Vote Display #}
 		{% for c in comment_tree %}
@@ -197,7 +200,7 @@
 			{# Comment display #}
 			<div style="display:inline-block; width:640px">
 			<p class="poster"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
-			<p>{{c.content}}</p>
+			<p>{{c.content|linebreaks}}</p>
 			<p>
 				<a href="{% url 'show_replies' c.id %}?next={{request.path}}">Show replies({{c.children}})</a>&nbsp;		
 				{% if user.is_authenticated %}			

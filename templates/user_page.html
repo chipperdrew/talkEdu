@@ -24,11 +24,7 @@
 			<span style="float:left">{{ forloop.counter }}: &nbsp;</span>
 			<a href="{% url 'post_page' post_id=post.id %}" style="float:left; display:inline-block; width:400px; text-overflow:ellipsis; overflow: hidden">{{ post.title }}</a>.
 			<span style="float:left">Overall rating: {{ post.vote_percentage }} 
-				{% if post.total_votes == 1 %}
-					({{ post.total_votes }} vote)
-				{% else %}
-					({{ post.total_votes }} votes)
-				{% endif %}
+				({{ post.total_votes }} vote{{ post.total_votes|pluralize }})
 			</span>
 		</p>
 	{% endfor %}
