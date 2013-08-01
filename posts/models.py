@@ -67,7 +67,6 @@ class post(TimeStampedModel):
             pass
         self.save()
             
-    # Better string representation in admin and elsewhere
     def __unicode__(self):
         return self.title
 

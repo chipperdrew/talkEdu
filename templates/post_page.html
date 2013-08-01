@@ -20,7 +20,7 @@
 					drawPulseOutline(draw);
 					{% for user_type_key in user_color_dict %}
 						draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
-						drawPulse({{ user_dict|key:user_type_key}}, separationDist*({{ forloop.counter }}-1), draw);
+						drawPulse({{ post_only_dict|key:user_type_key}}, separationDist*({{ forloop.counter }}-1), draw);
 					{% endfor %}
 					drawMiddle({{ post.vote_percentage }}, draw);
 				});
@@ -42,8 +42,8 @@
 
 			{% if user.is_authenticated %}			
 				<div style="display:inline-block">					
-					<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
-					<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
+					<a href="{% url 'up_vote' id=post.id item_type='p' %}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
+					<a href="{% url 'down_vote' id=post.id item_type='p' %}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
 					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
 				</div>			
 				{% if post.user_id == request.user %}
@@ -74,7 +74,8 @@
 		});
 	</script>
 	<style>
-		ul p a {
+		.comment_box a {
+			font-size: 12px;
 			font-weight: bold;
 			color: #ff982c;
 			text-decoration: none;
@@ -86,11 +87,6 @@
         
 		#commenters li {
 			list-style-type: none;
-		}
-
-		.poster {
-			font-size: 12px;
-			color: #AAAAAA;
 		}
 
 		#postcomment ul {
@@ -187,32 +183,45 @@
 						drawPulseOutline(draw);
 						{% for user_type_key in user_color_dict %}
 							draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
-							drawPulse(0.95, separationDist*({{ forloop.counter }}-1), draw);
+							drawPulse({{ vote_dict|key:c|key:user_type_key}}, separationDist*({{ forloop.counter }}-1), draw);
 						{% endfor %}
-						drawMiddle(0.95, draw);
+						drawMiddle({{ c.vote_percentage }}, draw);
 					});
 				</script>
 				<p style="text-align:center">
-					Overall: 0<br/>Total Votes: 0
+					Overall: {{ c.vote_percentage }}<br/>Total Votes: {{ c.total_votes }}
 				</p>
 			</div>
 
 			{# Comment display #}
 			<div style="display:inline-block; width:640px">
-			<p class="poster"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
+			<p style="font-size:12px"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
 			<p>{{c.content|linebreaks}}</p>
+
+			{# Votes and spam links #}
 			<p>
-				<a href="{% url 'show_replies' c.id %}?next={{request.path}}">Show replies({{c.children}})</a>&nbsp;		
-				{% if user.is_authenticated %}			
-					<a href="" class="reply">Reply</a>&nbsp;
+				<div style="display:inline-block">
+				{% if user.is_authenticated %}
+					<a href="{% url 'up_vote' id=c.id item_type='c'%}?next={{request.path}}">Up</a> &nbsp;
+					<a href="{% url 'down_vote' id=c.id item_type='c'%}?next={{request.path}}">Down</a> &nbsp;
 					<a href="{% url 'comment_spam' id=c.id %}?next={{request.path}}">Mark as spam</a>&nbsp;
 					{% if c.user_id == request.user %}
 						<a href="{% url 'delete_comment' c.id %}?next={{request.path}}"
 						onclick="return confirm('Your comment and any sub-comments will be permanently deleted. Continue?')">Delete</a>
 					{% endif %}
+
+				{% endif %}	
+				</div>		
+			
+				{# Replies and delete links #}
+				<div style="display:inline-block; float:right">
+				<a href="{% url 'show_replies' c.id %}?next={{request.path}}">Show replies({{c.children}})</a>&nbsp;		
+					{% if user.is_authenticated %}			
+						<a href="" class="reply">Reply</a>&nbsp;
+					{% endif %}	
+				</div>
 			</p>
 			</div>
-				{% endif %}
 			</li>
 		{% empty %}
 			<li>There are currently no comments. You can be first!</li>

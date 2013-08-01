@@ -136,8 +136,8 @@
 			{% if user.is_authenticated %}		
 				<p>
 					<div style="display:inline-block">					
-					<a href="{% url 'up_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
-					<a href="{% url 'down_vote' id=post.id %}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
+					<a href="{% url 'up_vote' id=post.id item_type='p'%}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
+					<a href="{% url 'down_vote' id=post.id item_type='p'%}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
 					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
 					</div>			
 				{% if post.user_id == request.user %}
@@ -147,7 +147,6 @@
 					onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
 					</div>
 				{% endif %}
-
 				</p>
 			{% endif %}
 		</div>

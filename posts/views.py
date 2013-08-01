@@ -86,7 +86,8 @@ def display_page_helper(request, page, sort_id=1):
     for current_post in posts:
         vote_dict[current_post] = {}
         user_dict = vote_dict[current_post]
-        post_votes_by_user_type_helper(user_dict, current_post)
+        post_votes = vote.objects.all().filter(post_id=current_post)
+        item_votes_by_user_type_helper(user_dict, post_votes)
 
     # Display number of posts left for the day
     if request.user.is_authenticated():
@@ -121,12 +122,13 @@ def post_page(request, post_id):
     """
     Displays a page with info about a certain post
     """
+    # Filling vote values for post
     post_of_interest = get_object_or_404(post, id=post_id)
-    # Filling vote values
-    user_dict = {}
-    post_votes_by_user_type_helper(user_dict, post_of_interest)
+    post_votes = vote.objects.all().filter(post_id=post_of_interest)
+    post_only_dict = {}
+    item_votes_by_user_type_helper(post_only_dict, post_votes)
 
-    # If given a bad form, show form and errors
+    # If given a bad comment form, show form and errors
     if request.session.get('bad_comment_form'):
         comment_form = commentForm(request.session.get('bad_comment_form'))
         comment_form.is_valid()
@@ -143,13 +145,22 @@ def post_page(request, post_id):
     else:
         post_comments = comment.objects.all().filter(post_id=post_id, depth=0).order_by('path')
     num_comments = len(comment.objects.all().filter(post_id=post_id))
+
+    # Filling vote dictionary
+    vote_dict = {}
+    # Grabs the current post and switches to its inner dictionary
+    for current_comment in post_comments:
+        vote_dict[current_comment] = {}
+        user_dict = vote_dict[current_comment]
+        comment_votes = vote.objects.all().filter(comment_id=current_comment)
+        item_votes_by_user_type_helper(user_dict, comment_votes)
     return render(request, 'post_page.html',
                   {'post': post_of_interest,
                    'user_color_dict': get_user_model().COLORS,
-                   'user_dict': user_dict, 'num_comments': num_comments,
+                   'post_only_dict': post_only_dict, 'vote_dict': vote_dict,
                    'comment_form': comment_form,
                    'comment_tree': post_comments,
-                   'user_color_dict': get_user_model().COLORS
+                   'num_comments': num_comments
                    })
 
 ###### POST VIEWS #######
@@ -227,11 +238,10 @@ def mark_as_spam(request, id):
 
 
 ## Helper functions
-def post_votes_by_user_type_helper(user_dict, post_of_interest):
+def item_votes_by_user_type_helper(user_dict, item_votes):
     # For a given post, fills a dictionary with % up votes by user type
-    post_votes = vote.objects.all().filter(post_id=post_of_interest)
     for user_type in get_user_model().USER_TYPE_CHOICES:
-        all_votes = post_votes.filter(user_id__user_type=user_type[0])
+        all_votes = item_votes.filter(user_id__user_type=user_type[0])
         up_votes = all_votes.filter(vote_choice = vote.VOTE_CHOICES.upvote)
         if len(all_votes)==0:
             user_dict[user_type[0]] = 0

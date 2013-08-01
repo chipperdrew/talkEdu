@@ -228,7 +228,9 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Last logged in on', body)
         self.assertIn('1: ', body)
         self.assertIn('Title', body)
-        self.assertIn('Overall rating: 0', body)
+        self.assertIn('Overall Rating', body)
+        self.assertIn('0.0', body)
+        self.assertIn('(0 votes)', body)
         self.assertIn('User Test', self.browser.title)
     
     def test_post_page_shows_proper_content(self):
@@ -648,13 +650,11 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim marks the post as spam
         self.browser.find_element_by_link_text('Mark as spam').click()
         post_of_interest = post.objects.get(title='T1')
-        self.assertEqual(1, post_of_interest.spam.count())
         self.assertEqual(1, post_of_interest.spam_count)
 
         # Jim marks the post as spam again -- but the values do not change
         self.browser.find_element_by_link_text('Mark as spam').click()
         post_of_interest = post.objects.get(title='T1')
-        self.assertEqual(1, post_of_interest.spam.count())
         self.assertEqual(1, post_of_interest.spam_count)
 
         # Jim marks the comment as spam

@@ -13,50 +13,69 @@
 	<h4> Overall user rating: {{ user_object.vote_percentage }}</h4>
 	<p>Last logged in on {{ user_object.last_login.date }} at {{ user_object.last_login.time }}</p>
 
+
 	{# Posts #}
 	<br/>
 	{% if user_object == request.user %}
-		<h4>Here are your 10 most recent posts:</h4>
+		<h4 class="item_titles">Here are your 10 most recent posts:</h4>
 	{% else %}
-		<h4>Here are the 10 most recent posts for {{ user_object.username }}:</h4>
+		<h4 class="item_titles">Here are the 10 most recent posts for {{ user_object.username }}:</h4>
 	{% endif %}
+	&nbsp; &nbsp;<div class="overall_rating_label"><strong><u>Overall Rating</u></strong></div>
 	{% for post in user_posts %}
 		<p>
-			<div style="float:left; display:inline-block; width:500px; text-overflow:ellipsis; overflow:hidden; white-space: nowrap">
+			<div class="item_titles" style="float:left; text-overflow:ellipsis; overflow:hidden; white-space: nowrap">
 				{{ forloop.counter }}: &nbsp; <a href="{% url 'post_page' post_id=post.id %}">{{ post.title }}</a>
 			</div>&nbsp;
-			<span style="float:left">
-				&nbsp; &nbsp; Overall rating: {{ post.vote_percentage }} 
+			<div class="item_ratings">
+				&nbsp; &nbsp; {{ post.vote_percentage }} 
 				({{ post.total_votes }} vote{{ post.total_votes|pluralize }})
-			</span>
+			</div>
 		</p>
 	{% endfor %}
+
 
 	{# Comments #}
 	<br/>
 	{% if user_object == request.user %}
-		<h4>Here are your 10 most recent comments:</h4>
+		<h4 class="item_titles">Here are your 10 most recent comments:</h4>
 	{% else %}
-		<h4>Here are the 10 most recent comments for {{ user_object.username }}:</h4>
+		<h4 class="item_titles">Here are the 10 most recent comments for {{ user_object.username }}:</h4>
 	{% endif %}
+	&nbsp; &nbsp;<div class="overall_rating_label"><strong><u>Overall Rating</u></strong></div>
+	&nbsp;<strong><u>Related post</u></strong>
 	{% for comment in user_comments %}
 		<p>
-			<div style="float:left; display:inline-block; width:500px; text-overflow:ellipsis; overflow:hidden; white-space: nowrap">
+			<div class="item_titles" style="float:left; text-overflow:ellipsis; overflow:hidden; white-space: nowrap">
 				{{ forloop.counter }}: {{ comment.content }}
 			</div>&nbsp;
-{% comment %}
-			<span style="float:left">			
-				&nbsp; &nbsp; Overall rating: {{ comment.vote_percentage }} 
+			<div class="item_ratings">			
+				&nbsp; &nbsp; {{ comment.vote_percentage }} 
 				({{ comment.total_votes }} vote{{ comment.total_votes|pluralize }})
-			</span>
-{% endcomment %}
-			<span style="float:left">
-				&nbsp; &nbsp; on post: &nbsp; <a href="{% url 'post_page' comment.post_id.id %}" style="display:inline-block; width:300px">{{ comment.post_id.title|truncatechars:20 }}</a>
+			</div>
+			<span>
+				&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'post_page' comment.post_id.id %}" style="display:inline-block; width:300px">{{ comment.post_id.title|truncatechars:20 }}</a>
 			</span>
 
 		</p>
 	{% endfor %}
+	</div> {# End move_right #}
 
-	<br/><br/>
-	</div>
+
+	<style>
+		.item_titles {
+			width:500px; 
+			display:inline-block;
+		}
+		
+		.item_ratings {
+			width:200px;
+			float:left; 
+		}
+
+		.overall_rating_label {
+			width:200px; 
+			display:inline-block;
+		}
+	</style>
 {% endblock content %}
