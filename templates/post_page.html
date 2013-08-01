@@ -8,7 +8,7 @@
 {% block content %}
 	<div class="move_right">
 		{# Post Vote #}
-		<div style="display:inline-block; width:150px">  
+		<div class="vote_display_div">  
 			<canvas id="myCanvas{{post.id}}" width="150" height="100">
          		   If you see this, your browser does not support HTML5 Canvas.
         		</canvas>
@@ -31,7 +31,7 @@
 		</div>
 
 	{# Post display #}
-	<div style="display:inline-block; width:800px">
+	<div class="item_display_div">
 		<h3>{{ post.title|capfirst }}</h3>
 		<p>{{ post.text|linebreaks }}</p><br/><br/>
 		<p>Posted by: <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a></p>
@@ -47,7 +47,7 @@
 					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
 				</div>			
 				{% if post.user_id == request.user %}
-				<div style="float:right; display:inline-block">
+				<div class="inline_right">
 					<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}">Edit</a>
 					<a href="{% url 'post_delete' id=post.id %}?next=/"
 					onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
@@ -73,48 +73,7 @@
 			});
 		});
 	</script>
-	<style>
-		.comment_box a {
-			font-size: 12px;
-			font-weight: bold;
-			color: #ff982c;
-			text-decoration: none;
-		}
 
-		#commenters {
-			padding-left: 0px;
-		}
-        
-		#commenters li {
-			list-style-type: none;
-		}
-
-		#postcomment ul {
-			padding-left: 0px;
-		}
-
-		#postcomment ul li {
-			list-style-type: none;
-			padding-bottom: 5px;
-		}
-
-		#postcomment label {
-			width: 74px;
-			display: inline-block;
-		}
-
-		.comment_box {
-			font-size: 14px;
-			background: #0E0E0E;
-			-webkit-border-radius: 10px;
-			-moz-border-radius: 10px;
-			border-radius: 10px;
-			color: #FFFFFF;
-			padding: 10px;
-			margin-bottom: 10px;
-			width:800px;
-		}
-	</style>
 	
 	{# Comment Form #}
 	{% if user.is_authenticated %}
@@ -155,11 +114,11 @@
 				{% if 'all' in request.path %}
 					<li> <a href="{% url 'post_page' post.id%}">Only top-level comments</a></li>
 					<li> <a href="{% url 'post_page_all' post.id%}">
-					<img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" /> All comments</a>
+					<img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> All comments</a>
 					</li>
 
 				{% else %}
-					<li> <a href="{% url 'post_page' post.id%}"><img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" /> Only top-level comments</a></li>
+					<li> <a href="{% url 'post_page' post.id%}"><img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> Only top-level comments</a></li>
 					<li> <a href="{% url 'post_page_all' post.id%}">All comments</a></li>
 				{% endif %}	
 			</ul>
@@ -171,7 +130,7 @@
 			<br/>
 			<li id="{{c.id}}" class="comment_box" style="margin-left:{{c.depth|add:c.depth}}em">
 			{# Vote Display #}
-			<div style="display:inline-block; width:150px; clear:both">
+			<div class="vote_display_div">
 				<canvas id="commentCanvas{{c.id}}" width="125" height="100">
          			   If you see this, your browser does not support HTML5 Canvas. Sorry :(
         			</canvas>
@@ -194,9 +153,10 @@
 			</div>
 
 			{# Comment display #}
-			<div style="display:inline-block; width:640px">
+			<div class="item_display_div">
 			<p style="font-size:12px"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
-			<p>{{c.content|linebreaks}}</p>
+			<p style="height:22px">{{c.content|linebreaks}}</p>
+			<div style="height:22px"></div>
 
 			{# Votes and spam links #}
 			<p>
@@ -214,7 +174,7 @@
 				</div>		
 			
 				{# Replies and delete links #}
-				<div style="display:inline-block; float:right">
+				<div class="inline_right">
 				<a href="{% url 'show_replies' c.id %}?next={{request.path}}">Show replies({{c.children}})</a>&nbsp;		
 					{% if user.is_authenticated %}			
 						<a href="" class="reply">Reply</a>&nbsp;

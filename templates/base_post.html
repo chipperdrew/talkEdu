@@ -34,7 +34,7 @@
 			</div>
 		{# Otherwise hide form so it's not in the way #}
 		{% else %}
-			<a id="id_show_form" style="font-size:1.2em; font-style:italic">Click me to create a post</a><br/>
+			<a id="id_show_form">Click me to create a post</a><br/>
 
 			<script type="text/javascript">
 				jQuery(document).ready(function(){
@@ -77,12 +77,12 @@
 			{% for categ in sort_categs %}
 				{% if forloop.counter == sort_id %}
 					<li> <a href="{% url 'post_page_base' page=current_page sort_id=forloop.counter %}">
-					<img src="http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png" style="height:10px; width:10px; align:left" /> {{ categ }}</a>
-			</li>
+{# Image source: http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png #}
+					<img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> {{ categ }}</a>
+					</li>
 				{% else %}
-				<li><a href="{% url 'post_page_base' page=current_page sort_id=forloop.counter %}">
-					{{ categ }}</a>
-				</li>
+					<li><a href="{% url 'post_page_base' page=current_page sort_id=forloop.counter %}">{{ categ }}</a>
+					</li>
 				{% endif %}
 			{% endfor %}	
 		</ul>
@@ -95,7 +95,7 @@
 	{% for post in posts %}
 		<div style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
 		{# Vote display #}
-		<div style="display:inline-block; width:150px">  
+		<div class="vote_display_div">  
 			<canvas id="myCanvas{{post.id}}" width="125" height="100">
          		   If you see this, your browser does not support HTML5 Canvas. Sorry :(
         		</canvas>
@@ -119,14 +119,14 @@
 		</div>
 
 		{# Post content display #}
-		<div style="display:inline-block; width:640px">
+		<div class="item_display_div">
 			<p>
 				At {{ post.time_created }}, <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a> posted:
 				{% with u_type=post.user_id.user_type %}
 				<span style="color:{{user_color_dict|get_item:u_type}}; float:right; font-weight:bold">{{ post.user_id.get_user_type_display }}</span>
 				{% endwith %}
 			</p>
-			<a href="{% url 'post_page' post_id=post.id %}"><h4 style="word-wrap:break-word; height:60px">{{ post.title|capfirst }}</h4></a>
+			<a href="{% url 'post_page' post_id=post.id %}"><h4 id="base_post_title">{{ post.title|capfirst }}</h4></a>
 			<p>
 				{% for user_type_key in user_color_dict %}
 					{{ user_type_key }}:		
@@ -141,7 +141,7 @@
 					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
 					</div>			
 				{% if post.user_id == request.user %}
-					<div style="float:right; display:inline-block">
+					<div class="inline_right">
 					<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}?page={{ page }}">Edit</a>
 					<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}?page={{ page }}"
 					onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>

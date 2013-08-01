@@ -4,8 +4,7 @@ from accounts.views import CustomRegistrationView
 
 
 urlpatterns = patterns('django.contrib.auth.views',
-    url(r'^logout/$', 'logout',
-        {'next_page': '/'}),
+    url(r'^logout/$', 'logout'),
 
     # Password reset
     url(r'^password/reset/$',

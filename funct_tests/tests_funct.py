@@ -159,9 +159,9 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('You have used up all of your posts', body)
 
-        # Jim now logs out
+        # Jim now logs out and is returns to the current page
         self.check_for_redirect_after_button_click("logout_nav",
-                                                   self.live_server_url + '/$')
+                                                   self.live_server_url + '/pages/problems/$')
     
     def test_edit_and_deletion_of_posts(self):
         # Jim logs in then goes to the ideas page
@@ -319,7 +319,7 @@ class NewVisitorTests(LiveServerTestCase):
                                                    '/accounts/password/change/done/$')
         # Jim logs out to test his new password
         self.check_for_redirect_after_button_click("logout_nav",
-                                                   self.live_server_url + '/$')
+                                                   self.live_server_url + '/accounts/login/')
 
         # Jim tries to login with his old password and fails
         self.browser.get(self.live_server_url+'/accounts/login/')

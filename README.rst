@@ -1,6 +1,11 @@
 TODO:
 =============
+#) Abstract Voteable model, clean up vote views (passing object as param, putting if
+'c' or 'p' in up_vote and down_vote). Use tables for user_page?
+#) Remove accounts/logout link
+#) Check pass length on password reset form
 #) Test comment voting logic
+#) Change views so only one chart is redrawn upon voting & no page reload
 #) Add sort-by feature for comments
 #) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
 #) Change the name outsider to ????

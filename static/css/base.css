@@ -1,4 +1,96 @@
 /* For some reason, some elements have 0 margin and are right up against the edge of the page */
+/* Templates used on: A LOT */
 .move_right {
 	margin-left:10px;
+}
+
+/* Templates used on: base_post, post_page */
+.green_checkmark {
+	height:10px; 
+	width:10px; 
+	align:left
+}
+
+.inline_right {
+	float:right; 
+	display:inline-block;
+}
+
+.item_display_div {
+	display:inline-block; 
+	width:640px;
+}
+
+.vote_display_div {
+	display:inline-block; 
+	width:150px;
+}
+
+/* Templates used on: base_post */
+#base_post_title {
+	word-wrap:break-word; 
+	height:90px; // This moves the text up in the box
+}
+
+#id_show_form {
+	font-size:1.2em; 
+	font-style:italic;
+}
+
+/* Templates used on: post_page (Credit to Max Burstein for most of these) */
+.comment_box a {
+	font-size: 12px;
+	font-weight: bold;
+	color: #ff982c;
+	text-decoration: none;
+}
+
+#commenters {
+	padding-left: 0px;
+}
+        
+#commenters li {
+	list-style-type: none;
+}
+
+#postcomment ul {
+	padding-left: 0px;
+}
+
+#postcomment ul li {
+	list-style-type: none;
+	padding-bottom: 5px;
+}
+
+#postcomment label {
+	width: 74px;
+	display: inline-block;
+}
+
+.comment_box {
+	font-size: 14px;
+	background: #0E0E0E;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	color: #FFFFFF;
+	padding: 10px;
+	margin-bottom: 10px;
+	width:800px;
+}
+
+/* Templates used on: user_page */
+.item_ratings {
+	width:200px;
+	float:left; 
+}
+
+.item_titles {
+	width:500px; 
+	display:inline-block;
+}
+		
+.overall_rating_label {
+	width:200px; 
+	display:inline-block;
 }
