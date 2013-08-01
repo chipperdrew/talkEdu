@@ -2,8 +2,6 @@ TODO:
 =============
 #) Abstract Voteable model, clean up vote views (passing object as param, putting if
 'c' or 'p' in up_vote and down_vote). Use tables for user_page?
-#) Test password change form -- passwords don't match, too short, blank fields, etc.
-#) Test comment voting logic
 #) Change views so only one chart is redrawn upon voting & no page reload
 #) Add sort-by feature for comments
 #) TO-FIX Django-axes is locking out "None" user which is locking out EVERYONE!
@@ -48,6 +46,7 @@ TODO:
 #) DONE - Style post_page, add vote chart, up, down, etc
 #) DON'T WANT 3 INSTANCE DICT IN CLASS - In post models, consider making up_votes and total_votes a dict, sorted by user_type? Then remove view logic
 #) DONE - Hide nested comments. Display if id in array path and length=??.
+#) DONE - Add comment voting logic
 
 
 

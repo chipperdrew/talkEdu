@@ -294,7 +294,28 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Change your password', body)
         self.check_for_redirect_after_link_click('Change your password',
                                                  '/accounts/password/change/$')
-        # Jim enters in his old password incorrectly & enters 2 diff passwords
+
+        # Jim presses enter w/o filling out the form
+        self.check_for_redirect_after_button_click('pass_change_submit',
+                                                   '/accounts/password/change/$')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Please enter your old password', body)
+        self.assertIn('Please enter a new password', body)
+
+        # 1: Jim enters too short of a password
+        old_pass = self.browser.find_element_by_id('id_old_password')
+        new_pass1 = self.browser.find_element_by_id('id_new_password1')
+        new_pass2 = self.browser.find_element_by_id('id_new_password2')
+        old_pass.send_keys('test')
+        new_pass1.send_keys('q')
+        new_pass2.send_keys('q')
+        self.check_for_redirect_after_button_click('pass_change_submit',
+                                                   '/accounts/password/change/$')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Password must have at least', body)
+
+
+        # 2: Jim enters his old password incorrectly & enters 2 diff passwords
         old_pass = self.browser.find_element_by_id('id_old_password')
         new_pass1 = self.browser.find_element_by_id('id_new_password1')
         new_pass2 = self.browser.find_element_by_id('id_new_password2')
@@ -306,9 +327,8 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('old password was entered incorrectly', body)
         self.assertIn('two password fields didn\'t match', body)
-
         
-        # Jim correctly fills out the form
+        # 3: Jim correctly fills out the form
         old_pass = self.browser.find_element_by_id('id_old_password')
         new_pass1 = self.browser.find_element_by_id('id_new_password1')
         new_pass2 = self.browser.find_element_by_id('id_new_password2')
@@ -550,6 +570,52 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Overall: 0', body)
         self.assertIn('Total Votes: 0', body)
     
+    def test_comment_voting(self):
+        test_user = get_user_model().objects.get(username='Test')
+        p1 = post.objects.create(title='T1', page_type=post.IDEAS, user_id=test_user)
+
+        # Jim creates a comment and sees the voting options
+        self.browser.get(self.live_server_url+'/pages/ideas/')
+        self.browser.find_element_by_link_text('Login').click()
+        self.login_user('Test', 'test')
+        self.browser.find_element_by_link_text('T1').click()
+        self.browser.find_element_by_id('id_content').send_keys('Comment 1')
+        self.browser.find_element_by_name('comment_button').click()
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertIn('Up', comment_display)
+        self.assertIn('Overall: 0.0', comment_display)
+        self.assertIn('Total Votes: 0', comment_display)
+
+        # Jim logs out and does not see the option to vote
+        self.browser.find_element_by_link_text('Logout').click()
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertNotIn('Up', comment_display)
+        self.assertIn('Overall: 0.0', comment_display)
+        self.assertIn('Total Votes: 0', comment_display)
+
+        # Jim logs back in, votes "Up", & sees the proper content
+        self.browser.find_element_by_link_text('Login').click()
+        self.login_user('Test', 'test')
+        up_votes = self.browser.find_elements_by_link_text('Up')
+        up_votes[1].click() #[0] - post vote, [1] - comment vote
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertIn('Overall: 1.0', comment_display)
+        self.assertIn('Total Votes: 1', comment_display)
+
+        # Jim tries to vote again -- nothing changes
+        up_votes = self.browser.find_elements_by_link_text('Up')
+        up_votes[1].click()
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertIn('Overall: 1.0', comment_display)
+        self.assertIn('Total Votes: 1', comment_display)
+
+        # Jim votes down and the proper content changes
+        down_votes = self.browser.find_elements_by_link_text('Down')
+        down_votes[1].click()
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertIn('Overall: 0.0', comment_display)
+        self.assertIn('Total Votes: 1', comment_display)
+    
     def test_user_voting_numbers_are_stored_properly(self):
         test_user = get_user_model().objects.get(username='Test')
         post.objects.create(title='T1', page_type=post.PROBLEMS, user_id=test_user)
@@ -582,7 +648,7 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall user rating: 0.333', body)
     
-    def test_voting_without_login_and_login_page(self):
+    def test_login_page(self):
         test_user = get_user_model().objects.get(username='Test')
         post.objects.create(
             title='T1', page_type=post.SITE_FEEDBACK, user_id=test_user
