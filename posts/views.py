@@ -78,11 +78,12 @@ def display_page_helper(request, page, sort_id=1):
         
     # Filling vote values
     vote_dict = {}
+    all_post_votes = vote.objects.filter(post_id__in=posts)
     # Grabs the current post and switches to its inner dictionary
     for current_post in posts:
         vote_dict[current_post] = {}
         user_dict = vote_dict[current_post]
-        post_votes = vote.objects.filter(post_id=current_post)
+        post_votes = all_post_votes.filter(post_id=current_post)
         item_votes_by_user_type_helper(user_dict, post_votes)
 
     # Display number of posts left for the day
@@ -144,11 +145,12 @@ def post_page(request, post_id):
 
     # Filling vote dictionary
     vote_dict = {}
+    all_comment_votes = vote.objects.filter(comment_id__in=post_comments)
     # Grabs the current post and switches to its inner dictionary
     for current_comment in post_comments:
         vote_dict[current_comment] = {}
         user_dict = vote_dict[current_comment]
-        comment_votes = vote.objects.filter(comment_id=current_comment)
+        comment_votes = all_comment_votes.filter(comment_id=current_comment)
         item_votes_by_user_type_helper(user_dict, comment_votes)
     return render(request, 'post_page.html',
                   {'post': post_of_interest,

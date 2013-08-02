@@ -1,9 +1,11 @@
 TODO:
 =============
+#) Add Learn More page
 #) Fix where the reply comment box appears
-#) Change views so only one chart is redrawn upon voting & no page reload
 #) Do something to prevent comment spam
+#) Emails cannot be reused
 #) Change the name outsider to ????
+#) Change views so only one chart is redrawn upon voting & no page reload
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page?? Introduce to site?
 #) TIME PERMITTING - Upgrade Bootstrap?
