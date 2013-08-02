@@ -24,7 +24,6 @@ class TimeStampedVoteableModel(models.Model):
     # Purpose - to see the number of spam counts in admin and reset if necessary
     spam_count = models.SmallIntegerField(default=0)
 
-
     def update_votes(self, up_vote_to_add, total_vote_to_add):
         from votes.models import vote #Must import here b/c cross-relationship
         self.up_votes += up_vote_to_add

@@ -51,7 +51,7 @@ def display_page_helper(request, page, sort_id=1):
     else:
         form = postForm
 
-    posts_all = post.objects.all().filter(page_type=page_type)
+    posts_all = post.objects.filter(page_type=page_type)
     # Sort logic - Default is Most Recent
     sort_categs = ['Most Recent', 'Highest Rated', 'Most Votes']
     sort_id = int(sort_id) #Keep as int
@@ -82,12 +82,12 @@ def display_page_helper(request, page, sort_id=1):
     for current_post in posts:
         vote_dict[current_post] = {}
         user_dict = vote_dict[current_post]
-        post_votes = vote.objects.all().filter(post_id=current_post)
+        post_votes = vote.objects.filter(post_id=current_post)
         item_votes_by_user_type_helper(user_dict, post_votes)
 
     # Display number of posts left for the day
     if request.user.is_authenticated():
-        posts_in_last_24_hours = post.objects.all().filter(
+        posts_in_last_24_hours = post.objects.filter(
             time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
             user_id=request.user
         )
@@ -109,7 +109,7 @@ def user_page(request, user):
     """
     user_of_interest = get_object_or_404(get_user_model(), username=user)
     user_posts = user_of_interest.posts.all()[:10]
-    user_comments = user_of_interest.comments.all().order_by('-time_created')[:10]
+    user_comments = user_of_interest.comments.order_by('-time_created')[:10]
     return render(request, 'user_page.html',
                   {'user_object': user_of_interest,
                    'user_posts': user_posts, 'user_comments': user_comments})
@@ -120,7 +120,7 @@ def post_page(request, post_id):
     """
     # Filling vote values for post
     post_of_interest = get_object_or_404(post, id=post_id)
-    post_votes = vote.objects.all().filter(post_id=post_of_interest)
+    post_votes = vote.objects.filter(post_id=post_of_interest)
     post_only_dict = {}
     item_votes_by_user_type_helper(post_only_dict, post_votes)
 
@@ -137,10 +137,10 @@ def post_page(request, post_id):
         post_comments = request.session.get('post_comments_to_show')
         del request.session['post_comments_to_show']
     elif 'all' in request.path:
-        post_comments = comment.objects.all().filter(post_id=post_id)
+        post_comments = comment.objects.filter(post_id=post_id)
     else:
-        post_comments = comment.objects.all().filter(post_id=post_id, depth=0)
-    num_comments = len(comment.objects.all().filter(post_id=post_id))
+        post_comments = comment.objects.filter(post_id=post_id, depth=0)
+    num_comments = len(comment.objects.filter(post_id=post_id))
 
     # Filling vote dictionary
     vote_dict = {}
@@ -148,7 +148,7 @@ def post_page(request, post_id):
     for current_comment in post_comments:
         vote_dict[current_comment] = {}
         user_dict = vote_dict[current_comment]
-        comment_votes = vote.objects.all().filter(comment_id=current_comment)
+        comment_votes = vote.objects.filter(comment_id=current_comment)
         item_votes_by_user_type_helper(user_dict, comment_votes)
     return render(request, 'post_page.html',
                   {'post': post_of_interest,
@@ -177,7 +177,7 @@ def edit(request, id=None, page_abbrev=None):
     else:
         post_of_interest = post(user_id = request.user, page_type = page_abbrev)
         # Limit number of posts per 24 hours
-        posts_in_last_24_hours = post.objects.all().filter(
+        posts_in_last_24_hours = post.objects.filter(
             time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
             user_id=request.user
         )
@@ -242,9 +242,5 @@ def item_votes_by_user_type_helper(user_dict, item_votes):
         if len(all_votes)==0:
             user_dict[user_type[0]] = 0
         else:
-            user_dict[user_type[0]] = round(
-                float(len(up_votes))/len(all_votes), 3
-            )
-
-
+            user_dict[user_type[0]] = round(float(len(up_votes))/len(all_votes), 3)
     

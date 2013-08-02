@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'haystack', # Search
     'honeypot', # Prevent spam
     'axes', # Limit login attempts
+    'debug_toolbar', # For debugging/speed checks
     'posts',
     'accounts',
     'votes',
@@ -78,8 +79,12 @@ HAYSTACK_CONNECTIONS = {
 # Honeypot name
 HONEYPOT_FIELD_NAME = 'website'
 
-# Requires for django.contrib.sites
+# Required for django.contrib.sites
 SITE_ID = 1
+
+# Required for debug-toolbar 
+INTERNAL_IPS = ('127.0.0.1',)
+DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False}
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
@@ -91,6 +96,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'axes.middleware.FailedLoginMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 AXES_LOGIN_FAILURE_LIMIT = 5 # Num of login attempts until account is locked up

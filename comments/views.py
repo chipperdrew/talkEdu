@@ -85,9 +85,9 @@ def comment_mark_as_spam(request, id):
 
 
 def show_replies(request, comment_id):
-    comment_of_interest = comment.objects.all().get(id=comment_id)
+    comment_of_interest = comment.objects.get(id=comment_id)
     depth = comment_of_interest.depth
-    post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id)
+    post_comments = comment.objects.filter(post_id=comment_of_interest.post_id)
     comments_array = []
     for com in post_comments:
         if com.depth <= depth:
@@ -100,7 +100,7 @@ def show_replies(request, comment_id):
 # Helper Functions
 def delete_comment_path_helper(comment_of_interest):
     # Need to remove children of post (sounds evil)
-    post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id)
+    post_comments = comment.objects.filter(post_id=comment_of_interest.post_id)
     for com in post_comments:
         if comment_of_interest.id in com.path:
             com.delete()
@@ -108,7 +108,7 @@ def delete_comment_path_helper(comment_of_interest):
     if comment_of_interest.depth != 0:
         comment_path = comment_of_interest.path
         del comment_path[-1]
-        parent = comment.objects.all().get(path=comment_path)
+        parent = comment.objects.get(path=comment_path)
         parent.children -= 1
         parent.save()
     # And remove initial comment

@@ -205,6 +205,7 @@ Thanks to the following
 * Packages Used (Django related and others):
 	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/
 	* Django-axes (limit login attempts) - https://pypi.python.org/pypi/django-axes/1.3.3
+	* Django-debug-toolbar (for optimatization)
 	* Django-disqus (for easy Disqus use) - http://django-disqus.readthedocs.org/en/latest/
 	* Django-haystack (for search functionality) - http://haystacksearch.org/
 	* Django-model-utils (to use Choices) - https://pypi.python.org/pypi/django-model-utils
