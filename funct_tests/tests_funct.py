@@ -413,7 +413,7 @@ class NewVisitorTests(LiveServerTestCase):
         # ATTEMPT 0.5: Jim creates too short of a password:
         # KEY: 0 is hidden in form, 1-4 are inputs
         inputs[1].send_keys('Jim')
-        inputs[2].send_keys('chipperdrew@gmail.com')
+        inputs[2].send_keys('jim@gmail.com')
         inputs[3].send_keys('Pass')
         inputs[4].send_keys('Pass')
         self.check_for_redirect_after_button_click(
@@ -444,14 +444,14 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertEqual(get_user_model().objects.all().count(), 2)
         jim = get_user_model().objects.all().get(username='Jim')
         self.assertEqual(jim.username, 'Jim')
-        self.assertEqual(jim.email, 'chipperdrew@gmail.com')
+        self.assertEqual(jim.email, 'jim@gmail.com')
         self.assertEqual(jim.get_user_type_display(), 'Teacher')
 
         # ATTEMPT 3: Jim (incorrectly) tries to create another 'Jim' account
         self.browser.get(self.live_server_url + '/accounts/register/')
         inputs = self.browser.find_elements_by_tag_name('input')
         inputs[1].send_keys('Jim')
-        inputs[2].send_keys('chipperdrew@gmail.com')
+        inputs[2].send_keys('jim@gmail.com')
         inputs[3].send_keys('P')
         inputs[4].send_keys('P')
         self.check_for_redirect_after_button_click(
@@ -459,6 +459,8 @@ class NewVisitorTests(LiveServerTestCase):
             self.live_server_url +'/accounts/register/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('A user with that username already exists', body)
+        self.assertIn('This email address is already in use.', body)
+
     
     def test_pagination(self):
         # Jim visit a POST page and see 'Page 1 of 1'

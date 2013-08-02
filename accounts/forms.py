@@ -3,7 +3,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
-from registration.forms import RegistrationForm
+from registration.forms import RegistrationFormUniqueEmail
 
 MIN_PASSWORD_LENGTH = 8
 
@@ -16,7 +16,7 @@ class eduuserForm(ModelForm):
         fields = ('user_type',)
 
 
-class MinPassLengthRegistrationForm(RegistrationForm):
+class MinPassLengthRegistrationForm(RegistrationFormUniqueEmail):
     """
     Overrides form in django-registration, but checks for minimum password
     length and shows custom error messages

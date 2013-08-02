@@ -1,9 +1,7 @@
 TODO:
 =============
 #) Add Learn More page
-#) Fix where the reply comment box appears
 #) Do something to prevent comment spam
-#) Emails cannot be reused
 #) Change the name outsider to ????
 #) Change views so only one chart is redrawn upon voting & no page reload
 #) TEDDY - Add logo/picture at top of tab
@@ -11,6 +9,7 @@ TODO:
 #) TIME PERMITTING - Upgrade Bootstrap?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
+#) TIME PERMITTING - Adjust JS so on reply click, form is toggled on/off
 #) IN PRODUCTION - Make sure Django-axes is IP specific
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin

@@ -57,8 +57,6 @@
 	</div>
 
 
-
-
 	{# Comments -- Credit to Max Burstein on logic and design #}
 	<br/><br/>
 	<h3>Comments({{num_comments}})</h3>
@@ -69,7 +67,7 @@
 				var form = $("#id_comment_form").clone(true); //Clone comment form
 				form.find('.parent').val($(this).parent().parent().parent().attr('id')); 
 				//$(this).parent().parent().parent().attr('id') is the id of the post
-				$(this).parent().append(form);
+				$(this).parent().parent().parent().append(form);
 			});
 		});
 	</script>
@@ -91,7 +89,7 @@
 			{% csrf_token %}
 			{% render_honeypot_field %}
 			<div class="fieldWrapper">
-				{{ comment_form.content }}
+				<textarea id="id_content" name="content" style="width:500px; height:100px"></textarea>
 				{{ comment_form.parent }}			
 			</div>
 			<button class="btn btn-success" name="comment_button" type="submit">Comment</button>	
