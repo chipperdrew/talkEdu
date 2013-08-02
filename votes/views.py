@@ -72,10 +72,8 @@ def check_type_helper(request, id, item_type):
     return item_of_interest, vote_of_interest, bool_created
 
 def update_stats_helper(item_type, item_of_interest, up_vote_to_add, total_vote_to_add):
+    item_of_interest.update_votes(up_vote_to_add, total_vote_to_add)
+    # No need to keep track of user comment vote percentage
     if item_type=='p':
-        item_of_interest.update_votes(up_vote_to_add, total_vote_to_add)
         post_user = item_of_interest.user_id
         post_user.update_votes(up_vote_to_add, total_vote_to_add)
-    else:
-        item_of_interest.update_votes(up_vote_to_add, total_vote_to_add)
-        # No need to keep track of user comment vote percentage

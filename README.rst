@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Clean up vote views (passing object as param, putting if 'c' or 'p' in up_vote and down_vote).
 #) Fix where the reply comment box appears
 #) Change views so only one chart is redrawn upon voting & no page reload
 #) Do something to prevent comment spam

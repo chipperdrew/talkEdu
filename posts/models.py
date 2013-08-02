@@ -11,6 +11,7 @@ class TimeStampedVoteableModel(models.Model):
     # Abstract base class
     class Meta:
         abstract = True
+        ordering = ['-time_created']
         
     time_created = models.DateTimeField(auto_now_add=True,
                                         default=datetime.datetime.now())
@@ -54,9 +55,6 @@ class post(TimeStampedVoteableModel):
     )
     
     page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
-    
-    class Meta:
-        ordering = ['-time_created']
 
     def check_spam_count(self):
         # Not set to self.spam.count() in case there is a need to reset spam_count

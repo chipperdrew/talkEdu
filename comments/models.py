@@ -8,6 +8,10 @@ from posts.models import TimeStampedVoteableModel, post
 COMMENT_SPAM_LIMIT = 2
 
 class comment(TimeStampedVoteableModel):
+
+    class Meta:
+        ordering = ['path']
+        
     content = models.TextField()
     path = IntegerArrayField(blank=True, editable=False)
     depth = models.PositiveSmallIntegerField(default=0)
@@ -27,4 +31,3 @@ class comment(TimeStampedVoteableModel):
             return True
         else:
             return False
-

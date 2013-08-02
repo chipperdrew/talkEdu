@@ -87,7 +87,7 @@ def comment_mark_as_spam(request, id):
 def show_replies(request, comment_id):
     comment_of_interest = comment.objects.all().get(id=comment_id)
     depth = comment_of_interest.depth
-    post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id).order_by('path')
+    post_comments = comment.objects.all().filter(post_id=comment_of_interest.post_id)
     comments_array = []
     for com in post_comments:
         if com.depth <= depth:

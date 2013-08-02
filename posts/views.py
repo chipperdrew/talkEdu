@@ -52,16 +52,12 @@ def display_page_helper(request, page, sort_id=1):
         form = postForm
 
     posts_all = post.objects.all().filter(page_type=page_type)
-    # Sort logic
+    # Sort logic - Default is Most Recent
     sort_categs = ['Most Recent', 'Highest Rated', 'Most Votes']
-    if sort_id=='1':
-        sort_id = 1 #Keep as int
-        posts_all = posts_all.order_by('-time_created')
-    elif sort_id=='2':
-        sort_id = 2
+    sort_id = int(sort_id) #Keep as int
+    if sort_id==2:
         posts_all = posts_all.order_by('-vote_percentage')
-    elif sort_id=='3':
-        sort_id = 3
+    elif sort_id==3:
         posts_all = posts_all.order_by('-total_votes')
     else:
         pass
@@ -112,7 +108,7 @@ def user_page(request, user):
     Displays a page with info about a certain user
     """
     user_of_interest = get_object_or_404(get_user_model(), username=user)
-    user_posts = user_of_interest.posts.all().order_by('-time_created')[:10]
+    user_posts = user_of_interest.posts.all()[:10]
     user_comments = user_of_interest.comments.all().order_by('-time_created')[:10]
     return render(request, 'user_page.html',
                   {'user_object': user_of_interest,
@@ -136,14 +132,14 @@ def post_page(request, post_id):
     else:
         comment_form = commentForm
         
-    # Determine which comments to show
+    # Determine which comments to show -- given by "show_replies" comment view
     if request.session.get('post_comments_to_show'):
         post_comments = request.session.get('post_comments_to_show')
         del request.session['post_comments_to_show']
     elif 'all' in request.path:
-        post_comments = comment.objects.all().filter(post_id=post_id).order_by('path')
+        post_comments = comment.objects.all().filter(post_id=post_id)
     else:
-        post_comments = comment.objects.all().filter(post_id=post_id, depth=0).order_by('path')
+        post_comments = comment.objects.all().filter(post_id=post_id, depth=0)
     num_comments = len(comment.objects.all().filter(post_id=post_id))
 
     # Filling vote dictionary
