@@ -96,6 +96,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'axes.middleware.FailedLoginMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'accounts.middleware.ActiveUserMiddleware',
 )
 
 AXES_LOGIN_FAILURE_LIMIT = 5 # Num of login attempts until account is locked up

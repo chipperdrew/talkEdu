@@ -1,6 +1,6 @@
 TODO:
 =============
-#) For akismet -- Save (but don't display) the comment. Add akismet for posts
+#) Save Akismet posts/comments for review? ONLY IF MULTIPLE COMPLAINTS
 #) Add Learn More page
 #) Do something to prevent comment spam
 #) Change the name outsider to ????

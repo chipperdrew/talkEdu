@@ -14,6 +14,7 @@ from .models import post
 from votes.models import vote, spam
 from comments.forms import commentForm
 from comments.models import comment
+from comments.views import spam_check
 
 POSTS_ALLOWED_PER_DAY = 5
 
@@ -188,6 +189,11 @@ def edit(request, id=None, page_abbrev=None):
 
     if request.POST:
         form = postForm(request.POST, instance=post_of_interest)
+        # SPAM CHECK
+        content = form['title'].value() + form['text'].value()
+#        bool_spam = spam_check(content, post_of_interest, request)
+#        if bool_spam:
+#            return request.user.check_akismet(request)
         if form.is_valid():
             form.save()
         else:

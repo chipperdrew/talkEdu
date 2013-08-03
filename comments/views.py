@@ -28,10 +28,9 @@ def new_comment(request, post_id):
     form = commentForm(request.POST, instance=comment_of_interest)
     if request.method == "POST":
         # SPAM CHECK
-        bool_spam = spam_check(form['content'].value(), comment_of_interest, request)
-        if bool_spam:
-            return redirect(request.GET['next'])
-            
+#        bool_spam = spam_check(form['content'].value(), comment_of_interest, request)
+#        if bool_spam:
+#            return request.user.check_akismet(request)
         if form.is_valid():
             temp = form.save(commit=False)
             parent = form['parent'].value()
@@ -122,7 +121,7 @@ def delete_comment_path_helper(comment_of_interest):
     # And remove initial comment
     comment_of_interest.delete()
 
-def spam_check(content, comment_of_interest, request):
+def spam_check(content, item_of_interest, request):
     """
     Uses AKISMET to check if comment is spam
     """
@@ -137,7 +136,7 @@ def spam_check(content, comment_of_interest, request):
                 request.META['HTTP_USER_AGENT'],
                 request.META.get('HTTP_REFERER', ''),
                 comment_content=content,
-                comment_auther_email=comment_of_interest.user_id.email)
+                comment_auther_email=item_of_interest.user_id.email)
             if is_spam:
                 return True
             else:

@@ -1,7 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.http import HttpResponse
 from model_utils import Choices
 
+MAX_AKISMET = 3
 
 class eduuser(AbstractUser):
     STUDENT = 'STU'
@@ -26,6 +28,7 @@ class eduuser(AbstractUser):
     total_votes = models.SmallIntegerField(default=0)
     # AC: 7/14/13 Consider setting min/max on float field
     vote_percentage = models.FloatField(default=0)
+    akismet_hits = models.SmallIntegerField(default=0)
 
     def update_votes(self, up_vote_to_add, total_vote_to_add):
         from votes.models import vote #Must import here b/c cross-relationship
@@ -34,3 +37,13 @@ class eduuser(AbstractUser):
         if self.total_votes != 0:
             self.vote_percentage = round(float(self.up_votes)/self.total_votes, 3)
             self.save()
+
+    def check_akismet(self, request):
+        self.akismet_hits += 1
+        if self.akismet_hits >= MAX_AKISMET:
+            self.is_active = False #Cannot login AND middleware forces logout
+            self.save()
+            return HttpResponse("For the %ird time, your post/comment has been deemed as spam. You have been banned. :(" % MAX_AKISMET)
+        else:
+            self.save()
+            return HttpResponse("Your post/comment has been deemed spam. Consider this your warning.")
