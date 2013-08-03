@@ -1,10 +1,13 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from honeypot.decorators import check_honeypot
 from itertools import ifilter
+import akismet
+import os
 
 from .forms import commentForm
 from .models import comment
@@ -24,6 +27,11 @@ def new_comment(request, post_id):
                                   post_id = post.objects.get(id=post_id))
     form = commentForm(request.POST, instance=comment_of_interest)
     if request.method == "POST":
+        # SPAM CHECK
+        bool_spam = spam_check(form['content'].value(), comment_of_interest, request)
+        if bool_spam:
+            return redirect(request.GET['next'])
+            
         if form.is_valid():
             temp = form.save(commit=False)
             parent = form['parent'].value()
@@ -48,7 +56,7 @@ def new_comment(request, post_id):
         else:
             # Comment errors -- store in session for post_page view
             request.session['bad_comment_form'] = request.POST
-            
+    
     if 'next' in request.GET:
         return redirect(request.GET['next'])
     else:
@@ -113,3 +121,28 @@ def delete_comment_path_helper(comment_of_interest):
         parent.save()
     # And remove initial comment
     comment_of_interest.delete()
+
+def spam_check(content, comment_of_interest, request):
+    """
+    Uses AKISMET to check if comment is spam
+    """
+    akismet.USERAGENT = "David Lynch's Python library/1.0"
+    my_api_key = settings.AKISMET_KEY
+
+    try:
+        real_key = akismet.verify_key(my_api_key,"http://www.YouTalkEdu.com")
+        if real_key:
+            is_spam = akismet.comment_check(
+                my_api_key,"http://www.YouTalkEdu.com",request.META['REMOTE_ADDR'],
+                request.META['HTTP_USER_AGENT'],
+                request.META.get('HTTP_REFERER', ''),
+                comment_content=content,
+                comment_auther_email=comment_of_interest.user_id.email)
+            if is_spam:
+                return True
+            else:
+                return False
+    except akismet.AkismetError, e:
+        print 'Something went wrong, allowing comment'
+        print e.response, e.statuscode
+        return False

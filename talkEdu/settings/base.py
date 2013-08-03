@@ -27,6 +27,8 @@ AUTHENTICATION_BACKENDS = ('accounts.backends.CaseInsensitiveModelBackend',)
 
 SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
 
+AKISMET_KEY = get_env_var("AKISMET_KEY")
+
 DEBUG = False
 
 TEMPLATE_DEBUG = False
@@ -63,9 +65,6 @@ INSTALLED_APPS = (
 
 SOUTH_TESTS_MIGRATE = False #South likes to throw errors on tests for some reason
 
-# Disqus values
-DISQUS_API_KEY = 'TZMxSP4vmfKsCmj7fqsUrRCaYuAI0iQ0PSfzwgU9gliPlrgKlugLvuPz1Ytohhfe'
-DISQUS_WEBSITE_SHORTNAME = 'YouTalkEdu'
 
 # Haystack
 HAYSTACK_CONNECTIONS = {
