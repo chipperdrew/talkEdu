@@ -30,6 +30,7 @@ def user_type_change(request):
 
 def user_type_change_done(request, id):
     user_of_interest = get_object_or_404(get_user_model(), id=id)
+    old_type = user_of_interest.user_type
     
     # Prevent uncalled for changes
     if request.user != user_of_interest:
@@ -37,6 +38,26 @@ def user_type_change_done(request, id):
     form = eduuserForm(request.POST, instance=user_of_interest)
     if form.is_valid():
         form.save()
+        
+        # Update ALL of the posts vote tallies to reflect change
+        new_type = form['user_type'].value()
+        votes = user_of_interest.votes.all()
+        for vote in votes:
+            if vote.post_id:
+                id = vote.post_id
+            else:
+                id = vote.comment_id
+            id.votes_by_user_type[old_type][1] -= 1
+            id.votes_by_user_type[new_type][1] += 1
+            if vote.vote_choice=='upvote':
+                id.votes_by_user_type[old_type][0] -= 1
+                id.votes_by_user_type[new_type][0] += 1
+                if id.votes_by_user_type[old_type][1] > 0:
+                    id.votes_by_user_type[old_type][2] = round(float(id.votes_by_user_type[old_type][0]) / id.votes_by_user_type[old_type][1], 3)
+                else:
+                    id.votes_by_user_type[old_type][2] = 0
+                id.votes_by_user_type[new_type][2] = round(float(id.votes_by_user_type[new_type][0]) / id.votes_by_user_type[new_type][1], 3)
+            id.save()
         return render(request, 'user_type_change_done.html')
     else:
         # I don't know how this is possible, but just in case...

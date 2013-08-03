@@ -6,6 +6,7 @@ from django.forms import ModelForm
 from registration.forms import RegistrationFormUniqueEmail
 
 MIN_PASSWORD_LENGTH = 8
+USER_TYPE_LABEL = "What best describes you?"
 
 class eduuserForm(ModelForm):
     """
@@ -14,6 +15,11 @@ class eduuserForm(ModelForm):
     class Meta:
         model = get_user_model()
         fields = ('user_type',)
+
+    def __init__(self, *args, **kwargs):
+        super(eduuserForm, self).__init__(*args, **kwargs)
+        self.fields['user_type'].label = USER_TYPE_LABEL
+        
 
 
 class MinPassLengthRegistrationForm(RegistrationFormUniqueEmail):
@@ -27,7 +33,9 @@ class MinPassLengthRegistrationForm(RegistrationFormUniqueEmail):
         self.fields['email'].error_messages = {'required': 'Please enter a valid email address'}
         self.fields['password1'].error_messages = {'required': 'Please enter a password'}
         self.fields['password2'].error_messages = {'required': 'Please verify your password'}
-    
+        self.fields['user_type'].label = USER_TYPE_LABEL
+
+
     def clean_password1(self):
         password = self.cleaned_data.get('password1', '')
         if len(password) < MIN_PASSWORD_LENGTH:

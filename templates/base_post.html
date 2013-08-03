@@ -107,7 +107,7 @@
 					drawPulseOutline(draw);
 					{% for user_type_key in user_color_dict %}
 						draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
-						drawPulse({{ vote_dict|key:post|key:user_type_key}}, separationDist*({{ forloop.counter }}-1), draw);
+						drawPulse({{ post.votes_by_user_type|key:user_type_key|key:2 }}, separationDist*({{ forloop.counter }}-1), draw);
 					{% endfor %}
 					drawMiddle({{ post.vote_percentage }}, draw);
 				});
@@ -130,7 +130,7 @@
 			<p>
 				{% for user_type_key in user_color_dict %}
 					{{ user_type_key }}:		
-					{{ vote_dict|key:post|key:user_type_key}},
+					{{ post.votes_by_user_type|key:user_type_key|key:2 }},
 				{% endfor %}
 			</p>
 			{% if user.is_authenticated %}		

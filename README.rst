@@ -1,6 +1,7 @@
 TODO:
 =============
-#) Save Akismet posts/comments for review? ONLY IF MULTIPLE COMPLAINTS
+#) Refactor logic for user_type votes in posts (check user_change view, votes views)
+#) Have 'redraw' bool on posts. If true or DNE, redraw chart and save -- A LOT OF PICS?
 #) Add Learn More page
 #) Do something to prevent comment spam
 #) Change the name outsider to ????
@@ -16,6 +17,7 @@ TODO:
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
 #) IN PRODUCTION - Add https protection
 #) IN PRODUCTION - Set up search updates?
+#) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -207,10 +209,10 @@ Thanks to the following
 * Packages Used (Django related and others):
 	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/
 	* Django-axes (limit login attempts) - https://pypi.python.org/pypi/django-axes/1.3.3
-	* Django-debug-toolbar (for optimatization)
-	* Django-disqus (for easy Disqus use) - http://django-disqus.readthedocs.org/en/latest/
+	* Django-debug-toolbar (for debugging/site optimatization) - https://github.com/django-debug-toolbar/django-debug-toolbar
 	* Django-haystack (for search functionality) - http://haystacksearch.org/
 	* Django-model-utils (to use Choices) - https://pypi.python.org/pypi/django-model-utils
+	* Django-picklefield (for dictionary model fields) - https://pypi.python.org/pypi/django-picklefield/
 	* Django-registration (for creating/verifying user accounts) - http://django-registration.readthedocs.org/en/v1.0/index.html
 	* Pyelasticsearch (adapter to use ElasticSearch) - http://pyelasticsearch.readthedocs.org/en/latest/
 	* Psycopg2 (needed to use PostgreSQL) - http://initd.org/psycopg/

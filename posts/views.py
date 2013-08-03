@@ -76,7 +76,7 @@ def display_page_helper(request, page, sort_id=1):
         # If page is out of range (e.g. 9999), deliver last page of results.
         posts = paginator.page(paginator.num_pages)
         
-        
+    """ 
     # Filling vote values
     vote_dict = {}
     all_post_votes = vote.objects.filter(post_id__in=posts)
@@ -86,7 +86,8 @@ def display_page_helper(request, page, sort_id=1):
         user_dict = vote_dict[current_post]
         post_votes = all_post_votes.filter(post_id=current_post)
         item_votes_by_user_type_helper(user_dict, post_votes)
-
+    """
+    
     # Display number of posts left for the day
     if request.user.is_authenticated():
         posts_in_last_24_hours = post.objects.filter(
@@ -98,7 +99,7 @@ def display_page_helper(request, page, sort_id=1):
         posts_left = None
     
     return render(request, 'base_post.html',
-                  {'posts': posts, 'form': form, 'vote_dict': vote_dict,
+                  {'posts': posts, 'form': form, #'vote_dict': vote_dict,
                    'page_title': page_title, 'page_abbrev': page_type,
                    'current_page': current_page,
                    'user_color_dict': get_user_model().COLORS,
@@ -122,9 +123,11 @@ def post_page(request, post_id):
     """
     # Filling vote values for post
     post_of_interest = get_object_or_404(post, id=post_id)
+    """
     post_votes = vote.objects.filter(post_id=post_of_interest)
     post_only_dict = {}
     item_votes_by_user_type_helper(post_only_dict, post_votes)
+    """
 
     # If given a bad comment form, show form and errors
     if request.session.get('bad_comment_form'):
@@ -145,6 +148,7 @@ def post_page(request, post_id):
     num_comments = len(comment.objects.filter(post_id=post_id))
 
     # Filling vote dictionary
+    """
     vote_dict = {}
     all_comment_votes = vote.objects.filter(comment_id__in=post_comments)
     # Grabs the current post and switches to its inner dictionary
@@ -153,10 +157,11 @@ def post_page(request, post_id):
         user_dict = vote_dict[current_comment]
         comment_votes = all_comment_votes.filter(comment_id=current_comment)
         item_votes_by_user_type_helper(user_dict, comment_votes)
+    """
     return render(request, 'post_page.html',
                   {'post': post_of_interest,
                    'user_color_dict': get_user_model().COLORS,
-                   'post_only_dict': post_only_dict, 'vote_dict': vote_dict,
+                   #'post_only_dict': post_only_dict, 'vote_dict': vote_dict,
                    'comment_form': comment_form,
                    'comment_tree': post_comments,
                    'num_comments': num_comments

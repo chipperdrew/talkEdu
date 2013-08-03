@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from model_utils import Choices
+from picklefield.fields import PickledObjectField
 import datetime
 
 POST_SPAM_LIMIT = 2
@@ -19,7 +20,13 @@ class TimeStampedVoteableModel(models.Model):
                                          default=datetime.datetime.now())
     up_votes = models.SmallIntegerField(default=0)
     total_votes = models.SmallIntegerField(default=0)
-    vote_percentage = models.FloatField(default=0) ##Set min/max?
+    vote_percentage = models.FloatField(default=0) ##Set min/max
+
+    votes_by_user_type = PickledObjectField(default={'STU': [0,0,0],
+                                                     'TEA': [0,0,0],
+                                                     'ADM': [0,0,0],
+                                                     'PAR': [0,0,0],
+                                                     'OUT': [0,0,0]})
 
     # Purpose - to see the number of spam counts in admin and reset if necessary
     spam_count = models.SmallIntegerField(default=0)

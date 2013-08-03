@@ -50,7 +50,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'registration', # Easy registration
-    'disqus', # Commenting -- UNNECESSARY?!?
     'south', # Database migration
     'haystack', # Search
     'honeypot', # Prevent spam

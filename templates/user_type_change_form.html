@@ -6,17 +6,11 @@
 	<div class="move_right">
 	<form method="POST" action="{% url 'user_type_change_done' id=request.user.id %}">
 		{% csrf_token %}
-		<br/>
-		<table>
-			<tr>
-				<td><label for="id_user_type">User type:</label></td>
-				<td>&nbsp;{{ form.user_type }}</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><button class="btn btn-primary" name="user_type_change_button" type="submit">Change</button></td>	
-			</tr>
-		</table>
+		<div class="fieldWrapper">
+			{{ form.user_type.label_tag }}
+			{{ form.user_type }}
+		</div>
+		<button class="btn btn-primary" name="user_type_change_button" type="submit">Change</button></td>	
 	</form>
 	</div>
 {% endblock content %}

@@ -26,7 +26,8 @@ def up_vote(request, id, item_type):
             total_vote_to_add = 0
             vote_of_interest.vote_choice = vote.VOTE_CHOICES.upvote
             vote_of_interest.save()
-    update_stats_helper(item_type, item_of_interest, up_vote_to_add, total_vote_to_add)
+    update_stats_helper(item_type, item_of_interest, up_vote_to_add,
+                        total_vote_to_add, request.user.user_type)
     return redirect(request.GET['next'])
 
 @login_required
@@ -48,7 +49,8 @@ def down_vote(request, id, item_type):
             total_vote_to_add = 0
     vote_of_interest.vote_choice = vote.VOTE_CHOICES.downvote
     vote_of_interest.save()
-    update_stats_helper(item_type, item_of_interest, up_vote_to_add, total_vote_to_add)
+    update_stats_helper(item_type, item_of_interest, up_vote_to_add,
+                        total_vote_to_add, request.user.user_type)
     return redirect(request.GET['next'])
 
 def check_type_helper(request, id, item_type):
@@ -71,9 +73,19 @@ def check_type_helper(request, id, item_type):
         return Http404()
     return item_of_interest, vote_of_interest, bool_created
 
-def update_stats_helper(item_type, item_of_interest, up_vote_to_add, total_vote_to_add):
+def update_stats_helper(item_type, item_of_interest, up_vote_to_add,
+                        total_vote_to_add, user_type):
+    # Update the post/comment overall count
     item_of_interest.update_votes(up_vote_to_add, total_vote_to_add)
-    # No need to keep track of user comment vote percentage
+    # If post, update the user overall count
     if item_type=='p':
         post_user = item_of_interest.user_id
         post_user.update_votes(up_vote_to_add, total_vote_to_add)
+
+    # Update the specific user_type vote dict in post/comment
+    item_of_interest.votes_by_user_type[user_type][0] += up_vote_to_add
+    item_of_interest.votes_by_user_type[user_type][1] += total_vote_to_add
+    if item_of_interest.votes_by_user_type[user_type][1] > 0:
+        item_of_interest.votes_by_user_type[user_type][2] = round(float(
+            item_of_interest.votes_by_user_type[user_type][0])/item_of_interest.votes_by_user_type[user_type][1], 3)
+    item_of_interest.save()
