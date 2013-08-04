@@ -5,6 +5,8 @@ from model_utils import Choices
 from picklefield.fields import PickledObjectField
 import datetime
 
+from accounts.models import eduuser
+
 POST_SPAM_LIMIT = 2
 
 # Adapted from '2 Scoops of Django' book
@@ -22,11 +24,13 @@ class TimeStampedVoteableModel(models.Model):
     total_votes = models.SmallIntegerField(default=0)
     vote_percentage = models.FloatField(default=0) ##Set min/max
 
-    votes_by_user_type = PickledObjectField(default={'STU': [0,0,0],
-                                                     'TEA': [0,0,0],
-                                                     'ADM': [0,0,0],
-                                                     'PAR': [0,0,0],
-                                                     'OUT': [0,0,0]})
+    votes_by_user_type = PickledObjectField(
+        default={eduuser.STUDENT: [0,0,0],
+                 eduuser.TEACHER: [0,0,0],
+                 eduuser.ADMINISTRATOR: [0,0,0],
+                 eduuser.PARENT: [0,0,0],
+                 eduuser.OUTSIDER: [0,0,0]
+                })
 
     # Purpose - to see the number of spam counts in admin and reset if necessary
     spam_count = models.SmallIntegerField(default=0)

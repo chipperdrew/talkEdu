@@ -75,18 +75,6 @@ def display_page_helper(request, page, sort_id=1):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         posts = paginator.page(paginator.num_pages)
-        
-    """ 
-    # Filling vote values
-    vote_dict = {}
-    all_post_votes = vote.objects.filter(post_id__in=posts)
-    # Grabs the current post and switches to its inner dictionary
-    for current_post in posts:
-        vote_dict[current_post] = {}
-        user_dict = vote_dict[current_post]
-        post_votes = all_post_votes.filter(post_id=current_post)
-        item_votes_by_user_type_helper(user_dict, post_votes)
-    """
     
     # Display number of posts left for the day
     if request.user.is_authenticated():
@@ -99,12 +87,12 @@ def display_page_helper(request, page, sort_id=1):
         posts_left = None
     
     return render(request, 'base_post.html',
-                  {'posts': posts, 'form': form, #'vote_dict': vote_dict,
+                  {'posts': posts, 'form': form, 'posts_left': posts_left,
                    'page_title': page_title, 'page_abbrev': page_type,
-                   'current_page': current_page,
+                   'current_page': current_page, 'page': page,
                    'user_color_dict': get_user_model().COLORS,
-                   'sort_categs': sort_categs, 'sort_id':sort_id,
-                   'posts_left': posts_left, 'page': page})
+                   'sort_categs': sort_categs, 'sort_id':sort_id
+                   })
 
 def user_page(request, user):
     """
@@ -119,16 +107,9 @@ def user_page(request, user):
 
 def post_page(request, post_id):
     """
-    Displays a page with info about a certain post
+    Displays a page with info about a certain post & a comment section
     """
-    # Filling vote values for post
     post_of_interest = get_object_or_404(post, id=post_id)
-    """
-    post_votes = vote.objects.filter(post_id=post_of_interest)
-    post_only_dict = {}
-    item_votes_by_user_type_helper(post_only_dict, post_votes)
-    """
-
     # If given a bad comment form, show form and errors
     if request.session.get('bad_comment_form'):
         comment_form = commentForm(request.session.get('bad_comment_form'))
@@ -147,24 +128,10 @@ def post_page(request, post_id):
         post_comments = comment.objects.filter(post_id=post_id, depth=0)
     num_comments = len(comment.objects.filter(post_id=post_id))
 
-    # Filling vote dictionary
-    """
-    vote_dict = {}
-    all_comment_votes = vote.objects.filter(comment_id__in=post_comments)
-    # Grabs the current post and switches to its inner dictionary
-    for current_comment in post_comments:
-        vote_dict[current_comment] = {}
-        user_dict = vote_dict[current_comment]
-        comment_votes = all_comment_votes.filter(comment_id=current_comment)
-        item_votes_by_user_type_helper(user_dict, comment_votes)
-    """
     return render(request, 'post_page.html',
-                  {'post': post_of_interest,
+                  {'post': post_of_interest, 'num_comments': num_comments,
                    'user_color_dict': get_user_model().COLORS,
-                   #'post_only_dict': post_only_dict, 'vote_dict': vote_dict,
-                   'comment_form': comment_form,
-                   'comment_tree': post_comments,
-                   'num_comments': num_comments
+                   'comment_form': comment_form, 'comment_tree': post_comments
                    })
 
 ###### POST VIEWS #######
@@ -245,15 +212,3 @@ def mark_as_spam(request, id):
         post_of_interest.check_spam_count()
     return redirect(request.GET['next'])
 
-
-## Helper functions
-def item_votes_by_user_type_helper(user_dict, item_votes):
-    # For a given post, fills a dictionary with % up votes by user type
-    for user_type in get_user_model().USER_TYPE_CHOICES:
-        all_votes = item_votes.filter(user_id__user_type=user_type[0])
-        up_votes = all_votes.filter(vote_choice = vote.VOTE_CHOICES.upvote)
-        if len(all_votes)==0:
-            user_dict[user_type[0]] = 0
-        else:
-            user_dict[user_type[0]] = round(float(len(up_votes))/len(all_votes), 3)
-    
