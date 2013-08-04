@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Spam Caught - YouTalkEdu{% endblock title %}
+
+{% block content %}
+	{% if ban %}
+		<div class="alert alert-error">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<h3>For the {{max_spam}}rd time, your post/comment has been deemed as spam. You have been banned. :(</h3>
+		</div>
+	{% else %}
+		<div class="alert alert-warning">
+			<button type="button" class="close" data-dismiss="alert">×</button>			
+			<h3>Your post/comment has been deemed spam. Consider this your warning.</h3>
+		</div>
+	{% endif %}
+{% endblock content %}

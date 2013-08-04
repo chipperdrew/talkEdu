@@ -1,11 +1,8 @@
 TODO:
 =============
-#) Refactor logic for user_type votes in posts (check user_change view, votes views)
-#) Have 'redraw' bool on posts. If true or DNE, redraw chart and save -- A LOT OF PICS?
 #) Add Learn More page
-#) Do something to prevent comment spam
+#) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
-#) Change views so only one chart is redrawn upon voting & no page reload
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page?? Introduce to site?
 #) TIME PERMITTING - Upgrade Bootstrap?
@@ -51,6 +48,8 @@ TODO:
 #) DONE - Allow for comments on POST pages (using Disqus? NO DISQUS IS EVIL)
 #) DONE - Hide nested comments. Display if id in array path and length=??.
 #) DONE - Add comment voting logic
+#) DONE - Refactor logic to prevent excess filtering of votes by user type
+#) NO - Save canvas chart and redraw when needed --- Canvas is actually pretty efficient (~2ms per post)
 
 
 

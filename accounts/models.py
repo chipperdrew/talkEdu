@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.http import HttpResponse
+from django.shortcuts import render
 from model_utils import Choices
 
 MAX_AKISMET = 3
@@ -40,10 +40,10 @@ class eduuser(AbstractUser):
 
     def check_akismet(self, request):
         self.akismet_hits += 1
+        ban = False
         if self.akismet_hits >= MAX_AKISMET:
             self.is_active = False #Cannot login AND middleware forces logout
-            self.save()
-            return HttpResponse("For the %ird time, your post/comment has been deemed as spam. You have been banned. :(" % MAX_AKISMET)
-        else:
-            self.save()
-            return HttpResponse("Your post/comment has been deemed spam. Consider this your warning.")
+            ban = True
+        self.save()
+        return render(request, 'caught_spam.html',
+                          {'max_spam': MAX_AKISMET, 'ban': ban})
