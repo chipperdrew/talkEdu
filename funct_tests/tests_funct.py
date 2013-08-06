@@ -494,7 +494,7 @@ class NewVisitorTests(LiveServerTestCase):
     
     def test_vote_existance_and_functionality(self):
         test_user = get_user_model().objects.get(username='Test')
-        post.objects.create(title='T1', page_type=post.IDEAS, user_id=test_user)
+        t1 = post.objects.create(title='T1', page_type=post.IDEAS, user_id=test_user)
         post.objects.create(title='T2', page_type=post.IDEAS, user_id=test_user)
 
         # Jim visits the ideas page, sees the voting info, but cannot vote
@@ -510,22 +510,25 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Overall: 0', body)
         self.assertIn('Up', body)
         self.assertIn('Down', body)
-
         up_votes = self.browser.find_elements_by_link_text('Up')
         self.assertEqual(len(up_votes), 2)
 
         # Jim clicks the 'up' vote for one of the posts
         up_votes[0].click()
-        self.browser.implicitly_wait(3)
         time.sleep(1)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
 
-        # Jim sees his vote and logs out satisfied
+        # Jim sees his vote
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("Overall: 1.0", body)
         self.assertIn("Total Votes: 1", body)
-        self.browser.find_element_by_name('logout_nav').click()
+
+        # Jim tries to directly access the vote url & gets a 404. He logs out
+        self.browser.get(self.live_server_url+'/up_vote/'+ str(t1.id) + '/p')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Not Found', body)
+        self.browser.get(self.live_server_url+'/accounts/logout/')
         
         # Bob, another user, logs in and sees the posts
         get_user_model().objects.create_user(
@@ -539,7 +542,6 @@ class NewVisitorTests(LiveServerTestCase):
         # Bob votes on the same post
         down_votes = self.browser.find_elements_by_link_text('Down')
         down_votes[0].click()
-        self.browser.implicitly_wait(3)
         time.sleep(1)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
@@ -560,7 +562,6 @@ class NewVisitorTests(LiveServerTestCase):
         # Jill votes and sees the changes
         up_votes = self.browser.find_elements_by_link_text('Up')
         up_votes[0].click()
-        self.browser.implicitly_wait(3)
         time.sleep(1)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
@@ -724,13 +725,28 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim marks the post as spam
         self.browser.find_element_by_link_text('Mark as spam').click()
+        time.sleep(1)
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Thanks', body)
         post_of_interest = post.objects.get(title='T1')
+        self.assertEqual(1, post_of_interest.spam.count())
         self.assertEqual(1, post_of_interest.spam_count)
 
         # Jim marks the post as spam again -- but the values do not change
+        self.browser.get(self.live_server_url+'/pages/problems/')
         self.browser.find_element_by_link_text('Mark as spam').click()
+        time.sleep(1)
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Thanks', body)
         post_of_interest = post.objects.get(title='T1')
+        self.assertEqual(1, post_of_interest.spam.count())
         self.assertEqual(1, post_of_interest.spam_count)
+
+        # Jim tries to directly access the spam url & gets a 404.
+        self.browser.get(self.live_server_url+'/post/spam/'+str(post1.id)+'/')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Not Found', body)
+        self.browser.get(self.live_server_url+'/pages/problems/')
 
         # Jim marks the comment as spam
         self.browser.find_element_by_link_text('T1').click()
@@ -738,13 +754,20 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_name('comment_button').click()
         spam_links = self.browser.find_elements_by_link_text('Mark as spam')
         spam_links[1].click() #0 is for post
+        time.sleep(1)
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Thanks', body)
         comment_of_interest = comment.objects.get(content='A comment')
         self.assertEqual(1, comment_of_interest.spam.count())
         self.assertEqual(1, comment_of_interest.spam_count)
 
         # Jim marks the comment as spam again -- but nothing happens
+        self.browser.get(self.browser.current_url)
         spam_links = self.browser.find_elements_by_link_text('Mark as spam')
         spam_links[1].click() #0 is for post
+        time.sleep(1)
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Thanks', body)
         comment_of_interest = comment.objects.get(content='A comment')
         self.assertEqual(1, comment_of_interest.spam.count())
         self.assertEqual(1, comment_of_interest.spam_count)

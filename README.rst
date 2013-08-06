@@ -1,11 +1,10 @@
 TODO:
 =============
-#) Test direct access of up_vote/down_vote/mark_as_spam, "Thanks" appears
 #) Add Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
-#) Add logo/picture at top of tab
-#) Add some sort of graphic on home page?? Introduce to site?
+#) TEDDY - Add logo/picture at top of tab
+#) TEDDY - Add some sort of graphic on home page?? Introduce to site?
 #) TIME PERMITTING - Upgrade Bootstrap?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
