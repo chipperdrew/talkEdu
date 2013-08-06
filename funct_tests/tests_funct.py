@@ -1,4 +1,5 @@
 # Stdlib imports
+import time
 
 # Core Django imports
 from django.contrib.auth import get_user_model
@@ -215,7 +216,6 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Here is a title', body)
         
-    
     def test_user_page_shows_proper_content_when_directly_accessed(self):
         test_user = get_user_model().objects.get(username='Test')
         post.objects.create(title='Title', user_id=test_user)
@@ -460,7 +460,6 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('A user with that username already exists', body)
         self.assertIn('This email address is already in use.', body)
-
     
     def test_pagination(self):
         # Jim visit a POST page and see 'Page 1 of 1'
@@ -499,7 +498,6 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim visits the ideas page, sees the voting info, but cannot vote
         self.browser.get(self.live_server_url+'/pages/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertNotIn('Up', body)
         self.assertNotIn('Down', body)
 
@@ -507,7 +505,6 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertIn('Overall: 0', body)
         self.assertIn('Up', body)
         self.assertIn('Down', body)
@@ -518,13 +515,14 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim clicks the 'up' vote for one of the posts
         up_votes[0].click()
         self.browser.implicitly_wait(3)
+        time.sleep(1)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
 
         # Jim sees his vote and logs out satisfied
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("STU: 0, PAR: 0, ADM: 1.0, OUT: 0, TEA: 0", body)
-        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
+        self.assertIn("Overall: 1.0", body)
+        self.assertIn("Total Votes: 1", body)
         self.browser.find_element_by_name('logout_nav').click()
         
         # Bob, another user, logs in and sees the posts
@@ -540,13 +538,12 @@ class NewVisitorTests(LiveServerTestCase):
         down_votes = self.browser.find_elements_by_link_text('Down')
         down_votes[0].click()
         self.browser.implicitly_wait(3)
+        time.sleep(1)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
 
         # Bob sees how his vote has changed the voting value
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("STU: 0, PAR: 0, ADM: 0.5, OUT: 0, TEA: 0", body)
-        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.browser.find_element_by_name('logout_nav').click()
 
         # Jill, a student, logs in
@@ -562,11 +559,10 @@ class NewVisitorTests(LiveServerTestCase):
         up_votes = self.browser.find_elements_by_link_text('Up')
         up_votes[0].click()
         self.browser.implicitly_wait(3)
+        time.sleep(1)
         new_url = self.browser.current_url
         self.assertRegexpMatches(new_url, self.live_server_url+'/pages/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("STU: 1.0, PAR: 0, ADM: 0.5, OUT: 0, TEA: 0", body)
-        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 0", body)
         self.assertIn('Overall: 0.667', body)
         self.assertIn('Total Votes: 3', body)
         self.assertIn('Overall: 0', body)
@@ -629,14 +625,17 @@ class NewVisitorTests(LiveServerTestCase):
         self.login_user('Test', 'test')
         self.browser.get(self.live_server_url+'/pages/problems/')
         self.browser.find_element_by_link_text('Up').click()
+        time.sleep(1)
 
         # Jim goes the the ideas page and votes down
         self.browser.get(self.live_server_url+'/pages/ideas/')
         self.browser.find_element_by_link_text('Down').click()
+        time.sleep(1)
 
         # Jim goes the questions page and votes up
         self.browser.get(self.live_server_url+'/pages/questions/')
         self.browser.find_element_by_link_text('Up').click()
+        time.sleep(1)
 
         # Jim goes to his user page and sees the proper vote percentage
         self.check_for_redirect_after_link_click('Test', '/user/Test/$')
@@ -646,6 +645,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim changes his vote, goes to his user page, and sees the updated perc
         self.browser.get(self.live_server_url+'/pages/questions/')
         self.browser.find_element_by_link_text('Down').click()
+        time.sleep(1)
         self.browser.get(self.live_server_url+'/user/Test/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall user rating: 0.333', body)

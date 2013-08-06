@@ -2,10 +2,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render
+import json
+
 from .models import vote
 from posts.models import post
 from comments.models import comment
-
 
 @login_required
 def up_vote(request, id, item_type):
@@ -19,7 +20,7 @@ def up_vote(request, id, item_type):
     else:
         # Scenario 2: Vote is not being modified
         if vote_of_interest.vote_choice == vote.VOTE_CHOICES.upvote:
-            return redirect(request.GET['next'])
+            return HttpResponse()
         # Scenario 3: Vote is being switched
         else:
             up_vote_to_add = 1
@@ -28,7 +29,12 @@ def up_vote(request, id, item_type):
             vote_of_interest.save()
     update_stats_helper(item_type, item_of_interest, up_vote_to_add,
                         total_vote_to_add, request.user.user_type)
-    return redirect(request.GET['next'])
+    data = json.dumps({'post_id': item_of_interest.id,
+                       'post_dict': item_of_interest.votes_by_user_type,
+                       'post_mid': item_of_interest.vote_percentage,
+                       'post_total': item_of_interest.total_votes,
+                       })
+    return HttpResponse(data, content_type='application/json')
 
 @login_required
 def down_vote(request, id, item_type):
@@ -42,7 +48,7 @@ def down_vote(request, id, item_type):
     else:
         # Scenario 2: Vote is not being modified
         if vote_of_interest.vote_choice == vote.VOTE_CHOICES.downvote:
-            return redirect(request.GET['next'])
+            return HttpResponse()
         # Scenario 3: Vote is being switched
         else:
             up_vote_to_add = -1
@@ -51,7 +57,13 @@ def down_vote(request, id, item_type):
     vote_of_interest.save()
     update_stats_helper(item_type, item_of_interest, up_vote_to_add,
                         total_vote_to_add, request.user.user_type)
-    return redirect(request.GET['next'])
+    data = json.dumps({'post_id': item_of_interest.id,
+                       'post_dict': item_of_interest.votes_by_user_type,
+                       'post_mid': item_of_interest.vote_percentage,
+                       'post_total': item_of_interest.total_votes,
+                       })
+    return HttpResponse(data, content_type='application/json')
+
 
 def check_type_helper(request, id, item_type):
     """

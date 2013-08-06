@@ -21,14 +21,15 @@ var rectPerc = rectArea/totalArea;
 // FUNCTIONS
 
 // Clears the pulse grid and redraws outline
-function clearPulse() {
-	draw.clearRect(0, 0, canvasHeight, canvasWidth);
-	drawPulseOutline();
+function clearPulse(draw) {
+	draw.clearRect(0, 0, canvasWidth, canvasHeight);
+	drawPulseOutline(draw);
 }
 	
 
 // Draws the outline of the pulse
 function drawPulseOutline(draw) {
+	draw.lineWidth = 1;
 	for (var i=0; i<numberOfTypes*separationDist; i+=separationDist) {
 		draw.beginPath();
 		draw.arc(leftArc+i, bottomArc, rad, 0*Math.PI, 1*Math.PI);

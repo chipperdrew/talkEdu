@@ -1,10 +1,11 @@
 TODO:
 =============
+#) Update votes, spam marking on-the-fly with ajax
 #) Add Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
-#) TEDDY - Add logo/picture at top of tab
-#) TEDDY - Add some sort of graphic on home page?? Introduce to site?
+#) Add logo/picture at top of tab
+#) Add some sort of graphic on home page?? Introduce to site?
 #) TIME PERMITTING - Upgrade Bootstrap?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth

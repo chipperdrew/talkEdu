@@ -52,7 +52,7 @@
 				<p>:( You have used up all of your posts for the day. However, you may still
 				(and are encouraged to) vote and comment on posts made by others.</p>
 			{% else %}
-				<p>PLEASE NOTE: You have {{ posts_left }} post(s) remaining for the day.</p>
+				<p>PLEASE NOTE: You have {{ posts_left }} post{{ posts_left|pluralize }} remaining for the day.</p>
 				<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
 					{% csrf_token %}
 					{% render_honeypot_field %}
@@ -91,14 +91,17 @@
 
 
 	{# POSTS DISPLAY #}
-	<div>
+	<div class="all_display">
 	{% for post in posts %}
-		<div style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
+		{# Div id MUST be post id for ajax to work #}
+		<div id="{{ post.id }}" style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
 		{# Vote display #}
-		<div class="vote_display_div">  
+		<div class="vote_display_div">
+		{% if not data %}  
 			<canvas id="myCanvas{{post.id}}" width="125" height="100">
          		   If you see this, your browser does not support HTML5 Canvas. Sorry :(
         		</canvas>
+		{% endif %}
 			<script	src="{% static 'js/vote_script.js' %}"></script>
 			<script type="text/javascript">
 				$(document).ready(function() {
@@ -112,7 +115,7 @@
 					drawMiddle({{ post.vote_percentage }}, draw);
 				});
 			</script>
-			<p style="text-align:center">
+			<p class="stats{{post.id}}" style="text-align:center">
 				Overall: {{ post.vote_percentage }}<br/>Total Votes: {{ post.total_votes }}
 			</p>
 
@@ -136,8 +139,8 @@
 			{% if user.is_authenticated %}		
 				<p>
 					<div style="display:inline-block">					
-					<a href="{% url 'up_vote' id=post.id item_type='p'%}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
-					<a href="{% url 'down_vote' id=post.id item_type='p'%}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
+					<a class="up" href="{% url 'up_vote' id=post.id item_type='p'%}">Up</a> &nbsp;
+					<a class="down" href="{% url 'down_vote' id=post.id item_type='p'%}">Down</a> &nbsp;
 					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
 					</div>			
 				{% if post.user_id == request.user %}
@@ -153,6 +156,66 @@
 		</div>
 	{% endfor %}
 	</div>
+
+
+
+
+	{# Like/Unlike JS and Ajax #}
+	<script type="text/javascript">
+		$(document).ready(function() {
+var create_vote = function() {
+	var post_id = $(this).parent().parent().parent().attr('id');
+	var args = { type:"GET", url:$(this).attr('href'), data:{},
+			success: function(data) { 
+			if(data) {
+				var canv = document.getElementById("myCanvas"+post_id);
+				var draw = canv.getContext("2d");
+				clearPulse(draw);
+				{% for user_type_key in user_color_dict %}
+					draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
+					drawPulse(data["post_dict"]["{{user_type_key}}"][2], separationDist*({{ forloop.counter }}-1), draw);
+				{% endfor %}
+				drawMiddle(data["post_mid"], draw);
+				$('.stats'+post_id).load(' .stats'+post_id)
+				}}};
+	$.ajax(args);
+	return false;
+};
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    crossDomain: false, // obviates need for sameOrigin test
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type)) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+			var csrftoken = getCookie('csrftoken');
+			$(".up").click(create_vote);
+			$(".down").click(create_vote);
+		});
+	</script>
+
     
 
 	{# PAGINATION #}
