@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from honeypot.decorators import check_honeypot
 from itertools import ifilter
 import akismet
+import json
 import os
 
 from .forms import commentForm
@@ -79,6 +80,8 @@ def comment_mark_as_spam(request, id):
     Based off of post view, but checks the boolean returned by check_spam_count
     b/c needs to delete comment AND children
     """
+    if not request.is_ajax():
+        raise Http404()
     comment_of_interest = get_object_or_404(comment, pk=id)
     spam_of_interest, bool_created = spam.objects.get_or_create(
         comment_id = comment_of_interest,
@@ -88,9 +91,10 @@ def comment_mark_as_spam(request, id):
         bool_spam_limit = comment_of_interest.check_spam_count()
         if bool_spam_limit:
             delete_comment_path_helper(comment_of_interest)
-    return redirect(request.GET['next'])
-
-
+        data = json.dumps({'id': id, 'item_type': 'c', })
+        return HttpResponse(data, content_type='application/json')
+    return HttpResponse()
+    
 def show_replies(request, comment_id):
     comment_of_interest = comment.objects.get(id=comment_id)
     depth = comment_of_interest.depth
@@ -103,6 +107,7 @@ def show_replies(request, comment_id):
             comments_array.append(com)
     request.session['post_comments_to_show'] = comments_array
     return redirect(request.GET['next'])
+
 
 # Helper Functions
 def delete_comment_path_helper(comment_of_interest):

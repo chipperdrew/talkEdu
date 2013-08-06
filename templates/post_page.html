@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load dictionary_extras %} {# For dictionary access to variable keys and key content #}
+{% load dictionary_extras %} {# For pulse drawing (access to keys and key content) #}
 {% load honeypot %}
 {% load staticfiles %}
 
@@ -31,7 +31,7 @@
 		</div>
 
 	{# Post display #}
-	<div class="item_display_div" id="{{ post.id }}">
+	<div class="item_display_div">
 		<h3>{{ post.title|capfirst }}</h3>
 		<p>{{ post.text|linebreaks }}</p><br/><br/>
 		<p>Posted by: <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a></p>
@@ -41,10 +41,10 @@
 		<p>Posted at {{ post.time_created }}</p>
 
 			{% if user.is_authenticated %}			
-				<div style="display:inline-block">					
+				<div id="post_links{{post.id}}" style="display:inline-block">					
 					<a class="up" href="{% url 'up_vote' id=post.id item_type='p' %}">Up</a>&nbsp;
 					<a class="down" href="{% url 'down_vote' id=post.id item_type='p' %}">Down</a>&nbsp;
-					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
+					<a class="spam" href="{% url 'post_spam' id=post.id %}">Mark as spam</a>
 				</div>			
 				{% if post.user_id == request.user %}
 				<div class="inline_right">
@@ -157,19 +157,18 @@
 			<div style="height:22px"></div>
 
 			{# Votes and spam links #}
-			<p>
-				<div style="display:inline-block">
-				{% if user.is_authenticated %}
+			{% if user.is_authenticated %}
+				<p>
+				<div id="comment_links{{c.id}}" style="display:inline-block">
 					<a class="up" href="{% url 'up_vote' id=c.id item_type='c'%}">Up</a> &nbsp;
 					<a class="down" href="{% url 'down_vote' id=c.id item_type='c'%}">Down</a> &nbsp;
-					<a href="{% url 'comment_spam' id=c.id %}?next={{request.path}}">Mark as spam</a>&nbsp;
+					<a class="spam" href="{% url 'comment_spam' id=c.id %}">Mark as spam</a>&nbsp;
 					{% if c.user_id == request.user %}
 						<a href="{% url 'delete_comment' c.id %}?next={{request.path}}"
 						onclick="return confirm('Your comment and any sub-comments will be permanently deleted. Continue?')">Delete</a>
 					{% endif %}
-
-				{% endif %}	
-				</div>		
+				</div>
+			{% endif %}	
 			
 				{# Replies and delete links #}
 				<div class="inline_right">
@@ -178,7 +177,7 @@
 						<a href="" class="reply">Reply</a>&nbsp;
 					{% endif %}	
 				</div>
-			</p>
+				</p>
 			</div>
 			</li>
 		{% empty %}
@@ -189,20 +188,17 @@
 
 
 
-
-
-	{# POSTS - Like/Unlike JS and Ajax #}
+	{# Like/Unlike JS and Ajax #}
 	<script type="text/javascript">
 		$(document).ready(function() {
 var create_vote = function() {
-	var item_id = $(this).parent().parent().attr('id');
 	var args = { type:"GET", url:$(this).attr('href'), data:{},
 			success: function(data) { 
 			if(data) {
 				if(data["item_type"]=='c') {
-					var canv = document.getElementById("commentCanvas"+item_id);
+					var canv = document.getElementById("commentCanvas"+data["post_id"]);
 				} else {
-					var canv = document.getElementById("myCanvas"+item_id);
+					var canv = document.getElementById("myCanvas"+data["post_id"]);
 				}
 				var draw = canv.getContext("2d");
 				clearPulse(draw); //Clear canvas and redraw
@@ -214,9 +210,30 @@ var create_vote = function() {
 
 				// Update overall percentage and and overall number of votes
 				if(data["item_type"]=='c') {
-					$('.comstats'+item_id).load(' .comstats'+item_id)
+					$('.comstats'+data["post_id"]).load(' .comstats'+data["post_id"])
 				} else {
-					$('.poststats'+item_id).load(' .poststats'+item_id)
+					$('.poststats'+data["post_id"]).load(' .poststats'+data["post_id"])
+				}
+			}}};
+	$.ajax(args);
+	return false;
+};
+
+var mark_as_spam = function() {
+	var args = { type:"GET", url:$(this).attr('href'), data:{},
+			success: function(data) { 
+			if(data) {
+				var textNode = document.createTextNode(" Thanks!");
+				//TOFIX LATER: Should be able to access w/o need for id (like via $(this).parent)
+				if(data["item_type"]=='p') {
+					var child = document.getElementById('post_links'+data["id"]);
+					child.parentNode.insertBefore(textNode, child.nextSibling);
+				} else {
+					var span = document.createElement('span');
+					span.style.color = "#ff982c";
+					span.appendChild(textNode);
+					var child = document.getElementById('comment_links'+data["id"]);
+					child.parentNode.insertBefore(span, child.nextSibling);
 				}
 			}}};
 	$.ajax(args);
@@ -236,6 +253,7 @@ $.ajaxSetup({
 			var csrftoken = getCookie('csrftoken');
 			$(".up").click(create_vote);
 			$(".down").click(create_vote);
+			$(".spam").click(mark_as_spam);
 		});
 	</script>
 

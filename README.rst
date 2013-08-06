@@ -1,6 +1,6 @@
 TODO:
 =============
-#) Update votes, spam marking on-the-fly with ajax
+#) Test direct access of up_vote/down_vote/mark_as_spam, "Thanks" appears
 #) Add Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
@@ -51,6 +51,7 @@ TODO:
 #) DONE - Add comment voting logic
 #) DONE - Refactor logic to prevent excess filtering of votes by user type
 #) NO - Save canvas chart and redraw when needed --- Canvas is actually pretty efficient (~2ms per post)
+#) DONE - Update votes, spam marking on-the-fly with AJAX
 
 
 

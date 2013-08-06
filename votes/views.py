@@ -10,6 +10,8 @@ from comments.models import comment
 
 @login_required
 def up_vote(request, id, item_type):
+    if not request.is_ajax() or item_type not in ['c', 'p']:
+        raise Http404()
     item_of_interest, vote_of_interest, bool_created = check_type_helper(
         request, id, item_type
     )
@@ -34,6 +36,8 @@ def up_vote(request, id, item_type):
 
 @login_required
 def down_vote(request, id, item_type):
+    if not request.is_ajax() or item_type not in ['c', 'p']:
+        raise Http404()
     item_of_interest, vote_of_interest, bool_created = check_type_helper(
         request, id, item_type
     )
@@ -67,14 +71,12 @@ def check_type_helper(request, id, item_type):
             post_id = item_of_interest,
             user_id = request.user,
         )
-    elif item_type=='c':
+    else:
         item_of_interest = comment.objects.get(id=id)
         vote_of_interest, bool_created = vote.objects.get_or_create(
             comment_id = item_of_interest,
             user_id = request.user,
         )
-    else:
-        return Http404()
     return item_of_interest, vote_of_interest, bool_created
 
 def update_stats_helper(item_type, item_of_interest, up_vote_to_add,

@@ -8,6 +8,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from honeypot.decorators import check_honeypot
 import datetime
+import json
 
 from .forms import postForm
 from .models import post
@@ -202,7 +203,9 @@ def delete(request, id):
     return redirect(request.GET['next']) #provided by base_post template
 
 @login_required
-def mark_as_spam(request, id):
+def post_mark_as_spam(request, id):
+    if not request.is_ajax():
+        raise Http404()
     post_of_interest = get_object_or_404(post, pk=id)
     spam_of_interest, bool_created = spam.objects.get_or_create(
         post_id = post_of_interest,
@@ -210,5 +213,8 @@ def mark_as_spam(request, id):
         )
     if bool_created:
         post_of_interest.check_spam_count()
-    return redirect(request.GET['next'])
+        data = json.dumps({'id': id, 'item_type': 'p', })
+        return HttpResponse(data, content_type='application/json')
+    return HttpResponse()
+
 

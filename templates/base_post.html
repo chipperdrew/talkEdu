@@ -94,14 +94,12 @@
 	<div>
 	{% for post in posts %}
 		{# Div id MUST be post id for ajax to work #}
-		<div id="{{ post.id }}" style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
+		<div style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
 		{# Vote display #}
 		<div class="vote_display_div">
-		{% if not data %}  
 			<canvas id="myCanvas{{post.id}}" width="125" height="100">
          		   If you see this, your browser does not support HTML5 Canvas. Sorry :(
         		</canvas>
-		{% endif %}
 			<script	src="{% static 'js/vote_script.js' %}"></script>
 			<script type="text/javascript">
 				$(document).ready(function() {
@@ -138,10 +136,10 @@
 			</p>
 			{% if user.is_authenticated %}		
 				<p>
-					<div style="display:inline-block">					
+					<div id="post_links{{post.id}}" style="display:inline-block">
 					<a class="up" href="{% url 'up_vote' id=post.id item_type='p'%}">Up</a> &nbsp;
 					<a class="down" href="{% url 'down_vote' id=post.id item_type='p'%}">Down</a> &nbsp;
-					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
+					<a class="spam" href="{% url 'post_spam' id=post.id %}">Mark as spam</a>
 					</div>			
 				{% if post.user_id == request.user %}
 					<div class="inline_right">
@@ -183,11 +181,10 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 var create_vote = function() {
-	var post_id = $(this).parent().parent().parent().attr('id');
 	var args = { type:"GET", url:$(this).attr('href'), data:{},
 			success: function(data) { 
 			if(data) {
-				var canv = document.getElementById("myCanvas"+post_id);
+				var canv = document.getElementById("myCanvas"+data["post_id"]);
 				var draw = canv.getContext("2d");
 				clearPulse(draw);
 				{% for user_type_key in user_color_dict %}
@@ -195,12 +192,24 @@ var create_vote = function() {
 					drawPulse(data["post_dict"]["{{user_type_key}}"][2], separationDist*({{ forloop.counter }}-1), draw);
 				{% endfor %}
 				drawMiddle(data["post_mid"], draw);
-				$('.poststats'+post_id).load(' .poststats'+post_id)
+				$('.poststats'+data["post_id"]).load(' .poststats'+data["post_id"])
 				}}};
 	$.ajax(args);
 	return false;
 };
 
+var mark_as_spam = function() {
+	var args = { type:"GET", url:$(this).attr('href'), data:{},
+			success: function(data) { 
+			if(data) {
+				var textNode = document.createTextNode(" Thanks!");
+				//TOFIX LATER: Should be able to access w/o need for id (like via $(this).parent)
+				var child = document.getElementById('post_links'+data["id"]);
+				child.parentNode.insertBefore(textNode, child.nextSibling);
+			}}};
+	$.ajax(args);
+	return false;
+};
 
 $.ajaxSetup({
     crossDomain: false, // obviates need for sameOrigin test
@@ -209,11 +218,12 @@ $.ajaxSetup({
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
     }
-});			
+});		
  
 			var csrftoken = getCookie('csrftoken');
 			$(".up").click(create_vote);
 			$(".down").click(create_vote);
+			$(".spam").click(mark_as_spam);
 		});
 	</script>
 
