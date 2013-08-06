@@ -25,13 +25,13 @@
 					drawMiddle({{ post.vote_percentage }}, draw);
 				});
 			</script>
-			<p style="text-align:center">
+			<p class="poststats{{post.id}}" style="text-align:center">
 				Overall: {{ post.vote_percentage }}<br/>Total Votes: {{ post.total_votes }}
 			</p>
 		</div>
 
 	{# Post display #}
-	<div class="item_display_div">
+	<div class="item_display_div" id="{{ post.id }}">
 		<h3>{{ post.title|capfirst }}</h3>
 		<p>{{ post.text|linebreaks }}</p><br/><br/>
 		<p>Posted by: <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a></p>
@@ -42,8 +42,8 @@
 
 			{% if user.is_authenticated %}			
 				<div style="display:inline-block">					
-					<a href="{% url 'up_vote' id=post.id item_type='p' %}?next={{request.path}}?page={{ page }}">Up</a> &nbsp;
-					<a href="{% url 'down_vote' id=post.id item_type='p' %}?next={{request.path}}?page={{ page }}">Down</a> &nbsp;
+					<a class="up" href="{% url 'up_vote' id=post.id item_type='p' %}">Up</a>&nbsp;
+					<a class="down" href="{% url 'down_vote' id=post.id item_type='p' %}">Down</a>&nbsp;
 					<a href="{% url 'mark_as_spam' id=post.id %}?next={{request.path}}?page={{ page }}">Mark as spam</a>
 				</div>			
 				{% if post.user_id == request.user %}
@@ -145,13 +145,13 @@
 						drawMiddle({{ c.vote_percentage }}, draw);
 					});
 				</script>
-				<p style="text-align:center">
+				<p class="comstats{{c.id}}" style="text-align:center">
 					Overall: {{ c.vote_percentage }}<br/>Total Votes: {{ c.total_votes }}
 				</p>
 			</div>
 
 			{# Comment display #}
-			<div class="item_display_div">
+			<div class="item_display_div" id="{{c.id}}">
 			<p style="font-size:12px"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
 			<p style="height:22px">{{c.content|linebreaks}}</p>
 			<div style="height:22px"></div>
@@ -160,8 +160,8 @@
 			<p>
 				<div style="display:inline-block">
 				{% if user.is_authenticated %}
-					<a href="{% url 'up_vote' id=c.id item_type='c'%}?next={{request.path}}">Up</a> &nbsp;
-					<a href="{% url 'down_vote' id=c.id item_type='c'%}?next={{request.path}}">Down</a> &nbsp;
+					<a class="up" href="{% url 'up_vote' id=c.id item_type='c'%}">Up</a> &nbsp;
+					<a class="down" href="{% url 'down_vote' id=c.id item_type='c'%}">Down</a> &nbsp;
 					<a href="{% url 'comment_spam' id=c.id %}?next={{request.path}}">Mark as spam</a>&nbsp;
 					{% if c.user_id == request.user %}
 						<a href="{% url 'delete_comment' c.id %}?next={{request.path}}"
@@ -185,4 +185,58 @@
 			<li>There are currently no comments. You can be first!</li>
 		{% endfor %}
 	</ul>
+
+
+
+
+
+
+	{# POSTS - Like/Unlike JS and Ajax #}
+	<script type="text/javascript">
+		$(document).ready(function() {
+var create_vote = function() {
+	var item_id = $(this).parent().parent().attr('id');
+	var args = { type:"GET", url:$(this).attr('href'), data:{},
+			success: function(data) { 
+			if(data) {
+				if(data["item_type"]=='c') {
+					var canv = document.getElementById("commentCanvas"+item_id);
+				} else {
+					var canv = document.getElementById("myCanvas"+item_id);
+				}
+				var draw = canv.getContext("2d");
+				clearPulse(draw); //Clear canvas and redraw
+				{% for user_type_key in user_color_dict %}
+					draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
+					drawPulse(data["post_dict"]["{{user_type_key}}"][2], separationDist*({{ forloop.counter }}-1), draw);
+				{% endfor %}
+				drawMiddle(data["post_mid"], draw);
+
+				// Update overall percentage and and overall number of votes
+				if(data["item_type"]=='c') {
+					$('.comstats'+item_id).load(' .comstats'+item_id)
+				} else {
+					$('.poststats'+item_id).load(' .poststats'+item_id)
+				}
+			}}};
+	$.ajax(args);
+	return false;
+};
+
+
+$.ajaxSetup({
+    crossDomain: false, // obviates need for sameOrigin test
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type)) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});			
+ 
+			var csrftoken = getCookie('csrftoken');
+			$(".up").click(create_vote);
+			$(".down").click(create_vote);
+		});
+	</script>
+
 {% endblock content %}

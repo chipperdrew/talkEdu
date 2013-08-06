@@ -263,12 +263,14 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim votes and sees the effect
         self.browser.find_element_by_link_text('Up').click()
+        time.sleep(1)
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall: 1.0', body)
         self.assertIn('Total Votes: 1', body)
 
         # Jim changes his vote
         self.browser.find_element_by_link_text('Down').click()
+        time.sleep(1)
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall: 0.0', body)
         self.assertIn('Total Votes: 1', body)
@@ -596,6 +598,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.login_user('Test', 'test')
         up_votes = self.browser.find_elements_by_link_text('Up')
         up_votes[1].click() #[0] - post vote, [1] - comment vote
+        time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
         self.assertIn('Overall: 1.0', comment_display)
         self.assertIn('Total Votes: 1', comment_display)
@@ -603,6 +606,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim tries to vote again -- nothing changes
         up_votes = self.browser.find_elements_by_link_text('Up')
         up_votes[1].click()
+        time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
         self.assertIn('Overall: 1.0', comment_display)
         self.assertIn('Total Votes: 1', comment_display)
@@ -610,6 +614,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim votes down and the proper content changes
         down_votes = self.browser.find_elements_by_link_text('Down')
         down_votes[1].click()
+        time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
         self.assertIn('Overall: 0.0', comment_display)
         self.assertIn('Total Votes: 1', comment_display)
@@ -677,9 +682,11 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
         self.browser.get(self.live_server_url+'/pages/site_feedback/')
-        self.check_for_redirect_after_link_click('Up', '/site_feedback/')
+        self.browser.find_element_by_link_text("Up").click()
+        time.sleep(1)
 
         # The post shows than an ADMIN has voted up
+        self.browser.get(self.live_server_url+'/pages/site_feedback/')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("STU: 0, PAR: 0, ADM: 1.0, OUT: 0, TEA: 0", body)
         self.assertIn('Administrator', body)

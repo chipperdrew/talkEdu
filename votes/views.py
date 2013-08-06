@@ -29,11 +29,7 @@ def up_vote(request, id, item_type):
             vote_of_interest.save()
     update_stats_helper(item_type, item_of_interest, up_vote_to_add,
                         total_vote_to_add, request.user.user_type)
-    data = json.dumps({'post_id': item_of_interest.id,
-                       'post_dict': item_of_interest.votes_by_user_type,
-                       'post_mid': item_of_interest.vote_percentage,
-                       'post_total': item_of_interest.total_votes,
-                       })
+    data = generate_JSON_vals(item_type, item_of_interest)
     return HttpResponse(data, content_type='application/json')
 
 @login_required
@@ -57,11 +53,7 @@ def down_vote(request, id, item_type):
     vote_of_interest.save()
     update_stats_helper(item_type, item_of_interest, up_vote_to_add,
                         total_vote_to_add, request.user.user_type)
-    data = json.dumps({'post_id': item_of_interest.id,
-                       'post_dict': item_of_interest.votes_by_user_type,
-                       'post_mid': item_of_interest.vote_percentage,
-                       'post_total': item_of_interest.total_votes,
-                       })
+    data = generate_JSON_vals(item_type, item_of_interest)
     return HttpResponse(data, content_type='application/json')
 
 
@@ -101,3 +93,11 @@ def update_stats_helper(item_type, item_of_interest, up_vote_to_add,
         item_of_interest.votes_by_user_type[user_type][2] = round(float(
             item_of_interest.votes_by_user_type[user_type][0])/item_of_interest.votes_by_user_type[user_type][1], 3)
     item_of_interest.save()
+
+def generate_JSON_vals(item_type, item_of_interest):
+    return json.dumps({'post_id': item_of_interest.id,
+                       'post_dict': item_of_interest.votes_by_user_type,
+                       'post_mid': item_of_interest.vote_percentage,
+                       'post_total': item_of_interest.total_votes,
+                       'item_type': item_type,
+                       })

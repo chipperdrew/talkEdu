@@ -91,7 +91,7 @@
 
 
 	{# POSTS DISPLAY #}
-	<div class="all_display">
+	<div>
 	{% for post in posts %}
 		{# Div id MUST be post id for ajax to work #}
 		<div id="{{ post.id }}" style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
@@ -115,7 +115,7 @@
 					drawMiddle({{ post.vote_percentage }}, draw);
 				});
 			</script>
-			<p class="stats{{post.id}}" style="text-align:center">
+			<p class="poststats{{post.id}}" style="text-align:center">
 				Overall: {{ post.vote_percentage }}<br/>Total Votes: {{ post.total_votes }}
 			</p>
 
@@ -156,66 +156,6 @@
 		</div>
 	{% endfor %}
 	</div>
-
-
-
-
-	{# Like/Unlike JS and Ajax #}
-	<script type="text/javascript">
-		$(document).ready(function() {
-var create_vote = function() {
-	var post_id = $(this).parent().parent().parent().attr('id');
-	var args = { type:"GET", url:$(this).attr('href'), data:{},
-			success: function(data) { 
-			if(data) {
-				var canv = document.getElementById("myCanvas"+post_id);
-				var draw = canv.getContext("2d");
-				clearPulse(draw);
-				{% for user_type_key in user_color_dict %}
-					draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
-					drawPulse(data["post_dict"]["{{user_type_key}}"][2], separationDist*({{ forloop.counter }}-1), draw);
-				{% endfor %}
-				drawMiddle(data["post_mid"], draw);
-				$('.stats'+post_id).load(' .stats'+post_id)
-				}}};
-	$.ajax(args);
-	return false;
-};
-
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    crossDomain: false, // obviates need for sameOrigin test
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type)) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
-			var csrftoken = getCookie('csrftoken');
-			$(".up").click(create_vote);
-			$(".down").click(create_vote);
-		});
-	</script>
-
     
 
 	{# PAGINATION #}
@@ -236,4 +176,45 @@ $.ajaxSetup({
 		</span>
 	</div>
  	</div>
+
+
+
+	{# Like/Unlike JS and Ajax #}
+	<script type="text/javascript">
+		$(document).ready(function() {
+var create_vote = function() {
+	var post_id = $(this).parent().parent().parent().attr('id');
+	var args = { type:"GET", url:$(this).attr('href'), data:{},
+			success: function(data) { 
+			if(data) {
+				var canv = document.getElementById("myCanvas"+post_id);
+				var draw = canv.getContext("2d");
+				clearPulse(draw);
+				{% for user_type_key in user_color_dict %}
+					draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
+					drawPulse(data["post_dict"]["{{user_type_key}}"][2], separationDist*({{ forloop.counter }}-1), draw);
+				{% endfor %}
+				drawMiddle(data["post_mid"], draw);
+				$('.poststats'+post_id).load(' .poststats'+post_id)
+				}}};
+	$.ajax(args);
+	return false;
+};
+
+
+$.ajaxSetup({
+    crossDomain: false, // obviates need for sameOrigin test
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type)) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});			
+ 
+			var csrftoken = getCookie('csrftoken');
+			$(".up").click(create_vote);
+			$(".down").click(create_vote);
+		});
+	</script>
+
 {% endblock content %}
