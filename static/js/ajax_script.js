@@ -12,10 +12,14 @@ var create_vote = function() {
 				var draw = canv.getContext("2d");
 				clearPulse(draw); //Clear canvas and redraw
 				drawEntireChart(draw, data["user_color_dict"], data["post_dict"], data["post_mid"], true);
-
+	
 				// Reload div that displays overall percentage and number of votes
 				if(data["item_type"]=='c') {
-					// Load doesn't work after "show replies"
+					// For consistency (otherwise displays "1" and "0")
+					if(data["post_mid"]==1 || data["post_mid"]==0) {
+						data["post_mid"] = data["post_mid"] + '.0';
+					}
+					// Load doesn't work after "show replies", so HTML is hard-coded :(
 					$('.comstats'+data["post_id"]).html("Overall: "+data["post_mid"]+ "<br>Total Votes: "+data["post_total"]);
 				} else {
 					$('.poststats'+data["post_id"]).load(' .poststats'+data["post_id"]);
