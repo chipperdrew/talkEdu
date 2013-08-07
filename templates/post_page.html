@@ -96,93 +96,36 @@
 		</form>
 	{% else %}
 		<p>Please login to comment.</p><br/><br/>
-	{% endif %}		
+	{% endif %}			
+
+	{% if comment_tree %}
+	{# Display dropdown: Show all or just top level #}
+	<div class="btn-group" style="margin-bottom:5px">
+		<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" name="show_dropdown">
+			Show
+			<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			{% if 'all' in request.path %}
+				<li> <a href="{% url 'post_page' post.id%}">Only top-level comments</a></li>
+				<li> <a href="{% url 'post_page_all' post.id%}">
+				<img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> All comments</a>
+				</li>
+
+			{% else %}
+				<li> <a href="{% url 'post_page' post.id%}"><img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> Only top-level comments</a></li>
+				<li> <a href="{% url 'post_page_all' post.id%}">All comments</a></li>
+			{% endif %}	
+		</ul>
+	</div>
+	{% endif %}
 
 	</div> {# End move_right div #}
-	
+
+
+	{# Comment display #}
 	<ul id="commenters">
-		{% if comment_tree %}
-		{# Display dropdown: Show all or just top level #}
-		<div class="btn-group">
-			<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" name="show_dropdown">
-				Show
-				<span class="caret"></span>
-			</a>
-			<ul class="dropdown-menu">
-				{% if 'all' in request.path %}
-					<li> <a href="{% url 'post_page' post.id%}">Only top-level comments</a></li>
-					<li> <a href="{% url 'post_page_all' post.id%}">
-					<img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> All comments</a>
-					</li>
-
-				{% else %}
-					<li> <a href="{% url 'post_page' post.id%}"><img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> Only top-level comments</a></li>
-					<li> <a href="{% url 'post_page_all' post.id%}">All comments</a></li>
-				{% endif %}	
-			</ul>
-		</div>
-		{% endif %}
-
-		{# Comment and Vote Display #}
-		{% for c in comment_tree %}
-			<br/>
-			<li id="{{c.id}}" class="comment_box" style="margin-left:{{c.depth|add:c.depth}}em">
-			{# Vote Display #}
-			<div class="vote_display_div">
-				<canvas id="commentCanvas{{c.id}}" width="125" height="100">
-         			   If you see this, your browser does not support HTML5 Canvas. Sorry :(
-        			</canvas>
-				<script type="text/javascript">
-					$(document).ready(function() {
-						var canv = document.getElementById("commentCanvas{{c.id}}");
-						var draw = canv.getContext("2d");
-						draw.strokeStyle = "White";
-						drawPulseOutline(draw);
-						{% for user_type_key in user_color_dict %}
-							draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
-							drawPulse({{ c.votes_by_user_type|key:user_type_key|key:2 }}, separationDist*({{ forloop.counter }}-1), draw);
-						{% endfor %}
-						drawMiddle({{ c.vote_percentage }}, draw);
-					});
-				</script>
-				<p class="comstats{{c.id}}" style="text-align:center">
-					Overall: {{ c.vote_percentage }}<br/>Total Votes: {{ c.total_votes }}
-				</p>
-			</div>
-
-			{# Comment display #}
-			<div class="item_display_div" id="{{c.id}}">
-			<p style="font-size:12px"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
-			<p style="height:22px">{{c.content|linebreaks}}</p>
-			<div style="height:22px"></div>
-
-			{# Votes and spam links #}
-			{% if user.is_authenticated %}
-				<p>
-				<div id="comment_links{{c.id}}" style="display:inline-block">
-					<a class="up" href="{% url 'up_vote' id=c.id item_type='c'%}">Up</a> &nbsp;
-					<a class="down" href="{% url 'down_vote' id=c.id item_type='c'%}">Down</a> &nbsp;
-					<a class="spam" href="{% url 'comment_spam' id=c.id %}">Mark as spam</a>&nbsp;
-					{% if c.user_id == request.user %}
-						<a href="{% url 'delete_comment' c.id %}?next={{request.path}}"
-						onclick="return confirm('Your comment and any sub-comments will be permanently deleted. Continue?')">Delete</a>
-					{% endif %}
-				</div>
-			{% endif %}	
-			
-				{# Replies and delete links #}
-				<div class="inline_right">
-				<a href="{% url 'show_replies' c.id %}?next={{request.path}}">Show replies({{c.children}})</a>&nbsp;		
-					{% if user.is_authenticated %}			
-						<a href="" class="reply">Reply</a>&nbsp;
-					{% endif %}	
-				</div>
-				</p>
-			</div>
-			</li>
-		{% empty %}
-			<li>There are currently no comments. You can be first!</li>
-		{% endfor %}
+		{% include 'comment_display.html' %}
 	</ul>
 
 
@@ -208,11 +151,12 @@ var create_vote = function() {
 				{% endfor %}
 				drawMiddle(data["post_mid"], draw);
 
-				// Update overall percentage and and overall number of votes
+				// Reload div that displays overall percentage and number of votes
 				if(data["item_type"]=='c') {
-					$('.comstats'+data["post_id"]).load(' .comstats'+data["post_id"])
+					// Load doesn't work after "show replies"
+					$('.comstats'+data["post_id"]).html("Overall: "+data["post_mid"]+ "<br>Total Votes: "+data["post_total"]);
 				} else {
-					$('.poststats'+data["post_id"]).load(' .poststats'+data["post_id"])
+					$('.poststats'+data["post_id"]).load(' .poststats'+data["post_id"]);
 				}
 			}}};
 	$.ajax(args);
@@ -223,6 +167,7 @@ var mark_as_spam = function() {
 	var args = { type:"GET", url:$(this).attr('href'), data:{},
 			success: function(data) { 
 			if(data) {
+				// Add comment indicating spam marking received
 				var textNode = document.createTextNode(" Thanks!");
 				//TOFIX LATER: Should be able to access w/o need for id (like via $(this).parent)
 				if(data["item_type"]=='p') {
@@ -240,6 +185,18 @@ var mark_as_spam = function() {
 	return false;
 };
 
+var show_replies = function() {
+	var args = { type:"GET", url:$(this).attr('href'), data:{},
+			success: function(data) { 
+			if(data) {
+				// Reload comment_display.html
+				$('#commenters').html(data);
+			}}};
+	$.ajax(args);
+	return false;
+};
+
+
 
 $.ajaxSetup({
     crossDomain: false, // obviates need for sameOrigin test
@@ -251,9 +208,10 @@ $.ajaxSetup({
 });			
  
 			var csrftoken = getCookie('csrftoken');
-			$(".up").click(create_vote);
-			$(".down").click(create_vote);
-			$(".spam").click(mark_as_spam);
+			$("body").on("click", ".up", create_vote);
+			$("body").on("click", ".down", create_vote);
+			$("body").on("click", ".spam", mark_as_spam);
+			$("body").on("click", ".show_replies", show_replies);
 		});
 	</script>
 

@@ -601,7 +601,7 @@ class NewVisitorTests(LiveServerTestCase):
         up_votes[1].click() #[0] - post vote, [1] - comment vote
         time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
-        self.assertIn('Overall: 1.0', comment_display)
+        self.assertIn('Overall: 1', comment_display)
         self.assertIn('Total Votes: 1', comment_display)
 
         # Jim tries to vote again -- nothing changes
@@ -609,7 +609,7 @@ class NewVisitorTests(LiveServerTestCase):
         up_votes[1].click()
         time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
-        self.assertIn('Overall: 1.0', comment_display)
+        self.assertIn('Overall: 1', comment_display)
         self.assertIn('Total Votes: 1', comment_display)
 
         # Jim votes down and the proper content changes
@@ -617,7 +617,7 @@ class NewVisitorTests(LiveServerTestCase):
         down_votes[1].click()
         time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
-        self.assertIn('Overall: 0.0', comment_display)
+        self.assertIn('Overall: 0', comment_display)
         self.assertIn('Total Votes: 1', comment_display)
     
     def test_user_voting_numbers_are_stored_properly(self):
@@ -837,6 +837,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim clicks 'show replies' & his reply reappears
         self.browser.find_element_by_link_text("Show replies(1)").click()
+        time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
         self.assertIn('1.1', comment_display)
 

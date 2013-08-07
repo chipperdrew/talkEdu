@@ -1,9 +1,12 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, render_to_response
+from django.template import loader, RequestContext
 from honeypot.decorators import check_honeypot
 from itertools import ifilter
 import akismet
@@ -96,6 +99,8 @@ def comment_mark_as_spam(request, id):
     return HttpResponse()
     
 def show_replies(request, comment_id):
+    if not request.is_ajax():
+        raise Http404()
     comment_of_interest = comment.objects.get(id=comment_id)
     depth = comment_of_interest.depth
     post_comments = comment.objects.filter(post_id=comment_of_interest.post_id)
@@ -105,8 +110,12 @@ def show_replies(request, comment_id):
             comments_array.append(com)
         if comment_of_interest.id in com.path and com.depth==depth+1:
             comments_array.append(com)
-    request.session['post_comments_to_show'] = comments_array
-    return redirect(request.GET['next'])
+    return render_to_response(
+        'comment_display.html', {'comment_tree': comments_array, 'user_color_dict': get_user_model().COLORS},
+        context_instance=RequestContext(request)
+    )
+    #data = serializers.serialize('json', {'comment_tree': comments_array})
+    #return HttpResponse(data, content_type='application/json')
 
 
 # Helper Functions

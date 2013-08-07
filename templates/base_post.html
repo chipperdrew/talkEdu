@@ -68,7 +68,7 @@
 
 	{# Sort by links #}
 	{% if posts %}
-	<div class="btn-group">
+	<div class="btn-group" style="margin-bottom:5px">
 		<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
 			Sort by:
 			<span class="caret"></span>
@@ -221,9 +221,9 @@ $.ajaxSetup({
 });		
  
 			var csrftoken = getCookie('csrftoken');
-			$(".up").click(create_vote);
-			$(".down").click(create_vote);
-			$(".spam").click(mark_as_spam);
+			$("body").on("click", ".up", create_vote);
+			$("body").on("click", ".down", create_vote);
+			$("body").on("click", ".spam", mark_as_spam);
 		});
 	</script>
 

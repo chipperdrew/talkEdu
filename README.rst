@@ -1,5 +1,9 @@
 TODO:
 =============
+#) Fix comment format when not logged in
+#) Test "show replies" AJAX
+#) Add AJAX to "show replies" on comments, maybe sort-by buttons?
+#) Add sort-by button to comments
 #) Add Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
