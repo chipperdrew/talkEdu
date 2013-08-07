@@ -1,6 +1,8 @@
 TODO:
 =============
+#) Is there a need for the dictionary extras?
 #) Fix comment format when not logged in
+#) Fix weird float difference on comment overall. "1" vs "1.0"
 #) Test "show replies" AJAX
 #) Add AJAX to "show replies" on comments, maybe sort-by buttons?
 #) Add sort-by button to comments

@@ -19,12 +19,29 @@ var rectPerc = rectArea/totalArea;
 
 
 // FUNCTIONS
+function drawEntireChart(draw, colorDict, postVotesDict, middlePerc, isAjax) {
+	// Properly convert given Django strings to objects ( for interation and key access)
+	if(!isAjax) {
+		colorDict = colorDict.replace(/'/g, '\"')
+		colorDict = JSON.parse( colorDict );
+		postVotesDict = postVotesDict.replace(/'/g, '\"')
+		postVotesDict = JSON.parse( postVotesDict );
+	}
+	i = 0;
+	for(var user_type_key in colorDict) {
+		draw.fillStyle = colorDict[user_type_key];
+		drawPulse(draw, postVotesDict[user_type_key][2], separationDist*(i));
+		i++;
+	}
+	drawMiddle(draw, middlePerc);
+};
+
 
 // Clears the pulse grid and redraws outline
 function clearPulse(draw) {
 	draw.clearRect(0, 0, canvasWidth, canvasHeight);
 	drawPulseOutline(draw);
-}
+};
 	
 
 // Draws the outline of the pulse
@@ -37,10 +54,10 @@ function drawPulseOutline(draw) {
 		draw.closePath();
 		draw.stroke();
 	}
-}
+};
 
 // Draws the pulse bars depending on percentage of up votes
-function drawPulse(perc, offset, draw) {
+function drawPulse(draw, perc, offset) {
 	if(perc == 0) {
 		null
 	} else if(perc <= arcPerc) {
@@ -81,7 +98,7 @@ function drawPulse(perc, offset, draw) {
 }
 
 // Given the overall percentage, draws the middle line on the vote chart
-function drawMiddle(perc, draw) {
+function drawMiddle(draw, perc) {
 	draw.lineWidth = 3;
 	var lineStart = leftArc-rad;
 	var lineEnd = 5*separationDist;	
@@ -147,26 +164,3 @@ function drawMiddleLineHelper(draw, x1, x2, height) {
 	draw.stroke();
 }
 
-
-
-// VOTING AJAX FUNCTIONS
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}

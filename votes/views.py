@@ -102,4 +102,5 @@ def generate_JSON_vals(item_type, item_of_interest):
                        'post_mid': item_of_interest.vote_percentage,
                        'post_total': item_of_interest.total_votes,
                        'item_type': item_type,
+                       'user_color_dict': get_user_model().COLORS,
                        })

@@ -6,23 +6,21 @@
 {% block title %}Post {{ post.id }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
+	<script	type="text/javascript" src="{% static 'js/ajax_script.js' %}"></script>	
+	<script	type="text/javascript" src="{% static 'js/vote_script.js' %}"></script>
+
 	<div class="move_right">
 		{# Post Vote #}
 		<div class="vote_display_div">  
 			<canvas id="myCanvas{{post.id}}" width="150" height="100">
          		   If you see this, your browser does not support HTML5 Canvas.
         		</canvas>
-			<script	src="{% static 'js/vote_script.js' %}"></script>
 			<script type="text/javascript">
 				$(document).ready(function() {
 					var canv = document.getElementById("myCanvas{{post.id}}");
 					var draw = canv.getContext("2d");
 					drawPulseOutline(draw);
-					{% for user_type_key in user_color_dict %}
-						draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
-						drawPulse({{ post.votes_by_user_type|key:user_type_key|key:2}}, separationDist*({{ forloop.counter }}-1), draw);
-					{% endfor %}
-					drawMiddle({{ post.vote_percentage }}, draw);
+					drawEntireChart(draw, "{{user_color_dict|safe}}", "{{post.votes_by_user_type|safe}}", {{ post.vote_percentage|safe }}, false);
 				});
 			</script>
 			<p class="poststats{{post.id}}" style="text-align:center">
@@ -127,92 +125,5 @@
 	<ul id="commenters">
 		{% include 'comment_display.html' %}
 	</ul>
-
-
-
-
-	{# Like/Unlike JS and Ajax #}
-	<script type="text/javascript">
-		$(document).ready(function() {
-var create_vote = function() {
-	var args = { type:"GET", url:$(this).attr('href'), data:{},
-			success: function(data) { 
-			if(data) {
-				if(data["item_type"]=='c') {
-					var canv = document.getElementById("commentCanvas"+data["post_id"]);
-				} else {
-					var canv = document.getElementById("myCanvas"+data["post_id"]);
-				}
-				var draw = canv.getContext("2d");
-				clearPulse(draw); //Clear canvas and redraw
-				{% for user_type_key in user_color_dict %}
-					draw.fillStyle = "{{ user_color_dict|get_item:user_type_key }}";
-					drawPulse(data["post_dict"]["{{user_type_key}}"][2], separationDist*({{ forloop.counter }}-1), draw);
-				{% endfor %}
-				drawMiddle(data["post_mid"], draw);
-
-				// Reload div that displays overall percentage and number of votes
-				if(data["item_type"]=='c') {
-					// Load doesn't work after "show replies"
-					$('.comstats'+data["post_id"]).html("Overall: "+data["post_mid"]+ "<br>Total Votes: "+data["post_total"]);
-				} else {
-					$('.poststats'+data["post_id"]).load(' .poststats'+data["post_id"]);
-				}
-			}}};
-	$.ajax(args);
-	return false;
-};
-
-var mark_as_spam = function() {
-	var args = { type:"GET", url:$(this).attr('href'), data:{},
-			success: function(data) { 
-			if(data) {
-				// Add comment indicating spam marking received
-				var textNode = document.createTextNode(" Thanks!");
-				//TOFIX LATER: Should be able to access w/o need for id (like via $(this).parent)
-				if(data["item_type"]=='p') {
-					var child = document.getElementById('post_links'+data["id"]);
-					child.parentNode.insertBefore(textNode, child.nextSibling);
-				} else {
-					var span = document.createElement('span');
-					span.style.color = "#ff982c";
-					span.appendChild(textNode);
-					var child = document.getElementById('comment_links'+data["id"]);
-					child.parentNode.insertBefore(span, child.nextSibling);
-				}
-			}}};
-	$.ajax(args);
-	return false;
-};
-
-var show_replies = function() {
-	var args = { type:"GET", url:$(this).attr('href'), data:{},
-			success: function(data) { 
-			if(data) {
-				// Reload comment_display.html
-				$('#commenters').html(data);
-			}}};
-	$.ajax(args);
-	return false;
-};
-
-
-
-$.ajaxSetup({
-    crossDomain: false, // obviates need for sameOrigin test
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type)) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});			
- 
-			var csrftoken = getCookie('csrftoken');
-			$("body").on("click", ".up", create_vote);
-			$("body").on("click", ".down", create_vote);
-			$("body").on("click", ".spam", mark_as_spam);
-			$("body").on("click", ".show_replies", show_replies);
-		});
-	</script>
 
 {% endblock content %}
