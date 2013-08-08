@@ -26,7 +26,11 @@ def faq_page(request):
     return render(request, 'FAQ.html')
 
 def learn_more(request):
-    return render(request, 'learn_more.html')
+    return render(request, 'learn_more.html',
+                  {'user_color_dict': get_user_model().COLORS,
+                   'user_type_dict': get_user_model().USER_TYPE_CHOICES,
+                   'page_type_dict': post.PAGE_TYPE_CHOICES
+                   })
 
 def display_page_helper(request, page, sort_id=1):
     """

@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Linkify text?
 #) Add Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????

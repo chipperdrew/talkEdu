@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load dictionary_extras %}
 
 {% block title %}Learn - YouTalkEdu{% endblock title %}
 
@@ -6,6 +7,7 @@
 	<div class="move_right">
 	<div class="tabbable tabs-left">
 		<ul id="id_tabs" class="nav nav-tabs" style="font-size:1.3em">
+			<li class="active"><a href="#tab0" data-toggle="tab">Overview</a></li><br/>
 			<li><a href="#tab1" data-toggle="tab">User types</a></li><br/>
 			<li><a href="#tab2" data-toggle="tab">PIQS pages</a></li><br/>
 			<li><a href="#tab3" data-toggle="tab">Posting</a></li><br/>
@@ -15,31 +17,90 @@
 
 		<div class="tab-content">
 			{# Default display upon arrival #}
-			<div class="tab-pane fade in active">
+			<div class="tab-pane fade in active" id="tab0">
 				<p>Click on items on the left to learn more about them</p>
+				<p>The purpose of YouTalkEdu is a GENERAL DISCUSSION of education -- no specifics!</p>
+				<p>General rules</p>
 			</div>
 
-			{# Tab 1 #}
+			{# Tab 1 - User types #}
 			<div class="tab-pane fade in" id="tab1">
-				<p>Ahhh, content 1</p>
+				<p>All members of YouTalkEdu must classify themselves according to one of the 
+				following user types:</p>
+				<ul>
+				{% for type in user_type_dict %}
+					<li style="color:{{user_color_dict|get_item:type.0}}">{{ type.1 }}</li>
+				{% endfor %}
+				</ul>
+
+				<p>I can tell that your mind is already BURSTING with questions, 
+				so let me try to satisfy your hungry mind with some explanations.</p><br/>
+				<h4>What's the purpose?</h4>
+				<p>
+					Great question! The different types were created to get a "feel" of the thoughts
+					and opinions from each camp. 
+				</p>
+				<p>
+					For example, there may be a large amount of content from teachers about the costs of
+					buying student supplies, presenting an issue to the other user types 
+					(and the rest of the community) that may have previously gone unconsidered.
+				</p><br/>
+				<h4>What's with the colors?</h4>
+				<p>
+					Another great question! 
+					Pat yourself on the back for asking two great questions in a row. 
+					Color can be used to stimulate learning and is beneficial in bringing out creativity
+					(you can read more about this in the rather uncolorful article located
+					<a href="http://www.ehow.com/how-does_4570805_color-affect-learning.html">here</a>).
+				</p>
+				<p>
+					Also, the voting system uses the colors for its display. If you haven't already,
+					check out the voting tab on the left to learn more 
+					(I promise it's super interesting).
+				</p>
 			</div>
 
-			{# Tab 2 #}
+			{# Tab 2 - PIQS pages #}
 			<div class="tab-pane fade in" id="tab2">
-				<p>Ahhh, content dos</p>
+				<p>PIQS (not the cute oinking animals) is the unclever abbreviation of the pages 
+				here on YouTalkEdu. PIQS is short for:</p>
+				<p>
+				{% for type in page_type_dict %}
+					- {{ type.1 }}<br/>
+				{% endfor %}
+				</p>
+				<p>The pages are pretty self-explanatory, 
+				but for completeness sakes will be discussed below.</p><br/>
+				<h4>{{ page_type_dict.0.1 }} - Discuss any problems you see in the current educational system here</h4>
+				<p style="color:red">No specifics!! Phrases such as "Mr. Doe should be fired" or 
+				"Blah High School is failing students" WILL get you banned.</p><br/>
+				<h4>{{ page_type_dict.1.1 }} - Discuss any ideas which may benefit the educational system here</h4>
+				<p>If you've tried anything to improve education in your school/community, 
+				I STRONGLY encourage you mention it here.<br/>
+				If you wish to use specifics here (i.e "At Blah High School, I did ..."), you may.</p><br/>
+				<h4>{{ page_type_dict.2.1 }} - Discuss any educational questions worth considering here</h4>
+				<p style="color:red">Once again, specific questions such as "Why is Mr. Doe so bad?" 
+				WILL get you banned.</p><br/>
+				<h4>{{ page_type_dict.3.1 }} - Discuss any thoughts you have about YouTalkEdu</h4>
+				<p>This site was built for the purposes of improving education.
+				If you have any ideas about how to better the discussion, or just simply want to voice
+				your thoughts on what you like/dislike/want to see, please post here.<br/>
+				<span style="color:red">If you have found any security issues with the site, 
+				PLEASE do not post them here. Email {# EMAIL #} those to me.</span></p>
+
 			</div>
 
-			{# Tab 3 #}
+			{# Tab 3 - Posting #}
 			<div class="tab-pane fade in" id="tab3">
 				<p>Ohh 3 you say?</p>
 			</div>
 
-			{# Tab 4 #}
+			{# Tab 4 - Commenting #}
 			<div class="tab-pane fade in" id="tab4">
 				<p>4444</p>
 			</div>
 
-			{# Tab 5 #}
+			{# Tab 5 - Voting #}
 			<div class="tab-pane fade in" id="tab5">
 				<p>NUMBER 5000!</p>
 			</div>
