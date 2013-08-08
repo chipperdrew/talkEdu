@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Learn - YouTalkEdu{% endblock title %}
+
+{% block content %}
+	<div class="move_right">
+	<div class="tabbable tabs-left">
+		<ul id="id_tabs" class="nav nav-tabs" style="font-size:1.3em">
+			<li><a href="#tab1" data-toggle="tab">User types</a></li><br/>
+			<li><a href="#tab2" data-toggle="tab">PIQS pages</a></li><br/>
+			<li><a href="#tab3" data-toggle="tab">Posting</a></li><br/>
+			<li><a href="#tab4" data-toggle="tab">Commenting</a></li><br/>
+			<li><a href="#tab5" data-toggle="tab">Voting</a></li>
+		</ul>
+
+		<div class="tab-content">
+			{# Default display upon arrival #}
+			<div class="tab-pane fade in active">
+				<p>Click on items on the left to learn more about them</p>
+			</div>
+
+			{# Tab 1 #}
+			<div class="tab-pane fade in" id="tab1">
+				<p>Ahhh, content 1</p>
+			</div>
+
+			{# Tab 2 #}
+			<div class="tab-pane fade in" id="tab2">
+				<p>Ahhh, content dos</p>
+			</div>
+
+			{# Tab 3 #}
+			<div class="tab-pane fade in" id="tab3">
+				<p>Ohh 3 you say?</p>
+			</div>
+
+			{# Tab 4 #}
+			<div class="tab-pane fade in" id="tab4">
+				<p>4444</p>
+			</div>
+
+			{# Tab 5 #}
+			<div class="tab-pane fade in" id="tab5">
+				<p>NUMBER 5000!</p>
+			</div>
+
+
+		</div>
+	</div>
+
+	</div> {# End move_right div #}
+{% endblock content %}

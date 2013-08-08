@@ -25,6 +25,9 @@ def home_page(request):
 def faq_page(request):
     return render(request, 'FAQ.html')
 
+def learn_more(request):
+    return render(request, 'learn_more.html')
+
 def display_page_helper(request, page, sort_id=1):
     """
     Helper function to display any pages with posts.

@@ -3,6 +3,8 @@ TODO:
 #) Add Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
+#) Smaller comment voting chart
+#) Make "show" and "sort-by" buttons AJAXed
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page?? Introduce to site?
 #) TIME PERMITTING - Upgrade Bootstrap?
