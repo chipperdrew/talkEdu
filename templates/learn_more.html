@@ -18,9 +18,24 @@
 		<div class="tab-content">
 			{# Default display upon arrival #}
 			<div class="tab-pane fade in active" id="tab0">
-				<p>Click on items on the left to learn more about them</p>
-				<p>The purpose of YouTalkEdu is a GENERAL DISCUSSION of education -- no specifics!</p>
-				<p>General rules</p>
+				<h2>YouTalkEdu - Where YOU get to discuss and debate all things education!</h2>
+				<p>Welcome to YouTalkEdu!</p>
+				<p>If I'm already boring you, just go wander around the site. I won't be upset. Really.</p>
+				<br/>
+				<p>YouTalkEdu is a free-to-use website geared towards bettering the current 
+				educational system. Anyone can browse around the content here, 
+				however only those with an account can post, comment, or vote on the content.
+				Registering is extremely painful and not recommended, but if you wish to do so you may 
+				<a href="{% url 'register' %}">register here</a>.</p>
+				<br/>
+				<h4>General guidelines:</h4>
+				<ul>
+					<li>Don't post spam. Ever.</li>
+					<li>Don't slander specific people or schools.</li>
+					<li>No foul language.</li>
+				</ul>
+				<br/><br/>
+				<h3>Click on the tabs to the left to learn more about YouTalkEdu!</h3><br/>
 			</div>
 
 			{# Tab 1 - User types #}
@@ -31,10 +46,7 @@
 				{% for type in user_type_dict %}
 					<li style="color:{{user_color_dict|get_item:type.0}}">{{ type.1 }}</li>
 				{% endfor %}
-				</ul>
-
-				<p>I can tell that your mind is already BURSTING with questions, 
-				so let me try to satisfy your hungry mind with some explanations.</p><br/>
+				</ul><br/>
 				<h4>What's the purpose?</h4>
 				<p>
 					Great question! The different types were created to get a "feel" of the thoughts
@@ -50,7 +62,7 @@
 					Another great question! 
 					Pat yourself on the back for asking two great questions in a row. 
 					Color can be used to stimulate learning and is beneficial in bringing out creativity
-					(you can read more about this in the rather uncolorful article located
+					(you can read more about this in the rather uncolorful eHow article located
 					<a href="http://www.ehow.com/how-does_4570805_color-affect-learning.html">here</a>).
 				</p>
 				<p>
@@ -62,15 +74,9 @@
 
 			{# Tab 2 - PIQS pages #}
 			<div class="tab-pane fade in" id="tab2">
-				<p>PIQS (not the cute oinking animals) is the unclever abbreviation of the pages 
-				here on YouTalkEdu. PIQS is short for:</p>
-				<p>
-				{% for type in page_type_dict %}
-					- {{ type.1 }}<br/>
-				{% endfor %}
-				</p>
-				<p>The pages are pretty self-explanatory, 
-				but for completeness sakes will be discussed below.</p><br/>
+				<p>PIQS (not the cute oinking animals) is the unclever abbreviation for the pages 
+				here on YouTalkEdu. PIQS is short for:</p><br/>
+
 				<h4>{{ page_type_dict.0.1 }} - Discuss any problems you see in the current educational system here</h4>
 				<p style="color:red">No specifics!! Phrases such as "Mr. Doe should be fired" or 
 				"Blah High School is failing students" WILL get you banned.</p><br/>
@@ -92,7 +98,9 @@
 
 			{# Tab 3 - Posting #}
 			<div class="tab-pane fade in" id="tab3">
-				<p>Ohh 3 you say?</p>
+				<p>Any YouTalkEdu user can post on any PIQS page.</p>
+				<h3>All posts look something like the following:</h3>
+				{# INCLUDE POST IMAGE WITH COOL VOTE TOTALS #}
 			</div>
 
 			{# Tab 4 - Commenting #}

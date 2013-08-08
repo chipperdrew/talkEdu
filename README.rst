@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Consider replacing "Home" at top with "Learn"
 #) Linkify text?
 #) Add Learn More page
 #) Do something to prevent comment spam - Akismet

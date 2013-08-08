@@ -28,7 +28,11 @@
 		{# Would use form.as.p but want special error display above #}
 		{% for field in form %}
 			<div class="fieldWrapper">
-			{{ field.label_tag }} {{ field }}<br/><br/>
+			{{ field.label_tag }} {{ field }}
+			{% if 'mail' in field.label_tag %}
+				This will ONLY be used to send a verification E-mail. After that, we'll sell it to the highest bidder (only joking).
+			{% endif %}
+			<br/><br/>
 			</div>
 		{% endfor %}
 
