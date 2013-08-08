@@ -842,6 +842,13 @@ class NewVisitorTests(LiveServerTestCase):
         comment_display = self.browser.find_element_by_id('commenters').text
         self.assertIn('1.1', comment_display)
 
+        # Jim marks his post as spam and sees "Thanks" w/o page reloading
+        spam = self.browser.find_elements_by_link_text('Mark as spam')
+        spam[2].click()
+        time.sleep(1)
+        comment_display = self.browser.find_element_by_id('commenters').text
+        self.assertIn('Thanks', comment_display)
+
         # 3: Jim comments again (not a reply)
         self.browser.find_element_by_id('id_content').send_keys('Comment 2')
         self.browser.find_element_by_name('comment_button').click()

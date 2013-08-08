@@ -1,8 +1,5 @@
 TODO:
 =============
-#) Fix comment format when not logged in
-#) Test "show replies" AJAX
-#) Add sort-by button to comments
 #) Add Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
@@ -55,7 +52,7 @@ TODO:
 #) NO - Save canvas chart and redraw when needed --- Canvas is actually pretty efficient (~2ms per post)
 #) DONE - Update votes, spam marking on-the-fly with AJAX
 #) DONE - Add AJAX to "show replies" on comments
-
+#) NO - Add sort-by button to comments --- Pain to sort top-level comments and show replies in correct location
 
 
 

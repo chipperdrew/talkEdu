@@ -92,7 +92,7 @@ def display_page_helper(request, page, sort_id=1):
                    'page_title': page_title, 'page_abbrev': page_type,
                    'current_page': current_page, 'page': page,
                    'user_color_dict': get_user_model().COLORS,
-                   'sort_categs': sort_categs, 'sort_id':sort_id
+                   'sort_categs': sort_categs, 'sort_id':sort_id #For green checkmark
                    })
 
 def user_page(request, user):
