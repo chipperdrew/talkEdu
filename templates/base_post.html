@@ -10,6 +10,7 @@
 	<script	type="text/javascript" src="{% static 'js/vote_script.js' %}"></script>
 
 	<div class="move_right">
+	{# Post form #}
 	{% if user.is_authenticated %}
 		<br/ id="id_line_break">
 		{# Automatically re-display form if error #}
@@ -55,7 +56,7 @@
 				<p>:( You have used up all of your posts for the day. However, you may still
 				(and are encouraged to) vote and comment on posts made by others.</p>
 			{% else %}
-				<p>PLEASE NOTE: You have {{ posts_left }} post{{ posts_left|pluralize }} remaining for the day.</p>
+				<p>You have {{ posts_left }} post{{ posts_left|pluralize }} remaining for the day.</p>
 				<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
 					{% csrf_token %}
 					{% render_honeypot_field %}
@@ -93,15 +94,13 @@
 	{% endif %}
 
 
-	{# POSTS DISPLAY #}
-	<div>
+	{# Posts display #}
 	{% for post in posts %}
-		{# Div id MUST be post id for ajax to work #}
 		<div style="clear:both; margin-bottom:20px; border:2px solid black; width:800px">
 		{# Vote display #}
 		<div class="vote_display_div">
 			<canvas id="myCanvas{{post.id}}" width="125" height="100">
-         		   If you see this, your browser does not support HTML5 Canvas. Sorry :(
+				If you see this, your browser does not support HTML5 Canvas. Sorry :(
         		</canvas>
 			<script type="text/javascript">
 				$(document).ready(function() {
@@ -127,34 +126,29 @@
 			</p>
 			<a href="{% url 'post_page' post_id=post.id %}"><h4 id="base_post_title">{{ post.title|capfirst }}</h4></a>
 			<p>
-				{% for user_type_key in user_color_dict %}
-					{{ user_type_key }}:		
-					{{ post.votes_by_user_type|key:user_type_key|key:2 }},
-				{% endfor %}
-			</p>
 			{% if user.is_authenticated %}		
-				<p>
-					<div id="post_links{{post.id}}" style="display:inline-block">
+				<div id="post_links{{post.id}}" style="display:inline-block">
 					<a class="up" href="{% url 'up_vote' id=post.id item_type='p'%}">Up</a> &nbsp;
 					<a class="down" href="{% url 'down_vote' id=post.id item_type='p'%}">Down</a> &nbsp;
 					<a class="spam" href="{% url 'post_spam' id=post.id %}">Mark as spam</a>
-					</div>			
+				</div>			
 				{% if post.user_id == request.user %}
 					<div class="inline_right">
-					<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}?page={{ page }}">Edit</a>
-					<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}?page={{ page }}"
-					onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
+						<a href="{% url 'post_edit' id=post.id %}?next={{request.path}}?page={{ page }}">Edit</a>
+						<a href="{% url 'post_delete' id=post.id %}?next={{request.path}}?page={{ page }}"
+						onclick="return confirm('Deleting your post will remove all related votes and comments. Proceed?')">Delete</a>
 					</div>
 				{% endif %}
-				</p>
+			{% else %}
+				&nbsp; {# Keeps styling consistent #}
 			{% endif %}
+			</p>
 		</div>
 		</div>
 	{% endfor %}
-	</div>
     
 
-	{# PAGINATION #}
+	{# Pagination #}
 	{# Source: https://docs.djangoproject.com/en/dev/topics/pagination/ #}
 	<div class="pagination">
 		<span class="step-links">

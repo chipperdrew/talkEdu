@@ -10,23 +10,23 @@
 	<script	type="text/javascript" src="{% static 'js/vote_script.js' %}"></script>
 
 	<div class="move_right">
-		{# Post Vote #}
-		<div class="vote_display_div">  
-			<canvas id="myCanvas{{post.id}}" width="150" height="100">
-         		   If you see this, your browser does not support HTML5 Canvas.
-        		</canvas>
-			<script type="text/javascript">
-				$(document).ready(function() {
-					var canv = document.getElementById("myCanvas{{post.id}}");
-					var draw = canv.getContext("2d");
-					drawPulseOutline(draw);
-					drawEntireChart(draw, "{{user_color_dict|safe}}", "{{post.votes_by_user_type|safe}}", {{ post.vote_percentage|safe }}, false);
-				});
-			</script>
-			<p class="poststats{{post.id}}" style="text-align:center">
-				Overall: {{ post.vote_percentage }}<br/>Total Votes: {{ post.total_votes }}
-			</p>
-		</div>
+	{# Post Vote #}
+	<div class="vote_display_div">  
+		<canvas id="myCanvas{{post.id}}" width="150" height="100">
+			If you see this, your browser does not support HTML5 Canvas.
+        	</canvas>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var canv = document.getElementById("myCanvas{{post.id}}");
+				var draw = canv.getContext("2d");
+				drawPulseOutline(draw);
+				drawEntireChart(draw, "{{user_color_dict|safe}}", "{{post.votes_by_user_type|safe}}", {{ post.vote_percentage|safe }}, false);
+			});
+		</script>
+		<p class="poststats{{post.id}}" style="text-align:center">
+			Overall: {{ post.vote_percentage }}<br/>Total Votes: {{ post.total_votes }}
+		</p>
+	</div>
 
 	{# Post display #}
 	<div class="item_display_div">
@@ -55,7 +55,7 @@
 	</div>
 
 
-	{# Comments -- Credit to Max Burstein on logic and design #}
+	{# Comments -- Credit to Max Burstein for JS logic and design #}
 	<br/><br/>
 	<h3>Comments({{num_comments}})</h3>
 	<script>
@@ -96,8 +96,9 @@
 		<p>Please login to comment.</p><br/><br/>
 	{% endif %}			
 
+
+	{# Display dropdown: Show all or just top level comments #}
 	{% if comment_tree %}
-	{# Display dropdown: Show all or just top level #}
 	<div class="btn-group" style="margin-bottom:5px">
 		<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" name="show_dropdown">
 			Show

@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Is there a need for the dictionary extras?
 #) Fix comment format when not logged in
 #) Test "show replies" AJAX
 #) Add sort-by button to comments

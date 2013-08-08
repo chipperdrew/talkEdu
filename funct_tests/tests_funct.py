@@ -689,7 +689,7 @@ class NewVisitorTests(LiveServerTestCase):
         # The post shows than an ADMIN has voted up
         self.browser.get(self.live_server_url+'/pages/site_feedback/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("STU: 0, PAR: 0, ADM: 1.0, OUT: 0, TEA: 0", body)
+        self.assertIn("Overall: 1.0", body)
         self.assertIn('Administrator', body)
 
         # Jim changes user type to TEACHER
@@ -705,8 +705,9 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim sees his user type and vote has been changed
         self.browser.get(self.live_server_url+'/pages/site_feedback/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn("STU: 0, PAR: 0, ADM: 0, OUT: 0, TEA: 1.0", body)
+        self.assertIn("Overall: 1.0", body)
         self.assertIn('Teacher', body)
+        self.assertNotIn('Administrator', body)
     
     def test_mark_as_spam_links(self):
         test_user = get_user_model().objects.get(username='Test')
