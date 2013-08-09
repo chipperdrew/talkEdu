@@ -13,10 +13,10 @@ class comment(TimeStampedVoteableModel):
         ordering = ['path']
         
     content = models.TextField()
-    path = IntegerArrayField(blank=True, editable=False)
-    depth = models.PositiveSmallIntegerField(default=0)
-    post_id = models.ForeignKey(post, related_name='comments')
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL,
+    path = IntegerArrayField(db_index=True, blank=True, editable=False)
+    depth = models.PositiveSmallIntegerField(db_index=True, default=0)
+    post_id = models.ForeignKey(post, db_index=True, related_name='comments')
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, db_index=True,
                                 related_name='comments')
     children = models.SmallIntegerField(default=0)
 

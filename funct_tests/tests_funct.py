@@ -232,6 +232,15 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('0.0', body)
         self.assertIn('(0 votes)', body)
         self.assertIn('User Test', self.browser.title)
+        self.assertNotIn('Change your password', body)
+
+        # Jim logsin and sees specific content for him
+        self.browser.find_element_by_link_text('Login').click()
+        self.login_user('Test', 'test')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Change your password', body)
+        self.assertIn('chipperdrew@gmail.com', body)
+        
     
     def test_post_page_shows_proper_content(self):
         test_user = get_user_model().objects.get(username='Test')

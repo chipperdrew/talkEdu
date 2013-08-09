@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Display email, option to change?
 #) Consider replacing "Home" in navbar with "Learn"
 #) Stylize the Learn More page
 #) Do something to prevent comment spam - Akismet
@@ -10,6 +9,7 @@ TODO:
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page?? Introduce to site?
 #) TIME PERMITTING - Upgrade Bootstrap?
+#) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) TIME PERMITTING - Adjust JS so on reply click, form is toggled on/off

@@ -16,13 +16,13 @@ class TimeStampedVoteableModel(models.Model):
         abstract = True
         ordering = ['-time_created']
         
-    time_created = models.DateTimeField(auto_now_add=True,
+    time_created = models.DateTimeField(db_index=True, auto_now_add=True,
                                         default=datetime.datetime.now())
     time_modified = models.DateTimeField(auto_now=True,
                                          default=datetime.datetime.now())
     up_votes = models.SmallIntegerField(default=0)
-    total_votes = models.SmallIntegerField(default=0)
-    vote_percentage = models.FloatField(default=0) ##Set min/max
+    total_votes = models.SmallIntegerField(db_index=True, default=0)
+    vote_percentage = models.FloatField(db_index=True, default=0) ##Set min/max
 
     votes_by_user_type = PickledObjectField(
         default={eduuser.STUDENT: [0,0,0],
@@ -48,7 +48,8 @@ class post(TimeStampedVoteableModel):
     # Leave this as 'name' b/c admin requires one
     title = models.CharField(default="", max_length=150)
     text = models.TextField(blank=True)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts')
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, db_index=True,
+                                related_name='posts')
                         # Allows us to access via user.posts
 
     # IF MODIFY BELOW, must change 'edit' view
@@ -64,7 +65,8 @@ class post(TimeStampedVoteableModel):
         (SITE_FEEDBACK, 'Site Feedback'),
     )
     
-    page_type = models.CharField(max_length=3, choices=PAGE_TYPE_CHOICES)
+    page_type = models.CharField(db_index=True, max_length=3,
+                                 choices=PAGE_TYPE_CHOICES)
 
     def check_spam_count(self):
         # Not set to self.spam.count() in case there is a need to reset spam_count

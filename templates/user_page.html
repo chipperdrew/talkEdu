@@ -9,6 +9,7 @@
 	{% if user_object == request.user %}
 		<p><a href="{% url 'pass_change' %}">Change your password</a></p>
 		<p><a href="{% url 'user_type_change' %}">Change your account type</a></p>
+		<p>Your email (only visible to you): {{ user_object.email }}.</p>
 	{% endif %}
 	<h4> Overall user rating: {{ user_object.vote_percentage }}</h4>
 	<p>Last logged in on {{ user_object.last_login.date }} at {{ user_object.last_login.time }}</p>
