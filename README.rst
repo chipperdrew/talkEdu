@@ -1,7 +1,7 @@
 TODO:
 =============
+#) Display email, option to change?
 #) Consider replacing "Home" in navbar with "Learn"
-#) Linkify text?
 #) Stylize the Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????

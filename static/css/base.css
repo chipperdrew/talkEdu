@@ -4,6 +4,11 @@
 	margin-left:10px;
 }
 
+/* Templates used on: learn_more */
+.tab-content h3, .tab-content h2 {
+	color:#00BAED;
+}
+
 /* Templates used on: base_post, post_page */
 .green_checkmark {
 	height:10px; 

@@ -18,10 +18,10 @@
 		<div class="tab-content">
 			{# Default display upon arrival #}
 			<div class="tab-pane fade in active" id="tab0">
-				<h2>YouTalkEdu - Where YOU get to discuss and debate all things education!</h2>
-				<p>Welcome to YouTalkEdu!</p>
-				<p>If I'm already boring you, just go wander around the site. I won't be upset. Really.</p>
-				<br/>
+				<h2>YouTalkEdu - Where YOU discuss & debate all things education!</h2><br/>
+				<h4>Welcome to YouTalkEdu!</h4>
+				<p>If I'm already boring you, just go wander around the site. I won't be upset. Really.</p><br/>
+				<h4>What is YouTalkEdu?</h4>
 				<p>YouTalkEdu is a free-to-use website geared towards bettering the current 
 				educational system. Anyone can browse around the content here, 
 				however only those with an account can post, comment, or vote on the content.
@@ -39,10 +39,11 @@
 
 			{# Tab 1 - User types #}
 			<div class="tab-pane fade in" id="tab1">
-				<h3>All members of YouTalkEdu must classify themselves as one of the following:</h3>
+				<h3>Choose a type. Represent your peers.</h3><br/>
+				<h4>All YouTalkEdu users must choose from the following user types when registering:</h4>
 				<ul>
 				{% for type in user_type_dict %}
-					<li style="color:{{user_color_dict|get_item:type.0}}">{{ type.1 }}</li>
+					<li style="color:{{user_color_dict|get_item:type.0}}; font-weight:bold">{{ type.1 }}</li>
 				{% endfor %}
 				</ul><br/>
 				<h4>What's the purpose?</h4>
@@ -72,17 +73,16 @@
 
 			{# Tab 2 - PIQS pages #}
 			<div class="tab-pane fade in" id="tab2">
-				<h3>PIQS (not the cute oinking animals) is the unclever abbreviation for the pages 
-				here on YouTalkEdu. PIQS is short for:</h3><br/>
+				<h3>PIQS - The unclever abbreviation for the YouTalkEdu discussion pages.</h3><br/>
 
 				<h4>{{ page_type_dict.0.1 }} - Discuss any problems you see in the current educational system here</h4>
-				<p style="color:red">No specifics!! Phrases such as "Mr. Doe should be fired" or 
+				<p>No specifics!! Phrases such as "Mr. Doe should be fired" or 
 				"Blah High School is failing students" WILL get you banned.</p><br/>
 				<h4>{{ page_type_dict.1.1 }} - Discuss any ideas which may benefit the educational system here</h4>
 				<p>If you've tried anything to improve education in your school/community, 
 				I STRONGLY encourage you mention it here.</p><br/>
 				<h4>{{ page_type_dict.2.1 }} - Discuss any educational questions worth considering here</h4>
-				<p style="color:red">Once again, specific questions such as "Why is Mr. Doe so bad?" 
+				<p>Once again, specific questions such as "Why is Mr. Doe so bad?" 
 				WILL get you banned.</p><br/>
 				<h4>{{ page_type_dict.3.1 }} - Discuss any thoughts you have about YouTalkEdu</h4>
 				<p>This site was built for the purposes of improving education.
@@ -95,35 +95,39 @@
 
 			{# Tab 3 - Posting #}
 			<div class="tab-pane fade in" id="tab3">
-				<h3>Any YouTalkEdu user can post on any PIQS page.</h3>
+				<h3>Any YouTalkEdu user can post on the PIQS page.</h3><br/>
 				<h4>On the PIQS pages, all posts will look like:</h4>
 				<img src="{% static 'img/sample_post.png' %}" /><br/><br/>
-				<p>Clicking on the post title will bring you to that post's page,
-				on which the content of the post as well as the comments are displayed.
-				</p><br/>
-				<p>To limit the spam of the website, you will only be able to post five
-				times within a 24 hour period, so make your posts count!</p>
+				<ul>
+					<li>Clicking on the post title will bring you to that post's page,
+					on which the content of the post as well as the comments are displayed.</li><br/>
+					<li>To limit the spam of the website, you will only be able to post 5
+					times within a 24 hour period, so make your posts count!</li>
+				</ul>
 			</div>
 
 			{# Tab 4 - Voting #}
 			<div class="tab-pane fade in" id="tab4">
-				<h3>This is my favorite part of this site! 
-				If you recall from the user types tab, we have the following user types:</h3>
-				<ul>
+				<h3>Voting like you've never seen it before.</h3><br/>
+				<h4>If you recall from the user types tab, we have the following user types:</h4>
+				<h5>
 				{% for type in user_type_dict %}
-					<li style="color:{{user_color_dict|get_item:type.0}}">{{ type.1 }}</li>
+					<span style="color:{{user_color_dict|get_item:type.0}}; display:inline-block">{{ type.1 }}</span>&nbsp;
 				{% endfor %}
-				</ul><br/>
-				<p>Each post/comment has a vote chart like the following:</p>
+				</h5><br/>
+				<h4>Each post/comment has a vote chart like the following:</h4>
 				<img src="{% static 'img/sample_vote.png' %}" /><br/><br/>
-				<p>	Each vote "tube" corresponds to a given user type. The "tubes" are percentage based
-					-- they indicate the percentage of votes that are "up" votes by each user type.
-					The black line across the vote chart is the average "up" percentage for all users.
-				</p>
-				<p>
-					Underneath each chart is the decimal value corresponding to the value of the
-					overall "up" percentage, and the total number of votes on the post.
-				</p>
+				<ul>
+					<li>Each vote tube corresponds to a given user type (Red - Students, Blue - Parents, etc).</li><br/>
+					<li>The tubes are percentage based -- they indicate the percentage 
+					of votes that are "up" votes by each user type.</li><br/>
+					<li>The black line across the vote chart represents the average "up" percentage 
+					for all users.</li><br/>
+					<li>Underneath each chart is the decimal value corresponding to the value of the
+					overall "up" percentage,<br/> and the total number of votes on the post.</li>
+				</li>
+
+				</ul>
 			</div>
 		</div>
 	</div>

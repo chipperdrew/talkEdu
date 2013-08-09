@@ -31,7 +31,7 @@
 	{# Post display #}
 	<div class="item_display_div">
 		<h3>{{ post.title|capfirst }}</h3>
-		<p>{{ post.text|linebreaks }}</p><br/><br/>
+		<p>{{ post.text|linebreaks|urlize }}</p><br/><br/>
 		<p>Posted by: <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a></p>
 		{% with u_type=post.user_id.user_type %}
 		<p style="color:{{user_color_dict|get_item:u_type}}; font-weight:bold">{{ post.user_id.get_user_type_display }}</p>
