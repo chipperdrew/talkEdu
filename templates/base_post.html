@@ -119,9 +119,10 @@
 		{# Post content display #}
 		<div class="item_display_div">
 			<p>
-				At {{ post.time_created }}, <a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a> posted:
+				On {{ post.time_created.date }} at {{ post.time_created.time }}, 
+				<a href="{% url 'user_page' user=post.user_id %}">{{ post.user_id }}</a> posted:
 				{% with u_type=post.user_id.user_type %}
-				<span style="color:{{user_color_dict|get_item:u_type}}; float:right; font-weight:bold">{{ post.user_id.get_user_type_display }}</span>
+					<span style="color:{{user_color_dict|get_item:u_type}}; float:right; font-weight:bold">{{ post.user_id.get_user_type_display }}</span>
 				{% endwith %}
 			</p>
 			<a href="{% url 'post_page' post_id=post.id %}"><h4 id="base_post_title">{{ post.title|capfirst }}</h4></a>

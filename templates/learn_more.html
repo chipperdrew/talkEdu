@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load dictionary_extras %}
+{% load staticfiles %}
 
 {% block title %}Learn - YouTalkEdu{% endblock title %}
 
@@ -11,8 +12,7 @@
 			<li><a href="#tab1" data-toggle="tab">User types</a></li><br/>
 			<li><a href="#tab2" data-toggle="tab">PIQS pages</a></li><br/>
 			<li><a href="#tab3" data-toggle="tab">Posting</a></li><br/>
-			<li><a href="#tab4" data-toggle="tab">Commenting</a></li><br/>
-			<li><a href="#tab5" data-toggle="tab">Voting</a></li>
+			<li><a href="#tab4" data-toggle="tab">Voting</a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -33,15 +33,13 @@
 					<li>Don't post spam. Ever.</li>
 					<li>Don't slander specific people or schools.</li>
 					<li>No foul language.</li>
-				</ul>
-				<br/><br/>
+				</ul><br/>
 				<h3>Click on the tabs to the left to learn more about YouTalkEdu!</h3><br/>
 			</div>
 
 			{# Tab 1 - User types #}
 			<div class="tab-pane fade in" id="tab1">
-				<p>All members of YouTalkEdu must classify themselves according to one of the 
-				following user types:</p>
+				<h3>All members of YouTalkEdu must classify themselves as one of the following:</h3>
 				<ul>
 				{% for type in user_type_dict %}
 					<li style="color:{{user_color_dict|get_item:type.0}}">{{ type.1 }}</li>
@@ -74,16 +72,15 @@
 
 			{# Tab 2 - PIQS pages #}
 			<div class="tab-pane fade in" id="tab2">
-				<p>PIQS (not the cute oinking animals) is the unclever abbreviation for the pages 
-				here on YouTalkEdu. PIQS is short for:</p><br/>
+				<h3>PIQS (not the cute oinking animals) is the unclever abbreviation for the pages 
+				here on YouTalkEdu. PIQS is short for:</h3><br/>
 
 				<h4>{{ page_type_dict.0.1 }} - Discuss any problems you see in the current educational system here</h4>
 				<p style="color:red">No specifics!! Phrases such as "Mr. Doe should be fired" or 
 				"Blah High School is failing students" WILL get you banned.</p><br/>
 				<h4>{{ page_type_dict.1.1 }} - Discuss any ideas which may benefit the educational system here</h4>
 				<p>If you've tried anything to improve education in your school/community, 
-				I STRONGLY encourage you mention it here.<br/>
-				If you wish to use specifics here (i.e "At Blah High School, I did ..."), you may.</p><br/>
+				I STRONGLY encourage you mention it here.</p><br/>
 				<h4>{{ page_type_dict.2.1 }} - Discuss any educational questions worth considering here</h4>
 				<p style="color:red">Once again, specific questions such as "Why is Mr. Doe so bad?" 
 				WILL get you banned.</p><br/>
@@ -98,22 +95,36 @@
 
 			{# Tab 3 - Posting #}
 			<div class="tab-pane fade in" id="tab3">
-				<p>Any YouTalkEdu user can post on any PIQS page.</p>
-				<h3>All posts look something like the following:</h3>
-				{# INCLUDE POST IMAGE WITH COOL VOTE TOTALS #}
+				<h3>Any YouTalkEdu user can post on any PIQS page.</h3>
+				<h4>On the PIQS pages, all posts will look like:</h4>
+				<img src="{% static 'img/sample_post.png' %}" /><br/><br/>
+				<p>Clicking on the post title will bring you to that post's page,
+				on which the content of the post as well as the comments are displayed.
+				</p><br/>
+				<p>To limit the spam of the website, you will only be able to post five
+				times within a 24 hour period, so make your posts count!</p>
 			</div>
 
-			{# Tab 4 - Commenting #}
+			{# Tab 4 - Voting #}
 			<div class="tab-pane fade in" id="tab4">
-				<p>4444</p>
+				<h3>This is my favorite part of this site! 
+				If you recall from the user types tab, we have the following user types:</h3>
+				<ul>
+				{% for type in user_type_dict %}
+					<li style="color:{{user_color_dict|get_item:type.0}}">{{ type.1 }}</li>
+				{% endfor %}
+				</ul><br/>
+				<p>Each post/comment has a vote chart like the following:</p>
+				<img src="{% static 'img/sample_vote.png' %}" /><br/><br/>
+				<p>	Each vote "tube" corresponds to a given user type. The "tubes" are percentage based
+					-- they indicate the percentage of votes that are "up" votes by each user type.
+					The black line across the vote chart is the average "up" percentage for all users.
+				</p>
+				<p>
+					Underneath each chart is the decimal value corresponding to the value of the
+					overall "up" percentage, and the total number of votes on the post.
+				</p>
 			</div>
-
-			{# Tab 5 - Voting #}
-			<div class="tab-pane fade in" id="tab5">
-				<p>NUMBER 5000!</p>
-			</div>
-
-
 		</div>
 	</div>
 

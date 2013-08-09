@@ -1,8 +1,8 @@
 TODO:
 =============
-#) Consider replacing "Home" at top with "Learn"
+#) Consider replacing "Home" in navbar with "Learn"
 #) Linkify text?
-#) Add Learn More page
+#) Stylize the Learn More page
 #) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
 #) Smaller comment voting chart
@@ -57,6 +57,7 @@ TODO:
 #) DONE - Update votes, spam marking on-the-fly with AJAX
 #) DONE - Add AJAX to "show replies" on comments
 #) NO - Add sort-by button to comments --- Pain to sort top-level comments and show replies in correct location
+#) DONE - Add a Learn More page
 
 
 
