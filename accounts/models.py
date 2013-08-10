@@ -17,7 +17,7 @@ class eduuser(AbstractUser):
         (TEACHER, 'Teacher'),
         (PARENT, 'Parent'),
         (ADMINISTRATOR, 'Administrator'),
-        (OUTSIDER, 'Outsider'),
+        (OUTSIDER, 'Other'),
     )
     COLORS = {STUDENT: "red", TEACHER: "green", PARENT: "blue",
               ADMINISTRATOR: "orange", OUTSIDER: "purple"}

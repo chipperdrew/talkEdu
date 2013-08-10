@@ -1,19 +1,16 @@
 TODO:
 =============
-#) Log the spam caught by AKISMET, djangospam, honeypot
-#) Consider replacing "Home" in navbar with "Learn"
-#) Stylize the Learn More page
 #) Change the name outsider to ????
-#) Smaller comment voting chart
 #) Make "show" and "sort-by" buttons AJAXed
 #) Make sure email messages look okay
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page??
-#) TIME PERMITTING - Upgrade Bootstrap?
+#) TIME PERMITTING - Upgrade Bootstrap? WILL TAKE EFFORT
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) TIME PERMITTING - Adjust JS so on reply click, form is toggled on/off
+#) IN PRODUCTION - Log the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - Make sure Django-axes is IP specific
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
@@ -21,6 +18,7 @@ TODO:
 #) IN PRODUCTION - Set up search updates
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
+#) IF COMPLAINTS - Smaller comment voting chart
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -232,3 +230,4 @@ Thanks to the following
 
 * Ruby on Rails
 	* Rails for Zombies - http://railsforzombies.org/
+

@@ -65,6 +65,22 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim clicks on "Problems" link and is redirect to the problems page
         self.check_for_redirect_after_link_click("Problems", '/problems/$')
+
+    def test_learn_more_page_has_proper_content_and_links(self):
+        
+        # Jim visits the learn more page of our site
+        self.browser.get(self.live_server_url+'/learn/')
+
+        # The proper content is displayed
+        self.assertIn('Learn', self.browser.title)
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Welcome to YouTalkEdu', body)
+        self.assertIn('PIQS pages', body)
+
+        # Jim accesses the page via the "Learn" tab
+        self.browser.find_element_by_link_text('YouTalkEdu').click()
+        self.browser.find_element_by_link_text('Learn').click()
+        self.assertEqual(self.browser.current_url, self.live_server_url+'/learn/')
         
     def test_posts_are_saved_and_properly_displayed(self):
         
