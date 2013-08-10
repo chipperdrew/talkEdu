@@ -24,6 +24,7 @@
 				{% endfor %}
 			</div>
 			<div id="id_post_form">
+			{% include 'djangospam/cookieform.html' %}
 			<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
 				{% csrf_token %}
 				{% render_honeypot_field %}
@@ -57,6 +58,7 @@
 				(and are encouraged to) vote and comment on posts made by others.</p>
 			{% else %}
 				<p>You have {{ posts_left }} post{{ posts_left|pluralize }} remaining for the day.</p>
+				{% include 'djangospam/cookieform.html' %}
 				<form method="POST" action="{% url 'post_new' page_abbrev %}?next={{request.path}}">
 					{% csrf_token %}
 					{% render_honeypot_field %}

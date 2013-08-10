@@ -1,13 +1,14 @@
 TODO:
 =============
+#) Log the spam caught by AKISMET, djangospam, honeypot
 #) Consider replacing "Home" in navbar with "Learn"
 #) Stylize the Learn More page
-#) Do something to prevent comment spam - Akismet
 #) Change the name outsider to ????
 #) Smaller comment voting chart
 #) Make "show" and "sort-by" buttons AJAXed
+#) Make sure email messages look okay
 #) TEDDY - Add logo/picture at top of tab
-#) TEDDY - Add some sort of graphic on home page?? Introduce to site?
+#) TEDDY - Add some sort of graphic on home page??
 #) TIME PERMITTING - Upgrade Bootstrap?
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Create a more personalized user page?
@@ -17,8 +18,9 @@ TODO:
 #) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
 #) IN PRODUCTION - Add https protection
-#) IN PRODUCTION - Set up search updates?
+#) IN PRODUCTION - Set up search updates
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
+#) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -58,7 +60,7 @@ TODO:
 #) DONE - Add AJAX to "show replies" on comments
 #) NO - Add sort-by button to comments --- Pain to sort top-level comments and show replies in correct location
 #) DONE - Add a Learn More page
-
+#) DONE - Do something to prevent comment spam
 
 
 Basic Information
@@ -220,6 +222,7 @@ Thanks to the following
 	* Django-model-utils (to use Choices) - https://pypi.python.org/pypi/django-model-utils
 	* Django-picklefield (for dictionary model fields) - https://pypi.python.org/pypi/django-picklefield/
 	* Django-registration (for creating/verifying user accounts) - http://django-registration.readthedocs.org/en/v1.0/index.html
+	* Djangospam (for catching spam) - https://github.com/leandroarndt/djangospam
 	* Pyelasticsearch (adapter to use ElasticSearch) - http://pyelasticsearch.readthedocs.org/en/latest/
 	* Psycopg2 (needed to use PostgreSQL) - http://initd.org/psycopg/
 	* Requests (Pyelasticsearch dependency) - https://django-request.readthedocs.org/en/latest/

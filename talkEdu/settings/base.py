@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'honeypot', # Prevent spam
     'axes', # Limit login attempts
     'debug_toolbar', # For debugging/speed checks
+    'djangospam', # Prevent comment/post spam
     'posts',
     'accounts',
     'votes',
@@ -96,6 +97,7 @@ MIDDLEWARE_CLASSES = (
     'axes.middleware.FailedLoginMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'accounts.middleware.ActiveUserMiddleware',
+    'djangospam.cookie.middleware.SpamCookieMiddleware',
 )
 
 AXES_LOGIN_FAILURE_LIMIT = 5 # Num of login attempts until account is locked up

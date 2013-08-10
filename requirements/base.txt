@@ -9,6 +9,7 @@ django-honeypot==0.3.0
 django-model-utils==1.4.0
 django-picklefield==0.3.0
 django-registration==1.0
+djangospam==1.0.0
 git-remote-helpers==0.1.0
 psycopg2==2.5
 pyelasticsearch==0.5

@@ -808,10 +808,10 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Comments', body)
         self.assertIn('no comments', body)
         text_areas = self.browser.find_elements_by_tag_name('textarea')
-        self.assertEqual(len(text_areas), 1)
+        self.assertEqual(len(text_areas), 2) #Fake and real
 
         # 1: Jim enters a comment and sees it
-        text_areas[0].send_keys('Comment 1')
+        text_areas[1].send_keys('Comment 1')
         self.browser.find_element_by_name('comment_button').click()
         comment_display = self.browser.find_element_by_id('commenters').text
         self.assertIn('Comment 1', comment_display)
@@ -822,7 +822,7 @@ class NewVisitorTests(LiveServerTestCase):
         # 2: Jim replys to himself (poor Jim)
         self.browser.find_element_by_link_text('Reply').click()
         text_areas = self.browser.find_elements_by_tag_name('textarea')
-        text_areas[1].send_keys('1.1') #2nd textarea appeared from reply click
+        text_areas[2].send_keys('1.1') #3nd textarea appeared from reply click
         comment_buttons = self.browser.find_elements_by_name('comment_button')
         comment_buttons[1].click() #2nd button appeared from reply click
 
