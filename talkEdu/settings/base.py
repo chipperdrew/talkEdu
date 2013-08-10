@@ -27,17 +27,13 @@ AUTHENTICATION_BACKENDS = ('accounts.backends.CaseInsensitiveModelBackend',)
 
 SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
 
-AKISMET_KEY = get_env_var("AKISMET_KEY")
+AKISMET_KEY = get_env_var("TALKEDU_AKISMET_KEY")
 
 DEBUG = False
 
 TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = [] # AC: 7/13/13 Set this in production
-
-
-# Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Application definition
@@ -95,7 +91,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'axes.middleware.FailedLoginMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'accounts.middleware.ActiveUserMiddleware',
     'djangospam.cookie.middleware.SpamCookieMiddleware',
 )

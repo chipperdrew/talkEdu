@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from accounts.forms import MinPassLengthRegistrationForm, MinPassChangeForm
+from accounts.forms import MinPassLengthRegistrationForm, MinPassChangeForm, MinPassResetForm
 from accounts.views import CustomRegistrationView
 
 
@@ -16,7 +16,8 @@ urlpatterns = patterns('django.contrib.auth.views',
         'password_reset_done'), 
     url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         'password_reset_confirm',
-        {'post_reset_redirect': '/accounts/password/done/'}),
+        {'set_password_form': MinPassResetForm,
+         'post_reset_redirect': '/accounts/password/done/'}),
     url(r'^password/done/$',
         'password_reset_complete'),
 

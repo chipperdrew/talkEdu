@@ -1,11 +1,6 @@
 {% extends "base.html" %}
-{# This will be called if:
-	1) Login attempt fails
-	2) User tries to perform an action requiring login
-#}
 
 {% block title %}Login - YouTalkEdu{% endblock title %}
-
 
 {% block content %}
 	{# Focus on user login on load #}
@@ -22,7 +17,7 @@
 	{% if user.is_authenticated %} 
 			<p> You are already logged in!
 	{% else %}
-			<!-- If success, stays on current page. Else, redirects to /accounts/login -->
+			{# If success, stays on current page. Else, redirects to /accounts/login #}
 			{% if form.errors %}
 				<div class="alert alert-error">
 				<button type="button" class="close" data-dismiss="alert">×</button>
@@ -41,11 +36,11 @@
 				<button class="btn btn-primary btn-large" type="submit" name="login">Login</button><br/><br/>
 				<a href="{% url 'register' %}">Create an account</a><br/>
 				<a href="{% url 'password_reset' %}">Forgot my password</a>
-				{% if next and next.strip %}
-					{# Next value is provided, redirect back to that page #}
+				{% if next and next.strip and 'accounts' not in next %}
+					{# Next value is provided (and not an accounts link), redirect back to that page #}
 					<input type="hidden" name="next" value="{{ next }}" />
 				{% else %}
-					{# NO next value is provided, redirect home #}
+					{# NO next value is provided or accounts page, redirect home #}
 					<input type="hidden" name="next" value="/" />				
 				{% endif %}
 			</form>

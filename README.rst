@@ -1,8 +1,8 @@
 TODO:
 =============
+#) Have comments load (via AJAX) AFTER post_page loads. Display a loading screen. OR show more button?
 #) Change the name outsider to ????
 #) Make "show" and "sort-by" buttons AJAXed
-#) Make sure email messages look okay
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page??
 #) TIME PERMITTING - Upgrade Bootstrap? WILL TAKE EFFORT
@@ -12,10 +12,10 @@ TODO:
 #) TIME PERMITTING - Adjust JS so on reply click, form is toggled on/off
 #) IN PRODUCTION - Log the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - Make sure Django-axes is IP specific
-#) IN PRODUCTION - Set up email with SMTP server
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
 #) IN PRODUCTION - Add https protection
 #) IN PRODUCTION - Set up search updates
+#) IN PRODUCTION - Change ALL of my current passwords
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) IF COMPLAINTS - Smaller comment voting chart
@@ -59,6 +59,7 @@ TODO:
 #) NO - Add sort-by button to comments --- Pain to sort top-level comments and show replies in correct location
 #) DONE - Add a Learn More page
 #) DONE - Do something to prevent comment spam
+#) DONE - Set up email with SMTP server
 
 
 Basic Information

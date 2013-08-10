@@ -4,6 +4,13 @@
 	margin-left:10px;
 }
 
+/* Templates used on: password_reset_done, registration_complete */
+/* Reverses the direction of the text */
+.obfuscate { 
+	unicode-bidi: bidi-override; 
+	direction: rtl; 
+}
+
 /* Templates used on: learn_more */
 .tab-content h3, .tab-content h2 {
 	color:#00BAED;

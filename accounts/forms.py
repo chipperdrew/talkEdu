@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model  #eduuser
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
@@ -66,4 +66,24 @@ class MinPassChangeForm(PasswordChangeForm):
                                   MIN_PASSWORD_LENGTH)
         else:
             return password
+
+
+class MinPassResetForm(SetPasswordForm):
+    """
+    Overrides form in django-auth, but checks for minimum password length
+    and shows custom error messages
+    """
+    def __init__(self, *args, **kwargs):
+        super(MinPassResetForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].error_messages = {'required': 'Please enter a new password'}
+        self.fields['new_password2'].error_messages = {'required': 'Please verify your new password'}
+    
+    def clean_new_password1(self):
+        password = self.cleaned_data.get('new_password1', '')
+        if len(password) < MIN_PASSWORD_LENGTH:
+            raise ValidationError('Password must have at least %i characters' %
+                                  MIN_PASSWORD_LENGTH)
+        else:
+            return password
+
 

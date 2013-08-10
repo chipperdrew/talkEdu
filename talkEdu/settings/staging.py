@@ -1,8 +1,11 @@
 from base import *
 
-DEBUG = True
-
-TEMPLATE_DEBUG = DEBUG
+# Email SMTP
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'YouTalkEdu@gmail.com'
+EMAIL_HOST_PASSWORD = get_env_var("TALKEDU_EMAIL_PASS")
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
@@ -17,12 +20,4 @@ DATABASES = {
     }
 }
 
-# Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
-
-ALLOWED_HOSTS += [
-    '.localhost',
-    '.127.0.0.1'
-]
