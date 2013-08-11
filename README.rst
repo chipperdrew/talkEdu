@@ -71,119 +71,9 @@ Basic Information
 * Created by: Andrew Cook
 
 
-Content Layout
--------------------
-talkEdu/
-
-	accounts/
-		
-		__init__.py
-
-		backends.py
-
-		forms.py
-
-		models.py
-
-		tests_accounts.py
-
-		urls.py
-
-		views.py
-
-	comments/
-
-		__init__.py
-
-		dbarray.py
-
-		forms.py
-
-		migrations/
-
-		models.py
-
-		tests_comments.py
-
-		urls.py
-
-		views.py
-
-		
-
-	funct_tests/
-
-		__init__.py
-
-		tests_funct.py
-
-	htmlcov/
-
-	manage.py
-
-	posts/
-
-		__init__.py
-
-		admin.py
-
-		forms.py
-
-		migrations/
-
-		models.py
-
-		search_indexes.py
-
-		templatetags/
-
-		tests_posts.py
-
-		urls.py
-
-		views.py
-
-	README.rst
-
-	requirements/
-	
-	static/
-
-	talkEdu/
-
-		__init__.py
-
-		settings/
-
-			__init__.py
-			
-			base.py
-
-			local.py
-
-			test.py
-
-		urls.py
-
-		wsgi.py
-
-	templates/
-
-	votes/
-		
-		__init__.py
-
-		migrations/
-
-		models.py
-
-		tests_votes.py
-
-		urls.py
-
-		views.py
-
-
+Installation Instructions
+-----------------------------
+* See the docs/ directory for installation instructions, specifically installation.rst
 
 
 Thanks to the following
@@ -231,6 +121,7 @@ Thanks to the following
 	* Selenium (for testing) - http://docs.seleniumhq.org/
 	* Simplejson (Pyelasticsearch dependency) - http://simplejson.readthedocs.org/en/latest/
 	* South (for database migrations) - http://south.readthedocs.org/en/latest/index.html
+	* Sphinx (installs Jinja2, MarkupSafe, Pygments, docutils) (for creating documention) - http://sphinx-doc.org/
 
 * Ruby on Rails
 	* Rails for Zombies - http://railsforzombies.org/

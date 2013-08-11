@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to YouTalkEdu’s documentation! &mdash; YouTalkEdu 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="YouTalkEdu 0.0.0 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="#">YouTalkEdu 0.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-youtalkedu-s-documentation">
+<h1>Welcome to YouTalkEdu&#8217;s documentation!<a class="headerlink" href="#welcome-to-youtalkedu-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Welcome! This is VERY much a work in progress, so hang tight!</p>
+<p>YouTalkEdu was built on Django 1.6 using Python 2.7.</p>
+<div class="section" id="apps">
+<h2>Apps<a class="headerlink" href="#apps" title="Permalink to this headline">¶</a></h2>
+<p>Outside of <tt class="docutils literal"><span class="pre">funct_tests</span></tt>, there are 4 real apps, detailed below.</p>
+<div class="section" id="posts">
+<h3>Posts<a class="headerlink" href="#posts" title="Permalink to this headline">¶</a></h3>
+<p>If you can&#8217;t find something, it&#8217;s probably here.</p>
+</div>
+</div>
+<div class="section" id="updating-the-docs">
+<h2>Updating the docs<a class="headerlink" href="#updating-the-docs" title="Permalink to this headline">¶</a></h2>
+<p>Navigate to <tt class="docutils literal"><span class="pre">talkEdu/docs/</span></tt>, just simply run in the console:</p>
+<div class="highlight-python"><pre>$ make_html</pre>
+</div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>To run the tests, navigate to <tt class="docutils literal"><span class="pre">talkEdu/talkEdu/</span></tt> and run:</p>
+<div class="highlight-python"><pre>$ python manage.py test</pre>
+</div>
+<p>To run specific tests, i.e. the functional tests, run:</p>
+<div class="highlight-python"><pre>$ python manage.py test funct_tests</pre>
+</div>
+</div>
+<div class="section" id="modifying-the-database">
+<h2>Modifying the database<a class="headerlink" href="#modifying-the-database" title="Permalink to this headline">¶</a></h2>
+<p>If modifications are made to the database, simply run:</p>
+<div class="highlight-python"><pre>$ python manage.py syncdb</pre>
+</div>
+<p>If modifications are made to an app under the control of South (Accounts/posts/comments/votes), run:</p>
+<div class="highlight-python"><pre>$ ./manage.py schemamigration APP_NAME --auto
+$ ./manage.py migrate APP_NAME</pre>
+</div>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to YouTalkEdu&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#apps">Apps</a><ul>
+<li><a class="reference internal" href="#posts">Posts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#updating-the-docs">Updating the docs</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+<li><a class="reference internal" href="#modifying-the-database">Modifying the database</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="#">YouTalkEdu 0.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Andrew Cook.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
