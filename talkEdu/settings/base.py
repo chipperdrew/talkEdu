@@ -45,13 +45,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'registration', # Easy registration
+    'registration', # Easy user registration
     'south', # Database migration
     'haystack', # Search
     'honeypot', # Prevent spam
     'axes', # Limit login attempts
     'debug_toolbar', # For debugging/speed checks
     'djangospam', # Prevent comment/post spam
+    'djangosecure', # Security, like HtTPS and HSTS
     'posts',
     'accounts',
     'votes',
@@ -81,6 +82,7 @@ SITE_ID = 1
 INTERNAL_IPS = ('127.0.0.1',)
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False}
 
+# Days to accept account activation
 ACCOUNT_ACTIVATION_DAYS = 7
 
 MIDDLEWARE_CLASSES = (
@@ -93,6 +95,7 @@ MIDDLEWARE_CLASSES = (
     'axes.middleware.FailedLoginMiddleware',
     'accounts.middleware.ActiveUserMiddleware',
     'djangospam.cookie.middleware.SpamCookieMiddleware',
+    'djangosecure.middleware.SecurityMiddleware',
 )
 
 AXES_LOGIN_FAILURE_LIMIT = 5 # Num of login attempts until account is locked up

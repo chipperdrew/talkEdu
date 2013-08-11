@@ -14,7 +14,7 @@ TODO:
 #) IN PRODUCTION - Make sure Django-axes is IP specific
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
 #) IN PRODUCTION - Add https protection
-#) IN PRODUCTION - Set up search updates
+#) IN PRODUCTION - Set up search updates - Celery/Cron job?
 #) IN PRODUCTION - Change ALL of my current passwords
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
@@ -221,6 +221,7 @@ Thanks to the following
 	* Django-model-utils (to use Choices) - https://pypi.python.org/pypi/django-model-utils
 	* Django-picklefield (for dictionary model fields) - https://pypi.python.org/pypi/django-picklefield/
 	* Django-registration (for creating/verifying user accounts) - http://django-registration.readthedocs.org/en/v1.0/index.html
+	* Django-secure (for security, HTTPS, etc) - https://github.com/carljm/django-secure
 	* Djangospam (for catching spam) - https://github.com/leandroarndt/djangospam
 	* Pyelasticsearch (adapter to use ElasticSearch) - http://pyelasticsearch.readthedocs.org/en/latest/
 	* Psycopg2 (needed to use PostgreSQL) - http://initd.org/psycopg/
