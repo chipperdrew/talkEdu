@@ -16,7 +16,7 @@
 						var draw = canv.getContext("2d");
 						draw.strokeStyle = "White";
 						drawPulseOutline(draw);
-						drawEntireChart(draw, "{{user_color_dict|safe}}", "{{c.votes_by_user_type|safe}}", {{ c.vote_percentage|safe }}, false);
+						drawEntireChart(draw, "{{user_color_dict}}", "{{c.votes_by_user_type}}", {{ c.vote_percentage }}, false);
 					});
 				</script>
 				<p class="comstats{{c.id}}" style="text-align:center">

@@ -20,11 +20,13 @@ var rectPerc = rectArea/totalArea;
 
 // FUNCTIONS
 function drawEntireChart(draw, colorDict, postVotesDict, middlePerc, isAjax) {
-	// Properly convert given Django strings to objects ( for interation and key access)
+	// Convert Django strings to objects and iterate over objects to draw vote chart
 	if(!isAjax) {
-		colorDict = colorDict.replace(/'/g, '\"')
+		colorDict = colorDict.replace(/&#39;/g, "'"); //I could have passed the data as |safe, but XSS attack?
+		colorDict = colorDict.replace(/'/g, '\"');
 		colorDict = JSON.parse( colorDict );
-		postVotesDict = postVotesDict.replace(/'/g, '\"')
+		postVotesDict = postVotesDict.replace(/&#39;/g, "'");
+		postVotesDict = postVotesDict.replace(/'/g, '\"');
 		postVotesDict = JSON.parse( postVotesDict );
 	}
 	i = 0;

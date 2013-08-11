@@ -26,8 +26,8 @@ AUTHENTICATION_BACKENDS = ('accounts.backends.CaseInsensitiveModelBackend',)
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
-
 AKISMET_KEY = get_env_var("TALKEDU_AKISMET_KEY")
+ADMIN_URL = get_env_var("TALKEDU_ADMIN_URL")
 
 DEBUG = False
 

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from haystack.forms import SearchForm
@@ -16,12 +17,11 @@ urlpatterns = patterns('posts.views',
 
 
 urlpatterns += patterns('',
+    url(r'^' + settings.ADMIN_URL, include(admin.site.urls)),
     url(r'^post/', include('posts.urls')),
     url(r'^comments/', include('djangospam.cookie.urls')), #IT'S A TRAP!
     url(r'^accounts/', include('accounts.urls')),
     url(r'^', include('votes.urls')),
     url(r'^comment/', include('comments.urls')),
     url(r'^search/$', SearchView(form_class=SearchForm), name='search'),
-
-    url(r'^admin/', include(admin.site.urls)),
 )

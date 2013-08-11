@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model  #eduuser
-from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm, PasswordResetForm
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
@@ -21,7 +21,6 @@ class eduuserForm(ModelForm):
         self.fields['user_type'].label = USER_TYPE_LABEL
         
 
-
 class MinPassLengthRegistrationForm(RegistrationFormUniqueEmail):
     """
     Overrides form in django-registration, but checks for minimum password
@@ -37,12 +36,7 @@ class MinPassLengthRegistrationForm(RegistrationFormUniqueEmail):
 
 
     def clean_password1(self):
-        password = self.cleaned_data.get('password1', '')
-        if len(password) < MIN_PASSWORD_LENGTH:
-            raise ValidationError('Password must have at least %i characters' %
-                                  MIN_PASSWORD_LENGTH)
-        else:
-            return password
+        return check_pass_length(self, 'password1')
 
 
 MinPassLengthRegistrationForm.base_fields.update(eduuserForm.base_fields)
@@ -60,12 +54,7 @@ class MinPassChangeForm(PasswordChangeForm):
         self.fields['new_password2'].error_messages = {'required': 'Please verify your new password'}
     
     def clean_new_password1(self):
-        password = self.cleaned_data.get('new_password1', '')
-        if len(password) < MIN_PASSWORD_LENGTH:
-            raise ValidationError('Password must have at least %i characters' %
-                                  MIN_PASSWORD_LENGTH)
-        else:
-            return password
+        return check_pass_length(self, 'new_password1')
 
 
 class MinPassResetForm(SetPasswordForm):
@@ -79,11 +68,28 @@ class MinPassResetForm(SetPasswordForm):
         self.fields['new_password2'].error_messages = {'required': 'Please verify your new password'}
     
     def clean_new_password1(self):
-        password = self.cleaned_data.get('new_password1', '')
-        if len(password) < MIN_PASSWORD_LENGTH:
-            raise ValidationError('Password must have at least %i characters' %
-                                  MIN_PASSWORD_LENGTH)
-        else:
-            return password
+        return check_pass_length(self, 'new_password1')
 
+
+class CheckValidEmailPasswordResetForm(PasswordResetForm):
+    """
+    On password reset, makes sure a user exists with provided email, else error
+    """
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        try:
+            get_user_model().objects.get(email=email)
+        except get_user_model().DoesNotExist:
+            msg = "The provided email address is not registered to any user accounts. Please try a different email."
+            raise ValidationError(msg)
+        return email
+
+
+## Helper function for checking minimum password length
+def check_pass_length(self, provided_password):
+    password = self.cleaned_data[provided_password]
+    if len(password) < MIN_PASSWORD_LENGTH:
+        raise ValidationError('Password must have at least %i characters' %
+                              MIN_PASSWORD_LENGTH)
+    return password
 

@@ -65,7 +65,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim clicks on "Problems" link and is redirect to the problems page
         self.check_for_redirect_after_link_click("Problems", '/problems/$')
-
+    
     def test_learn_more_page_has_proper_content_and_links(self):
         
         # Jim visits the learn more page of our site
@@ -342,7 +342,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Password must have at least', body)
 
 
-        # 2: Jim enters his old password incorrectly & enters 2 diff passwords
+        # 2: Jim enters his old pass incorrect & 2 diff passwords
         old_pass = self.browser.find_element_by_id('id_old_password')
         new_pass1 = self.browser.find_element_by_id('id_new_password1')
         new_pass2 = self.browser.find_element_by_id('id_new_password2')
@@ -403,11 +403,18 @@ class NewVisitorTests(LiveServerTestCase):
                                                    '/accounts/password/reset/$')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('This field is required.', body)
-
         
-        # Jim sees the proper content, and enters in his email
+        # Jim sees the proper content, and enters in an invalid email
         email = self.browser.find_element_by_id('id_email')
         email.send_keys('q@gmail.com')
+        self.check_for_redirect_after_button_click('reset_pass_submit',
+                                                   '/accounts/password/reset/$')
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('email address is not registered', body)
+
+        # Jim now enters in his proper email
+        email = self.browser.find_element_by_id('id_email')
+        email.send_keys('chipperdrew@gmail.com')
         self.check_for_redirect_after_button_click('reset_pass_submit',
                                                    '/accounts/password/reset/done/$')
         ## Cannot access url emailed for resetting password...
@@ -464,7 +471,7 @@ class NewVisitorTests(LiveServerTestCase):
         inputs[4].send_keys('Password')
         self.check_for_redirect_after_button_click(
             "create",
-            self.live_server_url +'/accounts/register/complete/')
+            self.live_server_url +'/accounts/register/complete')
 
         ## 2 users are now created. Jim properties are saved
         ## Cannot access url emailed for confirming account...

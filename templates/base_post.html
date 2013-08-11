@@ -109,7 +109,7 @@
 					var canv = document.getElementById("myCanvas{{post.id}}");
 					var draw = canv.getContext("2d");
 					drawPulseOutline(draw);	
-					drawEntireChart(draw, "{{user_color_dict|safe}}", "{{post.votes_by_user_type|safe}}", {{ post.vote_percentage|safe }}, false);
+					drawEntireChart(draw, "{{user_color_dict}}", "{{post.votes_by_user_type}}", {{ post.vote_percentage }}, false);
 				});
 			</script>
 			<p class="poststats{{post.id}}" style="text-align:center">

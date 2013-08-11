@@ -64,6 +64,7 @@ var show_replies = function() {
 };
 
 
+// Credit to 2 Scoops of Django
 $.ajaxSetup({
     crossDomain: false, // obviates need for sameOrigin test
     beforeSend: function(xhr, settings) {
@@ -81,7 +82,7 @@ $.ajaxSetup({
 });
 
 
-// AJAX CSRF functions
+// AJAX CSRF functions -- Credit to Django docs CSRF page
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -98,6 +99,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// Credit to 2 Scoops of Django
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));

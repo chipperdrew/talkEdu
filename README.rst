@@ -1,5 +1,7 @@
 TODO:
 =============
+#) Move form logic in posts/views to posts/forms?
+#) "Prettify" the learn more page
 #) Have comments load (via AJAX) AFTER post_page loads. Display a loading screen. OR show more button?
 #) Change the name outsider to ????
 #) Make "show" and "sort-by" buttons AJAXed
