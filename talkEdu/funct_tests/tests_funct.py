@@ -414,6 +414,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim now enters in his proper email
         email = self.browser.find_element_by_id('id_email')
+        email.clear()
         email.send_keys('chipperdrew@gmail.com')
         self.check_for_redirect_after_button_click('reset_pass_submit',
                                                    '/accounts/password/reset/done/$')
