@@ -50,5 +50,9 @@ According to Heroku
 Set up virtualenv::
 
     $ pip install virtualenv
-    $ virtualenv venv --distribute
-    $ source venv/bin/activate
+    $ virtualenv LOCATION --distribute
+
+To enter and exit::
+
+    $ source .venv/bin/activate
+    $ deactivate

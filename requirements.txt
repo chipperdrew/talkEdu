@@ -1,2 +1,2 @@
 # Install only the production dependencies
--r requirements/prod.txt
+-r requirements/local.txt
