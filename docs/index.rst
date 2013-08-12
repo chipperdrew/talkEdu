@@ -51,6 +51,11 @@ If modifications are made to an app under the control of South (Accounts/posts/c
     $ ./manage.py schemamigration APP_NAME --auto
     $ ./manage.py migrate APP_NAME
 
+Access database
+================
+
+    $ psql mydb
+
 
 
 .. toctree::

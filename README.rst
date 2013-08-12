@@ -3,11 +3,11 @@ TODO:
 #) Move form logic in posts/views to posts/forms?
 #) "Prettify" the learn more page
 #) Have comments load (via AJAX) AFTER post_page loads. Display a loading screen. OR show more button?
-#) Change the name outsider to ????
 #) Make "show" and "sort-by" buttons AJAXed
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page??
-#) TIME PERMITTING - Upgrade Bootstrap? WILL TAKE EFFORT
+#) TIME PERMITTING - Inherit models from django-registration so registration is free standning --- WILL TAKE TIME
+#) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth

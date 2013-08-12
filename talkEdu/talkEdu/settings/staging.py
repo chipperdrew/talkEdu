@@ -9,6 +9,7 @@ EMAIL_HOST_PASSWORD = get_env_var("TALKEDU_EMAIL_PASS")
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -19,7 +20,18 @@ DATABASES = {
         'PORT': '',
     }
 }
-
+"""
+from urlparse import urlparse
+if environ.has_key('HEROKU_POSTGRESQL_NAVY_URL'):
+    url = urlparse(environ['HEROKU_POSTGRESQL_NAVY_URL'])
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': url.path[1:],
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port,
+    }
 
 # SECURITY:
 # Secure cookies

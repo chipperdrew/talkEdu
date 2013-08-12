@@ -1,0 +1,5 @@
+# requirements/local.txt
+-r common.txt
+coverage==3.6
+django-debug-toolbar==0.9.4
+
