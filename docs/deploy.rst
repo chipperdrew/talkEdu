@@ -38,9 +38,15 @@ To add a (free) database, type::
     $ heroku pg:info
 
 
-Use the Django shell on the deployed app
+Use the Django shell on the deployed app::
 
     $ heroku run python manage.py shell
+
+
+DYNOS::
+
+    $ heroku ps:scale web=1
+    $ heroku ps
 
 
 
