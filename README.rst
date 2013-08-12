@@ -15,7 +15,6 @@ TODO:
 #) IN PRODUCTION - Log the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - Make sure Django-axes is IP specific
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
-#) IN PRODUCTION - Add https protection
 #) IN PRODUCTION - Set up search updates - Celery/Cron job?
 #) IN PRODUCTION - Change ALL of my current passwords
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam

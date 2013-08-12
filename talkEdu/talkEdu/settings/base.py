@@ -22,6 +22,9 @@ def get_env_var(var_name):
 AUTH_USER_MODEL = 'accounts.eduuser'
 AUTHENTICATION_BACKENDS = ('accounts.backends.CaseInsensitiveModelBackend',)
 
+# In order to receive email for HTTP 500 errors
+ADMINS = (('Andrew', 'chipperdrew@gmail.com'),)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
