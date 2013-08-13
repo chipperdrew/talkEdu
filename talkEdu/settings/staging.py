@@ -30,7 +30,7 @@ if os.environ.has_key('HEROKU_POSTGRESQL_NAVY_URL'):
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-dbconfig = dj_database_url.config(default='postgres://'+str(get_env_var("TALKEDU_DB_USER"))+':'+str(get_env_var("TALKEDU_DB_PASS"))+'@localhost:5432/mydb')
+dbconfig = dj_database_url.config(default='postgres://chipperdrew:simplepass@localhost:5432/mydb')
 if dbconfig:
     DATABASES['default'] = dbconfig
 
