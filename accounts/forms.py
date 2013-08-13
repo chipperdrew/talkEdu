@@ -3,10 +3,7 @@ from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm, Passw
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
-from registration.forms import RegistrationFormUniqueEmail
-
 MIN_PASSWORD_LENGTH = 8
-USER_TYPE_LABEL = "What best describes you?"
 
 class eduuserForm(ModelForm):
     """
@@ -18,28 +15,7 @@ class eduuserForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(eduuserForm, self).__init__(*args, **kwargs)
-        self.fields['user_type'].label = USER_TYPE_LABEL
-        
-
-class MinPassLengthRegistrationForm(RegistrationFormUniqueEmail):
-    """
-    Overrides form in django-registration, but checks for minimum password
-    length and shows custom error messages
-    """
-    def __init__(self, *args, **kwargs):
-        super(MinPassLengthRegistrationForm, self).__init__(*args, **kwargs)
-        self.fields['username'].error_messages = {'required': 'Please enter a username'}
-        self.fields['email'].error_messages = {'required': 'Please enter a valid email address'}
-        self.fields['password1'].error_messages = {'required': 'Please enter a password'}
-        self.fields['password2'].error_messages = {'required': 'Please verify your password'}
-        self.fields['user_type'].label = USER_TYPE_LABEL
-
-
-    def clean_password1(self):
-        return check_pass_length(self, 'password1')
-
-
-MinPassLengthRegistrationForm.base_fields.update(eduuserForm.base_fields)
+        self.fields['user_type'].label = "What best describes you?"
 
 
 class MinPassChangeForm(PasswordChangeForm):

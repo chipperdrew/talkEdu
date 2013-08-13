@@ -21,6 +21,7 @@ urlpatterns += patterns('',
     url(r'^post/', include('posts.urls')),
     url(r'^comments/', include('djangospam.cookie.urls')), #IT'S A TRAP!
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^accounts/', include('registrationFix.urls')),
     url(r'^', include('votes.urls')),
     url(r'^comment/', include('comments.urls')),
     url(r'^search/$', SearchView(form_class=SearchForm), name='search'),

@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'votes',
     'comments',
     'funct_tests',
+    'registrationFix',
 )
 
 SOUTH_TESTS_MIGRATE = False #South likes to throw errors on tests for some reason

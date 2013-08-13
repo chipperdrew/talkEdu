@@ -4,13 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-# All of these used by CustomRegistrationView
-from registration import signals
-from registration.models import RegistrationProfile
-from registration.backends.default.views import RegistrationView
-from django.contrib.sites.models import Site
-from django.contrib.sites.models import RequestSite
-
 from accounts.forms import eduuserForm
     
 def login(request, *args, **kwargs):
@@ -62,21 +55,3 @@ def user_type_change_done(request, id):
     else:
         # I don't know how this is possible, but just in case...
         return HttpResponse('Invalid change, please try again.')
-
-class CustomRegistrationView(RegistrationView):
-    """
-    Needed override this django-registration feature to have it create
-    a profile with extra field
-    """
-    def register(self, request, **cleaned_data):
-        username, email, password, user_type = cleaned_data['username'], cleaned_data['email'], cleaned_data['password1'], cleaned_data['user_type']
-        if Site._meta.installed:
-            site = Site.objects.get_current()
-        else:
-            site = RequestSite(request)
-        new_user = RegistrationProfile.objects.create_inactive_user(
-            username, email, password, user_type, site)
-        signals.user_registered.send(sender=self.__class__,
-                                     user=new_user,
-                                     request=request)
-        return new_user

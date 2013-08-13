@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
-from accounts.forms import MinPassLengthRegistrationForm, MinPassChangeForm, MinPassResetForm, CheckValidEmailPasswordResetForm
-from accounts.views import CustomRegistrationView
+from accounts.forms import MinPassChangeForm, MinPassResetForm, CheckValidEmailPasswordResetForm
 
 
 urlpatterns = patterns('django.contrib.auth.views',
@@ -37,12 +36,6 @@ urlpatterns += patterns('accounts.views',
     url(r'^login/$', 'login',
         {'template_name': 'login.html'},
         name='login'),
-
-    # Django-registration package
-    url(r'^register/$', CustomRegistrationView.as_view(
-        form_class=MinPassLengthRegistrationForm), name="register"),
-    url(r'^', include('registration.backends.default.urls'),
-        name='accounts'),
 
     # User type change
     url(r'^user_type/change/$', 'user_type_change',
