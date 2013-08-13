@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = (
 
 AXES_LOGIN_FAILURE_LIMIT = 5 # Num of login attempts until account is locked up
 
-ROOT_URLCONF = '%s.urls' % SITE_NAME
+ROOT_URLCONF = 'talkEdu.urls'
 
 WSGI_APPLICATION = 'talkEdu.wsgi.application'
 
