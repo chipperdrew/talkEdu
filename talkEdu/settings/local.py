@@ -17,8 +17,8 @@ DATABASES = {
         'NAME': 'mydb',
         'USER': get_env_var("TALKEDU_DB_USER"),
         'PASSWORD': get_env_var("TALKEDU_DB_PASS"),
-        'HOST': '',
-        'PORT': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
