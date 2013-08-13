@@ -54,6 +54,10 @@ Config environ vars
     $ heroku config:set GITHUB_USERNAME=joesmith
     $ heroku config
 
+Error checking::
+
+    $ foreman start (to verify Procfile is set up correctly)
+    $ heroku logs
 
 
 According to Heroku
