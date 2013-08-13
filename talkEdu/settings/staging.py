@@ -7,9 +7,13 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'YouTalkEdu@gmail.com'
 EMAIL_HOST_PASSWORD = get_env_var("TALKEDU_EMAIL_PASS")
 
+INSTALLED_APPS += (
+    'gunicorn', # Deployment
+)
+
+
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
 from urlparse import urlparse
 if os.environ.has_key('HEROKU_POSTGRESQL_NAVY_URL'):
     url = urlparse(os.environ['HEROKU_POSTGRESQL_NAVY_URL'])

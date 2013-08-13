@@ -54,10 +54,8 @@ INSTALLED_APPS = (
     'haystack', # Search
     'honeypot', # Prevent spam
     'axes', # Limit login attempts
-    'debug_toolbar', # For debugging/speed checks
     'djangospam', # Prevent comment/post spam
     'djangosecure', # Security, like HtTPS and HSTS
-    'gunicorn', # Deployment
     'posts',
     'accounts',
     'votes',

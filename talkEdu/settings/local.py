@@ -4,6 +4,11 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
+INSTALLED_APPS += (
+    'debug_toolbar', # For debugging/speed checks
+)
+
+
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
