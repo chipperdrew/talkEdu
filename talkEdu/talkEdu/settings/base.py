@@ -1,8 +1,8 @@
 # TODO IN PRODUCTION ----- Change SECRET_KEY, Database user and pass
 
+from sys import path
 import os
 from os.path import abspath, basename, dirname, join, normpath
-from sys import path
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'debug_toolbar', # For debugging/speed checks
     'djangospam', # Prevent comment/post spam
     'djangosecure', # Security, like HtTPS and HSTS
+    'gunicorn', # Deployment
     'posts',
     'accounts',
     'votes',
