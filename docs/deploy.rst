@@ -49,6 +49,12 @@ DYNOS::
     $ heroku ps
 
 
+Config environ vars
+
+    $ heroku config:set GITHUB_USERNAME=joesmith
+    $ heroku config
+
+
 
 According to Heroku
 ----------------
