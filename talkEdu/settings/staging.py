@@ -29,7 +29,6 @@ if os.environ.has_key('HEROKU_POSTGRESQL_NAVY_URL'):
 """
 
 # Parse database configuration from $DATABASE_URL
-export DATABASE_URL='postgres://chipperdrew:simplepass@localhost:5432/mydb'
 import dj_database_url
 dbconfig = dj_database_url.config(default='postgres://chipperdrew:simplepass@localhost:5432/mydb')
 if dbconfig:
