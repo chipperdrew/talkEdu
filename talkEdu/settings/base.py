@@ -12,14 +12,6 @@ SITE_ROOT = dirname(dirname(dirname(abspath(__file__))))
 SITE_NAME = basename(SITE_ROOT)
 
 
-def get_env_var(var_name):
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        #error_msg = "Set the %s environment variable" % var_name
-        #raise ImproperlyConfigured(error_msg)
-        pass
-
 AUTH_USER_MODEL = 'accounts.eduuser'
 AUTHENTICATION_BACKENDS = ('accounts.backends.CaseInsensitiveModelBackend',)
 
@@ -28,10 +20,6 @@ ADMINS = (('Andrew', 'chipperdrew@gmail.com'),)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
-
-SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
-AKISMET_KEY = get_env_var("TALKEDU_AKISMET_KEY")
-ADMIN_URL = get_env_var("TALKEDU_ADMIN_URL")
 
 DEBUG = False
 
