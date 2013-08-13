@@ -14,6 +14,7 @@ INSTALLED_APPS += (
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
+"""
 from urlparse import urlparse
 if os.environ.has_key('HEROKU_POSTGRESQL_NAVY_URL'):
     url = urlparse(os.environ['HEROKU_POSTGRESQL_NAVY_URL'])
@@ -25,11 +26,11 @@ if os.environ.has_key('HEROKU_POSTGRESQL_NAVY_URL'):
         'HOST': url.hostname,
         'PORT': url.port,
     }
-
+"""
 
 # Parse database configuration from $DATABASE_URL
-#import dj_database_url
-#DATABASES['default'] =  dj_database_url.config()
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
