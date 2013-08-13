@@ -14,7 +14,7 @@ SITE_NAME = basename(SITE_ROOT)
 
 def get_env_var(var_name):
     try:
-        return os.environ[var_name]
+        return environ[var_name]
     except KeyError:
         error_msg = "Set the %s environment variable" % var_name
         raise ImproperlyConfigured(error_msg)
