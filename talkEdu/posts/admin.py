@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from .models import post
+from posts.models import post
 from comments.models import comment
 #from votes.models import vote
 

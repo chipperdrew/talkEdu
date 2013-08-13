@@ -13,8 +13,8 @@ import akismet
 import json
 import os
 
-from .forms import commentForm
-from .models import comment
+from comments.forms import commentForm
+from comments.models import comment
 from posts.models import post
 from votes.models import spam
 

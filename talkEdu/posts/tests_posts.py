@@ -4,7 +4,7 @@ from django.test import Client, TestCase
 import datetime
 
 # App imports
-from .models import post
+from posts.models import post
 from votes.models import vote
 
 

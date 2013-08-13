@@ -10,8 +10,8 @@ from honeypot.decorators import check_honeypot
 import datetime
 import json
 
-from .forms import postForm
-from .models import post
+from posts.forms import postForm
+from posts.models import post
 from votes.models import vote, spam
 from comments.forms import commentForm
 from comments.models import comment

@@ -11,7 +11,7 @@ from registration.backends.default.views import RegistrationView
 from django.contrib.sites.models import Site
 from django.contrib.sites.models import RequestSite
 
-from .forms import eduuserForm
+from accounts.forms import eduuserForm
     
 def login(request, *args, **kwargs):
     """

@@ -4,7 +4,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, render
 import json
 
-from .models import vote
+from votes.models import vote
 from posts.models import post
 from comments.models import comment
 
