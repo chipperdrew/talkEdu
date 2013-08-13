@@ -14,10 +14,11 @@ SITE_NAME = basename(SITE_ROOT)
 
 def get_env_var(var_name):
     try:
-        return environ[var_name]
+        return os.environ[var_name]
     except KeyError:
-        error_msg = "Set the %s environment variable" % var_name
-        raise ImproperlyConfigured(error_msg)
+        #error_msg = "Set the %s environment variable" % var_name
+        #raise ImproperlyConfigured(error_msg)
+        pass
 
 AUTH_USER_MODEL = 'accounts.eduuser'
 AUTHENTICATION_BACKENDS = ('accounts.backends.CaseInsensitiveModelBackend',)
