@@ -27,6 +27,7 @@ urlpatterns += patterns('',
     url(r'^search/$', SearchView(form_class=SearchForm), name='search'),
 )
 
-# Getting staticfiles to work on heroku
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-urlpatterns += staticfiles_urlpatterns()
+# For deployment --- gathering up the static files
+#from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+# if settings.DEBUG:
+#urlpatterns += staticfiles_urlpatterns()

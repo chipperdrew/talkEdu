@@ -55,6 +55,8 @@ Use Django commands on the deployed app::
 
     $ heroku run python manage.py shell
     $ heroku run python manage.py syncdb
+    $ heroku run python manage.py test
+    $ heroku run python manage.py createsuperuser
 
 
 DYNOS::
