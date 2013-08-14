@@ -26,3 +26,7 @@ urlpatterns += patterns('',
     url(r'^comment/', include('comments.urls')),
     url(r'^search/$', SearchView(form_class=SearchForm), name='search'),
 )
+
+# Getting staticfiles to work on heroku
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+urlpatterns += staticfiles_urlpatterns()

@@ -9,7 +9,7 @@ Set the following Heroku config vars:
 - All other env vars
 - Make sure DATABASE_URL is set by heroku pg
 
-After pushing, do the following:
+After initial push, do the following:
  - heroku run python manage.py syncdb
  - heroku run python manage.py migrate accounts/posts/comments/votes
 
