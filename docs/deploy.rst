@@ -2,6 +2,12 @@ For deployment
 *******************
 
 Follow direction here: http://www.deploydjango.com/heroku/index.html
+Or better here: https://devcenter.heroku.com/articles/django
+
+Heroku vars:
+- DJANGO_SETTINGS_MODULE
+- All other env vars
+
 
 To see heroku accounts, type::
     
