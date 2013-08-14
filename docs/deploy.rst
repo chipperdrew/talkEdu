@@ -38,7 +38,7 @@ The site is available at::
     http://youtalkedu.herokuapp.com/
 
 
-To add a (free) database, type::
+To add a (free) database and promote it (so DATABASE_URL is set), type::
 
     $ heroku addons:add heroku-postgresql:dev
 
