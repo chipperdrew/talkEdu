@@ -5,7 +5,7 @@ import os
 from os.path import abspath, basename, dirname, join, normpath
 from django.core.exceptions import ImproperlyConfigured
 
-SITE_ROOT = dirname(dirname(abspath(__file__)))
+SITE_ROOT = dirname(dirname(dirname(abspath(__file__))))
                                 # SHOULD BE: django_codes/talkEdu
                                 # In shell: from talkEdu import settings as S
 SITE_NAME = basename(SITE_ROOT)
@@ -105,9 +105,9 @@ MIDDLEWARE_CLASSES = (
 
 AXES_LOGIN_FAILURE_LIMIT = 5 # Num of login attempts until account is locked up
 
-ROOT_URLCONF = '%s.urls' % SITE_NAME
+ROOT_URLCONF = 'talkEdu.urls'
 
-WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
+WSGI_APPLICATION = 'talkEdu.wsgi.application'
 
 
 # Internationalization

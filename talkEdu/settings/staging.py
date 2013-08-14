@@ -1,5 +1,8 @@
 from base import *
 
+SITE_ROOT = dirname(dirname(abspath(__file__)))
+SITE_NAME = basename(SITE_ROOT)
+
 # Email SMTP
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
