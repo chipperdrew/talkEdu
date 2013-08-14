@@ -50,7 +50,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'registration', # Easy user registration
     'south', # Database migration
     'haystack', # Search
     'honeypot', # Prevent spam
@@ -62,7 +61,7 @@ INSTALLED_APPS = (
     'votes',
     'comments',
     'funct_tests',
-    'registrationFix',
+    'registration', # MODIFIED VERSION OF PACKAGE - Easy user registration
 )
 
 SOUTH_TESTS_MIGRATE = False #South likes to throw errors on tests for some reason
