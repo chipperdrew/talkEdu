@@ -1,7 +1,18 @@
 from base import *
 
+# MODIFIED VARS FROM BASE.PY
 SITE_ROOT = dirname(dirname(abspath(__file__)))
 SITE_NAME = basename(SITE_ROOT)
+
+# STATIC FILES (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/dev/howto/static-files/
+STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
+STATICFILES_DIRS = (
+    join(SITE_ROOT, 'static'),
+)
+
+
 
 # Email SMTP
 EMAIL_USE_TLS = True
