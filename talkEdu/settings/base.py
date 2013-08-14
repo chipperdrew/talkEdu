@@ -5,8 +5,7 @@ import os
 from os.path import abspath, basename, dirname, join, normpath
 from django.core.exceptions import ImproperlyConfigured
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-SITE_ROOT = dirname(dirname(abspath(__file__))))
+SITE_ROOT = dirname(dirname(abspath(__file__)))
                                 # SHOULD BE: django_codes/talkEdu
                                 # In shell: from talkEdu import settings as S
 SITE_NAME = basename(SITE_ROOT)
@@ -129,7 +128,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = (
-    normpath(join(SITE_ROOT, 'static')),
+    join(SITE_ROOT, 'static'),
 )
 
 STATICFILES_FINDERS = (
