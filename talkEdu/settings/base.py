@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'axes', # Limit login attempts
     'djangospam', # Prevent comment/post spam
     'djangosecure', # Security, like HtTPS and HSTS
+    'picklefield',
     'posts',
     'accounts',
     'votes',
