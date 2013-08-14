@@ -44,7 +44,7 @@ if os.environ.has_key('HEROKU_POSTGRESQL_NAVY_URL'):
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES['default'] = dj_database_url.config()
+DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
 
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
