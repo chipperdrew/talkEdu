@@ -6,12 +6,10 @@ from os.path import abspath, basename, dirname, join, normpath
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-SITE_ROOT = dirname(dirname(dirname(abspath(__file__))))
+SITE_ROOT = dirname(dirname(abspath(__file__))))
                                 # SHOULD BE: django_codes/talkEdu
                                 # In shell: from talkEdu import settings as S
 SITE_NAME = basename(SITE_ROOT)
-
-TEST_NAME = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_env_var(var_name):
@@ -108,9 +106,9 @@ MIDDLEWARE_CLASSES = (
 
 AXES_LOGIN_FAILURE_LIMIT = 5 # Num of login attempts until account is locked up
 
-ROOT_URLCONF = 'talkEdu.urls'
+ROOT_URLCONF = '%s.urls' % SITE_NAME
 
-WSGI_APPLICATION = 'talkEdu.wsgi.application'
+WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 
 
 # Internationalization
