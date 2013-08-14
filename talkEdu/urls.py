@@ -26,8 +26,3 @@ urlpatterns += patterns('',
     url(r'^comment/', include('comments.urls')),
     url(r'^search/$', SearchView(form_class=SearchForm), name='search'),
 )
-
-# For deployment --- gathering up the static files
-#from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-# if settings.DEBUG:
-#urlpatterns += staticfiles_urlpatterns()
