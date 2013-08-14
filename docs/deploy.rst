@@ -41,6 +41,9 @@ The site is available at::
 To add a (free) database, type::
 
     $ heroku addons:add heroku-postgresql:dev
+
+This should create a free db and a URL link (which should be added to the heroku config)
+
     $ heroku pg:info
 
 
