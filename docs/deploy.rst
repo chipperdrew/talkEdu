@@ -49,8 +49,9 @@ DYNOS::
     $ heroku ps
 
 
-Config environ vars
+Config environ vars, or pull them from environment
 
+    $ heroku config:pull --overwrite --interactive
     $ heroku config:set GITHUB_USERNAME=joesmith
     $ heroku config
 
