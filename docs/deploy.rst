@@ -19,37 +19,37 @@ If you ever forget any info about your site, run::
     $ heroku info
 
 
-To destroy, run::
-
-    $ heroku apps:destroy youtalkedu
-
-
 To create a Heroku application, run::
 
-    $ heroku create --stack cedar deploydjango
+    $ heroku create --stack cedar SITE_NAME
+
+
+To destroy, run::
+
+    $ heroku apps:destroy SITE_NAME
+
 
 To deploy::
 
-    git push heroku master
-
-
-The site is available at::
-
-    http://youtalkedu.herokuapp.com/
+    $ git push heroku master
+    $ heroku open
 
 
 To add a (free) database and promote it (so DATABASE_URL is set), type::
 
     $ heroku addons:add heroku-postgresql:dev
+    $ heroku pg:promote DB_NAME
 
-This should create a free db and a URL link (which should be added to the heroku config)
+
+This should create a free db and a URL link (which should be added to the heroku config). To check db::
 
     $ heroku pg:info
 
 
-Use the Django shell on the deployed app::
+Use Django commands on the deployed app::
 
     $ heroku run python manage.py shell
+    $ heroku run python manage.py syncdb
 
 
 DYNOS::
@@ -60,7 +60,7 @@ DYNOS::
 
 Config environ vars, or pull them from environment
 
-    $ heroku config:pull --overwrite --interactive
+    $ heroku config:pull --overwrite --interactive (NEED A CERTAIN APP FOR THIS, CAN'T REMEMBER WHAT)
     $ heroku config:set GITHUB_USERNAME=joesmith
     $ heroku config
 

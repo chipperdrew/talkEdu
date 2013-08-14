@@ -26,6 +26,28 @@ INSTALLED_APPS += (
 )
 
 
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS += ['*']
+
+# SECURITY:
+# Secure cookies
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# For django-secure
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 63072000 #2 years
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_FRAME_DENY = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_HTTPONLY = True
+
+
+
+
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 """
@@ -45,24 +67,4 @@ if os.environ.has_key('HEROKU_POSTGRESQL_IVORY_URL'):
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES['default'] = dj_database_url.config()
-
-
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-ALLOWED_HOSTS += ['*']
-
-# SECURITY:
-# Secure cookies
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
-# For django-secure
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 63072000 #2 years
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_FRAME_DENY = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-SESSION_COOKIE_HTTPONLY = True
+DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
