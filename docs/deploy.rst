@@ -13,6 +13,10 @@ After initial push, do the following:
  - heroku run python manage.py syncdb
  - heroku run python manage.py migrate accounts/posts/comments/votes
 
+To collect staticfiles, run
+$ python manage.py collectstatic
+
+
 
 To see heroku accounts, type::
     
