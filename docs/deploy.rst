@@ -4,9 +4,14 @@ For deployment
 Follow direction here: http://www.deploydjango.com/heroku/index.html
 Or better here: https://devcenter.heroku.com/articles/django
 
-Heroku vars:
+Set the following Heroku config vars:
 - DJANGO_SETTINGS_MODULE
 - All other env vars
+- Make sure DATABASE_URL is set by heroku pg
+
+After pushing, do the following:
+ - heroku run python manage.py syncdb
+ - heroku run python manage.py migrate accounts/posts/comments/votes
 
 
 To see heroku accounts, type::
