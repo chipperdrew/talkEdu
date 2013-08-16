@@ -23,6 +23,7 @@ EMAIL_HOST_PASSWORD = get_env_var("TALKEDU_EMAIL_PASS")
 
 INSTALLED_APPS += (
     'gunicorn', # Deployment
+    'raven.contrib.django.raven_compat', # For Sentry add-on
 )
 
 

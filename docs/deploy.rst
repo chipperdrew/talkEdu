@@ -28,13 +28,10 @@ If you ever forget any info about your site, run::
     $ heroku info
 
 
-To create a Heroku application, run::
+Heroku applications -- check, create, destroy::
 
+    $ heroku apps
     $ heroku create --stack cedar SITE_NAME
-
-
-To destroy, run::
-
     $ heroku apps:destroy SITE_NAME
 
 
@@ -42,17 +39,6 @@ To deploy::
 
     $ git push heroku master
     $ heroku open
-
-
-To add a (free) database and promote it (so DATABASE_URL is set), type::
-
-    $ heroku addons:add heroku-postgresql:dev
-    $ heroku pg:promote DB_NAME
-
-
-This should create a free db and a URL link (which should be added to the heroku config). To check db::
-
-    $ heroku pg:info
 
 
 Use Django commands on the deployed app::
@@ -63,33 +49,68 @@ Use Django commands on the deployed app::
     $ heroku run python manage.py createsuperuser
 
 
-DYNOS::
-
-    $ heroku ps:scale web=1
-    $ heroku ps
-
-
-Config environ vars, or pull them from environment
-
-    $ heroku config:pull --overwrite --interactive (NEED A CERTAIN APP FOR THIS, CAN'T REMEMBER WHAT)
-    $ heroku config:set GITHUB_USERNAME=joesmith
-    $ heroku config
-
 Error checking::
 
     $ foreman start (to verify Procfile is set up correctly)
     $ heroku logs
 
 
-According to Heroku
-----------------
+To set in maintenance mode, run::
 
-Set up virtualenv::
+    $ heroku maintenance:on/off
+    $ heroku maintenance
 
-    $ pip install virtualenv
-    $ virtualenv LOCATION --distribute
 
-To enter and exit::
+Check the current release, and rollback if necessary
 
-    $ source .venv/bin/activate
-    $ deactivate
+    $ heroku releases
+    $ heroku releases:rollback vNUMBER
+
+To add add-ons,
+  
+    $ heroku addons:add NAME:VERSION
+
+
+Dynos, Databases, and Environment Variables
+----------
+Check dyno status and scale up/down::
+
+    $ heroku ps:scale web=1
+    $ heroku ps
+
+
+To add a (free) database and promote it (so DATABASE_URL is set), type::
+
+    $ heroku addons:add heroku-postgresql:dev
+    $ heroku pg:promote DB_NAME
+    $ heroku pg:info
+
+
+Config environ vars, or pull them from environment::
+
+    $ heroku config:pull --overwrite --interactive (NEED A CERTAIN APP FOR THIS, CAN'T REMEMBER WHAT)
+    $ heroku config:set GITHUB_USERNAME=joesmith
+    $ heroku config
+
+
+Zerigo DNS
+----------
+
+    $ heroku addons:add zerigo_dns:basic
+    $ heroku domains:add mydomain.com
+    $ heroku domains:remove mydomain.com
+
+
+PairNic name servers
+
+     NS5.PAIRNIC.COM
+     NS6.PAIRNIC.COM
+
+
+Sentry -- Capture and aggregate exceptions
+-----------
+
+    $ heroku addons:open sentry
+
+
+
