@@ -1,8 +1,8 @@
 TODO:
 =============
-#) Move form logic in posts/views to posts/forms?
+#) Add favicon (see w3 page)
 #) "Prettify" the learn more page
-#) Have comments load (via AJAX) AFTER post_page loads. Display a loading screen. OR show more button?
+#) Have comments load (via AJAX) AFTER post_page loads, display a loading screen. OR show more button?
 #) Make "show" and "sort-by" buttons AJAXed
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page??

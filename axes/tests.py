@@ -2,7 +2,7 @@ import random
 import string
 
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
 
@@ -27,7 +27,7 @@ class AccessAttemptTest(TestCase):
         """Returns a username, existing or not depending on params
         """
         if existing_username:
-            return User.objects.order_by('?')[0].username
+            return get_user_model().objects.order_by('?')[0].username
 
         return self._generate_random_string()
 
@@ -46,7 +46,7 @@ class AccessAttemptTest(TestCase):
         for i in range(0, random.randrange(10, 50)):
             username = 'person%s' % i
             email = '%s@example.org' % username
-            u = User.objects.create_user(
+            u = get_user_model().objects.create_user(
                 username=username,
                 password=username,
                 email=email,
