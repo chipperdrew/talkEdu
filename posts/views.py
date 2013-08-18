@@ -23,10 +23,10 @@ from comments.views import spam_check
 POSTS_ALLOWED_PER_DAY = 5
 
 def home_page(request):
-    try:
-        1 / 0
-    except Exception:
-        client.captureException()
+#    try:
+#        1 / 0
+#    except Exception:
+#        client.captureException()
     return render(request, 'home.html')
 
 def faq_page(request):

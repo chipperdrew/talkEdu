@@ -13,7 +13,6 @@ STATICFILES_DIRS = (
 )
 
 
-
 # Email SMTP
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
