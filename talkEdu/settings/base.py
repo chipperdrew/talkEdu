@@ -5,7 +5,6 @@ import os
 from os.path import abspath, basename, dirname, join, normpath
 from django.core.exceptions import ImproperlyConfigured
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 SITE_ROOT = dirname(dirname(dirname(abspath(__file__))))
                                 # SHOULD BE: django_codes/talkEdu
                                 # In shell: from talkEdu import settings as S
@@ -13,11 +12,11 @@ SITE_NAME = basename(SITE_ROOT)
 
 
 def get_env_var(var_name):
-    #try:
-    return os.environ[var_name]
-    #except KeyError:
-    #    error_msg = "Set the %s environment variable" % var_name
-    #    raise ImproperlyConfigured(error_msg)
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s environment variable" % var_name
+        raise ImproperlyConfigured(error_msg)
 
 SECRET_KEY = get_env_var("TALKEDU_SECRET_KEY")
 AKISMET_KEY = get_env_var("TALKEDU_AKISMET_KEY")
@@ -127,9 +126,8 @@ USE_TZ = False
 # STATIC FILES (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = (
-    normpath(join(SITE_ROOT, 'static')),
+    join(SITE_ROOT, 'static'),
 )
 
 STATICFILES_FINDERS = (

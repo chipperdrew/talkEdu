@@ -2,6 +2,21 @@ For deployment
 *******************
 
 Follow direction here: http://www.deploydjango.com/heroku/index.html
+Or better here: https://devcenter.heroku.com/articles/django
+
+Set the following Heroku config vars:
+- DJANGO_SETTINGS_MODULE
+- All other env vars
+- Make sure DATABASE_URL is set by heroku pg
+
+After initial push, do the following:
+ - heroku run python manage.py syncdb
+ - heroku run python manage.py migrate accounts/posts/comments/votes
+
+To collect staticfiles, run
+$ python manage.py collectstatic
+
+
 
 To see heroku accounts, type::
     
@@ -13,46 +28,26 @@ If you ever forget any info about your site, run::
     $ heroku info
 
 
-To destroy, run::
+Heroku applications -- check, create, destroy::
 
-    $ heroku apps:destroy youtalkedu
+    $ heroku apps
+    $ heroku create --stack cedar SITE_NAME
+    $ heroku apps:destroy SITE_NAME
 
-
-To create a Heroku application, run::
-
-    $ heroku create --stack cedar deploydjango
 
 To deploy::
 
-    git push heroku master
+    $ git push heroku master
+    $ heroku open
 
 
-The site is available at::
-
-    http://youtalkedu.herokuapp.com/
-
-
-To add a (free) database, type::
-
-    $ heroku addons:add heroku-postgresql:dev
-    $ heroku pg:info
-
-
-Use the Django shell on the deployed app::
+Use Django commands on the deployed app::
 
     $ heroku run python manage.py shell
+    $ heroku run python manage.py syncdb
+    $ heroku run python manage.py test
+    $ heroku run python manage.py createsuperuser
 
-
-DYNOS::
-
-    $ heroku ps:scale web=1
-    $ heroku ps
-
-
-Config environ vars
-
-    $ heroku config:set GITHUB_USERNAME=joesmith
-    $ heroku config
 
 Error checking::
 
@@ -60,15 +55,62 @@ Error checking::
     $ heroku logs
 
 
-According to Heroku
-----------------
+To set in maintenance mode, run::
 
-Set up virtualenv::
+    $ heroku maintenance:on/off
+    $ heroku maintenance
 
-    $ pip install virtualenv
-    $ virtualenv LOCATION --distribute
 
-To enter and exit::
+Check the current release, and rollback if necessary
 
-    $ source .venv/bin/activate
-    $ deactivate
+    $ heroku releases
+    $ heroku releases:rollback vNUMBER
+
+To add add-ons,
+  
+    $ heroku addons:add NAME:VERSION
+
+
+Dynos, Databases, and Environment Variables
+----------
+Check dyno status and scale up/down::
+
+    $ heroku ps:scale web=1
+    $ heroku ps
+
+
+To add a (free) database and promote it (so DATABASE_URL is set), type::
+
+    $ heroku addons:add heroku-postgresql:dev
+    $ heroku pg:promote DB_NAME
+    $ heroku pg:info
+
+
+Config environ vars, or pull them from environment::
+
+    $ heroku config:pull --overwrite --interactive (NEED A CERTAIN APP FOR THIS, CAN'T REMEMBER WHAT)
+    $ heroku config:set GITHUB_USERNAME=joesmith
+    $ heroku config
+
+
+Zerigo DNS
+----------
+
+    $ heroku addons:add zerigo_dns:basic
+    $ heroku domains:add mydomain.com
+    $ heroku domains:remove mydomain.com
+
+
+PairNic name servers
+
+     NS5.PAIRNIC.COM
+     NS6.PAIRNIC.COM
+
+
+Sentry -- Capture and aggregate exceptions
+-----------
+
+    $ heroku addons:open sentry
+
+
+

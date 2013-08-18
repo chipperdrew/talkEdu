@@ -448,7 +448,7 @@ class NewVisitorTests(LiveServerTestCase):
         # ATTEMPT 0.5: Jim creates too short of a password:
         # KEY: 0 is hidden in form, 1-4 are inputs
         inputs[1].send_keys('Jim')
-        inputs[2].send_keys('jim@gmail.com')
+        inputs[2].send_keys('youtalkedu@gmail.com')
         inputs[3].send_keys('Pass')
         inputs[4].send_keys('Pass')
         self.check_for_redirect_after_button_click(
@@ -479,14 +479,14 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertEqual(get_user_model().objects.all().count(), 2)
         jim = get_user_model().objects.all().get(username='Jim')
         self.assertEqual(jim.username, 'Jim')
-        self.assertEqual(jim.email, 'jim@gmail.com')
+        self.assertEqual(jim.email, 'youtalkedu@gmail.com')
         self.assertEqual(jim.get_user_type_display(), 'Teacher')
 
         # ATTEMPT 3: Jim (incorrectly) tries to create another 'Jim' account
         self.browser.get(self.live_server_url + '/accounts/register/')
         inputs = self.browser.find_elements_by_tag_name('input')
         inputs[1].send_keys('Jim')
-        inputs[2].send_keys('jim@gmail.com')
+        inputs[2].send_keys('youtalkedu@gmail.com')
         inputs[3].send_keys('P')
         inputs[4].send_keys('P')
         self.check_for_redirect_after_button_click(
@@ -565,7 +565,7 @@ class NewVisitorTests(LiveServerTestCase):
         
         # Bob, another user, logs in and sees the posts
         get_user_model().objects.create_user(
-            'Bob', 'bob@gmail.com', 'b',
+            'Bob', 'chipperdrew@gmail.com', 'b',
             user_type=get_user_model().ADMINISTRATOR
         )
         self.browser.get(self.live_server_url+'/accounts/login/')
@@ -585,7 +585,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jill, a student, logs in
         get_user_model().objects.create_user(
-            'Jill', 'bob@gmail.com', 'j',
+            'Jill', 'chipperdrew@gmail.com', 'j',
             user_type=get_user_model().STUDENT
         )
         self.browser.get(self.live_server_url+'/accounts/login/')

@@ -1,4 +1,7 @@
 # USE FOR PRESENTATION LOGIC, NOT BUSINESS LOGIC (put that in models)
+import datetime
+import json
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -6,9 +9,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+
 from honeypot.decorators import check_honeypot
-import datetime
-import json
+from raven.contrib.django.models import client
 
 from posts.forms import postForm
 from posts.models import post
@@ -20,6 +23,10 @@ from comments.views import spam_check
 POSTS_ALLOWED_PER_DAY = 5
 
 def home_page(request):
+    try:
+        1 / 0
+    except Exception:
+        client.captureException()
     return render(request, 'home.html')
 
 def faq_page(request):

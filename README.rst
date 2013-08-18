@@ -1,12 +1,14 @@
 TODO:
 =============
 #) Add favicon (see w3 page)
+#) Learn EVERYTHING about Heroku
+#) Update HTML for better mobile viewing
 #) "Prettify" the learn more page
 #) Have comments load (via AJAX) AFTER post_page loads, display a loading screen. OR show more button?
 #) Make "show" and "sort-by" buttons AJAXed
 #) TEDDY - Add logo/picture at top of tab
 #) TEDDY - Add some sort of graphic on home page??
-#) TIME PERMITTING - Inherit models from django-registration so registration is free standning --- WILL TAKE TIME
+#) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Create a more personalized user page?
@@ -16,7 +18,6 @@ TODO:
 #) IN PRODUCTION - Make sure Django-axes is IP specific
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
 #) IN PRODUCTION - Set up search updates - Celery/Cron job?
-#) IN PRODUCTION - Change ALL of my current passwords
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) IF COMPLAINTS - Smaller comment voting chart
@@ -61,6 +62,7 @@ TODO:
 #) DONE - Add a Learn More page
 #) DONE - Do something to prevent comment spam
 #) DONE - Set up email with SMTP server
+#) DONE - Pushed to the internet!!! 8/14/13
 
 
 Basic Information
