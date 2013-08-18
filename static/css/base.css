@@ -20,7 +20,6 @@
 .green_checkmark {
 	height:10px; 
 	width:10px; 
-	align:left
 }
 
 .inline_right {
@@ -41,7 +40,7 @@
 /* Templates used on: base_post */
 #base_post_title {
 	word-wrap:break-word; 
-	height:90px; // This moves the text up in the box
+	height:90px; /* This moves the text up in the box */
 }
 
 #id_show_form {
