@@ -118,3 +118,9 @@ Loggly -- Logging
 
     $ heroku addons:open loggly    
 
+New relic
+----------
+
+If deleted,
+ - Edit Procfile
+ - pip uninstall newrelic

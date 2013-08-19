@@ -3,6 +3,6 @@
 dj-database-url==0.2.2
 dj-static==0.0.5
 gunicorn==17.5
-newrelic == 1.13.1.31
+newrelic
 raven==3.4.1
 
