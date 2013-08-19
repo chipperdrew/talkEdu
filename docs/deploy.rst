@@ -123,4 +123,5 @@ New relic -- Monitoring speeds, stats, etc.
 
 If deleted,
  - Edit Procfile
+ - Removed LOGGING in settings
  - pip uninstall newrelic

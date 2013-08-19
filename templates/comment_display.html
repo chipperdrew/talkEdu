@@ -34,8 +34,8 @@
 		<p>
 		{% if user.is_authenticated %}
 			<div id="comment_links{{c.id}}" style="display:inline-block">
-				<a class="up" href="{% url 'up_vote' id=c.id item_type='c'%}">Up</a> &nbsp;
-				<a class="down" href="{% url 'down_vote' id=c.id item_type='c'%}">Down</a> &nbsp;
+				<a class="up" href="{% url 'up_vote' id=c.id item_type='c'%}">Vote up</a> &nbsp;
+				<a class="down" href="{% url 'down_vote' id=c.id item_type='c'%}">Vote down</a> &nbsp;
 				<a class="spam" href="{% url 'comment_spam' id=c.id %}">Mark as spam</a>&nbsp;
 				{% if c.user_id == request.user %}
 					<a href="{% url 'delete_comment' c.id %}?next={{request.path}}"

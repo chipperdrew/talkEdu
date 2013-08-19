@@ -31,6 +31,8 @@
 			{{ field.label_tag }} {{ field }}
 			{% if 'mail' in field.label_tag %}
 				This will ONLY be used to send a verification E-mail.
+			{% elif 'Password:' in field.label_tag %}
+				Passwords must contain at least 8 characters.
 			{% endif %}
 			<br/><br/>
 			</div>

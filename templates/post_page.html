@@ -40,8 +40,8 @@
 
 			{% if user.is_authenticated %}			
 				<div id="post_links{{post.id}}" style="display:inline-block">					
-					<a class="up" href="{% url 'up_vote' id=post.id item_type='p' %}">Up</a>&nbsp;
-					<a class="down" href="{% url 'down_vote' id=post.id item_type='p' %}">Down</a>&nbsp;
+					<a class="up" href="{% url 'up_vote' id=post.id item_type='p' %}">Vote up</a>&nbsp;
+					<a class="down" href="{% url 'down_vote' id=post.id item_type='p' %}">Vote down</a>&nbsp;
 					<a class="spam" href="{% url 'post_spam' id=post.id %}">Mark as spam</a>
 				</div>			
 				{% if post.user_id == request.user %}

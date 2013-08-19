@@ -65,7 +65,7 @@ class CheckValidEmailPasswordResetForm(PasswordResetForm):
 def check_pass_length(self, provided_password):
     password = self.cleaned_data[provided_password]
     if len(password) < MIN_PASSWORD_LENGTH:
-        raise ValidationError('Password must have at least %i characters' %
+        raise ValidationError('Passwords must contain at least %i characters' %
                               MIN_PASSWORD_LENGTH)
     return password
 
