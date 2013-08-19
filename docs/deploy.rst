@@ -107,7 +107,7 @@ PairNic name servers
      NS6.PAIRNIC.COM
 
 
-Sentry -- Capture and aggregate exceptions
+Sentry -- Capture errors
 -----------
 
     $ heroku addons:open sentry
@@ -118,7 +118,7 @@ Loggly -- Logging
 
     $ heroku addons:open loggly    
 
-New relic
+New relic -- Monitoring speeds, stats, etc.
 ----------
 
 If deleted,
