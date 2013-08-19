@@ -113,4 +113,8 @@ Sentry -- Capture and aggregate exceptions
     $ heroku addons:open sentry
 
 
+Loggly -- Logging
+-----------
+
+    $ heroku addons:open loggly    
 
