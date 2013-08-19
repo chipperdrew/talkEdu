@@ -1,8 +1,6 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from haystack.forms import SearchForm
-from haystack.views import SearchView
 
 admin.autodiscover()
 
@@ -24,5 +22,5 @@ urlpatterns += patterns('',
     url(r'^accounts/', include('registrationFix.urls')),
     url(r'^', include('votes.urls')),
     url(r'^comment/', include('comments.urls')),
-    url(r'^search/$', SearchView(form_class=SearchForm), name='search'),
+    url(r'^search/', include('haystack.urls')),
 )
