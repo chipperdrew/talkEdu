@@ -13,10 +13,11 @@
 		}); 
         </script> 
 
-	<form method="get" action="/search">
-		<input type="text" name="q" style="float:left" />
-		<button class="btn btn-primary" type="submit" style="float:left">&nbsp;Search</button><br/>
-	</form>
+	<form method="get" action=".">
+		<table>
+		{{ form.as_table }}
+		</table>
+		<button class="btn btn-primary" type="submit">Search</button>
 
 	{% if query %}
 		<h3>Results</h3>
@@ -39,5 +40,6 @@
 	{% else %}
 		{# Show some example queries to run, maybe query syntax, something else? #}
 	{% endif %}
+	</form>
 	</div>
 {% endblock %}
