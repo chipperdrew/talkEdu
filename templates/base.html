@@ -2,25 +2,26 @@
 {% load staticfiles %}
 <html>
 <head>
+	<link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
 	{% block stylesheets %}
-<meta id="Viewport" name="viewport" width="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-
-<script type="text/javascript">
-$(function(){
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-  var ww = ( $(window).width() < window.screen.width ) ? $(window).width() : window.screen.width; //get proper width
-  var mw = 480; // min width of site
-  var ratio =  ww / mw; //calculate ratio
-  if( ww < mw){ //smaller than minimum size
-   $('#Viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
-  }else{ //regular size
-   $('#Viewport').attr('content', 'initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
-  }
-}
-});
-</script>
-		<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
-		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"  media="screen">
+	<meta id="Viewport" name="viewport" width="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	{# Good display for all devices #}
+	<script type="text/javascript">
+		function(){
+			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+				var ww = ( $(window).width() < window.screen.width ) ? $(window).width() : window.screen.width; //get proper width
+				var mw = 480; // min width of site
+				var ratio =  ww / mw; //calculate ratio
+				if( ww < mw){ //smaller than minimum size
+					$('#Viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+				}else{ //regular size
+					$('#Viewport').attr('content', 'initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
+				}
+			}
+		};
+	</script>
+	<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"  media="screen">
 	{% endblock stylesheets %}
 	<title>
 		{% block title %}YouTalkEdu{% endblock title %}

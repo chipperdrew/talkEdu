@@ -1,10 +1,8 @@
 TODO:
 =============
+#) Limit # of comments for spammers?
 #) Look into CACHING
-#) Add favicon (see w3 page)
 #) Learn EVERYTHING about Heroku
-#) Update HTML for better mobile viewing
-#) "Prettify" the learn more page
 #) Have comments load (via AJAX) AFTER post_page loads, display a loading screen. OR show more button?
 #) Make "show" and "sort-by" buttons AJAXed
 #) TEDDY - Add logo/picture at top of tab
@@ -17,7 +15,6 @@ TODO:
 #) IN PRODUCTION - Log the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - Make sure Django-axes is IP specific
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
-#) IN PRODUCTION - Set up search updates - Celery/Cron job?
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) IF COMPLAINTS - Smaller comment voting chart
@@ -63,6 +60,7 @@ TODO:
 #) DONE - Do something to prevent comment spam
 #) DONE - Set up email with SMTP server
 #) DONE - Pushed to the internet!!! 8/14/13
+#) DONE - Add favicon (see w3 page)
 
 
 Basic Information
@@ -118,12 +116,9 @@ Thanks to the following
 	* Djangospam (for catching spam) - https://github.com/leandroarndt/djangospam
 	* Pyelasticsearch (adapter to use ElasticSearch) - http://pyelasticsearch.readthedocs.org/en/latest/
 	* Psycopg2 (needed to use PostgreSQL) - http://initd.org/psycopg/
+	* Raven (for exception and to use Sentry)
 	* Requests (Pyelasticsearch dependency) - https://django-request.readthedocs.org/en/latest/
 	* Selenium (for testing) - http://docs.seleniumhq.org/
 	* Simplejson (Pyelasticsearch dependency) - http://simplejson.readthedocs.org/en/latest/
 	* South (for database migrations) - http://south.readthedocs.org/en/latest/index.html
 	* Sphinx (installs Jinja2, MarkupSafe, Pygments, docutils) (for creating documention) - http://sphinx-doc.org/
-
-* Ruby on Rails
-	* Rails for Zombies - http://railsforzombies.org/
-
