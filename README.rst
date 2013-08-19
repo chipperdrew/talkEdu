@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Look into CACHING
 #) Add favicon (see w3 page)
 #) Learn EVERYTHING about Heroku
 #) Update HTML for better mobile viewing
