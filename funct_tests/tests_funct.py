@@ -276,25 +276,25 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Posted at', body)
         self.assertIn('Overall: 0.0', body)
         self.assertIn('Total Votes: 0', body)
-        self.assertNotIn('Up', body)
+        self.assertNotIn('Vote up', body)
         self.assertNotIn('Edit', body)
 
         # Jim logs in and sees some links
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Up', body)
+        self.assertIn('Vote up', body)
         self.assertIn('Edit', body)
 
         # Jim votes and sees the effect
-        self.browser.find_element_by_link_text('Up').click()
+        self.browser.find_element_by_link_text('Vote up').click()
         time.sleep(1)
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall: 1.0', body)
         self.assertIn('Total Votes: 1', body)
 
         # Jim changes his vote
-        self.browser.find_element_by_link_text('Down').click()
+        self.browser.find_element_by_link_text('Vote down').click()
         time.sleep(1)
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall: 0.0', body)
@@ -339,7 +339,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click('pass_change_submit',
                                                    '/accounts/password/change/$')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Password must have at least', body)
+        self.assertIn('Password must contain at least', body)
 
 
         # 2: Jim enters his old pass incorrect & 2 diff passwords
@@ -454,7 +454,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click(
             "create", self.live_server_url +'/accounts/register/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Password must have at least', body)
+        self.assertIn('Password must contain at least', body)
         
         # ATTEMPT 1: Jim enters in non-matching passwords
         inputs = self.browser.find_elements_by_tag_name('input')
@@ -533,17 +533,17 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim visits the ideas page, sees the voting info, but cannot vote
         self.browser.get(self.live_server_url+'/pages/ideas/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('Up', body)
-        self.assertNotIn('Down', body)
+        self.assertNotIn('Vote up', body)
+        self.assertNotIn('Vote down', body)
 
         # Jim logs in, sees the current votes, and can vote
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Overall: 0.0', body)
-        self.assertIn('Up', body)
-        self.assertIn('Down', body)
-        up_votes = self.browser.find_elements_by_link_text('Up')
+        self.assertIn('Vote up', body)
+        self.assertIn('Vote down', body)
+        up_votes = self.browser.find_elements_by_link_text('Vote up')
         self.assertEqual(len(up_votes), 2)
 
         # Jim clicks the 'up' vote for one of the posts
@@ -573,7 +573,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_link_click('Ideas', '/ideas/$')
 
         # Bob votes on the same post
-        down_votes = self.browser.find_elements_by_link_text('Down')
+        down_votes = self.browser.find_elements_by_link_text('Vote down')
         down_votes[0].click()
         time.sleep(1)
         new_url = self.browser.current_url
@@ -593,7 +593,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_link_click('Ideas', '/ideas/$')
         
         # Jill votes and sees the changes
-        up_votes = self.browser.find_elements_by_link_text('Up')
+        up_votes = self.browser.find_elements_by_link_text('Vote up')
         up_votes[0].click()
         time.sleep(1)
         new_url = self.browser.current_url
@@ -616,21 +616,21 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_id('id_content').send_keys('Comment 1')
         self.browser.find_element_by_name('comment_button').click()
         comment_display = self.browser.find_element_by_id('commenters').text
-        self.assertIn('Up', comment_display)
+        self.assertIn('Vote up', comment_display)
         self.assertIn('Overall: 0.0', comment_display)
         self.assertIn('Total Votes: 0', comment_display)
 
         # Jim logs out and does not see the option to vote
         self.browser.find_element_by_link_text('Logout').click()
         comment_display = self.browser.find_element_by_id('commenters').text
-        self.assertNotIn('Up', comment_display)
+        self.assertNotIn('Vote up', comment_display)
         self.assertIn('Overall: 0.0', comment_display)
         self.assertIn('Total Votes: 0', comment_display)
 
         # Jim logs back in, votes "Up", & sees the proper content
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
-        up_votes = self.browser.find_elements_by_link_text('Up')
+        up_votes = self.browser.find_elements_by_link_text('Vote up')
         up_votes[1].click() #[0] - post vote, [1] - comment vote
         time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
@@ -638,7 +638,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Total Votes: 1', comment_display)
 
         # Jim tries to vote again -- nothing changes
-        up_votes = self.browser.find_elements_by_link_text('Up')
+        up_votes = self.browser.find_elements_by_link_text('Vote up')
         up_votes[1].click()
         time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
@@ -646,7 +646,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Total Votes: 1', comment_display)
 
         # Jim votes down and the proper content changes
-        down_votes = self.browser.find_elements_by_link_text('Down')
+        down_votes = self.browser.find_elements_by_link_text('Vote down')
         down_votes[1].click()
         time.sleep(1)
         comment_display = self.browser.find_element_by_id('commenters').text
@@ -663,17 +663,17 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
         self.browser.get(self.live_server_url+'/pages/problems/')
-        self.browser.find_element_by_link_text('Up').click()
+        self.browser.find_element_by_link_text('Vote up').click()
         time.sleep(1)
 
         # Jim goes the the ideas page and votes down
         self.browser.get(self.live_server_url+'/pages/ideas/')
-        self.browser.find_element_by_link_text('Down').click()
+        self.browser.find_element_by_link_text('Vote down').click()
         time.sleep(1)
 
         # Jim goes the questions page and votes up
         self.browser.get(self.live_server_url+'/pages/questions/')
-        self.browser.find_element_by_link_text('Up').click()
+        self.browser.find_element_by_link_text('Vote up').click()
         time.sleep(1)
 
         # Jim goes to his user page and sees the proper vote percentage
@@ -683,7 +683,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim changes his vote, goes to his user page, and sees the updated perc
         self.browser.get(self.live_server_url+'/pages/questions/')
-        self.browser.find_element_by_link_text('Down').click()
+        self.browser.find_element_by_link_text('Vote down').click()
         time.sleep(1)
         self.browser.get(self.live_server_url+'/user/Test/')
         body = self.browser.find_element_by_tag_name('body').text
@@ -716,7 +716,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.get(self.live_server_url+'/accounts/login/')
         self.login_user('Test', 'test')
         self.browser.get(self.live_server_url+'/pages/site_feedback/')
-        self.browser.find_element_by_link_text("Up").click()
+        self.browser.find_element_by_link_text("Vote up").click()
         time.sleep(1)
 
         # The post shows than an ADMIN has voted up
