@@ -39,6 +39,11 @@ TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = [] # AC: 7/13/13 Set this in production
 
+# PREVENT NEW RELIC ERRORS
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+}
 
 # Application definition
 INSTALLED_APPS = (
