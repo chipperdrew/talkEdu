@@ -25,6 +25,14 @@ INSTALLED_APPS += (
     'raven.contrib.django.raven_compat', # For Sentry add-on
 )
 
+# Haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': os.environ['SEARCHBOX_URL'],
+        'INDEX_NAME': 'documents',
+    },
+}
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -47,24 +55,7 @@ SESSION_COOKIE_HTTPONLY = True
 
 
 
-
 # Database
-# https://docs.djangoproject.com/en/dev/ref/settings/#databases
-"""
-import dj_database_url
-from urlparse import urlparse
-if os.environ.has_key('HEROKU_POSTGRESQL_IVORY_URL'):
-    url = urlparse(os.environ['HEROKU_POSTGRESQL_IVORY_URL'])
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': url.path[1:],
-        'USER': url.username,
-        'PASSWORD': url.password,
-        'HOST': url.hostname,
-        'PORT': url.port,
-    }
-"""
-
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
 DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}

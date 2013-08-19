@@ -3,7 +3,7 @@ from haystack import indexes
 from posts.models import post
 
 
-class NoteIndex(indexes.SearchIndex, indexes.Indexable):
+class PostIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     author = indexes.CharField(model_attr='user_id')
     time_modified = indexes.DateTimeField(model_attr='time_modified')

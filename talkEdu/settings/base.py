@@ -72,16 +72,6 @@ INSTALLED_APPS = (
 
 SOUTH_TESTS_MIGRATE = False #South likes to throw errors on tests for some reason
 
-
-# Haystack
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
-    },
-}
-
 # Honeypot name
 HONEYPOT_FIELD_NAME = 'website'
 
