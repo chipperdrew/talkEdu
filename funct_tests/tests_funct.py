@@ -339,7 +339,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click('pass_change_submit',
                                                    '/accounts/password/change/$')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Password must contain at least', body)
+        self.assertIn('Passwords must contain at least', body)
 
 
         # 2: Jim enters his old pass incorrect & 2 diff passwords
@@ -454,7 +454,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click(
             "create", self.live_server_url +'/accounts/register/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Password must contain at least', body)
+        self.assertIn('Passwords must contain at least', body)
         
         # ATTEMPT 1: Jim enters in non-matching passwords
         inputs = self.browser.find_elements_by_tag_name('input')
