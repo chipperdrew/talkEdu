@@ -19,7 +19,7 @@ from comments.models import comment
 from posts.models import post
 from votes.models import spam
 
-COMMENT_TIME_FRAME = 25 #Time, in seconds, that must elapse between comments
+COMMENT_TIME_FRAME = 15 #Time, in seconds, that must elapse between comments
 
 @check_honeypot
 def new_comment(request, post_id):

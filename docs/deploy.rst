@@ -125,3 +125,20 @@ If deleted,
  - Edit Procfile
  - Removed LOGGING in settings
  - pip uninstall newrelic
+
+Postgres backups
+----------------
+To create or delete a backup
+
+    $ heroku pgbackups:capture
+    $ heroku pgbackups:destroy BACKUP_ID
+    $ heroku pgbackups
+
+To create public backup url (use for migrations, upgrading plans, exporting data)::
+    
+    $ heroku pgbackups:url
+
+If you need to restore DB (don't use unless you need it!!!!)::
+
+    $ heroku pgbackups:restore DB_NAME BACKUP_ID (backup_id is optional, defaults to most recent)
+    $ heroku pgbackups:restore HEROKU_POSTGRESQL_BLACK b251 

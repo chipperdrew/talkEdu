@@ -47,7 +47,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys(username)
         pass_input.send_keys(password)
         self.browser.find_element_by_name('login').click()
-    
+
     def test_home_page_has_proper_content_and_links(self):
         
         # Jim visits the home page of our site
@@ -808,10 +808,10 @@ class NewVisitorTests(LiveServerTestCase):
     
     def test_comment_functionality_and_existance(self):
         test_user = get_user_model().objects.get(username='Test')
-        post.objects.create(
+        p1 = post.objects.create(
             title='T1', page_type=post.PROBLEMS, user_id=test_user
         )
-        post.objects.create(
+        p2 = post.objects.create(
             title='T2', page_type=post.PROBLEMS, user_id=test_user
         )
 
@@ -850,6 +850,35 @@ class NewVisitorTests(LiveServerTestCase):
         comment_buttons = self.browser.find_elements_by_name('comment_button')
         comment_buttons[1].click() #2nd button appeared from reply click
 
+        # Jim replied too quickly & sees a warning message with his comment
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('To limit spam, users may not', body)
+        self.assertIn('1.1', body)
+        self.browser.find_element_by_link_text('Return').click()
+        self.assertIn('Post', self.browser.title)
+        time.sleep(3)
+
+        # Bob logs in and replies to Jim (Jim cannot comment twice that quickly)
+        self.browser.find_element_by_name('logout_nav').click()
+        get_user_model().objects.create_user(
+            'Bob', 'chipperdrew@gmail.com', 'b',
+            user_type=get_user_model().ADMINISTRATOR
+        )
+        self.browser.find_element_by_link_text('Login').click()
+        self.login_user('Bob', 'b')
+        self.browser.get(self.live_server_url+'/post/'+str(p1.id)+'/')
+        self.browser.find_element_by_link_text('Reply').click()
+        text_areas = self.browser.find_elements_by_tag_name('textarea')
+        text_areas[2].send_keys('1.1')
+        comment_buttons = self.browser.find_elements_by_name('comment_button')
+        comment_buttons[1].click()
+
+        # Jim logs back in
+        self.browser.find_element_by_name('logout_nav').click()
+        self.browser.find_element_by_link_text('Login').click()
+        self.login_user('Test', 'test')
+        self.browser.get(self.live_server_url+'/post/'+str(p1.id)+'/')
+
         # Jim doesn't see his reply, but the body says are 2 comments
         comment_display = self.browser.find_element_by_id('commenters').text
         body = self.browser.find_element_by_tag_name('body').text
@@ -882,8 +911,9 @@ class NewVisitorTests(LiveServerTestCase):
         comment_display = self.browser.find_element_by_id('commenters').text
         self.assertIn('Thanks', comment_display)
 
-        # 3: Jim comments again (not a reply)
+        # 3: Jim waits to comment then comments again (not a reply)
         self.browser.find_element_by_id('id_content').send_keys('Comment 2')
+        time.sleep(7)
         self.browser.find_element_by_name('comment_button').click()
 
         # Jim deletes his 1st comment, which deletes his 1st 2 comments
@@ -905,7 +935,13 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertNotIn('Comment 2', body)
         self.assertIn('no comments', body)
 
-        # Jim tries to comment w/o entering text and just spaces
+        # Bob logs in (to avoid commenting to quickly)
+        self.browser.find_element_by_name('logout_nav').click()
+        self.browser.find_element_by_link_text('Login').click()
+        self.login_user('Bob', 'b')
+        self.browser.get(self.live_server_url+'/post/'+str(p2.id)+'/')
+
+        # Bob tries to comment w/o entering text and just spaces
         self.browser.find_element_by_name('comment_button').click()
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Please enter a comment', body)
@@ -913,21 +949,15 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_name('comment_button').click()
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Please enter a valid comment', body)
-
-
-    # THIS TEST IS __NOT__ SAVING COOKIES. LOOK FOR NEW METHOD AND RE-RUN
+    
     """
+    # THIS TEST IS __NOT__ SAVING COOKIES. LOOK FOR NEW METHOD AND RE-RUN
     def test_remember_me_feature(self):
-
         # Jim logs on as 'Test', w/o remember me
-        self.browser.get(self.live_server_url)
-        user = self.browser.find_element_by_id('id_user_login')
-        password = self.browser.find_element_by_id('id_pass_login')
-        user.send_keys('Test')
-        password.send_keys('test')
-        self.browser.find_element_by_name('login').click()
+        self.browser.get(self.live_server_url+'/accounts/login/')
+        self.login_user('Test', 'test')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Welcome Test', body)
+        self.assertIn('Logout', body)
 
         # Jim leaves and returns, but is no longer logged in
         self.browser.close()
@@ -935,21 +965,19 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.implicitly_wait(3)
         self.browser.get(self.live_server_url)
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('Welcome Test', body)
+        self.assertNotIn('Logout', body)
         self.assertIn('Login', body)
 
         # Jim logs in again, but w/ remember me
+        self.browser.find_element_by_link_text('Login').click()
         user = self.browser.find_element_by_id('id_user_login')
         password = self.browser.find_element_by_id('id_pass_login')
         user.send_keys('Test')
         password.send_keys('test')
         self.browser.find_element_by_name('remember_me').click()
-        import time
-        time.sleep(3)
         self.browser.find_element_by_name('login').click()
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Welcome Test', body)
-        self.browser.implicitly_wait(3)
+        self.assertIn('Logout', body)
 
         # Jim leaves and returns, but is still logged in
         self.browser.close()
@@ -957,7 +985,6 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.implicitly_wait(3)
         self.browser.get(self.live_server_url)
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Welcome Test', body)
+        self.assertIn('Logout', body)
         self.assertNotIn('Login', body)
-     """
-
+    """

@@ -1,7 +1,7 @@
 TODO:
 =============
 #) Test rapid commenting
-#) Look into CACHING
+#) Look into CACHING -- A production heroku DB will cache into RAM
 #) Learn EVERYTHING about Heroku
 #) Have comments load (via AJAX) AFTER post_page loads, display a loading screen. OR show more button? Also need to limit if lots of replies (potentially)
 #) Make "show" and "sort-by" buttons AJAXed
