@@ -133,20 +133,16 @@ def post_page(request, post_id):
     else:
         comment_form = commentForm
         
-    # Determine which comments to show -- given by "show_replies" comment view
-    if request.session.get('post_comments_to_show'):
-        post_comments = request.session.get('post_comments_to_show')
-        del request.session['post_comments_to_show']
-    elif 'all' in request.path:
-        post_comments = comment.objects.filter(post_id=post_id)
-    else:
-        post_comments = comment.objects.filter(post_id=post_id, depth=0)
-    num_comments = len(comment.objects.filter(post_id=post_id))
-
+    # Determine which comments to show
+    post_comments = comment.objects.filter(post_id=post_id)
+    num_comments = len(post_comments)
+    if 'all' not in request.path:
+        post_comments = post_comments.filter(depth=0)
+        
     return render(request, 'post_page.html',
                   {'post': post_of_interest, 'num_comments': num_comments,
                    'user_color_dict': get_user_model().COLORS,
-                   'comment_form': comment_form, 'comment_tree': post_comments
+                   'comment_form': comment_form, 'comment_tree': post_comments,
                    })
 
 ###### POST VIEWS #######

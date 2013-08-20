@@ -1,9 +1,9 @@
 TODO:
 =============
-#) Limit # of comments for spammers?
+#) Test rapid commenting
 #) Look into CACHING
 #) Learn EVERYTHING about Heroku
-#) Have comments load (via AJAX) AFTER post_page loads, display a loading screen. OR show more button?
+#) Have comments load (via AJAX) AFTER post_page loads, display a loading screen. OR show more button? Also need to limit if lots of replies (potentially)
 #) Make "show" and "sort-by" buttons AJAXed
 #) TEDDY - Add logo/picture at top of tab
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME

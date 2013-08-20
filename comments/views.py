@@ -1,3 +1,7 @@
+import akismet
+import datetime
+import json
+import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -9,14 +13,13 @@ from django.shortcuts import get_object_or_404, redirect, render, render_to_resp
 from django.template import loader, RequestContext
 from honeypot.decorators import check_honeypot
 from itertools import ifilter
-import akismet
-import json
-import os
 
 from comments.forms import commentForm
 from comments.models import comment
 from posts.models import post
 from votes.models import spam
+
+COMMENT_TIME_FRAME = 25 #Time, in seconds, that must elapse between comments
 
 @check_honeypot
 def new_comment(request, post_id):
@@ -35,6 +38,19 @@ def new_comment(request, post_id):
 #        bool_spam = spam_check(form['content'].value(), comment_of_interest, request)
 #        if bool_spam:
 #            return request.user.check_akismet(request)
+
+        # Check for too frequent commenting (likely spam)
+        comments_in_last_min = comment.objects.filter(
+            time_created__gte=datetime.datetime.now()-datetime.timedelta(seconds=COMMENT_TIME_FRAME),
+            user_id=request.user
+        )
+        if len(comments_in_last_min)>=1:
+            return render(request, 'rapid_comment.html',
+                          {'time_frame': COMMENT_TIME_FRAME,
+                           'redirect_to': request.GET['next'],
+                           'content': form['content'].value()}
+                          )
+
         if form.is_valid():
             temp = form.save(commit=False)
             parent = form['parent'].value()

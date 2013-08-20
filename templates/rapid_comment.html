@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Slooooow down there{% endblock title %}
+
+{% block content %}
+	<div class="alert alert-warning">
+	<button type="button" class="close" data-dismiss="alert">×</button>
+		<h2>Wooooooah there.</h2>
+	</div>
+
+	<div class="move_right">
+	<h4>To limit spam, users may not comment more than once within a {{time_frame}} second time window.</h4><br/>
+
+	<h4>Either:</h4>
+	<ol>
+		<li>Click "back" on your browser or</li> 
+		<li>Copy your comment below and click "Return"</li>
+	</ol>
+	<p><span style="font-weight:bold">Your comment: </span> {{ content }}</p><br/>
+	<a href="?next={{redirect_to}}">Return</a> (Be sure to copy your text first)
+	</div>
+{% endblock content %}
