@@ -1,13 +1,13 @@
 TODO:
 =============
-#) Test rapid commenting
 #) Look into CACHING -- A production heroku DB will cache into RAM
 #) Learn EVERYTHING about Heroku
 #) Have comments load (via AJAX) AFTER post_page loads, display a loading screen. OR show more button? Also need to limit if lots of replies (potentially)
-#) Make "show" and "sort-by" buttons AJAXed
+#) Make "show" button in comments AJAXed
 #) TEDDY - Add logo/picture at top of tab
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
-#) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME
+#) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
+#) TIME PERMITTING - Make "sort-by" button AJAXed --- will take time b/c pages
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth

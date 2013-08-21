@@ -130,9 +130,6 @@ def show_replies(request, comment_id):
         'comment_display.html', {'comment_tree': comments_array, 'user_color_dict': get_user_model().COLORS},
         context_instance=RequestContext(request)
     )
-    #data = serializers.serialize('json', {'comment_tree': comments_array})
-    #return HttpResponse(data, content_type='application/json')
-
 
 # Helper Functions
 def delete_comment_path_helper(comment_of_interest):
