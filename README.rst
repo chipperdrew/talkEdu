@@ -1,9 +1,9 @@
 TODO:
 =============
+#) Load total comment count via AJAX also, thus accurate after comment deletion
+#) Change the "show_replies" link to prevent from reloading all comments
 #) Look into CACHING -- A production heroku DB will cache into RAM
 #) Learn EVERYTHING about Heroku
-#) Have comments load (via AJAX) AFTER post_page loads, display a loading screen. OR show more button? Also need to limit if lots of replies (potentially)
-#) Make "show" button in comments AJAXed
 #) TEDDY - Add logo/picture at top of tab
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
@@ -61,6 +61,8 @@ TODO:
 #) DONE - Set up email with SMTP server
 #) DONE - Pushed to the internet!!! 8/14/13
 #) DONE - Add favicon (see w3 page)
+#) DONE - Have comments load (via AJAX) AFTER post_page loads, display a loading screen.
+#) DONE - Make "show" button in comments AJAXed
 
 
 Basic Information

@@ -86,12 +86,14 @@ def new_comment(request, post_id):
 
 @login_required
 def delete_comment(request, comment_id):
+    if not request.is_ajax():
+        raise Http404()
     comment_of_interest = get_object_or_404(comment, pk=comment_id)
     if comment_of_interest.user_id == request.user:
         delete_comment_path_helper(comment_of_interest)
     else:
         raise PermissionDenied()
-    return redirect(request.GET['next'])
+    return HttpResponse()
 
 @login_required
 def comment_mark_as_spam(request, id):
@@ -113,6 +115,17 @@ def comment_mark_as_spam(request, id):
         data = json.dumps({'id': id, 'item_type': 'c', })
         return HttpResponse(data, content_type='application/json')
     return HttpResponse()
+
+def load_comments(request, post_id, show_all):
+    if not request.is_ajax():
+        raise Http404()
+    comments = comment.objects.filter(post_id=post_id)
+    if show_all != 'true': # Used != b/c this should be default
+        comments = comments.filter(depth=0)
+    return render_to_response(
+        'comment_display.html', {'comment_tree': comments, 'user_color_dict': get_user_model().COLORS},
+        context_instance=RequestContext(request)
+    )
     
 def show_replies(request, comment_id):
     if not request.is_ajax():

@@ -6,4 +6,5 @@ urlpatterns = patterns('comments.views',
     url(r'^spam/(?P<id>\d+)/$', 'comment_mark_as_spam', name='comment_spam'),
     url(r'^show_replies/(?P<comment_id>\d+)/$', 'show_replies', name='show_replies'),
 
+    url(r'^load_comments/(?P<post_id>\d+)/(?P<show_all>[-\w]+)/$', 'load_comments', name='load_comments'),
 )

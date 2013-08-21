@@ -72,8 +72,8 @@ $.ajaxSetup({
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
     }
-});		
-			
+});
+
 			var csrftoken = getCookie('csrftoken');
 			$("body").on("click", ".up", create_vote);
 			$("body").on("click", ".down", create_vote);

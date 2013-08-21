@@ -133,11 +133,9 @@ def post_page(request, post_id):
     else:
         comment_form = commentForm
         
-    # Determine which comments to show
-    post_comments = comment.objects.filter(post_id=post_id)
-    num_comments = len(post_comments)
-    if 'all' not in request.path:
-        post_comments = post_comments.filter(depth=0)
+    # The comments to show will be determined by an AJAX call to 'load_comments'
+    num_comments = len(comment.objects.filter(post_id=post_id))
+    post_comments = {}
         
     return render(request, 'post_page.html',
                   {'post': post_of_interest, 'num_comments': num_comments,

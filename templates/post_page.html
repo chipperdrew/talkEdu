@@ -58,18 +58,6 @@
 	{# Comments -- Credit to Max Burstein for JS logic and design #}
 	<br/><br/>
 	<h3>Comments({{num_comments}})</h3>
-	<script>
-		$(document).ready(function(){
-			$("#commenters").on("click", ".reply", function(event){
-				event.preventDefault(); //Prevent reloading page
-				var form = $("#id_comment_form").clone(true); //Clone comment form
-				form.find('.parent').val($(this).parent().parent().parent().attr('id')); 
-				//$(this).parent().parent().parent().attr('id') is the id of the post
-				$(this).parent().parent().parent().append(form);
-			});
-		});
-	</script>
-
 	
 	{# Comment Form #}
 	{% if user.is_authenticated %}
@@ -99,33 +87,90 @@
 
 
 	{# Display dropdown: Show all or just top level comments #}
-	{% if comment_tree %}
 	<div class="btn-group" style="margin-bottom:5px">
 		<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" name="show_dropdown">
 			Show
 			<span class="caret"></span>
 		</a>
 		<ul class="dropdown-menu">
-			{% if 'all' in request.path %}
-				<li> <a href="{% url 'post_page' post.id%}">Only top-level comments</a></li>
-				<li> <a href="{% url 'post_page_all' post.id%}">
-				<img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> All comments</a>
-				</li>
-
-			{% else %}
-				<li> <a href="{% url 'post_page' post.id%}"><img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> Only top-level comments</a></li>
-				<li> <a href="{% url 'post_page_all' post.id%}">All comments</a></li>
-			{% endif %}	
+			<li id="show_top_level_dropdown"><a><img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> Only top-level comments</a></li>
+			<li id="show_all_dropdown"> <a>All comments</a></li>
 		</ul>
 	</div>
-	{% endif %}
 
 	</div> {# End move_right div #}
 
 
 	{# Comment display #}
+	<div id="waiting">
+		<br/><h4>Loading comments, please wait...</h4>
+	</div>
 	<ul id="commenters">
 		{% include 'comment_display.html' %}
 	</ul>
+
+
+
+
+	<script>
+		// Load all comments after page loads. If arguement is true, load all comments, else just top-level
+		function load_comments(show_all) {
+			$('#waiting').show(500);
+			$('#commenters').hide(0);
+			if(show_all) {
+				var url_to_call = "{% url 'load_comments' post.id 'true' %}"
+			} else {
+				var url_to_call = "{% url 'load_comments' post.id 'false' %}"
+			} 
+			var args = { type:"GET", url:url_to_call, data:{},
+			success: function(data) { 
+				if(data) {
+					$('#waiting').hide(500); // Nice fading				
+					// Load comment_display.html
+					$('#commenters').html(data);
+					$('#commenters').show(0);
+				}}};
+			$.ajax(args);
+			return false;
+		};
+
+		$(document).ready(function(){
+			load_comments(false);
+			
+			// Show reply form on click
+			$("#commenters").on("click", ".reply", function(event){
+				event.preventDefault(); //Prevent reloading page
+				var form = $("#id_comment_form").clone(true); //Clone comment form
+				form.find('.parent').val($(this).parent().parent().parent().attr('id')); 
+				//$(this).parent().parent().parent().attr('id') is the id of the post
+				$(this).parent().parent().parent().append(form);
+			});
+
+			// Green checkmark should appear next to proper sort-by link, and should reload comments on click
+			$("#show_top_level_dropdown").click(function() {
+        			document.getElementById('show_top_level_dropdown').innerHTML = "<a><img src='{% static 'img/green_checkmark.png' %}' class='green_checkmark' /> Only top-level comments</a>";
+        			document.getElementById('show_all_dropdown').innerHTML = "<a>All comments</a>";
+				load_comments(false);
+			});
+			$("#show_all_dropdown").click(function() {
+        			document.getElementById('show_top_level_dropdown').innerHTML = "<a>Only top-level comments</a>";
+        			document.getElementById('show_all_dropdown').innerHTML = "<a><img src='{% static 'img/green_checkmark.png' %}' class='green_checkmark' /> All comments</a>";
+				load_comments(true);
+			});
+
+			// "delete" class won't appear until after AJAX call
+			$.ajax().done(function() {
+				// Delete a post and reload comments
+				$("body").on("click", ".delete", del = function() {
+					var args = {type:"GET", url:$(this).attr('href'), data:{},
+						success: function(data) { 
+							load_comments(false);
+						}};
+					$.ajax(args);
+					return false;
+				});
+			});
+		});
+	</script>
 
 {% endblock content %}
