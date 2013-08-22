@@ -47,7 +47,7 @@ class NewVisitorTests(LiveServerTestCase):
         user_input.send_keys(username)
         pass_input.send_keys(password)
         self.browser.find_element_by_name('login').click()
-
+    
     def test_home_page_has_proper_content_and_links(self):
         
         # Jim visits the home page of our site
@@ -879,6 +879,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_name('logout_nav').click()
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
+        time.sleep(1)
         self.browser.get(self.live_server_url+'/post/'+str(p1.id)+'/')
 
         # Jim doesn't see his reply, but the body says are 2 comments
@@ -920,14 +921,24 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_name('comment_button').click()
         time.sleep(1)
 
-        # Jim deletes his 1st comment, which deletes his 1st 2 comments
+        # Jim tries to delete his comment, but doesn't click accept on alert
         deletes = self.browser.find_elements_by_link_text('Delete')
         self.assertEqual(len(deletes), 3) # 0 - Delete post, 1 - 1st comment
         deletes[1].click() # 2 - Recent comment (note: reply is hidden)
+        self.browser.switch_to_alert().dismiss()
+        time.sleep(1)
+
+        # Jim's post still remains
+        body = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Comment 1', body)
+
+        # Jim actually deletes his 1st comment, which deletes his 1st 2 comments
+        deletes = self.browser.find_elements_by_link_text('Delete')
+        deletes[1].click()
         self.browser.switch_to_alert().accept()
+        time.sleep(1)
 
         # Only Jim's 3rd comment remains
-        time.sleep(1)
         body = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Comment 1', body)
         self.assertIn('Comment 2', body)
@@ -945,10 +956,11 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Bob', 'b')
         self.browser.get(self.live_server_url+'/post/'+str(p2.id)+'/')
+        time.sleep(1)
 
         # Bob tries to comment w/o entering text and just spaces
         self.browser.find_element_by_name('comment_button').click()
-        time.sleep(2)
+        time.sleep(3)
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Please enter a comment', body)
         self.browser.find_element_by_id('id_content').send_keys('  ')

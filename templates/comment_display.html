@@ -38,8 +38,7 @@
 				<a class="down" href="{% url 'down_vote' id=c.id item_type='c'%}">Vote down</a> &nbsp;
 				<a class="spam" href="{% url 'comment_spam' id=c.id %}">Mark as spam</a>&nbsp;
 				{% if c.user_id == request.user %}
-					<a class="delete" href="{% url 'delete_comment' c.id %}"
-					onclick="return confirm('Your comment and any sub-comments will be permanently deleted. Continue?')">Delete</a>
+					<a class="delete" href="{% url 'delete_comment' c.id %}">Delete</a>
 				{% endif %}
 			</div>	
 			{# Reply links #}

@@ -162,6 +162,10 @@
 			$.ajax().done(function() {
 				// Delete a post and reload comments
 				$("body").on("click", ".delete", del = function() {
+					var bool_del = confirm('Your comment and any sub-comments will be permanently deleted. Continue?')
+					if(!bool_del) {
+						return false
+					}
 					var args = {type:"GET", url:$(this).attr('href'), data:{},
 						success: function(data) { 
 							load_comments(false);

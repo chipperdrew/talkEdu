@@ -5,9 +5,9 @@ TODO:
 #) Look into CACHING -- A production heroku DB will cache into RAM
 #) Learn EVERYTHING about Heroku
 #) TEDDY - Add logo/picture at top of tab
+#) Make "sort-by" button and post delete AJAXed -- move "pages" logic into AJAX?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
-#) TIME PERMITTING - Make "sort-by" button AJAXed --- will take time b/c pages
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
@@ -18,6 +18,7 @@ TODO:
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) IF COMPLAINTS - Smaller comment voting chart
+#) IF COMPLAINTS - Create a site map (clear: both)
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
