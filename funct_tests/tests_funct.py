@@ -177,7 +177,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('You have used up all of your posts', body)
 
         # Jim now logs out and is returns to the current page
-        self.check_for_redirect_after_button_click("logout_nav",
+        self.check_for_redirect_after_link_click("Logout",
                                                    self.live_server_url + '/pages/problems/$')
     
     def test_edit_and_deletion_of_posts(self):
@@ -365,7 +365,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.check_for_redirect_after_button_click('pass_change_submit',
                                                    '/accounts/password/change/done/$')
         # Jim logs out to test his new password
-        self.check_for_redirect_after_button_click("logout_nav",
+        self.check_for_redirect_after_link_click("Logout",
                                                    self.live_server_url + '/accounts/login/')
 
         # Jim tries to login with his old password and fails
@@ -581,7 +581,9 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Bob sees how his vote has changed the voting value
         body = self.browser.find_element_by_tag_name('body').text
-        self.browser.find_element_by_name('logout_nav').click()
+        self.assertIn("Overall: 0.5", body)
+        self.assertIn("Total Votes: 2", body)
+        self.browser.find_element_by_link_test('Logout').click()
 
         # Jill, a student, logs in
         get_user_model().objects.create_user(
@@ -786,7 +788,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_link_text('T1').click()
         self.browser.find_element_by_id('id_content').send_keys('A comment')
         self.browser.find_element_by_name('comment_button').click()
-        time.sleep(1)
+        time.sleep(2)
         spam_links = self.browser.find_elements_by_link_text('Mark as spam')
         spam_links[1].click() #0 is for post
         time.sleep(1)
@@ -860,7 +862,7 @@ class NewVisitorTests(LiveServerTestCase):
         time.sleep(3)
 
         # Bob logs in and replies to Jim (Jim cannot comment twice that quickly)
-        self.browser.find_element_by_name('logout_nav').click()
+        self.browser.find_element_by_link_text('Logout').click()
         get_user_model().objects.create_user(
             'Bob', 'chipperdrew@gmail.com', 'b',
             user_type=get_user_model().ADMINISTRATOR
@@ -876,7 +878,7 @@ class NewVisitorTests(LiveServerTestCase):
         comment_buttons[1].click()
 
         # Jim logs back in
-        self.browser.find_element_by_name('logout_nav').click()
+        self.browser.find_element_by_link_text('Logout').click()
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
         time.sleep(1)
@@ -952,7 +954,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('no comments', body)
 
         # Bob logs in (to avoid commenting to quickly)
-        self.browser.find_element_by_name('logout_nav').click()
+        self.browser.find_element_by_link_text('Logout').click()
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Bob', 'b')
         self.browser.get(self.live_server_url+'/post/'+str(p2.id)+'/')
