@@ -1,14 +1,12 @@
 TODO:
 =============
-#) Load total comment count via AJAX also, thus accurate after comment deletion
 #) Change the "show_replies" link to prevent from reloading all comments
-#) Look into CACHING -- A production heroku DB will cache into RAM
 #) Learn EVERYTHING about Heroku
-#) TEDDY - Add logo/picture at top of tab
 #) Make "sort-by" button and post delete AJAXed -- move "pages" logic into AJAX?
+#) TEDDY - Add logo/picture at top of tab
+#) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
-#) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) TIME PERMITTING - Adjust JS so on reply click, form is toggled on/off
@@ -19,6 +17,8 @@ TODO:
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) IF COMPLAINTS - Smaller comment voting chart
 #) IF COMPLAINTS - Create a site map (clear: both)
+#) IF COMPLAINTS - Load total comment count via AJAX also, thus accurate after comment deletion
+#) IF POPULAR - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
