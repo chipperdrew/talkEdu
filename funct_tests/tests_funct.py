@@ -583,7 +583,7 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn("Overall: 0.5", body)
         self.assertIn("Total Votes: 2", body)
-        self.browser.find_element_by_link_test('Logout').click()
+        self.browser.find_element_by_link_text('Logout').click()
 
         # Jill, a student, logs in
         get_user_model().objects.create_user(
@@ -632,6 +632,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim logs back in, votes "Up", & sees the proper content
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
+        time.sleep(1)
         up_votes = self.browser.find_elements_by_link_text('Vote up')
         up_votes[1].click() #[0] - post vote, [1] - comment vote
         time.sleep(1)
@@ -846,9 +847,11 @@ class NewVisitorTests(LiveServerTestCase):
         self.assertIn('Reply', comment_display)
         self.assertIn('Delete', comment_display)
 
-        # 2: Jim replys to himself (poor Jim)
+        # 2: Jim replies to himself (poor Jim)
         self.browser.find_element_by_link_text('Reply').click()
+        self.browser.find_element_by_link_text('Reply').click() ## insure new textarea doesn't appear      
         text_areas = self.browser.find_elements_by_tag_name('textarea')
+        self.assertEqual(len(text_areas), 3)
         text_areas[2].send_keys('1.1') #3nd textarea appeared from reply click
         comment_buttons = self.browser.find_elements_by_name('comment_button')
         comment_buttons[1].click() #2nd button appeared from reply click

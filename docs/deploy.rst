@@ -106,6 +106,12 @@ PairNic name servers
      NS5.PAIRNIC.COM
      NS6.PAIRNIC.COM
 
+Zerigo name servers
+    
+    A.NS.ZERIGO.NET
+    ...
+    E.NS.ZERIGO.NET
+
 
 Sentry -- Capture errors
 -----------

@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Change the "show_replies" link to prevent from reloading all comments
 #) Learn EVERYTHING about Heroku
 #) Make "sort-by" button and post delete AJAXed -- move "pages" logic into AJAX?
 #) TEDDY - Add logo/picture at top of tab
@@ -9,8 +8,7 @@ TODO:
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
-#) TIME PERMITTING - Adjust JS so on reply click, form is toggled on/off
-#) IN PRODUCTION - Log the spam caught by AKISMET, djangospam, honeypot
+#) IN PRODUCTION - Log/count the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - Make sure Django-axes is IP specific
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
@@ -19,6 +17,7 @@ TODO:
 #) IF COMPLAINTS - Create a site map (clear: both)
 #) IF COMPLAINTS - Load total comment count via AJAX also, thus accurate after comment deletion
 #) IF POPULAR - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
+#) IF POPULAR - Change the "show_replies" link to prevent from reloading all comments --- create new template and append to comment_display as child of post?
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -64,6 +63,8 @@ TODO:
 #) DONE - Add favicon (see w3 page)
 #) DONE - Have comments load (via AJAX) AFTER post_page loads, display a loading screen.
 #) DONE - Make "show" button in comments AJAXed
+#) DONE - Fix reply chart from displaying after every reply click
+
 
 
 Basic Information

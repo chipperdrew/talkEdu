@@ -1,5 +1,3 @@
-# TODO IN PRODUCTION ----- Change SECRET_KEY, Database user and pass
-
 from sys import path
 import os
 from os.path import abspath, basename, dirname, join, normpath

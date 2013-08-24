@@ -140,6 +140,10 @@
 			// Show reply form on click
 			$("#commenters").on("click", ".reply", function(event){
 				event.preventDefault(); //Prevent reloading page
+				if($(this).attr('visited')) {
+					return; // Reply form is already present
+				}
+				$(this).attr('visited', true);
 				var form = $("#id_comment_form").clone(true); //Clone comment form
 				form.find('.parent').val($(this).parent().parent().parent().attr('id')); 
 				//$(this).parent().parent().parent().attr('id') is the id of the post
