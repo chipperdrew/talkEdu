@@ -8,7 +8,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 
 from honeypot.decorators import check_honeypot
 from raven.contrib.django.models import client
@@ -31,6 +31,9 @@ def home_page(request):
 
 def faq_page(request):
     return render(request, 'FAQ.html')
+
+def robots_page(request):
+    return render_to_response('robots.txt', locals(), mimetype ='text/plain')
 
 def learn_more(request):
     return render(request, 'learn_more.html',
