@@ -58,7 +58,9 @@
 		</div>
 		</div>
 		<script src="//code.jquery.com/jquery.js" type="text/javascript" charset="utf-8"></script>
+		{% compress js %}
 		<script src="{% static 'js/bootstrap.min.js' %}" type="text/javascript" charset="utf-8"></script>
+		{% endcompress %}
 	{% endblock navbar %}
 
 	{% block content %}
