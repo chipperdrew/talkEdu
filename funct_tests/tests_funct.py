@@ -884,7 +884,7 @@ class NewVisitorTests(LiveServerTestCase):
         self.browser.find_element_by_link_text('Logout').click()
         self.browser.find_element_by_link_text('Login').click()
         self.login_user('Test', 'test')
-        time.sleep(1)
+        time.sleep(2)
         self.browser.get(self.live_server_url+'/post/'+str(p1.id)+'/')
 
         # Jim doesn't see his reply, but the body says are 2 comments

@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'djangospam', # Prevent comment/post spam
     'djangosecure', # Security, like HtTPS and HSTS
     'picklefield',
+    'compressor', # For compression of static files
     'posts',
     'accounts',
     'votes',
@@ -126,6 +127,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
 'django.contrib.staticfiles.finders.FileSystemFinder',
 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+'compressor.finders.CompressorFinder',
 )
 
 
