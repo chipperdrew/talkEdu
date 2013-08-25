@@ -134,7 +134,6 @@ STATICFILES_FINDERS = (
 
 # Compression
 COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = True
 COMPRESS_CSS_FILTERS = [
     #creates absolute urls from relative ones
     'compressor.filters.css_default.CssAbsoluteFilter',

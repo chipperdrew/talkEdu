@@ -1,7 +1,7 @@
 TODO:
 =============
 #) Learn about SEO
-#) Create a sitemap
+#) Change 404 page to be more helpful
 #) TEDDY - Add logo/picture at top of tab
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
