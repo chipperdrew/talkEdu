@@ -67,7 +67,6 @@ INSTALLED_APPS = (
     'funct_tests',
     'registrationFix',
     'django.contrib.sitemaps',
-    'compressor',
 )
 
 SOUTH_TESTS_MIGRATE = False #South likes to throw errors on tests for some reason
@@ -127,9 +126,8 @@ STATICFILES_DIRS = (
 )
 
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
+'django.contrib.staticfiles.finders.FileSystemFinder',
+'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 
