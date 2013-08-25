@@ -54,12 +54,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SESSION_COOKIE_HTTPONLY = True
 
-# Extra middleware for compression
-MIDDLEWARE_CLASSES += (
-    'django.middleware.gzip.GZipMiddleware',
-)
-
-
 
 # Database
 # Parse database configuration from $DATABASE_URL

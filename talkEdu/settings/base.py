@@ -60,7 +60,6 @@ INSTALLED_APPS = (
     'djangospam', # Prevent comment/post spam
     'djangosecure', # Security, like HtTPS and HSTS
     'picklefield',
-    'compressor', # For compression of static files
     'posts',
     'accounts',
     'votes',
@@ -85,6 +84,7 @@ DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False}
 ACCOUNT_ACTIVATION_DAYS = 7
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.gzip.GZipMiddleware', # For compression
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -127,7 +127,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
 'django.contrib.staticfiles.finders.FileSystemFinder',
 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-'compressor.finders.CompressorFinder',
 )
 
 
