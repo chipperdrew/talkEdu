@@ -4,6 +4,9 @@ from django.contrib import admin
 from haystack.forms import SearchForm
 from haystack.views import SearchView
 
+from posts.models import post
+from posts.views import HomeSitemap, PIQSSitemap, LearnFaqSitemap, LoginRegisterSitemap, PostSitemap, UserSitemap
+
 admin.autodiscover()
 
 urlpatterns = patterns('posts.views',
@@ -16,6 +19,15 @@ urlpatterns = patterns('posts.views',
     url(r'^robots.txt$', 'robots_page')
 )
 
+sitemaps = {
+    'home_sitemap': HomeSitemap,
+    'piqs_sitemap': PIQSSitemap,
+    'accounts_sitemap': LoginRegisterSitemap,
+    'learn_faq_sitemap': LearnFaqSitemap,
+    'posts': PostSitemap,
+    'users': UserSitemap,
+}
+
 
 urlpatterns += patterns('',
     url(r'^' + settings.ADMIN_URL, include(admin.site.urls)),
@@ -26,4 +38,5 @@ urlpatterns += patterns('',
     url(r'^', include('votes.urls')),
     url(r'^comment/', include('comments.urls')),
     url(r'^search/$', SearchView(form_class=SearchForm), name='search'),
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
 )

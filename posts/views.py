@@ -4,6 +4,7 @@ import json
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.sitemaps import Sitemap
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
@@ -229,3 +230,50 @@ def post_mark_as_spam(request, id):
     return HttpResponse()
 
 
+######### Sitemaps ############
+class PostSitemap(Sitemap):
+    priority = 0.5
+    changefreq = 'weekly'
+    def items(self):
+        return post.objects.filter(page_type__in=[post.PROBLEMS, post.IDEAS,
+                                                 post.QUESTIONS, post.SITE_FEEDBACK])
+    def lastmod(self, obj):
+        return obj.time_modified
+
+class UserSitemap(Sitemap):
+    priority = 0.3
+    changefreq = 'monthly'
+    def items(self):
+        return get_user_model().objects.filter(is_active=True)
+
+class HomeSitemap(Sitemap):
+    priority = 1.0
+    changefreq = 'weekly'
+    def items(self):
+        return ['home']
+    def location(self, item):
+        return reverse(item)
+
+class PIQSSitemap(Sitemap):
+    priority = 0.9
+    changefreq = 'daily'
+    def items(self):
+        return ['problems', 'ideas', 'questions', 'site_feedback']
+    def location(self, item):
+        return reverse('post_page_base', kwargs={'page':item})
+    
+class LoginRegisterSitemap(Sitemap):
+    priority = 0.8
+    changefreq = 'yearly'
+    def items(self):
+        return ['login', 'register']
+    def location(self, item):
+        return reverse(item)
+
+class LearnFaqSitemap(Sitemap):
+    priority = 0.7
+    changefreq = 'monthly'
+    def items(self):
+        return ['faq', 'learn_more', 'search']
+    def location(self, item):
+        return reverse(item)

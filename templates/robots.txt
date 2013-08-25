@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://YouTalkEdu.com/sitemap.xml
