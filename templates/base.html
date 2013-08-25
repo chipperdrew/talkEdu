@@ -54,11 +54,14 @@
 		</div>
 		</div>
 		</div>
-		<script src="//code.jquery.com/jquery.js" type="text/javascript" charset="utf-8"></script>
-		<script src="{% static 'js/bootstrap.min.js' %}" type="text/javascript" charset="utf-8"></script>
 	{% endblock navbar %}
 
 	{% block content %}
 	{% endblock content %}
+
+	{% block js %}
+		<script src="//code.jquery.com/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}" type="text/javascript" charset="utf-8"></script>
+	{% endblock js %}
 </body>
 </html>
