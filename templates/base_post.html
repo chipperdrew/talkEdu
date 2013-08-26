@@ -84,7 +84,7 @@
 				{% if forloop.counter == sort_id %}
 					<li> <a href="{% url 'post_page_base' page=current_page sort_id=forloop.counter %}">
 {# Image source: http://www.clker.com/cliparts/e/2/a/d/1206574733930851359Ryan_Taylor_Green_Tick.svg.med.png #}
-					<img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> {{ categ }}</a>
+					<img src="{% static 'img/green_checkmark.png' %}" alt="A green checkmark" class="green_checkmark" /> {{ categ }}</a>
 					</li>
 				{% else %}
 					<li><a href="{% url 'post_page_base' page=current_page sort_id=forloop.counter %}">{{ categ }}</a>
