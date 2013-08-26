@@ -6,6 +6,7 @@ Pygments==1.6
 South==0.8.1
 Sphinx==1.2b1
 argparse==1.2.1
+boto==2.10.0
 distribute==0.6.40
 django-haystack==2.0.0
 django-honeypot==0.3.0
