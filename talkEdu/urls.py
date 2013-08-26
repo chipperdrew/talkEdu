@@ -38,6 +38,5 @@ urlpatterns += patterns('',
     url(r'^', include('votes.urls')),
     url(r'^comment/', include('comments.urls')),
     url(r'^search/$', SearchView(form_class=SearchForm), name='search'),
-    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
-    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
 )
