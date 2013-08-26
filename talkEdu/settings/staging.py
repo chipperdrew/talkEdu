@@ -1,7 +1,7 @@
 from base import *
 
 # AWS S3 bucket
-
+DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
 AWS_ACCESS_KEY_ID = os.environ['AWS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_KEY'] 
 AWS_STORAGE_BUCKET_NAME = 'YouTalkEdu'
