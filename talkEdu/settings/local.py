@@ -4,18 +4,6 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
-# STATIC FILES --- Need to change SITE_ROOT for correct static and template DIRS
-# https://docs.djangoproject.com/en/dev/howto/static-files/
-SITE_ROOT = dirname(dirname(dirname(abspath(__file__))))
-SITE_NAME = basename(SITE_ROOT)
-STATICFILES_DIRS = (
-    join(SITE_ROOT, 'static'),
-)
-TEMPLATE_DIRS = (
-    normpath(join(SITE_ROOT, 'templates')),
-)
-
-
 INSTALLED_APPS += (
     'debug_toolbar', # For debugging/speed checks
 )
