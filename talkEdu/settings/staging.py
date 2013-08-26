@@ -9,6 +9,14 @@ STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 STATIC_URL = S3_URL
 
+# Compression
+COMPRESS_OFFLINE = True
+STATICFILES_FINDERS += (
+    'compressor.finders.CompressorFinder',
+)
+COMPRESS_STORAGE = 'accounts.backends.CachedS3BotoStorage'
+AWS_IS_GZIPPED = True
+
 # Email SMTP
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
