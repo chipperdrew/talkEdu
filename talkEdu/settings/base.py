@@ -3,7 +3,7 @@ import os
 from os.path import abspath, basename, dirname, join, normpath
 from django.core.exceptions import ImproperlyConfigured
 
-SITE_ROOT = dirname(abspath(__file__)))
+SITE_ROOT = dirname(abspath(__file__))
 SITE_NAME = basename(SITE_ROOT)
 
 
