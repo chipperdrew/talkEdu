@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load compressed %}
 <html>
 <head>
 	<link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
@@ -21,8 +22,7 @@
 			}
 		};
 	</script>
-	<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css" media="screen" charset="utf-8">
-	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"  media="screen" charset="utf-8">
+	{% compressed_css 'all_css' %}
 	{% endblock stylesheets %}
 	<title>
 		{% block title %}YouTalkEdu{% endblock title %}

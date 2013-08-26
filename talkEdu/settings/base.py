@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     'funct_tests',
     'registrationFix',
     'django.contrib.sitemaps',
+    'pipeline',
 )
 
 SOUTH_TESTS_MIGRATE = False #South likes to throw errors on tests for some reason
@@ -80,6 +81,35 @@ SITE_ID = 1
 # Required for debug-toolbar 
 INTERNAL_IPS = ('127.0.0.1',)
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False}
+
+# Required for pipeline app
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
+PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
+PIPELINE_YUGLIFY_BINARY = '/usr/local/lib/node_modules/yuglify'
+PIPELINE_CSS = {
+    'all_css': {
+        'source_filenames': (
+          'css/base.css',
+          'css/bootstrap.min.css',
+        ),
+        'output_filename': 'css/all_css.css',
+    },
+}
+
+PIPELINE_JS = {
+    'all_js': {
+        'source_filenames': (
+          'js/bootstrap.min.js',
+          'js/ajax_script.js',
+          'js/vote_script.js',
+        ),
+        'output_filename': 'js/all_js.js',
+    }
+}
+
+
+
 
 # Days to accept account activation
 ACCOUNT_ACTIVATION_DAYS = 7
