@@ -560,7 +560,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim tries to directly access the vote url & gets a 404. He logs out
         self.browser.get(self.live_server_url+'/up_vote/'+ str(t1.id) + '/p')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Not Found', body)
+        self.assertIn('Oh no! We can\'t find', body)
         self.browser.get(self.live_server_url+'/accounts/logout/')
         
         # Bob, another user, logs in and sees the posts
@@ -782,7 +782,7 @@ class NewVisitorTests(LiveServerTestCase):
         # Jim tries to directly access the spam url & gets a 404.
         self.browser.get(self.live_server_url+'/post/spam/'+str(post1.id)+'/')
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Not Found', body)
+        self.assertIn('Oh no! We can\'t find', body)
         self.browser.get(self.live_server_url+'/pages/problems/')
 
         # Jim marks the comment as spam
