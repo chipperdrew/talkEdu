@@ -1,5 +1,6 @@
 TODO:
 =============
+#) See how many errors occur about not loading bootstrap.min.css.gz (or just remove this)
 #) Learn about SEO
 #) Change 404 page to be more helpful
 #) TEDDY - Add logo/picture at top of tab
