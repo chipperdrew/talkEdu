@@ -3,7 +3,7 @@ import os
 from os.path import abspath, basename, dirname, join, normpath
 from django.core.exceptions import ImproperlyConfigured
 
-SITE_ROOT = dirname(dirname(dirname(abspath(__file__))))
+SITE_ROOT = dirname(dirname(abspath(__file__)))
                                 # SHOULD BE: django_codes/talkEdu
                                 # In shell: from talkEdu import settings as S
 SITE_NAME = basename(SITE_ROOT)
