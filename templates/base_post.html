@@ -3,6 +3,11 @@
 {% load honeypot %}
 {% load staticfiles %}
 
+{% block head %}
+	<meta name="description" content="Join the educational discussion on the {{ page_title }} page at YouTalkEdu">
+	{{ block.super }}
+{% endblock head %}
+
 {% block title %}{{ page_title }} - YouTalkEdu{% endblock title %}
 
 {% block content %}

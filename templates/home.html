@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block head %}
+	<meta name="description" content="An outlet for the discussion and debate of all things education">
+	{{ block.super }}
+{% endblock head %}
+
 {% block title %}Welcome to YouTalkEdu{% endblock title %}
 
 {% block content %}

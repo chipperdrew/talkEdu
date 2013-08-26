@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load dictionary_extras %} {# For dictionary access to variable keys and key content #}
 
+{% block head %}
+	<meta name="description" content="The YouTalkEdu user page for {{ user_object.username }}">
+	{{ block.super }}
+{% endblock head %}
+
 {% block title %}User {{ user_object.username }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
