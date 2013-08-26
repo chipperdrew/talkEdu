@@ -65,6 +65,7 @@ INSTALLED_APPS = (
     'funct_tests',
     'registrationFix',
     'django.contrib.sitemaps',
+    'storages', #Static file storing
 )
 
 SOUTH_TESTS_MIGRATE = False #South likes to throw errors on tests for some reason

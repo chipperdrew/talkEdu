@@ -1,5 +1,11 @@
 from base import *
 
+# AWS S3 bucket
+AWS_STORAGE_BUCKET_NAME = 'YouTalkEdu'
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+STATIC_URL = S3_URL
+
 # Email SMTP
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
