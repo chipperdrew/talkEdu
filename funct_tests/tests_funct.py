@@ -882,6 +882,7 @@ class NewVisitorTests(LiveServerTestCase):
 
         # Jim logs back in
         self.browser.find_element_by_link_text('Logout').click()
+        time.sleep(1)
         self.browser.find_element_by_link_text('Login').click()
         time.sleep(1)
         self.login_user('Test', 'test')

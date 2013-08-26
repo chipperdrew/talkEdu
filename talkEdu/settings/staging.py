@@ -6,8 +6,6 @@ SITE_NAME = basename(SITE_ROOT)
 
 # STATIC FILES (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
-STATIC_URL = '/static/'
-STATIC_ROOT = 'static'
 STATICFILES_DIRS = (
     join(SITE_ROOT, 'static'),
 )
