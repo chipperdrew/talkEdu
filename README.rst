@@ -1,6 +1,5 @@
 TODO:
 =============
-#) See how many errors occur about not loading bootstrap.min.css.gz (or just remove this)
 #) Learn about SEO
 #) Change 404 page to be more helpful
 #) TEDDY - Add logo/picture at top of tab
@@ -20,6 +19,7 @@ TODO:
 #) IF COMPLAINTS - Make "sort-by" button and post delete AJAXed -- move "pages" logic into AJAX?
 #) IF POPULAR - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
 #) IF POPULAR - Change the "show_replies" link to prevent from reloading all comments --- create new template and append to comment_display as child of post?
+#) IF POPULAR - Us .gz extension of css and js, learn to use with Accept-Encoding
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
