@@ -16,6 +16,10 @@
 	color:#000099;
 }
 
+.space_li {
+	padding-bottom: 15px
+}
+
 /* Templates used on: base_post, post_page */
 .green_checkmark {
 	height:10px; 

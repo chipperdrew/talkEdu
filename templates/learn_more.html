@@ -8,10 +8,10 @@
 	<div class="move_right">
 	<div class="tabbable tabs-left">
 		<ul id="id_tabs" class="nav nav-tabs" style="font-size:1.3em">
-			<li class="active"><a href="#tab0" data-toggle="tab">Overview</a></li><br/>
-			<li><a href="#tab1" data-toggle="tab">User types</a></li><br/>
-			<li><a href="#tab2" data-toggle="tab">PIQS pages</a></li><br/>
-			<li><a href="#tab3" data-toggle="tab">Posting</a></li><br/>
+			<li class="active"><a href="#tab0" data-toggle="tab">Overview</a></li><li>&nbsp;</li>
+			<li><a href="#tab1" data-toggle="tab">User types</a></li><li>&nbsp;</li>
+			<li><a href="#tab2" data-toggle="tab">PIQS pages</a></li><li>&nbsp;</li>
+			<li><a href="#tab3" data-toggle="tab">Posting</a></li><li>&nbsp;</li>
 			<li><a href="#tab4" data-toggle="tab">Voting</a></li>
 		</ul>
 
@@ -101,8 +101,8 @@
 				<h4>On the PIQS pages, all posts will look like:</h4>
 				<img src="{% static 'img/sample_post.png' %}" alt="Sample post picture" /><br/><br/>
 				<ul>
-					<li>Clicking on the post title will bring you to that post's page,
-					on which the content of the post as well as the comments are displayed.</li><br/>
+					<li class="space_li">Clicking on the post title will bring you to that post's page,
+					on which the content of the post as well as the comments are displayed.</li>
 					<li>To limit the spam of the website, you will only be able to post 5
 					times within a 24 hour period. Make your posts count!</li>
 				</ul>
@@ -120,11 +120,11 @@
 				<h4>Each post/comment has a vote chart like the following:</h4>
 				<img src="{% static 'img/sample_vote.png' %}" alt="Sampe vote chart" /><br/><br/>
 				<ul>
-					<li>Each vote tube corresponds to a given user type (Red - Students, Blue - Parents, etc).</li><br/>
-					<li>The tubes are percentage based -- they indicate the percentage 
-					of votes that are "up" votes by each user type.</li><br/>
-					<li>The black line across the vote chart represents the average "up" percentage 
-					for all users.</li><br/>
+					<li class="space_li">Each vote tube corresponds to a given user type (Red - Students, Blue - Parents, etc).</li>
+					<li class="space_li">The tubes are percentage based -- they indicate the percentage 
+					of votes that are "up" votes by each user type.</li>
+					<li class="space_li">The black line across the vote chart represents the average "up" percentage 
+					for all users.</li>
 					<li>Underneath each chart is the decimal value corresponding to the value of the
 					overall "up" percentage,<br/> and the total number of votes on the post.</li>
 				</ul>

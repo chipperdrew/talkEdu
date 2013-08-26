@@ -17,62 +17,61 @@
 	</ul>
 
 	<br/><br/>
-	<ul>
-		<h4><a id="1">My overall user rating is incorrect</a></h4>
-		<p>
-			The overall user rating is calculated from all posts -- even deleted posts.
-			User comments have no effect on the overall user rating.
-		</p>
-		<p>
-			For example, if you have two posts with 100% rating and five votes each, 
-			your user rating should be 1.0.
-			However, if you had deleted a 3rd post with 0% rating and 10 votes, your overall user rating
-			should be 0.5, even though your page will display two posts with 100% rating each.
-		</p>
-		<p>
-			If you believe your user rating has been inaccurately calculated, please 
-			<a href="Mailto:youtalkedu@gmail.com">email me.</a>
-		</p><br/>
+	<h4><a id="1">My overall user rating is incorrect</a></h4>
+	<p>
+		The overall user rating is calculated from all posts -- even deleted posts.
+		User comments have no effect on the overall user rating.
+	</p>
+	<p>
+		For example, if you have two posts with 100% rating and five votes each, 
+		your user rating should be 1.0.
+		However, if you had deleted a 3rd post with 0% rating and 10 votes, your overall user rating
+		should be 0.5, even though your page will display two posts with 100% rating each.
+	</p>
+	<p>
+		If you believe your user rating has been inaccurately calculated, please 
+		<a href="Mailto:youtalkedu@gmail.com">email me.</a>
+	</p><br/>
 
-		<h4><a id="2">My post has disappeared</a></h4>
-		<p>
-			Sometimes the website gets hungry and has to eat posts to stay alive. Rest assured, your post 
-			was probably very delicious...
-		</p>
-		<p>
-			In all seriousness, your post was likely deemed to be spam by the other users of the site.
-			If your post was not spam, it should reappear on the site within a few days.
-			You may still access your post by going to your user page and clicking on the post.
-		</p><br/>
+	<h4><a id="2">My post has disappeared</a></h4>
+	<p>
+		Sometimes the website gets hungry and has to eat posts to stay alive. Rest assured, your post 
+		was probably very delicious...
+	</p>
+	<p>
+		In all seriousness, your post was likely deemed to be spam by the other users of the site.
+		If your post was not spam, it should reappear on the site within a few days.
+		You may still access your post by going to your user page and clicking on the post.
+	</p><br/>
 
-		<h4><a id="3">I can't log in</a></h4>
-		<p>There are a couple of possibilities:</p>
-		<ol>
-			<li>The incorrect password is being entered.</li>
-				<p>
-					Fix: Please change your password. You may do so by clicking 
-					<a href="{% url 'password_reset' %}">here</a>.
-				</p>
-			<li>The incorrect username is being entered.</li>
-				<p>
-					Fix: If you have made any posts/comments on the site, try searching for them and
-					finding the username attached to them.
+	<h4><a id="3">I can't log in</a></h4>
+	<p>There are a couple of possibilities:</p>
+	<ol>
+		<li>The incorrect password is being entered.</li>
+			<p>
+				Fix: Please change your password. You may do so by clicking 
+				<a href="{% url 'password_reset' %}">here</a>.
+			</p>
+		<li>The incorrect username is being entered.</li>
+			<p>
+				Fix: If you have made any posts/comments on the site, try searching for them and
+				finding the username attached to them.
 {% comment %} If worst comes to worst, you may try 
 					<a href="Mailto:youtalkedu@gmail.com">emailing me</a>,
 					but the odds are slim that I will be able to help
 					(send me every piece of info you can -- email, posts voted on, last login, etc).
 {% endcomment %}
-				</p>
-			<li>The account has been banned.</li>
-				<p>
-					Fix: If you are sure you are entering in the correct username and password,
-					your account is likely banned. 
-					If you haven't posted any ban-worthy material on the site,
-					this is likely the result of someone stealing your password and posting as you. 
-					Depending on my mood, I may return your account to you. 
-					Press your luck by <a href="Mailto:youtalkedu@gmail.com">emailing me</a>.
-				</p>
-		</ol><br/>
+			</p>
+		<li>The account has been banned.</li>
+			<p>
+				Fix: If you are sure you are entering in the correct username and password,
+				your account is likely banned. 
+				If you haven't posted any ban-worthy material on the site,
+				this is likely the result of someone stealing your password and posting as you. 
+				Depending on my mood, I may return your account to you. 
+				Press your luck by <a href="Mailto:youtalkedu@gmail.com">emailing me</a>.
+			</p>
+	</ol><br/>
 
 {% comment %}
 		<h4><a id="4">Can I donate to you?</a></h4>
@@ -84,19 +83,18 @@
 		<p>If, for whatever reason, you still feel inclined to donate, you may do so by clicking here {# DONATE #}.</p><br/>
 {% endcomment %}
 		
-		<h4><a id="5">I'm locked out of my account</a></h4>
-		<p>
-			Sorry! For security reasons, the number of logins you can attempt before being locked out of 
-			your account is limited. 
-			Please <a href="Mailto:youtalkedu@gmail.com">email me</a> and I will unlock your account.
-		</p><br/>
+	<h4><a id="5">I'm locked out of my account</a></h4>
+	<p>
+		Sorry! For security reasons, the number of logins you can attempt before being locked out of 
+		your account is limited. 
+		Please <a href="Mailto:youtalkedu@gmail.com">email me</a> and I will unlock your account.
+	</p><br/>
 
-		<h4><a id="6">My question is not listed</a></h4>
-		<p>
-			<a href="Mailto:youtalkedu@gmail.com">Email me</a> your question. 
-			I will do my best to address it as quickly as I can.
-		</p>
+	<h4><a id="6">My question is not listed</a></h4>
+	<p>
+		<a href="Mailto:youtalkedu@gmail.com">Email me</a> your question. 
+		I will do my best to address it as quickly as I can.
+	</p>
 
-	</ul>
 	</div>
 {% endblock content %}
