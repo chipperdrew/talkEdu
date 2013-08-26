@@ -4,9 +4,8 @@ from os.path import abspath, basename, dirname, join, normpath
 from django.core.exceptions import ImproperlyConfigured
 
 SITE_ROOT = dirname(dirname(abspath(__file__)))
-                                # SHOULD BE: django_codes/talkEdu
-                                # In shell: from talkEdu import settings as S
 SITE_NAME = basename(SITE_ROOT)
+SITE_ROOT = '/' + SITE_NAME #Removes the /app at the begin of SITE_ROOT
 
 
 def get_env_var(var_name):
