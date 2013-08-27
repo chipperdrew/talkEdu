@@ -110,9 +110,11 @@ Thanks to the following
 	* Threaded Comments - http://maxburstein.com/blog/django-threaded-comments/
 
 * Packages Used (Django related and others):
+	* Boto (for AWS S3)
 	* Coverage (for testing) - http://coverage.readthedocs.org/en/latest/
 	* Django-axes (limit login attempts) - https://pypi.python.org/pypi/django-axes/1.3.3
 	* Django-debug-toolbar (for debugging/site optimatization) - https://github.com/django-debug-toolbar/django-debug-toolbar
+	* Django-storages (for AWS S3)
 	* Django-haystack (for search functionality) - http://haystacksearch.org/
 	* Django-model-utils (to use Choices) - https://pypi.python.org/pypi/django-model-utils
 	* Django-picklefield (for dictionary model fields) - https://pypi.python.org/pypi/django-picklefield/
