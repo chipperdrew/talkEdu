@@ -11,8 +11,8 @@
 {% block title %}{{ page_title }} - YouTalkEdu{% endblock title %}
 
 {% block content %}
-	<script	type="text/javascript" src="{% static 'js/ajax_script.js' %}"></script>	
-	<script	type="text/javascript" src="{% static 'js/vote_script.js' %}"></script>
+	<script	defer type="text/javascript" src="{% static 'js/ajax_script.js' %}"></script>	
+	<script defer type="text/javascript" src="{% static 'js/vote_script.js' %}"></script>
 
 	<div class="move_right">
 	{# Post form #}
@@ -46,7 +46,7 @@
 		{% else %}
 			<a id="id_show_form">Click me to create a post</a><br/>
 
-			<script type="text/javascript">
+			<script defer type="text/javascript">
 				jQuery(document).ready(function(){
     					$('#id_post_form').hide();			
   	 				$('#id_show_form').click(function() {
@@ -109,7 +109,7 @@
 			<canvas id="myCanvas{{post.id}}" width="125" height="100">
 				If you see this, your browser does not support HTML5 Canvas. Sorry :(
         		</canvas>
-			<script type="text/javascript">
+			<script defer type="text/javascript">
 				$(document).ready(function() {
 					var canv = document.getElementById("myCanvas{{post.id}}");
 					var draw = canv.getContext("2d");
