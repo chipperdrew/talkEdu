@@ -13,7 +13,7 @@ STATIC_URL = S3_URL
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'YouTalkEdu@gmail.com'
+EMAIL_HOST_USER = 'webmaster@youtalkedu.com'
 EMAIL_HOST_PASSWORD = get_env_var("TALKEDU_EMAIL_PASS")
 
 INSTALLED_APPS += (
