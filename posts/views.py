@@ -24,6 +24,7 @@ from comments.views import spam_check
 POSTS_ALLOWED_PER_DAY = 5
 
 def home_page(request):
+#    return HttpResponse(request.META['HTTP_ACCEPT_ENCODING'])
 #    try:
 #        1 / 0
 #    except Exception:
