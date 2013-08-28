@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Set content-encoding tag on .gz files in base.html
 #) Test "Register" tab to left of "Login"
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
