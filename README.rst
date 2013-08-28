@@ -4,7 +4,6 @@ TODO:
 #) Test "Register" tab to left of "Login"
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
-#) Learn about SEO
 #) TEDDY - Add logo/picture at top of tab
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
