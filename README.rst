@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Set up YouTalkEdu email?
 #) Learn about SEO
 #) TEDDY - Add logo/picture at top of tab
 #) TIME PERMITTING - Option to change email?
