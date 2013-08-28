@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Get www.YouTalkEdu.com to work, not just YouTalkEdu.com
 #) Set up YouTalkEdu email?
 #) Learn about SEO
 #) TEDDY - Add logo/picture at top of tab
