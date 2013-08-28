@@ -1,8 +1,9 @@
 TODO:
 =============
+#) Consider adding "Register" tab to left of "Login"
+#) Fix HTML loading w/o CSS in Firefox
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
-#) Get www.YouTalkEdu.com to work, not just YouTalkEdu.com
 #) Learn about SEO
 #) TEDDY - Add logo/picture at top of tab
 #) TIME PERMITTING - Option to change email?
