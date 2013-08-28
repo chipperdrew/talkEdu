@@ -1,7 +1,8 @@
 TODO:
 =============
+#) Fix SSL cert to use www.youtalkedu.com
 #) Get www.YouTalkEdu.com to work, not just YouTalkEdu.com
-#) Set up YouTalkEdu email?
+#) Check from andrew@youtalkedu.com to webmaster@youtalkedu.com email?
 #) Learn about SEO
 #) TEDDY - Add logo/picture at top of tab
 #) TIME PERMITTING - Option to change email?
