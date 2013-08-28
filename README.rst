@@ -1,7 +1,6 @@
 TODO:
 =============
-#) Consider adding "Register" tab to left of "Login"
-#) Fix HTML loading w/o CSS in Firefox
+#) Test "Register" tab to left of "Login"
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
 #) Learn about SEO
