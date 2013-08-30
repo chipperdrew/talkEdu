@@ -18,7 +18,8 @@
 		<div class="tab-content">
 			{# Default display upon arrival #}
 			<div class="tab-pane fade in active" id="tab0">
-				<h1 style="font-family:cursive">Welcome to YouTalkEdu</h1>
+				{#<h1 style="font-family:cursive">Welcome to YouTalkEdu</h1>#}
+				<img src="{% static 'img/welcome.png' %}" width=700px height=200px alt="Welcome to YouTalkEdu" />
 				<h3 style="display:inline-blocK">Where YOU discuss & debate all things education!</h3><br/>
 				<p>If I'm already boring you, just go wander around the site. I won't be upset. Really.</p><br/>
 				<h4>What is YouTalkEdu?</h4>
@@ -28,14 +29,16 @@
 				Registering is extremely painful and not recommended, but if you wish to do so you may 
 				<a href="{% url 'register' %}">register here</a>.</p>
 				<br/>
+{% comment %}
 				<h4>General guidelines:</h4>
 				<ul>
 					<li>Don't post spam. Ever.</li>
 					<li>Don't slander specific people or schools.</li>
 					<li>No foul language.</li>
 				</ul><br/>
+{% endcomment %}
 				<h3>Click on the tabs to the left to learn more about YouTalkEdu!</h3><br/>
-				{# <h6>Credit to <a href="//twitter.com/theodoremedina">Theodore Medina</a> for the site logo</h6> #}
+				<h6>Huge thanks to <a href="//twitter.com/theodoremedina">Theodore Medina</a> for the graphic and favicon!</h6>
 			</div>
 
 			{# Tab 1 - User types #}
@@ -88,7 +91,8 @@
 				<h4>{{ page_type_dict.3.1 }} - Discuss any thoughts you have about YouTalkEdu</h4>
 				<p>This site was built for the purposes of improving education.
 				If you have any ideas about how to better the discussion, or just simply want to voice
-				your thoughts on what you like/dislike/want to see, please post here.<br/>
+				your thoughts on what you like/dislike/want to see, please post here.
+				High-ranking feedback will likely result in changes made to the site.<br/>
 				<span style="color:red">If you have found any security issues with the site, 
 				PLEASE do not post them here. <a href="Mailto:webmaster@youtalkedu.com">Email</a> those to me
 				and I will be forever grateful.</span></p>
