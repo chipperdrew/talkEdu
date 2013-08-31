@@ -6,6 +6,7 @@
 {% block title %}Edit post - YouTalkEdu{% endblock title %}
 
 {% block content %}
+	<div class="move_right">
 	{% if form.errors %}
 		<div class="alert alert-error">
 			<button type="button" class="close" data-dismiss="alert">×</button>
@@ -26,4 +27,5 @@
 		{% endfor %}
 		<button class="btn btn-primary" name="update" type="submit">Update</button>	
 	</form>
+	</div>
 {% endblock content %}

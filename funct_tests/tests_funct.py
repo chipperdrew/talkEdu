@@ -74,7 +74,7 @@ class NewVisitorTests(LiveServerTestCase):
         # The proper content is displayed
         self.assertIn('Learn', self.browser.title)
         body = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Welcome to', body)
+        self.assertIn('Where YOU discuss', body)
         self.assertIn('PIQS pages', body)
 
         # Jim accesses the page via the "Learn" tab

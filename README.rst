@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Change email registration links for testing
 #) Check the Facebook social media link
 #) Learn/Home - To make a change, we need each other.
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
