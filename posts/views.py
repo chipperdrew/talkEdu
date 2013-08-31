@@ -22,6 +22,7 @@ from comments.models import comment
 from comments.views import spam_check
 
 POSTS_ALLOWED_PER_DAY = 5
+POSTS_PER_PAGE = 15
 
 def home_page(request):
 #    return HttpResponse(request.META['HTTP_ACCEPT_ENCODING'])
@@ -84,7 +85,7 @@ def display_page_helper(request, page, sort_id=1):
         pass
     
     # Paginator logic
-    paginator = Paginator(posts_all, 5)
+    paginator = Paginator(posts_all, POSTS_PER_PAGE)
     page = request.GET.get('page')
     if page is None:
         page = 1

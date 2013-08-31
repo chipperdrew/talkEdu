@@ -1,12 +1,11 @@
 TODO:
 =============
-#) Change email registration links for testing
-#) Check the Facebook social media link
+#) Fix Facebook sharing -- no image appearing or . at end of sentence?
 #) Learn/Home - To make a change, we need each other.
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
-#) TEDDY - Add logo/picture at top of tab
+#) AFTER TESTING - Change email registration links back
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
@@ -71,6 +70,7 @@ TODO:
 #) DONE - Have comments load (via AJAX) AFTER post_page loads, display a loading screen.
 #) DONE - Make "show" button in comments AJAXed
 #) DONE - Fix reply chart from displaying after every reply click
+#) DONE - TEDDY - Add logo/picture at top of tab
 
 
 

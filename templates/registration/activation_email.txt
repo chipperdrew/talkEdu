@@ -3,7 +3,7 @@ Thank you for signing up for a new account on YouTalkEdu.com. Your activation ke
 Click the link below or copy and paste it into your web browser's address bar to activate your account:
 
 
-https://www.YouTalkEdu.com/accounts/activate/{{ activation_key }}/
+https://www.YouTalkEdu.herokuapp.com/accounts/activate/{{ activation_key }}/
 
 
 If you didn't request this, I apologize. You will receive no additional emails from us and the account created with your email will expire automatically in {{ expiration_days }} days.

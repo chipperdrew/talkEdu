@@ -502,7 +502,7 @@ class NewVisitorTests(LiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Page 1 of 1', body)
         test_user = get_user_model().objects.get(username='Test')
-        for i in range(0,6): ## Modify this if change made to posts per page
+        for i in range(0,16): ## Modify this if change made to posts per page
             post.objects.create(title='Test post ' + str(i),
                             page_type=post.QUESTIONS,
                             user_id=test_user)

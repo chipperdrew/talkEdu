@@ -4,8 +4,12 @@
 {% block description %}
 	<meta name="google-site-verification" content="d_A3yuCV1UnQMxAAy0ZJPBvoE1HjA2BXg0owy36Byzg" />
 	<meta name="description" content="An outlet for the discussion and debate of all things education.">
-	{# Social media scripts #}
+
+	{# Social media scripts and tags#}
+	<meta property="og:title" content="YouTalkEdu Home" />
+	<meta property="og:url" content="http://www.YouTalkEdu.com{{ request.get_full_path }}"  />
 	<meta property="og:image" content="{% static 'img/favicon.png' %}" />
+	<meta property="og:site_name" content="YouTalkEdu" />
 	<script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
 	<script type="text/javascript">stLight.options({publisher: "e4aeda60-7d5c-4350-9ed1-654f18e9d8c9", doNotHash: false, doNotCopy: false, hashAddressBar: false, shorten:false});</script>
 {% endblock description %}
@@ -32,7 +36,7 @@
 	<h4>Get the community involved by sharing us!</h4>
 	<div>
 		<span class='st_facebook_vcount' displayText='Facebook' st_url="https://www.YouTalkEdu.com" onclick="javascript:alert('Thanks, but please wait until the site is finished before sharing. If a new tab opened, please close it.')"></span>
-		<span class='st_twitter_vcount' displayText='Tweet' st_title="I'm making a difference by talking about education on YouTalkEdu.com" st_url="https://www.YouTalkEdu.com" onclick="javascript:alert('Thanks, but please wait until the site is finished before sharing. If a new tab opened, please close it.')"></span>
+		<span class='st_twitter_vcount' displayText='Tweet' st_title="I'm making a difference by talking about education on #YouTalkEdu" st_url="https://www.YouTalkEdu.com" onclick="javascript:alert('Thanks, but please wait until the site is finished before sharing. If a new tab opened, please close it.')"></span>
 	</div>
 	<br/><br/>
 
