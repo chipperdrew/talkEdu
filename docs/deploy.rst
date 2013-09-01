@@ -106,7 +106,7 @@ PairNic name servers
      NS5.PAIRNIC.COM
      NS6.PAIRNIC.COM
 
-Zerigo name servers
+Zerigo name servers (add NS Record from www >> )
     
     A.NS.ZERIGO.NET
     ...

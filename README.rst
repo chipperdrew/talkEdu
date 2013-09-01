@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Change spam counter to like 10 or 15
 #) Fix Facebook sharing -- no image appearing or . at end of sentence?
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
