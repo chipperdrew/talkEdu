@@ -48,8 +48,10 @@
 }
 
 #id_show_form {
-	font-size:1.2em; 
+	font-size:1.3em; 
+	font-weight:bold;
 	font-style:italic;
+	color:#FF6600;
 }
 
 /* Templates used on: post_page (Credit to Max Burstein for most of these) */

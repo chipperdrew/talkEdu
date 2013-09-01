@@ -1,11 +1,12 @@
 TODO:
 =============
 #) Fix Facebook sharing -- no image appearing or . at end of sentence?
-#) Learn/Home - To make a change, we need each other.
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
 #) AFTER TESTING - Change email registration links back
+#) AFTER TESTING - Remove "on-click" and st_url attributes for social media links on home
+#) AFTER TESTING - Remove "testing" sign on home page
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
@@ -14,7 +15,6 @@ TODO:
 #) IN PRODUCTION - Log/count the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - Make sure Django-axes is IP specific				---------------DO THIS NOW----------------
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
-#) IN PRODUCTION - Remove "on-click" and st_url attributes for social media links on home
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) IF COMPLAINTS - Smaller comment voting chart
