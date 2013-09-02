@@ -1,7 +1,9 @@
 TODO:
 =============
+#) Change images in learn more page
+#) Use color wheel "Vitamin C" on adobe kuler for all colors?
+#) Brighten home page image
 #) Look into color palette
-#) Have "Welcome" logo load quicker (cached)
 #) Fix sharing tags -- no image appearing, bad URLs?
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
@@ -73,7 +75,7 @@ TODO:
 #) DONE - Make "show" button in comments AJAXed
 #) DONE - Fix reply chart from displaying after every reply click
 #) DONE - TEDDY - Add logo/picture at top of tab
-
+#) DONE - Compressed png images using http://tinypng.org/
 
 
 Basic Information

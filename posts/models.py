@@ -27,8 +27,8 @@ class TimeStampedVoteableModel(models.Model):
     votes_by_user_type = PickledObjectField(
         default={eduuser.STUDENT: [0,0,0],
                  eduuser.TEACHER: [0,0,0],
-                 eduuser.ADMINISTRATOR: [0,0,0],
                  eduuser.PARENT: [0,0,0],
+                 eduuser.ADMINISTRATOR: [0,0,0],
                  eduuser.OUTSIDER: [0,0,0]
                 })
 

@@ -48,7 +48,7 @@ function clearPulse(draw) {
 
 // Draws the outline of the pulse
 function drawPulseOutline(draw) {
-	draw.lineWidth = 1;
+	draw.lineWidth = 1; // If this is modified, change edgeWidth in drawPulse fn
 	for (var i=0; i<numberOfTypes*separationDist; i+=separationDist) {
 		draw.beginPath();
 		draw.arc(leftArc+i, bottomArc, rad, 0*Math.PI, 1*Math.PI);
@@ -60,6 +60,7 @@ function drawPulseOutline(draw) {
 
 // Draws the pulse bars depending on percentage of up votes
 function drawPulse(draw, perc, offset) {
+	var edgeWidth = 1;
 	if(perc == 0) {
 		null
 	} else if(perc <= arcPerc) {
@@ -77,13 +78,13 @@ function drawPulse(draw, perc, offset) {
 		// Draw bottom arc and part of rect
 		drawEntireBottomArcHelper(draw, offset);
 		var rectHeightPerc = (perc - arcPerc)/rectPerc;
-		draw.rect(leftArc-rad+offset, (height+rad)-(height*rectHeightPerc)+topOffset, 2*rad, rectHeightPerc*height);
+		draw.rect(leftArc-rad+offset+edgeWidth, (height+rad)-(height*rectHeightPerc)+topOffset, 2*(rad-edgeWidth), rectHeightPerc*height);
 		draw.fill();
 	} else {
 		// Draw bottom arc, rect, and part of top arc
 		// Drawing bottom arc and rect
 		drawEntireBottomArcHelper(draw, offset);
-		draw.rect(leftArc-rad+offset, rad+topOffset, 2*rad, height);
+		draw.rect(leftArc-rad+offset+edgeWidth, rad+topOffset, 2*(rad-edgeWidth), height);
 		draw.fill();
 
 		// Drawing top arc by finding UNCOLORED area
