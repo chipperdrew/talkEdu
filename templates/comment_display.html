@@ -27,7 +27,8 @@
 		{# Comment display #}
 		<div class="item_display_div" id="{{c.id}}">
 		<p style="font-size:12px"><a href="{% url 'user_page' user=c.user_id %}">{{c.user_id}}</a> - {{c.time_created}}</p>
-		<p style="height:22px">{{c.content|linebreaks|urlize}}</p>
+		{# Extra div to prevent italics text #}
+		<div><p style="height:22px">{{c.content|linebreaks|urlize}}</p></div>
 		<div style="height:22px"></div>
 
 		{# Votes and spam links #}

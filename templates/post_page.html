@@ -76,7 +76,7 @@
 			{% csrf_token %}
 			{% render_honeypot_field %}
 			<div class="fieldWrapper">
-				<textarea id="id_content" name="content" style="width:500px; height:100px"></textarea>
+				<textarea id="id_content" name="content" style="height:100px"></textarea>
 				{{ comment_form.parent }}			
 			</div>
 			<button class="btn btn-success" name="comment_button" type="submit">Comment</button>	

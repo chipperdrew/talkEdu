@@ -1,6 +1,9 @@
 TODO:
 =============
-#) Fix Facebook sharing -- no image appearing or . at end of sentence?
+#) Combine JS files
+#) Look into color palette
+#) Have "Welcome" logo load quicker (cached)
+#) Fix sharing tags -- no image appearing, bad URLs?
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check

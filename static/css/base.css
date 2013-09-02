@@ -58,12 +58,12 @@
 	font-weight:bold;
 }
 
-#id_title, #id_text {
-	width: 800px; /* Make the text boxes as wide as the posts */
+#id_title, #id_text, #id_content {
+	width:800px; /* Make the text boxes as wide as the posts */
 }
 
 /* Templates used on: post_page (Credit to Max Burstein for most of these) */
-.item_display_div p {
+.item_display_div>p {
 	font-style:italic;
 }
 
@@ -75,15 +75,15 @@
 }
 
 #commenters {
-	padding-left: 0px;
+	padding-left:0px;
 }
         
 #commenters li {
-	list-style-type: none;
+	list-style-type:none;
 }
 
 #postcomment ul {
-	padding-left: 0px;
+	padding-left:0px;
 }
 
 #postcomment ul li {
