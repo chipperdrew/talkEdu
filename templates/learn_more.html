@@ -18,14 +18,13 @@
 		<div class="tab-content">
 			{# Default display upon arrival #}
 			<div class="tab-pane fade in active" id="tab0">
-				{#<h1 style="font-family:cursive">Welcome to YouTalkEdu</h1>#}
-				<img src="{% static 'img/welcome.png' %}" width=600px height=200px alt="Welcome to YouTalkEdu" />
-				<h3>Where YOU discuss & debate all things education!</h3>
-				<p>If I'm already boring you, just go wander around the site. I won't be upset. Really.</p><br/>
-				<h4>What is YouTalkEdu?</h4>
-				<p>YouTalkEdu is a free-to-use website geared towards bettering the current 
-				educational system. Anyone can browse around the content here, 
-				however only those with an account can post, comment, or vote on the content.
+				{# <h1 style="font-family:cursive">Welcome to YouTalkEdu</h1> #}
+				<h1 style="font-family:cursive">YouTalkEdu - Where YOU discuss & debate all things education!</h1><br/>
+				{#<h3>Where YOU discuss & debate all things education!</h3>#}
+				<h4 style="font-size:1.6em">What is YouTalkEdu?</h4>
+				<p style="font-size:1.2em">YouTalkEdu is a free-to-use website geared towards 
+				bettering the current educational system. Anyone can browse around the content here, 
+				however only those with an account can post, comment, or vote on the content.<br/><br/>
 				Registering is extremely painful and not recommended, but if you wish to do so you may 
 				<a href="{% url 'register' %}">register here</a>.</p>
 				<br/>
@@ -37,8 +36,8 @@
 					<li>No foul language.</li>
 				</ul><br/>
 {% endcomment %}
-				<h3>Click on the tabs to the left to learn more about YouTalkEdu!</h3><br/>
-				<h6>Huge thanks to <a href="//twitter.com/theodoremedina">Theodore Medina</a> for the graphic and favicon!</h6>
+				<h3>Click on the tabs to the left to learn more about YouTalkEdu!</h3><br/><br/>
+				<p><span style="font-weight:bold">Still have questions?</span> Check out the <a href="{% url 'faq' %}">FAQ</a>.</p><br/>
 			</div>
 
 			{# Tab 1 - User types #}
