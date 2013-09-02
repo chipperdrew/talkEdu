@@ -7,7 +7,7 @@ import datetime
 
 from accounts.models import eduuser
 
-POST_SPAM_LIMIT = 2
+POST_SPAM_LIMIT = 10
 
 # Adapted from '2 Scoops of Django' book
 class TimeStampedVoteableModel(models.Model):
