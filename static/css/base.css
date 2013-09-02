@@ -49,12 +49,24 @@
 
 #id_show_form {
 	font-size:1.4em; 
-	font-weight:bold;
 	font-style:italic;
 	color:#FF6600;
+	text-decoration:underline;
+}
+
+#id_show_form:hover {
+	font-weight:bold;
+}
+
+#id_title, #id_text {
+	width: 800px; /* Make the text boxes as wide as the posts */
 }
 
 /* Templates used on: post_page (Credit to Max Burstein for most of these) */
+.item_display_div p {
+	font-style:italic;
+}
+
 .comment_box a {
 	font-size: 12px;
 	font-weight: bold;

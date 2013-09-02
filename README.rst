@@ -12,6 +12,7 @@ TODO:
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
+#) TIME PERMITTING - Allow search index to index content of posts
 #) IN PRODUCTION - Log/count the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - Make sure Django-axes is IP specific				---------------DO THIS NOW----------------
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
