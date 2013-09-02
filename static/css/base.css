@@ -41,6 +41,10 @@
 	width:150px;
 }
 
+#id_title, #id_text, #id_content {
+	width:800px; /* Make the text boxes as wide as the posts */
+}
+
 /* Templates used on: base_post */
 #base_post_title {
 	word-wrap:break-word; 
@@ -48,18 +52,14 @@
 }
 
 #id_show_form {
-	font-size:1.4em; 
+	font-size:1.5em; 
 	font-style:italic;
-	color:#FF6600;
-	text-decoration:underline;
+	/*color:#FF6600;*/
 }
 
 #id_show_form:hover {
 	font-weight:bold;
-}
-
-#id_title, #id_text, #id_content {
-	width:800px; /* Make the text boxes as wide as the posts */
+	text-decoration:underline;
 }
 
 /* Templates used on: post_page (Credit to Max Burstein for most of these) */

@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Combine JS files
 #) Look into color palette
 #) Have "Welcome" logo load quicker (cached)
 #) Fix sharing tags -- no image appearing, bad URLs?
