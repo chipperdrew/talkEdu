@@ -19,7 +19,6 @@ TODO:
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) IF COMPLAINTS - Smaller comment voting chart
-#) IF COMPLAINTS - Create a site map (clear: both)
 #) IF COMPLAINTS - Load total comment count via AJAX also, thus accurate after comment deletion
 #) IF COMPLAINTS - Make "sort-by" button and post delete AJAXed -- move "pages" logic into AJAX?
 #) IF POPULAR - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
