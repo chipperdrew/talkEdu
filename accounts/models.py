@@ -19,8 +19,8 @@ class eduuser(AbstractUser):
         (ADMINISTRATOR, 'Administrator'),
         (OUTSIDER, 'Other'),
     )
-    COLORS = {STUDENT: "#004358", TEACHER: "#1F8A70", PARENT: "#BEDB39",
-              ADMINISTRATOR: "#FFE11A", OUTSIDER: "#FD7400"}
+    COLORS = {STUDENT: "#405952", TEACHER: "#F54F29", PARENT: "#9C9B7A",
+              ADMINISTRATOR: "#FFD393", OUTSIDER: "#FF974F"}
 
     user_type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES,
                                  default=STUDENT)

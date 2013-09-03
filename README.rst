@@ -1,9 +1,7 @@
 TODO:
 =============
-#) Change images in learn more page
-#) Use color wheel "Vitamin C" on adobe kuler for all colors?
 #) Brighten home page image
-#) Look into color palette
+#) COLORS: "Ocean Sunset" - Kuler Adobe
 #) Fix sharing tags -- no image appearing, bad URLs?
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
