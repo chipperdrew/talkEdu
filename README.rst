@@ -1,7 +1,9 @@
 TODO:
 =============
-#) COLORS: "Ocean Sunset" - Kuler Adobe
+#) Have option to sort top-level comments by rating? Would this work with replies?
+#) Try out $50/month DB, see if auto-caches
 #) Fix sharing tags -- no image appearing, bad URLs?
+#) COLORS: "Ocean Sunset" - Kuler Adobe
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
