@@ -1,6 +1,5 @@
 TODO:
 =============
-#) Brighten home page image
 #) COLORS: "Ocean Sunset" - Kuler Adobe
 #) Fix sharing tags -- no image appearing, bad URLs?
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
