@@ -66,6 +66,11 @@ Check the current release, and rollback if necessary
     $ heroku releases
     $ heroku releases:rollback vNUMBER
 
+Databases::
+
+   $ heroku pg
+   $ heroku pg:promote DATABASE_NAME
+
 To add add-ons,
   
     $ heroku addons:add NAME:VERSION
@@ -131,6 +136,7 @@ If deleted,
  - Edit Procfile
  - Removed LOGGING in settings
  - pip uninstall newrelic
+
 
 Postgres backups
 ----------------

@@ -1,23 +1,22 @@
 TODO:
 =============
-#) Have option to sort top-level comments by rating? -- CANNOT WORK WITH SHOW REPlIES. It won't know how to display (unless multiple for loops used)
 #) Try out $50/month DB, see if auto-caches
-#) Fix sharing tags -- no image appearing, bad URLs?
+#) Fix sharing tags -- no image appearing for Google+, check into Facebook problems? 
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
 #) AFTER TESTING - Change email registration links back
-#) AFTER TESTING - Remove "on-click" and st_url attributes for social media links on home
+#) AFTER TESTING - Remove "on-click" and st_url attributes for social media links on home. do_not_hash=True
 #) AFTER TESTING - Remove "testing" sign on home page
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
-#) TIME PERMITTING - Allow search index to index content of posts
 #) IN PRODUCTION - Log/count the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - Make sure Django-axes is IP specific				---------------DO THIS NOW----------------
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
+#) IF COMPLAINTS -  Have option to sort top-level comments by rating? -- CANNOT WORK WITH SHOW REPlIES. It won't know how to display (unless multiple for loops used)
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
 #) IF COMPLAINTS - Smaller comment voting chart

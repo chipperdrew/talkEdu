@@ -25,6 +25,8 @@
 	<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css" media="screen">
 	{# Send compressed files if possible #}
 	{% if 'gzip' in request.META|key:'HTTP_ACCEPT_ENCODING' %}
+		<meta http-equiv="Content-Length" content="totalBytes">
+		<meta http-equiv="Content-Encoding" content="gzip">		
 		<link href="{% static 'css/bootstrap.min.css.gz' %}" rel="stylesheet" type="text/css" media="screen">
 	{% else %}
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="screen">
