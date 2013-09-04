@@ -84,6 +84,9 @@ def new_comment(request, post_id):
         return redirect('/')
 
 
+############ AJAX FUNCTIONS ############
+
+
 @login_required
 def delete_comment(request, comment_id):
     if not request.is_ajax():
@@ -98,9 +101,9 @@ def delete_comment(request, comment_id):
 @login_required
 def comment_mark_as_spam(request, id):
     """
-    Based off of post view, but checks the boolean returned by check_spam_count
-    b/c needs to delete comment AND children
-    """
+Based off of post view, but checks the boolean returned by check_spam_count
+b/c needs to delete comment AND children
+"""
     if not request.is_ajax():
         raise Http404()
     comment_of_interest = get_object_or_404(comment, pk=id)
@@ -116,6 +119,7 @@ def comment_mark_as_spam(request, id):
         return HttpResponse(data, content_type='application/json')
     return HttpResponse()
 
+# Loads either all comments or just top-level comments.
 def load_comments(request, post_id, show_all):
     if not request.is_ajax():
         raise Http404()
@@ -126,7 +130,26 @@ def load_comments(request, post_id, show_all):
         'comment_display.html', {'comment_tree': comments, 'user_color_dict': get_user_model().COLORS},
         context_instance=RequestContext(request)
     )
-    
+
+"""
+# Sorts the comments, based on give sort_id.
+def sort_comments(request, post_id, sort_id):
+    if not request.is_ajax():
+        raise Http404()
+    comments = comment.objects.filter(post_id=post_id, depth=0)
+    if sort_id=="2":
+        comments = comments.order_by('-time_created')
+    elif sort_id=="3":
+        comments = comments.order_by('-vote_percentage')
+    else:
+        pass #Default is '-time_created'
+    return render_to_response(
+        'comment_display.html', {'comment_tree': comments, 'user_color_dict': get_user_model().COLORS},
+        context_instance=RequestContext(request)
+    )
+"""
+
+# Shows the replies of a selected comment.
 def show_replies(request, comment_id):
     if not request.is_ajax():
         raise Http404()
@@ -144,7 +167,9 @@ def show_replies(request, comment_id):
         context_instance=RequestContext(request)
     )
 
-# Helper Functions
+
+############## Helper Functions #####################
+
 def delete_comment_path_helper(comment_of_interest):
     # Need to remove children of post (sounds evil)
     post_comments = comment.objects.filter(post_id=comment_of_interest.post_id)

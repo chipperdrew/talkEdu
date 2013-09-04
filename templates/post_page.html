@@ -97,6 +97,21 @@
 		</ul>
 	</div>
 
+{% comment %}
+	{# Sort by dropdown #}
+	<div class="btn-group" style="margin-bottom:5px">
+		<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" name="show_dropdown">
+			Sort top-level comments by
+			<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			<li id="sort_by_oldest_first"><a><img src="{% static 'img/green_checkmark.png' %}" class="green_checkmark" /> Oldest first</a>
+			<li id="sort_by_newest_first"><a>Newest first</a>
+			<li id="sort_by_highest_rated"><a>Highest Rated</a></li>
+		</ul>
+	</div>
+{% endcomment %}
+
 	</div> {# End move_right div #}
 
 
@@ -112,6 +127,30 @@
 
 
 	<script>
+		// Sorts the top-level comments, as determined by value it is passed
+{% comment %}
+		function sort_comments(sort_by) {
+			$('#waiting').show(500);
+			$('#commenters').hide(0);
+			if(sort_by=="Oldest_first") {
+				var url_to_call = "{% url 'sort_comments' post.id 1 %}";
+			} else if(sort_by=="Newest_first") {
+				var url_to_call = "{% url 'sort_comments' post.id 2 %}";
+			} else if(sort_by=="Highest_rated") {
+				var url_to_call = "{% url 'sort_comments' post.id 3 %}";
+			}
+			var args = { type:"GET", url:url_to_call, data:{},
+			success: function(data) { 
+				if(data) {
+					$('#waiting').hide(500); // Nice fading	
+					$('#commenters').html(data);
+					$('#commenters').show(0);
+				}}};
+			$.ajax(args);
+			return false;
+		};
+{% endcomment %}
+
 		// Load all comments after page loads. If arguement is true, load all comments, else just top-level
 		function load_comments(show_all) {
 			$('#waiting').show(500);
@@ -124,7 +163,7 @@
 			var args = { type:"GET", url:url_to_call, data:{},
 			success: function(data) { 
 				if(data) {
-					$('#waiting').hide(500); // Nice fading				
+					$('#waiting').hide(500); // Nice fading		
 					// Load comment_display.html
 					$('#commenters').html(data);
 					$('#commenters').show(0);
@@ -149,7 +188,30 @@
 				$(this).parent().parent().parent().append(form);
 			});
 
-			// Green checkmark should appear next to proper sort-by link, and should reload comments on click
+{% comment %}
+			// SORT-BY DROPDOWN
+			$("#sort_by_oldest_first").click(function() {
+				document.getElementById('sort_by_oldest_first').innerHTML = "<a><img src='{% static 'img/green_checkmark.png' %}' class='green_checkmark' /> Oldest First</a>";
+				document.getElementById('sort_by_newest_first').innerHTML = "<a>Newest First</a>";
+				document.getElementById('sort_by_highest_rated').innerHTML = "<a>Highest Rated</a>";
+				sort_comments("Oldest_first");
+			});
+			$("#sort_by_newest_first").click(function() {
+				document.getElementById('sort_by_oldest_first').innerHTML = "<a>Oldest First</a>";
+				document.getElementById('sort_by_newest_first').innerHTML = "<a><img src='{% static 'img/green_checkmark.png' %}' class='green_checkmark' /> Newest First</a>";
+				document.getElementById('sort_by_highest_rated').innerHTML = "<a>Highest Rated</a>";
+
+				sort_comments("Newest_first");
+			});
+			$("#sort_by_highest_rated").click(function() {
+				document.getElementById('sort_by_oldest_first').innerHTML = "<a>Oldest First</a>";
+				document.getElementById('sort_by_newest_first').innerHTML = "<a>Newest First</a>";
+				document.getElementById('sort_by_highest_rated').innerHTML = "<a><img src='{% static 'img/green_checkmark.png' %}' class='green_checkmark' /> Highest Rated</a>";
+				sort_comments("Highest_rated");
+			});
+{% endcomment %}
+
+			// SHOW DROPDOWN - Green checkmark should appear next to proper link & should reload comments
 			$("#show_top_level_dropdown").click(function() {
         			document.getElementById('show_top_level_dropdown').innerHTML = "<a><img src='{% static 'img/green_checkmark.png' %}' class='green_checkmark' /> Only top-level comments</a>";
         			document.getElementById('show_all_dropdown').innerHTML = "<a>All comments</a>";

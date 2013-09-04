@@ -223,6 +223,11 @@ var mark_as_spam = function() {
 };
 
 var show_replies = function() {
+	// First, check to see what the comments are sorted by
+	// var image_tag = "img";
+	// if(document.getElementById('sort_by_oldest_first').innerHTML.indexOf(image_tag) != -1) {
+	//	var data_to_pass=1;
+	// }
 	var args = { type:"GET", url:$(this).attr('href'), data:{},
 			success: function(data) { 
 			if(data) {

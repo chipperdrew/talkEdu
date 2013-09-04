@@ -1,9 +1,8 @@
 TODO:
 =============
-#) Have option to sort top-level comments by rating? Would this work with replies?
+#) Have option to sort top-level comments by rating? -- CANNOT WORK WITH SHOW REPlIES. It won't know how to display (unless multiple for loops used)
 #) Try out $50/month DB, see if auto-caches
 #) Fix sharing tags -- no image appearing, bad URLs?
-#) COLORS: "Ocean Sunset" - Kuler Adobe
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check
@@ -26,7 +25,6 @@ TODO:
 #) IF COMPLAINTS - Make "sort-by" button and post delete AJAXed -- move "pages" logic into AJAX?
 #) IF POPULAR - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
 #) IF POPULAR - Change the "show_replies" link to prevent from reloading all comments --- create new template and append to comment_display as child of post?
-#) IF POPULAR - Us .gz extension of css and js, learn to use with Accept-Encoding
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
