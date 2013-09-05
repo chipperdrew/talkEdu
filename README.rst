@@ -1,6 +1,6 @@
 TODO:
 =============
-#) Try out $50/month DB, see if auto-caches
+#) Reduce ppi on Welcome image
 #) Fix sharing tags -- no image appearing for Google+, check into Facebook problems? 
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com

@@ -66,11 +66,6 @@ Check the current release, and rollback if necessary
     $ heroku releases
     $ heroku releases:rollback vNUMBER
 
-Databases::
-
-   $ heroku pg
-   $ heroku pg:promote DATABASE_NAME
-
 To add add-ons,
   
     $ heroku addons:add NAME:VERSION
@@ -89,6 +84,12 @@ To add a (free) database and promote it (so DATABASE_URL is set), type::
     $ heroku addons:add heroku-postgresql:dev
     $ heroku pg:promote DB_NAME
     $ heroku pg:info
+
+Heroku pg-extra features (see https://github.com/heroku/heroku-pg-extras)::
+
+   $ heroku plugins:install git://github.com/heroku/heroku-pg-extras.git
+   $ heroku pg:cache_hit
+   $ heroku pg:index_usage
 
 
 Config environ vars, or pull them from environment::
