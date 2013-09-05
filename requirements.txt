@@ -1,4 +1,4 @@
 # Install only the production dependencies
 
-#pylibmc
+pylibmc==1.2.3
 -r requirements/prod.txt
