@@ -54,7 +54,7 @@
 #id_show_form {
 	font-size:1.6em; 
 	font-style:italic;
-	color:DarkRed;
+	/* color:Black; /* DarkRed */
 }
 
 #id_show_form:hover {

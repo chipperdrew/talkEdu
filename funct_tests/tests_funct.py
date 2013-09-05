@@ -2,6 +2,7 @@
 import time
 
 # Core Django imports
+from django.core.cache import cache
 from django.contrib.auth import get_user_model
 from django.test import LiveServerTestCase
 
@@ -24,6 +25,8 @@ class NewVisitorTests(LiveServerTestCase):
             'Test', 'chipperdrew@gmail.com', 'test',
             user_type=get_user_model().ADMINISTRATOR
         )
+        cache.clear()
+        
     def tearDown(self):
         self.browser.quit()
 

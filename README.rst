@@ -1,6 +1,6 @@
 TODO:
 =============
-#) Reduce ppi on Welcome image
+#) Fix flashing "You have 3 posts remaining" on PIQS template
 #) Fix sharing tags -- no image appearing for Google+, check into Facebook problems? 
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
@@ -22,8 +22,8 @@ TODO:
 #) IF COMPLAINTS - Smaller comment voting chart
 #) IF COMPLAINTS - Load total comment count via AJAX also, thus accurate after comment deletion
 #) IF COMPLAINTS - Make "sort-by" button and post delete AJAXed -- move "pages" logic into AJAX?
-#) IF POPULAR - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
 #) IF POPULAR - Change the "show_replies" link to prevent from reloading all comments --- create new template and append to comment_display as child of post?
+#) IF POPULAR - Add more caching
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -72,6 +72,7 @@ TODO:
 #) DONE - Fix reply chart from displaying after every reply click
 #) DONE - TEDDY - Add logo/picture at top of tab
 #) DONE - Compressed png images using http://tinypng.org/
+#) DONE - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
 
 
 Basic Information

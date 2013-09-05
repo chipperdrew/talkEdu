@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 import json
 
 from votes.models import vote
+from posts.views import set_page_type_cache
 from posts.models import post
 from comments.models import comment
 
@@ -31,6 +32,7 @@ def up_vote(request, id, item_type):
             vote_of_interest.save()
     update_stats_helper(item_type, item_of_interest, up_vote_to_add,
                         total_vote_to_add, request.user.user_type)
+    update_cache_helper(item_type, item_of_interest)
     data = generate_JSON_vals(item_type, item_of_interest)
     return HttpResponse(data, content_type='application/json')
 
@@ -57,6 +59,7 @@ def down_vote(request, id, item_type):
     vote_of_interest.save()
     update_stats_helper(item_type, item_of_interest, up_vote_to_add,
                         total_vote_to_add, request.user.user_type)
+    update_cache_helper(item_type, item_of_interest)
     data = generate_JSON_vals(item_type, item_of_interest)
     return HttpResponse(data, content_type='application/json')
 
@@ -79,11 +82,15 @@ def check_type_helper(request, id, item_type):
         )
     return item_of_interest, vote_of_interest, bool_created
 
+def update_cache_helper(item_type, item_of_interest):
+    if item_type=='p':
+        set_page_type_cache(item_of_interest.page_type)
+    
 def update_stats_helper(item_type, item_of_interest, up_vote_to_add,
                         total_vote_to_add, user_type):
     # Update the post/comment overall count
     item_of_interest.update_votes(up_vote_to_add, total_vote_to_add)
-    # If post, update the user overall count
+    # If post, update page_type cache and the user overall count
     if item_type=='p':
         post_user = item_of_interest.user_id
         post_user.update_votes(up_vote_to_add, total_vote_to_add)

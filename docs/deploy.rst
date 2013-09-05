@@ -138,6 +138,17 @@ If deleted,
  - Removed LOGGING in settings
  - pip uninstall newrelic
 
+Caching
+--------------------
+Steps when adding::
+
+    $ heroku addons:add memcachier:dev
+
+A bunch of CACHING stuff in settings, then::
+
+    $ brew install libmemcached
+
+
 
 Postgres backups
 ----------------

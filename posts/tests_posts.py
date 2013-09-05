@@ -1,4 +1,5 @@
 # Core Django imports
+from django.core.cache import cache
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 import datetime
@@ -9,9 +10,7 @@ from votes.models import vote
 
 
 class HomePageTest(TestCase):
-    """
-    Test - Home page url access, displays proper content
-    """
+    # Test - Home page url access, displays proper content
 
     def test_home_page_returns_correct_html(self):
         client = Client()
@@ -28,11 +27,10 @@ class HomePageTest(TestCase):
 
 
 class ProblemPageTest(TestCase):
-    """
-    Test - Problems page displays on url access, proper posts & content display
-    """
+    # Test - Problems page displays on url access, proper posts & content display
     
     def test_prob_page_properly_opens_when_URL_accessed(self):
+        cache.clear() # Clear cache since posting to it
         client = Client()
         response = client.get('/pages/problems/')
         self.assertEqual(response.status_code, 200)
@@ -63,7 +61,6 @@ class ProblemPageTest(TestCase):
         self.assertIn(str(datetime.datetime.now().day), response.content)
         self.assertTemplateUsed(response, 'base_post.html')
 
-
 class OtherPostPagesTest(TestCase):
     """
     Test - Proper display on url access, proper posts & content display
@@ -82,6 +79,7 @@ class OtherPostPagesTest(TestCase):
         self.assertTemplateUsed(response, 'base_post.html')
 
     def test_feedback_page_properly_opens_when_URL_accessed(self):
+        cache.clear() # Clear the cache since the test below posts to it
         client = Client()
         response = client.get('/pages/site_feedback/')
         self.assertEqual(response.status_code, 200)

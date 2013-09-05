@@ -5,6 +5,7 @@ import json
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps import Sitemap
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
@@ -23,6 +24,7 @@ from comments.views import spam_check
 
 POSTS_ALLOWED_PER_DAY = 5
 POSTS_PER_PAGE = 15
+QUEUE_PROBLEMS_KEY = "all_problems_page_posts"
 
 def home_page(request):
 #    return HttpResponse(request.META['HTTP_ACCEPT_ENCODING'])
@@ -73,7 +75,13 @@ def display_page_helper(request, page, sort_id=1):
     else:
         form = postForm
 
-    posts_all = post.objects.filter(page_type=page_type)
+    # Call the CACHE to get all posts of desired page type
+#    posts_all = post.objects.filter(page_type=page_type)
+    posts_all = cache.get(page_type+'_all_posts')
+    if not posts_all:
+        set_page_type_cache(page_type)
+        posts_all = cache.get(page_type+'_all_posts')
+        
     # Sort logic - Default is Most Recent
     sort_categs = ['Most Recent', 'Highest Rated', 'Most Votes']
     sort_id = int(sort_id) #Keep as int
@@ -165,7 +173,7 @@ def edit(request, id=None, page_abbrev=None):
         post_of_interest = get_object_or_404(post, pk=id)
     # Create a new post if it doesn't already exist
     else:
-        post_of_interest = post(user_id = request.user, page_type = page_abbrev)
+        post_of_interest = post(user_id=request.user, page_type=page_abbrev)
         # Limit number of posts per 24 hours
         posts_in_last_24_hours = post.objects.filter(
             time_created__gte=datetime.datetime.now()-datetime.timedelta(hours=24),
@@ -183,6 +191,7 @@ def edit(request, id=None, page_abbrev=None):
 #            return request.user.check_akismet(request)
         if form.is_valid():
             form.save()
+            set_page_type_cache(post_of_interest.page_type) # Update the cache
         else:
             # If error on edit, display error
             if 'edit' in request.path:
@@ -211,7 +220,9 @@ def delete(request, id):
     """
     post_of_interest = get_object_or_404(post, pk=id)
     if post_of_interest.user_id == request.user:
+        page_type = post_of_interest.page_type
         post_of_interest.delete()
+        set_page_type_cache(page_type)
     else:
         raise PermissionDenied()
     return redirect(request.GET['next']) #provided by base_post template
@@ -226,11 +237,21 @@ def post_mark_as_spam(request, id):
         user_id = request.user,
         )
     if bool_created:
+        page_type = post_of_interest.page_type
         post_of_interest.check_spam_count()
+        # If moved to spam, update cache of original page_type
+        if 'SP' in post_of_interest.page_type:
+            set_page_type_cache(page_type)
         data = json.dumps({'id': id, 'item_type': 'p', })
         return HttpResponse(data, content_type='application/json')
     return HttpResponse()
 
+
+######## Helper functions ############
+# Called when adding & deleting posts (and if not set initially)
+def set_page_type_cache(page_abbrev):
+    cache.set(page_abbrev+'_all_posts',
+              post.objects.filter(page_type=page_abbrev))
 
 ######### Sitemaps ############
 class PostSitemap(Sitemap):
