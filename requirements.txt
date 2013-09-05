@@ -1,2 +1,4 @@
 # Install only the production dependencies
+
+#pylibmc
 -r requirements/prod.txt
