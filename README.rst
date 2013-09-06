@@ -1,7 +1,6 @@
 TODO:
 =============
-#) Fix flashing "You have 3 posts remaining" on PIQS template
-#) Fix sharing tags -- no image appearing for Google+, check into Facebook problems? 
+#) Fix sharing tags -- no image appearing for Facebook or Google+? 
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) ASK PEOPLE TO USE AND TEST -- youtalkedu.herokuapp.com
 #) Perform SSL identity check

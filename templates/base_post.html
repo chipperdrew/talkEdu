@@ -108,7 +108,7 @@
 			<canvas id="myCanvas{{post.id}}" width="125" height="100">
 				If you see this, your browser does not support HTML5 Canvas. Sorry :(
         		</canvas>
-			<script defer async type="text/javascript">
+			<script type="text/javascript">
 				$(document).ready(function() {
 					var canv = document.getElementById("myCanvas{{post.id}}");
 					var draw = canv.getContext("2d");
@@ -131,7 +131,7 @@
 					<span style="color:{{user_color_dict|get_item:u_type}}; float:right; font-weight:bold">{{ post.user_id.get_user_type_display }}</span>
 				{% endwith %}
 			</p>
-			<a href="{% url 'post_page' post_id=post.id %}"><h4 id="base_post_title">{{ post.title|capfirst }}</h4></a>
+			<a href="{% url 'post_page' post_id=post.id %}"><h4 class="base_post_title">{{ post.title|capfirst }}</h4></a>
 			<p>
 			{% if user.is_authenticated %}		
 				<div id="post_links{{post.id}}" style="display:inline-block">

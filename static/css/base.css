@@ -46,7 +46,7 @@
 }
 
 /* Templates used on: base_post */
-#base_post_title {
+.base_post_title {
 	word-wrap:break-word; 
 	height:90px; /* This moves the text up in the box */
 }
