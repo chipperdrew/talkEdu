@@ -1,5 +1,5 @@
 # requirements/common.txt
-Django==1.6b3
+Django==1.5.3
 Jinja2==2.7.1
 MarkupSafe==0.18
 Pygments==1.6

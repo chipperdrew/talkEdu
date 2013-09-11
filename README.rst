@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Change GitHub pass
 #) Remove unnecessary requirements from common.txt (try Sphinx, Jinja2, MarkupSafe, Pygments, docutils)
 #) Fix sharing tags -- no image appearing for Facebook or Google+? 
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
