@@ -78,7 +78,7 @@ def display_page_helper(request, page, sort_id=1):
     # Call the CACHE to get all posts of desired page type
 #    posts_all = post.objects.filter(page_type=page_type)
     posts_all = cache.get(page_type+'_all_posts')
-    if not posts_all:
+    if not posts_all or len(posts_all)==0:
         set_page_type_cache(page_type)
         posts_all = cache.get(page_type+'_all_posts')
         
