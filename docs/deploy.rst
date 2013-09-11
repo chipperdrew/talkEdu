@@ -11,7 +11,7 @@ Set the following Heroku config vars:
 
 After initial push, do the following:
  - heroku run python manage.py syncdb
- - heroku run python manage.py migrate accounts/posts/comments/votes
+ - heroku run python manage.py migrate accounts/registrationFix/posts/comments/votes
 
 To collect staticfiles, run
 $ python manage.py collectstatic
@@ -85,6 +85,7 @@ To add a (free) database and promote it (so DATABASE_URL is set), type::
     $ heroku pg:promote DB_NAME
     $ RESTORE BACKUP
     $ heroku pg:info
+    $ heroku addons:remove heroku-postgresql:crane
 
 Heroku pg-extra features (see https://github.com/heroku/heroku-pg-extras)::
 
