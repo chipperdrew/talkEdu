@@ -83,6 +83,7 @@ To add a (free) database and promote it (so DATABASE_URL is set), type::
 
     $ heroku addons:add heroku-postgresql:dev
     $ heroku pg:promote DB_NAME
+    $ RESTORE BACKUP
     $ heroku pg:info
 
 Heroku pg-extra features (see https://github.com/heroku/heroku-pg-extras)::
