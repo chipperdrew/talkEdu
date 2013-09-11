@@ -87,6 +87,13 @@ To add a (free) database and promote it (so DATABASE_URL is set), type::
     $ heroku pg:info
     $ heroku addons:remove heroku-postgresql:crane
 
+For new databases, if restoring from old data, just restore backup (see Postgres backups below)
+If creating entirely new database::
+
+    $ heroku run python manage.py syncdb
+    $ heroku run migrate ??? (may not be needed)
+    $ CLEAR MEMCACHED
+
 Heroku pg-extra features (see https://github.com/heroku/heroku-pg-extras)::
 
    $ heroku plugins:install git://github.com/heroku/heroku-pg-extras.git
