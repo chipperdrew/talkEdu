@@ -4,6 +4,6 @@ venv
 db.sqlite3
 *.swp
 *.coverage
-src
+Django-1.6b3
 .env
 staticfiles

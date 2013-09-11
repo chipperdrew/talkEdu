@@ -1,5 +1,5 @@
 # requirements/common.txt
--e git+https://github.com/django/django.git@70f2d9aaffcdd255b1fde6c83b7fe584c4ee3d45#egg=Django-dev
+Django==1.6b3
 Jinja2==2.7.1
 MarkupSafe==0.18
 Pygments==1.6

@@ -1,5 +1,6 @@
 TODO:
 =============
+#) Remove unnecessary requirements from common.txt (try Sphinx, Jinja2, MarkupSafe, Pygments, docutils)
 #) Fix sharing tags -- no image appearing for Facebook or Google+? 
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) Perform SSL identity check
@@ -9,7 +10,6 @@ TODO:
 #) TIME PERMITTING - Create a more personalized user page?
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Log/count the spam caught by AKISMET, djangospam, honeypot
-#) IN PRODUCTION - Make sure Django-axes is IP specific				---------------DO THIS NOW----------------
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
 #) IF COMPLAINTS -  Have option to sort top-level comments by rating? -- CANNOT WORK WITH SHOW REPlIES. It won't know how to display (unless multiple for loops used)
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
@@ -68,6 +68,7 @@ TODO:
 #) DONE - TEDDY - Add logo/picture at top of tab
 #) DONE - Compressed png images using http://tinypng.org/
 #) DONE - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
+#) DONE - Make sure Django-axes is IP specific -- YES
 
 
 Basic Information
