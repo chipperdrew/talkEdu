@@ -112,11 +112,24 @@ PairNic name servers
      NS5.PAIRNIC.COM
      NS6.PAIRNIC.COM
 
-Zerigo name servers (add NS Record from www >> )
+Zerigo name servers (add NS Record from www >> )::
     
     A.NS.ZERIGO.NET
     ...
     E.NS.ZERIGO.NET
+
+MX Records (for mail)::
+  
+    @ » 1 ASPMX.L.GOOGLE.COM.
+    @ » 5 ALT2.ASPMX.L.GOOGLE.COM.
+    @ » 5 ALT1.ASPMX.L.GOOGLE.COM.
+    @ » 10 ASPMX3.GOOGLEMAIL.COM.
+    @ » 10 ASPMX2.GOOGLEMAIL.COM. 
+
+CNAME::
+
+   @ >> youtalkedu.herokuapp.com (no SSL Endpoint)
+   @ >> ENDPOINT_NAME.herokussl.com  (if SSL Endpoint)
 
 
 Sentry -- Capture errors
@@ -166,3 +179,17 @@ If you need to restore DB (don't use unless you need it!!!!)::
 
     $ heroku pgbackups:restore DB_NAME BACKUP_ID (backup_id is optional, defaults to most recent)
     $ heroku pgbackups:restore HEROKU_POSTGRESQL_BLACK b251 
+
+
+Endpoint SSL
+------------
+Install and add cert:
+
+    $ heroku addons:add ssl:endpoint
+    $ heroku certs:add Class1cert.crt ssl.key (may need --bypass)
+
+If the key is password protected, type
+
+    $ openssl rsa -in ssl.key -out newssl.unencrpyted.key
+
+and use this cert. Now, adjust the CNAME DNS record.
