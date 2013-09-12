@@ -3,9 +3,19 @@
 {% block content %}
 	<div class="alert alert-error">	
 		<h2>Oh no! We can't find the page you're looking for.</h2>
+		<h4>The path {{request_path}} was not found on this server. Here's a joke to cheer you up:</h4>
 	</div>
-	<div class="alert alert-error">	
-		<h3>The path {{request_path}} was not found on this server.</h3>
+	<div class="move_right">
+		<h5 style="font-style:italic">
+			What type of music do mummies listen to?<br/>
+			Wrap music!<br/><br/>
+		</h5>
+	</div>
+	<div class="alert alert-error">
+		<h4>
+			If you're still reading after that terrible joke, please stop and try to reaccess
+			the page you were after.
+		</h4>
 	</div>
 
 {% endblock content %}
