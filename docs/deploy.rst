@@ -201,4 +201,10 @@ If the key is password protected, type
 
     $ openssl rsa -in ssl.key -out newssl.unencrpyted.key
 
-and use this cert. Now, adjust the CNAME DNS record.
+and use this cert. Now, adjust the CNAME DNS record (see above).
+To check cert:
+
+    $ heroku certs
+    $ heroku certs:info
+
+If you go to https://APP_NAME.herokussl.com, should show error & say server is identifying as www.youtalkedu.com
