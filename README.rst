@@ -1,10 +1,7 @@
 TODO:
 =============
-#) Change GitHub pass
-#) Remove unnecessary requirements from common.txt (try Sphinx, Jinja2, MarkupSafe, Pygments, docutils)
-#) Fix sharing tags -- no image appearing for Facebook or Google+? 
+#) Change GitHub, YouTalkEdu chipperdrew pass
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
-#) Perform SSL identity check
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
 #) TIME PERMITTING - Upgrade Bootstrap? --- WILL TAKE TIME b/c not backwards compat
@@ -12,6 +9,7 @@ TODO:
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Log/count the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
+#) IF COMPLAINTS - Fix sharing tags -- no image appearing for Facebook or Google+? 
 #) IF COMPLAINTS -  Have option to sort top-level comments by rating? -- CANNOT WORK WITH SHOW REPlIES. It won't know how to display (unless multiple for loops used)
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
@@ -20,6 +18,7 @@ TODO:
 #) IF COMPLAINTS - Make "sort-by" button and post delete AJAXed -- move "pages" logic into AJAX?
 #) IF POPULAR - Change the "show_replies" link to prevent from reloading all comments --- create new template and append to comment_display as child of post?
 #) IF POPULAR - Add more caching
+#) IF POPULAR - Change vars for SPAM counter, post/day, post/time limit?
 #) DONE - Change database?
 #) DONE - Create main template from which other templates inherit
 #) DONE - Use django-registration to create new users and verify login
@@ -70,7 +69,7 @@ TODO:
 #) DONE - Compressed png images using http://tinypng.org/
 #) DONE - Look into CACHING - https://docs.djangoproject.com/en/dev/topics/cache/
 #) DONE - Make sure Django-axes is IP specific -- YES
-
+#) DONE - Perform SSL identity check
 
 Basic Information
 --------------------

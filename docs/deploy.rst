@@ -48,12 +48,10 @@ Use Django commands on the deployed app::
     $ heroku run python manage.py test
     $ heroku run python manage.py createsuperuser
 
-
 Error checking::
 
     $ foreman start (to verify Procfile is set up correctly)
     $ heroku logs
-
 
 To set in maintenance mode, run::
 
@@ -61,12 +59,12 @@ To set in maintenance mode, run::
     $ heroku maintenance
 
 
-Check the current release, and rollback if necessary
+Check the current release, and rollback if necessary::
 
     $ heroku releases
     $ heroku releases:rollback vNUMBER
 
-To add add-ons,
+To add add-ons::
   
     $ heroku addons:add NAME:VERSION
 
@@ -91,7 +89,7 @@ For new databases, if restoring from old data, just restore backup (see Postgres
 If creating entirely new database::
 
     $ heroku run python manage.py syncdb
-    $ heroku run migrate ??? (may not be needed)
+    $ heroku run migrate accounts/registrationFix/posts/comments/votes
     $ CLEAR MEMCACHED
 
 Heroku pg-extra features (see https://github.com/heroku/heroku-pg-extras)::
@@ -121,11 +119,17 @@ PairNic name servers
      NS5.PAIRNIC.COM
      NS6.PAIRNIC.COM
 
-Zerigo name servers (add NS Record from www >> )::
+Zerigo name servers::
     
     A.NS.ZERIGO.NET
     ...
     E.NS.ZERIGO.NET
+
+DNSimple name servers ::
+
+   NS1.DNSIMPLE.COM
+   ...
+   NS4.DNSIMPLE.COM
 
 MX Records (for mail)::
   
@@ -135,10 +139,12 @@ MX Records (for mail)::
     @ » 10 ASPMX3.GOOGLEMAIL.COM.
     @ » 10 ASPMX2.GOOGLEMAIL.COM. 
 
-CNAME::
+DNS records::
 
-   @ >> youtalkedu.herokuapp.com (no SSL Endpoint)
-   @ >> ENDPOINT_NAME.herokussl.com  (if SSL Endpoint)
+   ALIAS: @ >> ENDPOINT_NAME.herokussl.com
+   CNAME: www >> youtalkedu.herokuapp.com (no SSL Endpoint)
+   CNAME: www >> ENDPOINT_NAME.herokussl.com  (if SSL Endpoint)
+   URL: @ >> https://www.youtalkedu.com
 
 
 Sentry -- Capture errors
@@ -169,7 +175,6 @@ Steps when adding::
 A bunch of CACHING stuff in settings, then::
 
     $ brew install libmemcached
-
 
 
 Postgres backups
