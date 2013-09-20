@@ -9,7 +9,6 @@ TODO:
 #) TIME PERMITTING - Allow for social auth using django-allauth
 #) IN PRODUCTION - Log/count the spam caught by AKISMET, djangospam, honeypot
 #) IN PRODUCTION - If reset db -- Change "Sites" in django admin
-#) IF COMPLAINTS - Fix sharing tags -- no image appearing for Facebook or Google+? 
 #) IF COMPLAINTS -  Have option to sort top-level comments by rating? -- CANNOT WORK WITH SHOW REPlIES. It won't know how to display (unless multiple for loops used)
 #) IF COMPLAINTS - Save Akismet posts/comments that are being deemed spam
 #) IF COMPLAINTS - Don't auto-delete "mark-as-spam" comments
