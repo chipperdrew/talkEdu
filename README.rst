@@ -1,6 +1,6 @@
 TODO:
 =============
-#) Change GitHub, YouTalkEdu chipperdrew pass
+#) Change GitHub
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
