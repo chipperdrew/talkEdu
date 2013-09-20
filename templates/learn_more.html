@@ -100,12 +100,13 @@
 
 			{# Tab 3 - Posting #}
 			<div class="tab-pane fade in" id="tab3">
-				<h3>Any YouTalkEdu user can post on the PIQS page.</h3><br/>
+				<h3>Any YouTalkEdu user can post on the PIQS pages.</h3><br/>
 				<h4>On the PIQS pages, all posts will look like:</h4>
 				<img src="{% static 'img/sample_post.png' %}" alt="Sample post picture" /><br/><br/>
 				<ul>
-					<li class="space_li">Clicking on the post title will bring you to that post's page,
-					on which the content of the post as well as the comments are displayed.</li>
+					<li class="space_li">Clicking on the post title will bring you to that 
+					post's page 
+					(on which the content of the post as well as the comments are displayed).</li>
 					<li>To limit the spam of the website, you will only be able to post 5
 					times within a 24 hour period. Make your posts count!</li>
 				</ul>
@@ -114,7 +115,7 @@
 			{# Tab 4 - Voting #}
 			<div class="tab-pane fade in" id="tab4">
 				<h3>A voting system with a purpose.</h3><br/>
-				<h4>If you recall from the user types tab, we have the following user types:</h4>
+				<h4>If you recall from the "User types" tab, we have the following user types:</h4>
 				<h5>
 				{% for type in user_type_dict %}
 					<span style="color:{{user_color_dict|get_item:type.0}}; display:inline-block">{{ type.1 }}</span>&nbsp;
