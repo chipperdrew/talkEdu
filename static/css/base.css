@@ -41,8 +41,12 @@
 	width:150px;
 }
 
-#id_title, #id_text, #id_content {
+#id_title, #id_text {
 	width:800px; /* Make the text boxes as wide as the posts */
+}
+
+#id_content {
+	width:785px; /* And the reply box have the black border of the comment behind it */
 }
 
 /* Templates used on: base_post */
