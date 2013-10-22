@@ -89,7 +89,7 @@ For new databases, if restoring from old data, just restore backup (see Postgres
 If creating entirely new database::
 
     $ heroku run python manage.py syncdb
-    $ heroku run migrate accounts/registrationFix/posts/comments/votes
+    $ heroku run python manage.py migrate accounts/registrationFix/posts/comments/votes
     $ CLEAR MEMCACHED
 
 Heroku pg-extra features (see https://github.com/heroku/heroku-pg-extras)::
