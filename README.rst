@@ -1,8 +1,9 @@
 TODO:
 =============
+#) Fix bouncing vote bars!!
 #) Downsize DB to $9/month
 #) Show the "last comment" date on a post on PIQS page
-#) 20 8 9 2
+#) 20 8 9 2 
 #) Twitter- Have complaints about school or ideas for improvement? Let the world know by joining the discussion on YouTalkEdu.com
 #) TIME PERMITTING - Option to change email?
 #) TIME PERMITTING - Inherit models from django-registration so no need for entire registration app --- WILL TAKE TIME
