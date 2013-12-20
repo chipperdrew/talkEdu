@@ -1,5 +1,5 @@
 # requirements/common.txt
-Django==1.5.5
+Django==1.6.1
 South==0.8.1
 argparse==1.2.1
 boto==2.10.0
