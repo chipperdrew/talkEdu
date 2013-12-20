@@ -40,6 +40,9 @@ def faq_page(request):
 def robots_page(request):
     return render_to_response('robots.txt', locals(), mimetype ='text/plain')
 
+def update_page(request):
+    return render(request, 'update.html')
+
 def learn_more(request):
     return render(request, 'learn_more.html',
                   {'user_color_dict': get_user_model().COLORS,
