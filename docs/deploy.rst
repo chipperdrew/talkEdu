@@ -181,7 +181,7 @@ Postgres backups
 ----------------
 To create or delete a backup
 
-    $ heroku pgbackups:capture
+    $ heroku pgbackups:capture --expire
     $ heroku pgbackups:destroy BACKUP_ID
     $ heroku pgbackups
 
