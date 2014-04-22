@@ -8,3 +8,4 @@ Django-1.6b3
 .env
 staticfiles
 *~
+setuptools*
